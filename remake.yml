@@ -1,14 +1,28 @@
-default_target: all
+target_default: all
 
 packages:
   - dplyr
+  - dataRetrieval
+  - feather
+  - googledrive
   - LAGOSNE
+  
+file_extensions:
+  - feather
   
 sources:
   - 1_wqdata/src/wqp.R
   - 1_wqdata/src/lagosne.R
 
 targets:
+
   all:
-    - wqp
+    depends:
+      - 1_wqdata/out/wqp_wisconsin.feather
+
+  1_wqdata/out/wqp_wisconsin.feather:
+    command: get_state_wqp(target_name,
+      state=I('wisconsin'),
+      wqp_codes_yml='1_wqdata/cfg/wqp_codes.yml',
+      wq_dates_yml='1_wqdata/cfg/wq_dates.yml')
 

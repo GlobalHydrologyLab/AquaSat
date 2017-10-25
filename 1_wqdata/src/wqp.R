@@ -7,13 +7,15 @@
 
 inventory_wqp <- function(wqp_codes_yml, wq_dates_yml) {
   wqp_codes <- yaml::yaml.load_file(wqp_codes_yml)
-  wqp_dates <- yaml::yaml.load_file(wqp_dates_yml)
+  wq_dates <- yaml::yaml.load_file(wq_dates_yml)
 }
 
-get_state_wqp <- function(state, wqp_codes_yml, wq_dates_yml) {
+get_state_wqp <- function(out_file, state, wqp_codes_yml, wq_dates_yml) {
   wqp_codes <- yaml::yaml.load_file(wqp_codes_yml)
-  wqp_dates <- yaml::yaml.load_file(wqp_dates_yml)
+  wq_dates <- yaml::yaml.load_file(wq_dates_yml)
 
-  secchi.dat <- readWQPdata(startDateLo=wqp_dates, startDateHi=startDateHi,characteristicNames=secchi.names)
+  # secchi.dat <- readWQPdata(startDateLo=wqp_dates, startDateHi=startDateHi,characteristicNames=secchi.names)
   
+  # this code is a placeholder to show how remake/scmake works
+  feather::write_feather(as_data_frame(wq_dates), path=out_file)
 }

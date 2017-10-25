@@ -1,5 +1,11 @@
+# Ignore
 .Rproj.user
 .Rhistory
 .RData
 .Ruserdata
 *.Rproj
+.remake
+*/out/*
+
+# Allow
+!*/out/placeholder.txt
