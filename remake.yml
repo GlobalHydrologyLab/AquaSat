@@ -1,0 +1,14 @@
+default_target: all
+
+packages:
+  - dplyr
+  - LAGOSNE
+  
+sources:
+  - 1_wqdata/src/wqp.R
+  - 1_wqdata/src/lagosne.R
+
+targets:
+  all:
+    - wqp
+

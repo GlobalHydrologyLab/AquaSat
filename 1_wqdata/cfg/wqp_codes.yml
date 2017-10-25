@@ -1,0 +1,27 @@
+secchi:
+  - "Depth, Secchi disk depth"
+  - "Depth, Secchi disk depth (choice list)"
+  - "Secchi Reading Condition (choice list)"
+  - "Secchi depth"
+  - "Water transparency, Secchi disc"
+
+cdom:
+  - 'Colored Dissolved Organic Matter (CDOM)'
+
+tss:
+  - 'Total suspended solids'
+
+chlorophyll:
+  - "Chlorophyll"
+  - "Chlorophyll A"
+  - "Chlorophyll a"
+  - "Chlorophyll a (probe relative fluorescence)"
+  - "Chlorophyll a (probe)"
+  - "Chlorophyll a - Periphyton (attached)"
+  - "Chlorophyll a - Phytoplankton (suspended)"
+  - "Chlorophyll a, corrected for pheophytin"
+  - "Chlorophyll a, free of pheophytin"
+  - "Chlorophyll a, uncorrected for pheophytin"
+  - "Chlorophyll b"
+  - "Chlorophyll c"
+  - "Chlorophyll/Pheophytin ratio"
