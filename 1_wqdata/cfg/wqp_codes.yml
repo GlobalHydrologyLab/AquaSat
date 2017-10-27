@@ -1,27 +1,39 @@
-secchi:
-  - "Depth, Secchi disk depth"
-  - "Depth, Secchi disk depth (choice list)"
-  - "Secchi Reading Condition (choice list)"
-  - "Secchi depth"
-  - "Water transparency, Secchi disc"
+# https://www.waterqualitydata.us/Codes/Characteristicname?mimeType=xml
+characteristicName:
+  secchi:
+    - "Depth, Secchi disk depth"
+    - "Depth, Secchi disk depth (choice list)"
+    - "Secchi Reading Condition (choice list)"
+    - "Secchi depth"
+    - "Water transparency, Secchi disc"
+  
+  cdom:
+    - 'Colored dissolved organic matter (CDOM)'
+  
+  tss:
+    - 'Total suspended solids'
+  
+  chlorophyll:
+    - "Chlorophyll"
+    - "Chlorophyll A"
+    - "Chlorophyll a"
+    - "Chlorophyll a (probe relative fluorescence)"
+    - "Chlorophyll a (probe)"
+    - "Chlorophyll a - Periphyton (attached)"
+    - "Chlorophyll a - Phytoplankton (suspended)"
+    - "Chlorophyll a, corrected for pheophytin"
+    - "Chlorophyll a, free of pheophytin"
+    - "Chlorophyll a, uncorrected for pheophytin"
+    - "Chlorophyll b"
+    - "Chlorophyll c"
+    - "Chlorophyll/Pheophytin ratio"
 
-cdom:
-  - 'Colored Dissolved Organic Matter (CDOM)'
+# https://www.waterqualitydata.us/Codes/sampleMedia?mimeType=xml
+sampleMedia:
+  - "Water"
+  - "water"
 
-tss:
-  - 'Total suspended solids'
-
-chlorophyll:
-  - "Chlorophyll"
-  - "Chlorophyll A"
-  - "Chlorophyll a"
-  - "Chlorophyll a (probe relative fluorescence)"
-  - "Chlorophyll a (probe)"
-  - "Chlorophyll a - Periphyton (attached)"
-  - "Chlorophyll a - Phytoplankton (suspended)"
-  - "Chlorophyll a, corrected for pheophytin"
-  - "Chlorophyll a, free of pheophytin"
-  - "Chlorophyll a, uncorrected for pheophytin"
-  - "Chlorophyll b"
-  - "Chlorophyll c"
-  - "Chlorophyll/Pheophytin ratio"
+# https://www.waterqualitydata.us/Codes/siteType?mimeType=xml
+siteType:
+  - "Lake, Reservoir, Impoundment"
+  - "Stream"

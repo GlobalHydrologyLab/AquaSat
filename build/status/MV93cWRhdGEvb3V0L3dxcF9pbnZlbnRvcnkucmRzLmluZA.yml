@@ -1,0 +1,15 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp_inventory.rds.ind
+type: file
+hash: eae762540f5538bac507f8a7e8a5e073
+time: 2017-10-27 00:11:52 UTC
+depends:
+  wqp_state_codes: 3113d092dcb83827a2a7d999e1e551b5
+  1_wqdata/cfg/wqp_states.yml: 7b2b15f4369aad9672b358454e20962b
+  1_wqdata/cfg/wqp_codes.yml: 704131da65ba0a4f5cac169095cb4f7d
+  1_wqdata/cfg/wq_dates.yml: ca3fbe214840bcb54e6ad9d5cf469b5d
+fixed: 64f9fde3baff7431cde9f19760782486
+code:
+  functions:
+    inventory_wqp: 2a4b17d5490c86b69f2b5a6aaabdd355
+

@@ -9,6 +9,7 @@ packages:
   
 file_extensions:
   - feather
+  - ind
   
 sources:
   - 1_wqdata/src/wqp.R
@@ -18,11 +19,47 @@ targets:
 
   all:
     depends:
-      - 1_wqdata/out/wqp_wisconsin.feather
+      #- watersat_ind
+      - 1_wqdata/out/wqp_wisconsin.feather.ind
 
-  1_wqdata/out/wqp_wisconsin.feather:
-    command: get_state_wqp(target_name,
-      state=I('wisconsin'),
+  lib/cfg/gd_config.yml:
+    command: gd_config(config_file=target_name, folder=I("watersat"))
+  
+  #### WQP ####
+  
+  #watersat_ind:
+  #  command: drive_find()
+
+  wqp_state_codes:
+    command: get_wqp_state_codes()
+  
+  # get an inventory of WQP sites and sample counts. for this and all
+  # shared-cache targets (and those that depend on any shared-cache targets),
+  # the heavy lifting is done by the .ind target, which writes the data (.rds)
+  # file, posts the file to google drive, and writes the .rds.ind file.
+  # (the local data creation and drive posting could be separated into two
+  # remake targets, but let's risk having to redo the inventory for the sake of
+  # keeping this remake file a touch simpler)
+  1_wqdata/out/wqp_inventory.rds.ind:
+    command: inventory_wqp(
+      ind_file=target_name,
+      wqp_state_codes=wqp_state_codes,
+      wqp_states_yml="1_wqdata/cfg/wqp_states.yml",
       wqp_codes_yml='1_wqdata/cfg/wqp_codes.yml',
       wq_dates_yml='1_wqdata/cfg/wq_dates.yml')
+  # the only job of the data target is to pull data from the shared cache
+  1_wqdata/out/wqp_inventory.rds:
+    command: gd_get('1_wqdata/out/wqp_inventory.rds.ind')
+
+  # to store wqp_wisconsin.feather in a shared cache, attach the command
+  # that does the data pull to the output indicator file ending in .ind
+  1_wqdata/out/wqp_wisconsin.feather.ind:
+    command: get_wqp_state(target_name,
+      state=I('Rhode Island'),
+      wqp_state_codes=wqp_state_codes,
+      wqp_codes_yml='1_wqdata/cfg/wqp_codes.yml',
+      wq_dates_yml='1_wqdata/cfg/wq_dates.yml')
+  # the actual data file shouldn't get depended on except via I()
+  1_wqdata/out/wqp_wisconsin.feather:
+    command: drive_download('1_wqdata/out/wqp_wisconsin.feather.ind')
 
