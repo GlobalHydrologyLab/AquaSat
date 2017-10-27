@@ -3,6 +3,7 @@
 .Rhistory
 .RData
 .Ruserdata
+.httr-oauth
 *.Rproj
 .remake
 */out/*
