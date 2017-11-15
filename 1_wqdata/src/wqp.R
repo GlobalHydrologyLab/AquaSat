@@ -62,7 +62,7 @@ inventory_wqp <- function(ind_file, wqp_state_codes, wqp_states_yml, wqp_codes_y
   
   # merge constituent info with site info
   wqp_info <- left_join(
-    inventory %>%
+    samples %>%
       select(Constituent=constituent, MonitoringLocationIdentifier, resultCount,
              MonitoringLocationName, MonitoringLocationTypeName, ResolvedMonitoringLocationTypeName),
     sites %>%
@@ -82,11 +82,11 @@ inventory_wqp <- function(ind_file, wqp_state_codes, wqp_states_yml, wqp_codes_y
 }
 
 # produce a data frame of intended files and their contents
-plan_wqp_files <- function() {
+plan_wqp_files <- function(wqp_states_yml, ) {
   
 }
 
-get_wqp_data <- function(out_file, state, wqp_state_codes, wqp_states_yml, wqp_codes_yml, wq_dates_yml) {
+get_wqp_data <- function(out_file, state, wqp_state_codes, wqp_codes_yml, wq_dates_yml) {
   wqp_states <- yaml::yaml.load_file(wqp_states_yml)
   wqp_codes <- yaml::yaml.load_file(wqp_codes_yml)
   wq_dates <- yaml::yaml.load_file(wq_dates_yml)
@@ -94,8 +94,8 @@ get_wqp_data <- function(out_file, state, wqp_state_codes, wqp_states_yml, wqp_c
   
   wqp_qdat_time <- system.time({
     wqp_qdat <- as_data_frame(readWQPdata(
-      #StateCode=state_code,
-      CountyCode="US:44:001",
+      StateCode=state_code,
+      #CountyCode="US:44:001",
       SiteType=wqp_codes$SiteType,
       CharacteristicName=unname(unlist(wqp_codes$CharacteristicName)),
       SampleMedia=wqp_codes$SampleMedia,
@@ -106,8 +106,8 @@ get_wqp_data <- function(out_file, state, wqp_state_codes, wqp_states_yml, wqp_c
   }) 
   wqp_dat_time <- system.time({
     wqp_dat <- readWQPdata(
-      #StateCode=state_code,
-      CountyCode="US:44:001",
+      StateCode=state_code,
+      #CountyCode="US:44:001",
       SiteType=wqp_codes$SiteType,
       CharacteristicName=unname(unlist(wqp_codes$CharacteristicName)),
       SampleMedia=wqp_codes$SampleMedia,
