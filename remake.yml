@@ -1,11 +1,12 @@
-target_default: all
+target_default: 1_wqdata
 
 packages:
   - dplyr
   - dataRetrieval
   - feather
-  - googledrive
   - LAGOSNE
+  - scipiper
+  - yaml
   
 file_extensions:
   - feather
@@ -17,49 +18,120 @@ sources:
 
 targets:
 
-  all:
+  1_wqdata:
     depends:
       #- watersat_ind
-      - 1_wqdata/out/wqp_wisconsin.feather.ind
 
   lib/cfg/gd_config.yml:
     command: gd_config(config_file=target_name, folder=I("watersat"))
   
+  #### shared config info ####
+  
+  wq_dates:
+    command: yaml.load_file("1_wqdata/cfg/wq_dates.yml")
+  
   #### WQP ####
   
-  #watersat_ind:
-  #  command: drive_find()
-
+  # -- prepare for data pull --
+  
+  # load wqp-specific config info
+  wqp_states:
+    command: yaml.load_file("1_wqdata/cfg/wqp_states.yml")
+  wqp_codes:
+    command: yaml.load_file("1_wqdata/cfg/wqp_codes.yml")
   wqp_state_codes:
     command: get_wqp_state_codes()
+  wqp_pull:
+    command: yaml.load_file("1_wqdata/cfg/wqp_pull.yml")
+  
+  # prepare destination folders for intermediate and final output.
+  # tmp=temporary folder for holding files to only be created on 1 computer.
+  # out=folder to hold .ind and data files corresponding to shared cache or everybody's local build.
+  # log=folder for the few indicator files that don't correspond to a data file.
+  1_wqdata/tmp/wqp:
+    command: dir.create(target_name, recursive=I(TRUE), showWarnings=I(FALSE))
+  1_wqdata/out/wqp:
+    command: dir.create(target_name, recursive=I(TRUE), showWarnings=I(FALSE))
+  1_wqdata/log:
+    command: dir.create(target_name, recursive=I(TRUE), showWarnings=I(FALSE))
+  wqp_pull_folders:
+    command: list(
+      tmp='1_wqdata/tmp/wqp',
+      out='1_wqdata/out/wqp',
+      log='1_wqdata/log')
+      
+  # -- get inventory of observations available to download --
   
   # get an inventory of WQP sites and sample counts. for this and all
   # shared-cache targets (and those that depend on any shared-cache targets),
-  # the heavy lifting is done by the .ind target, which writes the data (.rds)
-  # file, posts the file to google drive, and writes the .rds.ind file.
+  # the heavy lifting is done by the .ind recipe, which writes the data (.feather)
+  # file, posts the file to google drive, and writes the .feather.ind file.
   # (the local data creation and drive posting could be separated into two
   # remake targets, but let's risk having to redo the inventory for the sake of
-  # keeping this remake file a touch simpler)
-  1_wqdata/out/wqp_inventory.rds.ind:
+  # keeping this remake file a touch simpler and practicing the two-target option
+  # for gd_put/gd_get)
+  1_wqdata/out/wqp_inventory.feather.ind:
     command: inventory_wqp(
       ind_file=target_name,
       wqp_state_codes=wqp_state_codes,
-      wqp_states_yml="1_wqdata/cfg/wqp_states.yml",
-      wqp_codes_yml='1_wqdata/cfg/wqp_codes.yml',
-      wq_dates_yml='1_wqdata/cfg/wq_dates.yml')
+      wqp_states=wqp_states,
+      wqp_codes=wqp_codes)
   # the only job of the data target is to pull data from the shared cache
-  1_wqdata/out/wqp_inventory.rds:
-    command: gd_get('1_wqdata/out/wqp_inventory.rds.ind')
-
-  # to store wqp_wisconsin.feather in a shared cache, attach the command
-  # that does the data pull to the output indicator file ending in .ind
-  1_wqdata/out/wqp_wisconsin.feather.ind:
-    command: get_wqp_state(target_name,
-      state=I('Rhode Island'),
+  1_wqdata/out/wqp_inventory.feather:
+    command: gd_get('1_wqdata/out/wqp_inventory.feather.ind')
+  # use the inventory
+  wqp_pull_partitions:
+    command: partition_inventory(
+      inventory_ind='1_wqdata/out/wqp_inventory.feather.ind', 
+      wqp_pull=wqp_pull,
       wqp_state_codes=wqp_state_codes,
-      wqp_codes_yml='1_wqdata/cfg/wqp_codes.yml',
-      wq_dates_yml='1_wqdata/cfg/wq_dates.yml')
-  # the actual data file shouldn't get depended on except via I()
-  1_wqdata/out/wqp_wisconsin.feather:
-    command: drive_download('1_wqdata/out/wqp_wisconsin.feather.ind')
+      wqp_codes=wqp_codes)
+
+  # -- pull the data --
+
+  # prepare a remake-style plan for running each state as a separate
+  # remake target in a separate remake file (tasks_1_wqp.yml)
+  wqp_pull_plan:
+    command: plan_wqp_pull(partitions=wqp_pull_partitions, folders=wqp_pull_folders)
+  tasks_1_wqp.yml:
+    command: create_wqp_pull_makefile(makefile=target_name, task_plan=wqp_pull_plan)
+    
+  # run the data pulls
+  wqp_pull_tasks:
+    command: c(
+      I('Louisiana_chlorophyll_001'), I('Louisiana_secchi_001'), I('Louisiana_tss_001'),
+      I('Wisconsin_cdom_001'), I('Wisconsin_chlorophyll_001'), I('Wisconsin_secchi_001'), I('Wisconsin_tss_001'))
+  1_wqdata/log/wqp/tasks_1_wqp.ind:
+    command: loop_tasks(
+      task_plan=wqp_pull_plan, task_makefile='tasks_1_wqp.yml',
+      task_names=wqp_pull_tasks,
+      num_tries=I(30), sleep_on_error=I(20))
+
+  # -- munge and combine the data --
+
+  # this target is the mandatory complement to 1_wqdata/tmp/wqp_all.feather, which will
+  # only ever be produced on the computer[s] that need to [re]generate this data file.
+  # allows us to split up the computing and posting phases of wqp_all.feather
+  1_wqdata/tmp/wqp_all.feather.ind:
+    command: pull_all_wqp_data(ind_file=target_name, makefile='tasks_1_wqp.yml', task_plan=wqp_pull_plan)
+  
+  # this target is a promise that any other computer could simply pull the data file from gd
+  1_wqdata/out/wqp_all.feather.ind:
+    command: gd_put(target_name, '1_wqdata/tmp/wqp_all.feather.ind')
+    
+  # here's how any computer would pull the data file from gd
+  1_wqdata/out/wqp_all.feather:
+    command: gd_get('1_wqdata/out/wqp_all.feather.ind')
+    
+  ## to store wqp_wisconsin.feather in a shared cache, attach the command
+  ## that does the data pull to the output indicator file ending in .ind
+  #1_wqdata/out/wqp_wisconsin.feather.ind:
+  #  command: get_wqp_state(target_name,
+  #    state=I('Rhode Island'),
+  #    wqp_state_codes=wqp_state_codes,
+  #    wqp_codes_yml='1_wqdata/cfg/wqp_codes.yml',
+  #    wq_dates_yml='1_wqdata/cfg/wq_dates.yml')
+  ## the actual data file shouldn't get depended on except via I()
+  #1_wqdata/out/wqp_wisconsin.feather:
+  #  command: drive_download('1_wqdata/out/wqp_wisconsin.feather.ind')
 

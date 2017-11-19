@@ -7,6 +7,6 @@
 *.Rproj
 .remake
 */out/*
-
 # Allow
 !*/out/placeholder.txt
+tasks_*.yml
