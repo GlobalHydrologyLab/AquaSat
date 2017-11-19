@@ -97,14 +97,10 @@ targets:
     command: create_wqp_pull_makefile(makefile=target_name, task_plan=wqp_pull_plan)
     
   # run the data pulls
-  wqp_pull_tasks:
-    command: c(
-      I('Louisiana_chlorophyll_001'), I('Louisiana_secchi_001'), I('Louisiana_tss_001'),
-      I('Wisconsin_cdom_001'), I('Wisconsin_chlorophyll_001'), I('Wisconsin_secchi_001'), I('Wisconsin_tss_001'))
-  1_wqdata/log/wqp/tasks_1_wqp.ind:
+  1_wqdata/log/tasks_1_wqp.ind:
     command: loop_tasks(
       task_plan=wqp_pull_plan, task_makefile='tasks_1_wqp.yml',
-      task_names=wqp_pull_tasks,
+      task_names=I(NULL),
       num_tries=I(30), sleep_on_error=I(20))
 
   # -- munge and combine the data --
