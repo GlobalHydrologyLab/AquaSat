@@ -207,7 +207,7 @@ plan_wqp_pull <- function(partitions, folders) {
           "remote_ind=target_name,",
           "local_source='%s',",
           "mock_get=I('move'),",
-          "on_exists=I('update'))",
+          "on_exists=I('replace'))",
           sep="\n      "),
         scipiper::as_indicator(file.path(folders$tmp, sprintf('%s.feather', task_name))))
     }
