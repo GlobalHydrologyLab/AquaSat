@@ -3,9 +3,10 @@
 .Rhistory
 .RData
 .Ruserdata
+.httr-oauth
 *.Rproj
 .remake
 */out/*
-
 # Allow
 !*/out/placeholder.txt
+tasks_*.yml

@@ -1,0 +1,2 @@
+# approximate maximum number of records to pull in each call to WQP
+target_pull_size: 250000
