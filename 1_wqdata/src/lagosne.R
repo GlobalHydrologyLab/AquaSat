@@ -3,6 +3,7 @@
 
 prepare_lagosne <- function() {
   lagosne_get("1.087.1")
+  return(TRUE)
 }
 
 get_lagosne <- function() {
