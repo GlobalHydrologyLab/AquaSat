@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/West_Virginia_secchi_001.feather.ind
+type: file
+hash: 538ff7d416fbe947428f178117f7d4b5
+time: 2017-11-20 03:59:35 UTC
+depends:
+  partition_West_Virginia_secchi_001: 9242ec043618d24f5b5c8c019726511b
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 6c617d17a0f9f8be8e1a7df0facb6802
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/New_York_secchi_001.feather.ind
+type: file
+hash: 2e1d977b7eaa80424066451f9b7bdbf0
+time: 2017-11-20 02:20:53 UTC
+depends:
+  partition_New_York_secchi_001: a49c4f435d3689d9028d43d67677c28a
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 78c7f3a2e4598238822bd83ee309b9e0
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

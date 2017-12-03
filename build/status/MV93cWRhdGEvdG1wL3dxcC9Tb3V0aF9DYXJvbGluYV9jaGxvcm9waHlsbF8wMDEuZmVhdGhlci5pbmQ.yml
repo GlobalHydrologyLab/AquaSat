@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/South_Carolina_chlorophyll_001.feather.ind
+type: file
+hash: da27ad361b5eb7d8f91a56fef22c4f00
+time: 2017-11-20 03:03:37 UTC
+depends:
+  partition_South_Carolina_chlorophyll_001: 83efbf81af535e734539fecc3135ee8e
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 4d5055328533843f21e548bade665f23
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

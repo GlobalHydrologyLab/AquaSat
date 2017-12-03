@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Kentucky_tss_001.feather.ind
+type: file
+hash: 673606a7a262e14d1667f75ff82019c6
+time: 2017-11-19 23:42:12 UTC
+depends:
+  partition_Kentucky_tss_001: 7872e43af2ce5c0a096fa26fd0590fc3
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: d3b67a4a1cf4776db804d4db21b81239
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

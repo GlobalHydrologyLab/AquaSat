@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/American_Samoa_chlorophyll_001.feather.ind
+type: file
+hash: f9ea28d8958fd73a0fadbe077c9877c5
+time: 2017-11-19 21:09:49 UTC
+depends:
+  partition_American_Samoa_chlorophyll_001: f7c8cb20e7afa8a57cbce7babe797d0e
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 74927efa910d674290ac2e2e9a02cd5d
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Puerto_Rico_tss_001.feather.ind
+type: file
+hash: 97606c0601d8554b87988ac4cfe44804
+time: 2017-11-20 02:59:06 UTC
+depends:
+  partition_Puerto_Rico_tss_001: a2fda99870ee5a6de8c0bc236eed823e
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 4034f547e9dfeb128d8ec2058ce8c688
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

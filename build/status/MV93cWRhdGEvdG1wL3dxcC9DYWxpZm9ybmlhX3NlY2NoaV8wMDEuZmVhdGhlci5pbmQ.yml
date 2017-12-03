@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/California_secchi_001.feather.ind
+type: file
+hash: c58c998b32ccb04bc0e0df57c70746c5
+time: 2017-11-19 21:23:32 UTC
+depends:
+  partition_California_secchi_001: 909e6e75a36c9979d9a2732c2c423ef6
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: e6c90cd38bf827d70b0a9b93a9fa89b0
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

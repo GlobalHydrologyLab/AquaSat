@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/North_Carolina_tss_001.feather.ind
+type: file
+hash: 600f0253d6f327b1b65b5fd84fec9aaf
+time: 2017-11-20 02:28:22 UTC
+depends:
+  partition_North_Carolina_tss_001: f28cd7a82b96ad2526ae0864527f2ede
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 3a35e6aadefc55b4b93bf2c6d12262b2
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

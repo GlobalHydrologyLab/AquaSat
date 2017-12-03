@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/New_Mexico_secchi_001.feather.ind
+type: file
+hash: 74f565ed634cce5b85938b1358ea0e7c
+time: 2017-11-20 02:16:30 UTC
+depends:
+  partition_New_Mexico_secchi_001: b0b361fec2cdc2916bc84ae8b987ac1b
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: e7f7b723ce5d45f72152b3c111a06ffd
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+
