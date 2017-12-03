@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Minnesota_secchi_002.feather.ind
+type: file
+hash: e9d571c24e7a9e7ccfe94c0388ed9964
+time: 2017-11-20 01:25:55 UTC
+depends:
+  1_wqdata/tmp/wqp/Minnesota_secchi_002.feather.ind: e9d571c24e7a9e7ccfe94c0388ed9964
+fixed: d0e2f6e98bc26095baf646edb8087bde
+code:
+  functions: {}
+

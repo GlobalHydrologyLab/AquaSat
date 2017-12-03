@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/North_Carolina_chlorophyll_001.feather.ind
+type: file
+hash: 6c7686b5c9f551e83fa23b8081b549f9
+time: 2017-11-20 02:25:14 UTC
+depends:
+  1_wqdata/tmp/wqp/North_Carolina_chlorophyll_001.feather.ind: 6c7686b5c9f551e83fa23b8081b549f9
+fixed: 31e8586bf40b3fe6d5f492ae0fda9eb5
+code:
+  functions: {}
+

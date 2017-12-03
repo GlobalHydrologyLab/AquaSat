@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Wisconsin_secchi_001.feather.ind
+type: file
+hash: dd1998d896ed75ea33aa6c58c83ac2fd
+time: 2017-11-20 04:14:33 UTC
+depends:
+  1_wqdata/tmp/wqp/Wisconsin_secchi_001.feather.ind: dd1998d896ed75ea33aa6c58c83ac2fd
+fixed: 7e849bf18165340907df34fef5e8b420
+code:
+  functions: {}
+

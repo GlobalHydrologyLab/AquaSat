@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Maine_secchi_001.feather.ind
+type: file
+hash: dd3f8b94b641592efb0267cfe237f7a0
+time: 2017-11-19 23:48:12 UTC
+depends:
+  1_wqdata/tmp/wqp/Maine_secchi_001.feather.ind: dd3f8b94b641592efb0267cfe237f7a0
+fixed: 961c87a7a8d74ff2dbc888ad14275ff6
+code:
+  functions: {}
+

@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/District_of_Columbia_secchi_001.feather.ind
+type: file
+hash: 61f0494da8ad62cd2809445e73073318
+time: 2017-11-19 21:41:44 UTC
+depends:
+  1_wqdata/tmp/wqp/District_of_Columbia_secchi_001.feather.ind: 61f0494da8ad62cd2809445e73073318
+fixed: 95bf73080bfbacd05ab690d1cd7e94c0
+code:
+  functions: {}
+

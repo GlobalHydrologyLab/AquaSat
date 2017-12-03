@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Arizona_secchi_001.feather.ind
+type: file
+hash: 8d59f6a656badaec9e43bfdecd00893f
+time: 2017-11-19 21:12:21 UTC
+depends:
+  1_wqdata/tmp/wqp/Arizona_secchi_001.feather.ind: 8d59f6a656badaec9e43bfdecd00893f
+fixed: 739ffa0417f1fdb0973d6918e7e95aca
+code:
+  functions: {}
+

@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Kansas_chlorophyll_001.feather.ind
+type: file
+hash: 1d4d1e9a104bf1344808f7e2a2f73531
+time: 2017-11-19 23:35:20 UTC
+depends:
+  1_wqdata/tmp/wqp/Kansas_chlorophyll_001.feather.ind: 1d4d1e9a104bf1344808f7e2a2f73531
+fixed: 51b0673702c99c39814f3cf049292895
+code:
+  functions: {}
+

@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Hawaii_secchi_001.feather.ind
+type: file
+hash: e300721873386504d17cacea73fcbea6
+time: 2017-11-19 23:12:20 UTC
+depends:
+  1_wqdata/tmp/wqp/Hawaii_secchi_001.feather.ind: e300721873386504d17cacea73fcbea6
+fixed: b131c7bc1e73e9c355d0a62a18ec6d42
+code:
+  functions: {}
+

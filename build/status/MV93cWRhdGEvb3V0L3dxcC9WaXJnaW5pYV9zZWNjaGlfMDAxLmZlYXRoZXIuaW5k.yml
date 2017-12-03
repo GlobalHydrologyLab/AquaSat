@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Virginia_secchi_001.feather.ind
+type: file
+hash: 871ddcf9f294916fdc12a8c010e22e3d
+time: 2017-11-20 03:46:39 UTC
+depends:
+  1_wqdata/tmp/wqp/Virginia_secchi_001.feather.ind: 871ddcf9f294916fdc12a8c010e22e3d
+fixed: 79307ad69d746dd57be90521b9320013
+code:
+  functions: {}
+

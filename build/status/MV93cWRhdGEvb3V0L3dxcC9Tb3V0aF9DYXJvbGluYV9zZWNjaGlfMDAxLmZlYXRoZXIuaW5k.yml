@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/South_Carolina_secchi_001.feather.ind
+type: file
+hash: b9dc4b383b72867d57555d12a288ef71
+time: 2017-11-20 03:05:15 UTC
+depends:
+  1_wqdata/tmp/wqp/South_Carolina_secchi_001.feather.ind: b9dc4b383b72867d57555d12a288ef71
+fixed: bd3cd99dbde0448ef09faa25c2ef210d
+code:
+  functions: {}
+
