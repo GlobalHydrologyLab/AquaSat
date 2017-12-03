@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Delaware_secchi_001.feather.ind
+type: file
+hash: 5b348b1fa4eaf41018d11dcc184a0590
+time: 2017-11-19 21:36:25 UTC
+depends:
+  1_wqdata/tmp/wqp/Delaware_secchi_001.feather.ind: 5b348b1fa4eaf41018d11dcc184a0590
+fixed: f40a9f8cdde0c36eb75836ab188c498d
+code:
+  functions: {}
+

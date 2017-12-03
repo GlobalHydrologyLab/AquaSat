@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Alaska_chlorophyll_001.feather.ind
+type: file
+hash: 6318f5564e1ced09cdc0be764e27cf13
+time: 2017-11-19 21:07:26 UTC
+depends:
+  1_wqdata/tmp/wqp/Alaska_chlorophyll_001.feather.ind: 6318f5564e1ced09cdc0be764e27cf13
+fixed: 83f4ea70a5a93e4472b4f656ce2c6590
+code:
+  functions: {}
+

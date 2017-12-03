@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/New_Jersey_cdom_001.feather.ind
+type: file
+hash: f1393a4f66a52fa94b529ca80efdfd7a
+time: 2017-11-20 02:10:36 UTC
+depends:
+  1_wqdata/tmp/wqp/New_Jersey_cdom_001.feather.ind: f1393a4f66a52fa94b529ca80efdfd7a
+fixed: b238490cad6c4d66eac4a24cf9edcae5
+code:
+  functions: {}
+

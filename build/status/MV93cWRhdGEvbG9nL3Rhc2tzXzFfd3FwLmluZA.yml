@@ -1,0 +1,12 @@
+version: 0.3.0
+name: 1_wqdata/log/tasks_1_wqp.ind
+type: file
+hash: 28a7d3cf5d708d07681aba025e9157dd
+time: 2017-11-20 04:20:20 UTC
+depends:
+  wqp_pull_plan: a5dd7ee8d6956ed9aee39f55eb0b653b
+  tasks_1_wqp.yml: 13d84d5f6f4e2fa7c60fac701c5e3c9d
+fixed: ca2b5a7fa3760452bb3eeee92c705bfc
+code:
+  functions: {}
+

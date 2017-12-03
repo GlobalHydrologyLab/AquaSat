@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Virginia_cdom_001.feather.ind
+type: file
+hash: bd8ea3371a5c3b679f1fbff3e9567432
+time: 2017-11-20 03:37:37 UTC
+depends:
+  1_wqdata/tmp/wqp/Virginia_cdom_001.feather.ind: bd8ea3371a5c3b679f1fbff3e9567432
+fixed: ab4b093b630865e75d7702d0126d9da2
+code:
+  functions: {}
+

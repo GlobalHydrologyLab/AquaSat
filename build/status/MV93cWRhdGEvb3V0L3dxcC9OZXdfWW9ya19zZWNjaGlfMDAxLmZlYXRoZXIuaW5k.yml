@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/New_York_secchi_001.feather.ind
+type: file
+hash: 2e1d977b7eaa80424066451f9b7bdbf0
+time: 2017-11-20 02:21:07 UTC
+depends:
+  1_wqdata/tmp/wqp/New_York_secchi_001.feather.ind: 2e1d977b7eaa80424066451f9b7bdbf0
+fixed: b276d20283fe7a850a765f5e8824e0cb
+code:
+  functions: {}
+

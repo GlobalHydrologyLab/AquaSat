@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/New_Hampshire_tss_001.feather.ind
+type: file
+hash: 06bc0eb3029aedcf26fcefb1dfa1f36b
+time: 2017-11-20 02:10:09 UTC
+depends:
+  1_wqdata/tmp/wqp/New_Hampshire_tss_001.feather.ind: 06bc0eb3029aedcf26fcefb1dfa1f36b
+fixed: fc0b666e93fff07b89c0c6c512276336
+code:
+  functions: {}
+

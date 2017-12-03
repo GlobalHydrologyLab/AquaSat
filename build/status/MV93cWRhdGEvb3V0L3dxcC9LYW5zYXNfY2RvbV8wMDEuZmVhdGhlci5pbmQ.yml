@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Kansas_cdom_001.feather.ind
+type: file
+hash: 4b6d30dacd9dc211308c6008747effb2
+time: 2017-11-19 23:33:57 UTC
+depends:
+  1_wqdata/tmp/wqp/Kansas_cdom_001.feather.ind: 4b6d30dacd9dc211308c6008747effb2
+fixed: 748365081c4d29cb7ad5223b739eb335
+code:
+  functions: {}
+

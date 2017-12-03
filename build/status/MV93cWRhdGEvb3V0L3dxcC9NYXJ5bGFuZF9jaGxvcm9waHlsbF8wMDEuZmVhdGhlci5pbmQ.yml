@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Maryland_chlorophyll_001.feather.ind
+type: file
+hash: 318fa67654383d9ebee5f9bb6e7d00e4
+time: 2017-11-20 00:00:54 UTC
+depends:
+  1_wqdata/tmp/wqp/Maryland_chlorophyll_001.feather.ind: 318fa67654383d9ebee5f9bb6e7d00e4
+fixed: 15614402fdb6c080427c491422ab4385
+code:
+  functions: {}
+

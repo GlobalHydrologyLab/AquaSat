@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Washington_secchi_001.feather.ind
+type: file
+hash: 5890c05fe07c731b196380605666a3d1
+time: 2017-11-20 03:56:16 UTC
+depends:
+  1_wqdata/tmp/wqp/Washington_secchi_001.feather.ind: 5890c05fe07c731b196380605666a3d1
+fixed: 9452bed20a4dfc41d99916a1b1c72ba7
+code:
+  functions: {}
+

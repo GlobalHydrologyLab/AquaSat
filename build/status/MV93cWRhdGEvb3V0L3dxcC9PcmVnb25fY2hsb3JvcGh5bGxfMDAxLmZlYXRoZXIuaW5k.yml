@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Oregon_chlorophyll_001.feather.ind
+type: file
+hash: 4604789bf56564f7303ebf64d4d249ed
+time: 2017-11-20 02:47:37 UTC
+depends:
+  1_wqdata/tmp/wqp/Oregon_chlorophyll_001.feather.ind: 4604789bf56564f7303ebf64d4d249ed
+fixed: f73897f7885d60366e4eb4f63f917c01
+code:
+  functions: {}
+
