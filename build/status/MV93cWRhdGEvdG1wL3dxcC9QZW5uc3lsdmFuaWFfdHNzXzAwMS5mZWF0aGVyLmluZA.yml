@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Pennsylvania_tss_001.feather.ind
+type: file
+hash: c8e56760ca7f9ac177fbdce170c7c04a
+time: 2017-11-20 02:55:15 UTC
+depends:
+  partition_Pennsylvania_tss_001: 2c23755380b7e59c27174dfc894c299e
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: a2d8869db0eefa69fb233a18731e9773
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

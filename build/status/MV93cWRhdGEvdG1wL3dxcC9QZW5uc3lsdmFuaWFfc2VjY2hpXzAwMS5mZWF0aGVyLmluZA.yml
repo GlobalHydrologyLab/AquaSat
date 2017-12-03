@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Pennsylvania_secchi_001.feather.ind
+type: file
+hash: 7cad064c76d72c9f6387bd9402eae476
+time: 2017-11-20 02:53:57 UTC
+depends:
+  partition_Pennsylvania_secchi_001: d186809cf524c97b0dea8e198466033d
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: c0eba56287f2f79e64c66ec2b9d3c890
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

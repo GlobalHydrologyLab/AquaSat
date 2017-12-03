@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/District_of_Columbia_cdom_001.feather.ind
+type: file
+hash: eacb9b2966bea2e9e72474c03f0b3ab2
+time: 2017-11-19 21:37:57 UTC
+depends:
+  partition_District_of_Columbia_cdom_001: 0b998a90499f8c60cb24be452253cf1c
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: db30b2efe5917c14f6f361f41576891d
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

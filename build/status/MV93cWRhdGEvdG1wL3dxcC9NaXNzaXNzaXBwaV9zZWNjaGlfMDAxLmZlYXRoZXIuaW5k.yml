@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Mississippi_secchi_001.feather.ind
+type: file
+hash: eeb8a84bc721940792afc8ecacf71c16
+time: 2017-11-20 01:49:15 UTC
+depends:
+  partition_Mississippi_secchi_001: b9f9b6f9227b396c1edc8bd1bc4de1bc
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: a045c3c888d66fa56bc9b8f77526332e
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

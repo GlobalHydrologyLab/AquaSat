@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Tennessee_chlorophyll_001.feather.ind
+type: file
+hash: d1b9d2d8c0afe78730257dd54b532b87
+time: 2017-11-20 03:14:13 UTC
+depends:
+  partition_Tennessee_chlorophyll_001: 465380a789a021c1b153deb88a9a4d08
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 6a5c4cd1408fa4e42979a3be2a2d85fe
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Iowa_chlorophyll_001.feather.ind
+type: file
+hash: 2fbc5ce95e4b394df92667145dca9026
+time: 2017-11-19 23:28:15 UTC
+depends:
+  partition_Iowa_chlorophyll_001: 18acbf06d2bb5c218bd101ad2327b6c3
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 4bb4ce9bd0784fc5ad8c321e5d2a3038
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+
