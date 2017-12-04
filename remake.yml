@@ -79,7 +79,9 @@ targets:
   # the only job of the data target is to pull data from the shared cache
   1_wqdata/out/wqp_inventory.feather:
     command: gd_get('1_wqdata/out/wqp_inventory.feather.ind')
-  # use the inventory
+  # use the inventory. because this is an object, everybody will end up
+  # pulling wqp_inventory.feather and building this object locally, if only
+  # to know whether 1_wqdata/log/tasks_1_wqp.ind is up to date
   wqp_pull_partitions:
     command: partition_inventory(
       inventory_ind='1_wqdata/out/wqp_inventory.feather.ind', 
@@ -95,39 +97,43 @@ targets:
     command: plan_wqp_pull(partitions=wqp_pull_partitions, folders=wqp_pull_folders)
   tasks_1_wqp.yml:
     command: create_wqp_pull_makefile(makefile=target_name, task_plan=wqp_pull_plan)
-    
+
   # run the data pulls
   1_wqdata/log/tasks_1_wqp.ind:
     command: loop_tasks(
       task_plan=wqp_pull_plan, task_makefile='tasks_1_wqp.yml',
-      task_names=I(NULL),
       num_tries=I(30), sleep_on_error=I(20))
 
   # -- munge and combine the data --
 
-  # this target is the mandatory complement to 1_wqdata/tmp/wqp_all.feather, which will
-  # only ever be produced on the computer[s] that need to [re]generate this data file.
-  # allows us to split up the computing and posting phases of wqp_all.feather
-  1_wqdata/tmp/wqp_all.feather.ind:
-    command: pull_all_wqp_data(ind_file=target_name, makefile='tasks_1_wqp.yml', task_plan=wqp_pull_plan)
-  
-  # this target is a promise that any other computer could simply pull the data file from gd
-  1_wqdata/out/wqp_all.feather.ind:
-    command: gd_put(target_name, '1_wqdata/tmp/wqp_all.feather.ind')
-    
-  # here's how any computer would pull the data file from gd
-  1_wqdata/out/wqp_all.feather:
-    command: gd_get('1_wqdata/out/wqp_all.feather.ind')
-    
-  ## to store wqp_wisconsin.feather in a shared cache, attach the command
-  ## that does the data pull to the output indicator file ending in .ind
-  #1_wqdata/out/wqp_wisconsin.feather.ind:
-  #  command: get_wqp_state(target_name,
-  #    state=I('Rhode Island'),
-  #    wqp_state_codes=wqp_state_codes,
-  #    wqp_codes_yml='1_wqdata/cfg/wqp_codes.yml',
-  #    wq_dates_yml='1_wqdata/cfg/wq_dates.yml')
-  ## the actual data file shouldn't get depended on except via I()
-  #1_wqdata/out/wqp_wisconsin.feather:
-  #  command: drive_download('1_wqdata/out/wqp_wisconsin.feather.ind')
+  # prepare a remake-style plan for combining and munging the data for each constituent
+  wqp_munge_plan:
+    command: plan_wqp_munge(partitions=wqp_pull_partitions, pull_plan=wqp_pull_plan, folders=wqp_pull_folders)
+  tasks_1_wqp_munge.yml:
+    command: create_wqp_munge_makefile(makefile=target_name, task_plan=wqp_munge_plan, pull_makefile='tasks_1_wqp.yml')
 
+  # combine and munge the raw data files
+  #task_names=I('cdom'), step_names=I('munge'),
+  1_wqdata/log/tasks_1_wqp_munge.ind:
+    command: loop_tasks(
+      task_plan=wqp_munge_plan, task_makefile='tasks_1_wqp_munge.yml',
+      num_tries=I(1), sleep_on_error=I(1))
+  
+  # rules to access the files created in tasks_1_wqp_munge.yml. We implicitly depend
+  # on the constituent-specific indicator file because this file will be created in
+  # the process of creating the job indicator file (on which we explicitly depend), and
+  # it must exist by the time we try to call the command for gd_get to succeed.
+  # This approach means we will see warnings until the all_xx.feather.ind files are all
+  # git committed
+  1_wqdata/out/wqp/all_cdom.feather:
+    depends: 1_wqdata/log/tasks_1_wqp_munge.ind
+    command: gd_get(ind_file='1_wqdata/out/wqp/all_cdom.feather.ind')
+  1_wqdata/out/wqp/all_chlorophyll.feather:
+    depends: 1_wqdata/log/tasks_1_wqp_munge.ind
+    command: gd_get(ind_file='1_wqdata/out/wqp/all_chlorophyll.feather.ind')
+  1_wqdata/out/wqp/all_secchi.feather:
+    depends: 1_wqdata/log/tasks_1_wqp_munge.ind
+    command: gd_get(ind_file='1_wqdata/out/wqp/all_secchi.feather.ind')
+  1_wqdata/out/wqp/all_tss.feather:
+    depends: 1_wqdata/log/tasks_1_wqp_munge.ind
+    command: gd_get(ind_file='1_wqdata/out/wqp/all_tss.feather.ind')

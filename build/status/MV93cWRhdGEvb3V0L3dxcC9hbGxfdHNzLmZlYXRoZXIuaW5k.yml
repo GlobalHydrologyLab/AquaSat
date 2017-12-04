@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/all_tss.feather.ind
+type: file
+hash: b7f3d48f486ec5ccdae9b6046eec83e1
+time: 2017-12-04 02:30:28 UTC
+depends:
+  1_wqdata/tmp/wqp/all_tss.feather: 7c5aee3413db1efea307f3bdcc3e7a23
+fixed: 114bcb5302a51e56d469dcbab872b593
+code:
+  functions: {}
+
