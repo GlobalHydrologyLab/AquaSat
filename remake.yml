@@ -20,10 +20,11 @@ targets:
 
   1_wqdata:
     depends:
-      #- watersat_ind
+      - lib/cfg/gd_config.yml
+      - 1_wqdata/log/tasks_1_wqp_munge.ind
 
   lib/cfg/gd_config.yml:
-    command: gd_config(config_file=target_name, folder=I("watersat"))
+    command: gd_config(config_file=target_name, folder=I("0B-c5tErcTY2fTU1pTTBOR2RPdVk"))
   
   #### shared config info ####
   
