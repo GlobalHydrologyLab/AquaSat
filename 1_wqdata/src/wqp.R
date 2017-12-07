@@ -236,7 +236,7 @@ plan_wqp_pull <- function(partitions, folders) {
     task_steps=list(partition, download, post, retrieve),
     final_steps='post',
     add_complete=FALSE, 
-    indicator_dir=folders$log)
+    ind_dir=folders$log)
   
 }
 
@@ -368,7 +368,7 @@ plan_wqp_munge <- function(partitions, pull_plan, folders) {
     task_steps=list(combine, munge, post),
     final_steps='post',
     add_complete=FALSE, 
-    indicator_dir=folders$log)
+    ind_dir=folders$log)
 }
 
 create_wqp_munge_makefile <- function(makefile, task_plan, pull_makefile) {
