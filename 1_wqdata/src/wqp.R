@@ -186,7 +186,7 @@ plan_wqp_pull <- function(partitions, folders) {
   download <- scipiper::create_task_step(
     step_name = 'download',
     target_name = function(task_name, step_name, ...) {
-      scipiper::as_indicator(file.path(folders$tmp, sprintf('%s.feather', task_name)))
+      scipiper::as_ind_file(file.path(folders$tmp, sprintf('%s.feather', task_name)))
     },
     command = function(task_name, ...) {
       paste(
@@ -201,7 +201,7 @@ plan_wqp_pull <- function(partitions, folders) {
   post <- scipiper::create_task_step(
     step_name = 'post',
     target_name = function(task_name, step_name, ...) {
-      scipiper::as_indicator(file.path(folders$out, sprintf('%s.feather', task_name)))
+      scipiper::as_ind_file(file.path(folders$out, sprintf('%s.feather', task_name)))
     },
     command = function(task_name, ...) {
       sprintf(
@@ -212,7 +212,7 @@ plan_wqp_pull <- function(partitions, folders) {
           "mock_get=I('move'),",
           "on_exists=I('replace'))",
           sep="\n      "),
-        scipiper::as_indicator(file.path(folders$tmp, sprintf('%s.feather', task_name))))
+        scipiper::as_ind_file(file.path(folders$tmp, sprintf('%s.feather', task_name))))
     }
   )
   
@@ -227,7 +227,7 @@ plan_wqp_pull <- function(partitions, folders) {
           "gd_get(",
           "ind_file='%s')",
           sep="\n      "),
-        scipiper::as_indicator(target_name))
+        scipiper::as_ind_file(target_name))
     }
   )
   
@@ -341,7 +341,7 @@ plan_wqp_munge <- function(partitions, pull_plan, folders) {
   post <- scipiper::create_task_step(
     step_name = 'post',
     target_name = function(task_name, ...) {
-      as_indicator(file.path(folders$out, sprintf('all_%s.feather', task_name)))
+      scipiper::as_ind_file(file.path(folders$out, sprintf('all_%s.feather', task_name)))
     },
     command = function(steps, ...) {
       paste(
