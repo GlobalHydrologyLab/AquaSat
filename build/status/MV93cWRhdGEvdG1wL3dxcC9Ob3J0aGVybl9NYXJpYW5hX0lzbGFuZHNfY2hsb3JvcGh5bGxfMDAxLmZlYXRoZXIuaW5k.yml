@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Northern_Mariana_Islands_chlorophyll_001.feather.ind
+type: file
+hash: 01ccdd4b540e46c58f294cbebf1b7d11
+time: 2017-11-20 02:36:46 UTC
+depends:
+  partition_Northern_Mariana_Islands_chlorophyll_001: 940836ba805821e343a4533854bf0759
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: e04cbb6e3339b4c90ca135d066c03a20
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

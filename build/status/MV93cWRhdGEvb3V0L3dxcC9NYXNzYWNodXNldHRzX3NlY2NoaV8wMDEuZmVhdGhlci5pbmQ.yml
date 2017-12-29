@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Massachusetts_secchi_001.feather.ind
+type: file
+hash: ce3824936f0f8deffc285e4adbcb0a8d
+time: 2017-11-20 00:39:15 UTC
+depends:
+  1_wqdata/tmp/wqp/Massachusetts_secchi_001.feather.ind: ce3824936f0f8deffc285e4adbcb0a8d
+fixed: e1875075bd7c0490fddfce800f0e118b
+code:
+  functions: {}
+

@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Rhode_Island_tss_001.feather.ind
+type: file
+hash: 685897ddc174ad0a533cd6f090e9d42c
+time: 2017-11-20 03:02:22 UTC
+depends:
+  1_wqdata/tmp/wqp/Rhode_Island_tss_001.feather.ind: 685897ddc174ad0a533cd6f090e9d42c
+fixed: b1ae33449f9943439fb991bfa4d1f9ed
+code:
+  functions: {}
+

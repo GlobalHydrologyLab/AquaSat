@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Connecticut_chlorophyll_001.feather.ind
+type: file
+hash: e69a9bd8ad79648b76e8076a5bf934cf
+time: 2017-11-19 21:31:26 UTC
+depends:
+  partition_Connecticut_chlorophyll_001: f9e5a84242a4a281b93db52ea53cb03e
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 827221bf5834b7f8d3f4c5c63eb8e5c8
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

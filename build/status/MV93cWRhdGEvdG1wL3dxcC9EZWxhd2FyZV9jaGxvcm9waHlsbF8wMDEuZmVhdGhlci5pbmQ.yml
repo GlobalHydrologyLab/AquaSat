@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Delaware_chlorophyll_001.feather.ind
+type: file
+hash: a21f931c1599220ba3182c43d09914f1
+time: 2017-11-19 21:34:40 UTC
+depends:
+  partition_Delaware_chlorophyll_001: 7aca1dc5257b744b4b78a10264b1c3f3
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: a96d0c09d04c5a599b05a149d60309f2
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

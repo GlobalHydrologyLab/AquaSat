@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/South_Dakota_chlorophyll_001.feather.ind
+type: file
+hash: 07a751f22700014186a6696321cf556f
+time: 2017-11-20 03:08:40 UTC
+depends:
+  1_wqdata/tmp/wqp/South_Dakota_chlorophyll_001.feather.ind: 07a751f22700014186a6696321cf556f
+fixed: e1661b49a567300d1b73814afbf92c81
+code:
+  functions: {}
+

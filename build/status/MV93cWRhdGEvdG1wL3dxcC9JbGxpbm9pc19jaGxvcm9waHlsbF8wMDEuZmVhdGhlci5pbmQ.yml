@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Illinois_chlorophyll_001.feather.ind
+type: file
+hash: 1108558f5d2cdeace42a1e7560b9244c
+time: 2017-11-19 23:17:46 UTC
+depends:
+  partition_Illinois_chlorophyll_001: 29918db729d42c6e02696c73b82042f4
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 86b93ee6b13efc7d61dc413ae1c39ccf
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

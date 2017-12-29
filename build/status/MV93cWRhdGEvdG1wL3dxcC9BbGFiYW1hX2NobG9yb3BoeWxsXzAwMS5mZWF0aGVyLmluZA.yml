@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Alabama_chlorophyll_001.feather.ind
+type: file
+hash: 5a7c0014917e9e06ce5882d2336b37d9
+time: 2017-11-19 21:01:17 UTC
+depends:
+  partition_Alabama_chlorophyll_001: b01b9477f8b1634a0d4aa6bb4087b080
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 77d052fb07583081564ef0eeec2dd1c0
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

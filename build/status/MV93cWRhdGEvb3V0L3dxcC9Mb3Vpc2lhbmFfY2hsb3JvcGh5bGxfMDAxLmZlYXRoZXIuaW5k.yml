@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Louisiana_chlorophyll_001.feather.ind
+type: file
+hash: 102ab16e784681652d0636a337546cb4
+time: 2017-11-19 23:43:53 UTC
+depends:
+  1_wqdata/tmp/wqp/Louisiana_chlorophyll_001.feather.ind: 102ab16e784681652d0636a337546cb4
+fixed: c793e22cf106f779c0359cac04ee64fc
+code:
+  functions: {}
+

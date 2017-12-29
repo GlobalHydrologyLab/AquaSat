@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/New_Mexico_tss_001.feather.ind
+type: file
+hash: 00e2f2baae1625e98392eced603c9c2b
+time: 2017-11-20 02:17:24 UTC
+depends:
+  partition_New_Mexico_tss_001: ceec5f1e180bad2a4338f328e23bd044
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: be80133bee52f107e5ad8a67624a2ca2
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

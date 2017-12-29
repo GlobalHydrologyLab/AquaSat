@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Massachusetts_tss_001.feather.ind
+type: file
+hash: 324072f813abeea695a8f1d9576a6b87
+time: 2017-11-20 00:39:56 UTC
+depends:
+  1_wqdata/tmp/wqp/Massachusetts_tss_001.feather.ind: 324072f813abeea695a8f1d9576a6b87
+fixed: d52ce96bfde52a3b18260c15b9da50c5
+code:
+  functions: {}
+

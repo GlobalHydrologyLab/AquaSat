@@ -1,5 +1,2 @@
-# Configuration information for accessing project-specific Google Drive files
-project_folder: 0B-c5tErcTY2fTU1pTTBOR2RPdVk
+folder: 0B-c5tErcTY2fTU1pTTBOR2RPdVk
 
-# .httr-oauth on the main page is also part of Google Drive
-# configuration but is managed by tidyverse::googledrive instead of us

@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Colorado_chlorophyll_001.feather.ind
+type: file
+hash: b18b0c38bd1b1dba7845cc798d52412c
+time: 2017-11-19 21:26:56 UTC
+depends:
+  partition_Colorado_chlorophyll_001: 2b286a0da15a04143d2f25e4cbd64f33
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: f18bf1c9a0832a2f5b3d9044aec86a42
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

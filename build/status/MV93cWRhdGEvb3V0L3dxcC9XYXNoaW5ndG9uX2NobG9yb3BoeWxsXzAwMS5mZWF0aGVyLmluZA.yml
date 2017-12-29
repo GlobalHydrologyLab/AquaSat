@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Washington_chlorophyll_001.feather.ind
+type: file
+hash: 3eb432682c80b43acc97b456d379ccc0
+time: 2017-11-20 03:55:07 UTC
+depends:
+  1_wqdata/tmp/wqp/Washington_chlorophyll_001.feather.ind: 3eb432682c80b43acc97b456d379ccc0
+fixed: ba1373c5f209932b1957b35373f16511
+code:
+  functions: {}
+

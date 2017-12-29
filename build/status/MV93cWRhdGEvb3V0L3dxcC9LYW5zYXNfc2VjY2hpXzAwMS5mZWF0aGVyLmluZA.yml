@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Kansas_secchi_001.feather.ind
+type: file
+hash: c7bc1dd6e88610e567bcda5fa0d1a347
+time: 2017-11-19 23:36:25 UTC
+depends:
+  1_wqdata/tmp/wqp/Kansas_secchi_001.feather.ind: c7bc1dd6e88610e567bcda5fa0d1a347
+fixed: 0f74831a206f36483e4ea8bb259cbcff
+code:
+  functions: {}
+

@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Vermont_chlorophyll_001.feather.ind
+type: file
+hash: 990f94938e587eba33c2b42732e057a3
+time: 2017-11-20 03:30:53 UTC
+depends:
+  partition_Vermont_chlorophyll_001: 3bcc73f13fe6d1c6463841db00647e17
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: a68d90f743f7d148392ae69848507ea7
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

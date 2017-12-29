@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Montana_chlorophyll_001.feather.ind
+type: file
+hash: 7ccebd6077306ebc68bff1674347fc28
+time: 2017-11-20 01:56:36 UTC
+depends:
+  partition_Montana_chlorophyll_001: c580328f040a27c18e66a640376f6d05
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: a5ed783f89d6e2aa612ae1e032ca235d
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+
