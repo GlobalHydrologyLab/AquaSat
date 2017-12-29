@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/New_Hampshire_chlorophyll_001.feather.ind
+type: file
+hash: 83b4ca51f23ad5818348a836925efb07
+time: 2017-11-20 02:07:48 UTC
+depends:
+  partition_New_Hampshire_chlorophyll_001: 14c8f39912738f5d3eef7ec651654c22
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 1bcb070aad91358c6d27627eaf039eb5
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

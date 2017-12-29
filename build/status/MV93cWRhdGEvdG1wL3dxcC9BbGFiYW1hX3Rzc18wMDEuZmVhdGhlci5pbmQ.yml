@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Alabama_tss_001.feather.ind
+type: file
+hash: 106f080a4b120413bdc46282de68e884
+time: 2017-11-19 21:05:26 UTC
+depends:
+  partition_Alabama_tss_001: 12b2a621ef3e85020820e93070337052
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 38e9c6b357067bcd6838d16a4d08f330
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Alaska_secchi_001.feather.ind
+type: file
+hash: 70fdf545740d9a67a03ba84e7796200c
+time: 2017-11-19 21:08:28 UTC
+depends:
+  1_wqdata/tmp/wqp/Alaska_secchi_001.feather.ind: 70fdf545740d9a67a03ba84e7796200c
+fixed: fa951cdf55709d403cc8c57532e5a46e
+code:
+  functions: {}
+

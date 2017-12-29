@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Guam_tss_001.feather.ind
+type: file
+hash: 2764b27089811a8d582fa9f6eb591973
+time: 2017-11-19 23:09:58 UTC
+depends:
+  partition_Guam_tss_001: 7a0879626d0ee72c0cdea126ff7c3329
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 67c44143e07c64c72c9c33958ab1fbff
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

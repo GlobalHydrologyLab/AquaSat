@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Michigan_chlorophyll_001.feather.ind
+type: file
+hash: 34e2d4f220fbfabd418064702e8def27
+time: 2017-11-20 00:43:23 UTC
+depends:
+  partition_Michigan_chlorophyll_001: 25c16c8a951728fd0bfdcc1f28a6e98d
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 660c2b144c9b310c316b6689fed5387e
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

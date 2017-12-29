@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Nebraska_secchi_001.feather.ind
+type: file
+hash: 5b0423701841c897fefa09104099be4d
+time: 2017-11-20 02:02:37 UTC
+depends:
+  1_wqdata/tmp/wqp/Nebraska_secchi_001.feather.ind: 5b0423701841c897fefa09104099be4d
+fixed: abd226b9461f3ad1fecb4a4a41bc3480
+code:
+  functions: {}
+

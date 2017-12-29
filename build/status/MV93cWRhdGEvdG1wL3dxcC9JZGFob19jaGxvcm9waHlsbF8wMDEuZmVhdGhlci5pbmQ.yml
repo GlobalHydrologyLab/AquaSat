@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Idaho_chlorophyll_001.feather.ind
+type: file
+hash: 7e16aeaf0467d8c8f4f4e06bf1d02608
+time: 2017-11-19 23:14:05 UTC
+depends:
+  partition_Idaho_chlorophyll_001: 0c7e5cf14bf353d1ee0f2a17c5c0f837
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: f975447710bea108ba6ce17ca43b3f30
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

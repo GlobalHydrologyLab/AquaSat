@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/California_chlorophyll_001.feather.ind
+type: file
+hash: 21d5578eda25735559b7c19d6853d93f
+time: 2017-11-19 21:21:46 UTC
+depends:
+  partition_California_chlorophyll_001: c9e775c2cb8e5adaa7c14fcac22ec949
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: cde046fe8bb834d560e02579b2f407db
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Oregon_secchi_001.feather.ind
+type: file
+hash: d43a41eb7da8dae427bc827d4cb4e975
+time: 2017-11-20 02:48:44 UTC
+depends:
+  partition_Oregon_secchi_001: 48f96e9d913b912e7f834cd2979145ee
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 9e5446f3d456ed7f5266af05624ea590
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

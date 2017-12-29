@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Oklahoma_tss_001.feather.ind
+type: file
+hash: 76500eaffa9df9548771bf5639b9ad00
+time: 2017-11-20 02:45:04 UTC
+depends:
+  1_wqdata/tmp/wqp/Oklahoma_tss_001.feather.ind: 76500eaffa9df9548771bf5639b9ad00
+fixed: 7baa23b0ae838a58eada0531c6c3ed5c
+code:
+  functions: {}
+

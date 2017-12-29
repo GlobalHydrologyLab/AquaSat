@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/West_Virginia_chlorophyll_001.feather.ind
+type: file
+hash: 8eb61a33074b8f9285a6591dc727d302
+time: 2017-11-20 03:58:38 UTC
+depends:
+  1_wqdata/tmp/wqp/West_Virginia_chlorophyll_001.feather.ind: 8eb61a33074b8f9285a6591dc727d302
+fixed: 6cef4c0adddd75ac258f88be5d055f0f
+code:
+  functions: {}
+

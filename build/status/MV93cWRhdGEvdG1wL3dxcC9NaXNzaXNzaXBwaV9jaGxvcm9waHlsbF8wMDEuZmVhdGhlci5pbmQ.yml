@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Mississippi_chlorophyll_001.feather.ind
+type: file
+hash: dfb2c08c8fb26c67f3b1e8f2656cec63
+time: 2017-11-20 01:48:05 UTC
+depends:
+  partition_Mississippi_chlorophyll_001: 801cb05823c6db6071a42cab15bcba79
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: fe9cd60aeb1ae4511424deb2c30123cb
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

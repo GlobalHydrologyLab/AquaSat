@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Florida_chlorophyll_004.feather.ind
+type: file
+hash: 71394d7bede2890e65c8b03dcf3dac76
+time: 2017-11-19 22:29:15 UTC
+depends:
+  1_wqdata/tmp/wqp/Florida_chlorophyll_004.feather.ind: 71394d7bede2890e65c8b03dcf3dac76
+fixed: 1f9f423e697579a6148f8c723698649e
+code:
+  functions: {}
+

@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Rhode_Island_chlorophyll_001.feather.ind
+type: file
+hash: 84ce2cc7eecd3e29cbb913a29302a3dc
+time: 2017-11-20 03:00:30 UTC
+depends:
+  1_wqdata/tmp/wqp/Rhode_Island_chlorophyll_001.feather.ind: 84ce2cc7eecd3e29cbb913a29302a3dc
+fixed: 3090053d0367958592b0373d62451e6e
+code:
+  functions: {}
+

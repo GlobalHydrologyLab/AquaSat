@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Georgia_tss_001.feather.ind
+type: file
+hash: e3228087627625df07ceb2759ea217ad
+time: 2017-11-19 23:06:07 UTC
+depends:
+  partition_Georgia_tss_001: a6597e1cd4acf4c6b1433a9b28ec9cc9
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: c651887005aa709052967356eb51b725
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

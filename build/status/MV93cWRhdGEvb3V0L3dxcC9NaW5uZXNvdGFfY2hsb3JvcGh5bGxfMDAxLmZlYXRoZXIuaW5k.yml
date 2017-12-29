@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Minnesota_chlorophyll_001.feather.ind
+type: file
+hash: 887856978967671ebeb6093c353ed284
+time: 2017-11-20 01:03:29 UTC
+depends:
+  1_wqdata/tmp/wqp/Minnesota_chlorophyll_001.feather.ind: 887856978967671ebeb6093c353ed284
+fixed: 9ffd0355922f4bfc4f549d4a8006c2d9
+code:
+  functions: {}
+

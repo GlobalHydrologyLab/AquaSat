@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Nebraska_tss_001.feather.ind
+type: file
+hash: 9ea644b94ba384dd92b32c6a43a25de8
+time: 2017-11-20 02:03:43 UTC
+depends:
+  1_wqdata/tmp/wqp/Nebraska_tss_001.feather.ind: 9ea644b94ba384dd92b32c6a43a25de8
+fixed: 793b87927ea875b64087e085d898e307
+code:
+  functions: {}
+

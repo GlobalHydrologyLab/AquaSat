@@ -5,8 +5,9 @@
 .Ruserdata
 .httr-oauth
 *.Rproj
-.remake
-*/out/*
+.remake/
+*.feather
+*.RData
 # Allow
 !*/out/placeholder.txt
 tasks_*.yml

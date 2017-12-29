@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/North_Dakota_tss_001.feather.ind
+type: file
+hash: 4cceb5a498dd632523f9b531bbb5c844
+time: 2017-11-20 02:34:31 UTC
+depends:
+  partition_North_Dakota_tss_001: 5972e83a66beea0512e4704e1dc85309
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 226bef6624edbe8dfcfd1383f32cf26e
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

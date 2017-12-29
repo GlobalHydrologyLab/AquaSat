@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Guam_secchi_001.feather.ind
+type: file
+hash: a0c0460edfa048e153ed3fedeceaa85b
+time: 2017-11-19 23:09:20 UTC
+depends:
+  partition_Guam_secchi_001: e747a06b1241774bcce7f10b93416561
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 9c1cbf01316cf3bbc4372f1b1336177d
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

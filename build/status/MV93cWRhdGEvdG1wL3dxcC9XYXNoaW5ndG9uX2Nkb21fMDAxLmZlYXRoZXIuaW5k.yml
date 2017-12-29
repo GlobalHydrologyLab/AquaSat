@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Washington_cdom_001.feather.ind
+type: file
+hash: 9af859ee5d8a4c8084ec47f408a6e846
+time: 2017-11-20 03:53:25 UTC
+depends:
+  partition_Washington_cdom_001: 858bc93c2ff1b2ea2b8745d892cd1c2a
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 638b62a10741539ab8a88c67eaa93c24
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

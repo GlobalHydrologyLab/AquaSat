@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Pennsylvania_chlorophyll_001.feather.ind
+type: file
+hash: 5baa4397ca9edd255df3b5d1e02ecf88
+time: 2017-11-20 02:53:01 UTC
+depends:
+  1_wqdata/tmp/wqp/Pennsylvania_chlorophyll_001.feather.ind: 5baa4397ca9edd255df3b5d1e02ecf88
+fixed: ea12a7283020f251eb665f61bd28d9cd
+code:
+  functions: {}
+

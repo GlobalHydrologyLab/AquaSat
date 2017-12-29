@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Minnesota_tss_001.feather.ind
+type: file
+hash: 83be760b891a4208303b5594a080a990
+time: 2017-11-20 01:39:53 UTC
+depends:
+  1_wqdata/tmp/wqp/Minnesota_tss_001.feather.ind: 83be760b891a4208303b5594a080a990
+fixed: 593fde1e9e28f8ebd01fec274a56714f
+code:
+  functions: {}
+

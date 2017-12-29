@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Florida_chlorophyll_003.feather.ind
+type: file
+hash: f69071a8c1ba317a502873db261b848a
+time: 2017-11-19 22:15:29 UTC
+depends:
+  partition_Florida_chlorophyll_003: 71c16bff1c5589895f7d8949dd777f60
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 8127cd238db6255c9be930f944e51a89
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

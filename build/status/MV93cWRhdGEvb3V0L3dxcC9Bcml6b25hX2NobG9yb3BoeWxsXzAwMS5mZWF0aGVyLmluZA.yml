@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Arizona_chlorophyll_001.feather.ind
+type: file
+hash: a60fe0b306fdfda7bc3273e6e714c021
+time: 2017-11-19 21:11:12 UTC
+depends:
+  1_wqdata/tmp/wqp/Arizona_chlorophyll_001.feather.ind: a60fe0b306fdfda7bc3273e6e714c021
+fixed: f5884f05e33620801b79af1b406d01f6
+code:
+  functions: {}
+
