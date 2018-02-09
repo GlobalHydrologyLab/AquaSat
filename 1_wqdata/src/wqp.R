@@ -210,7 +210,7 @@ plan_wqp_pull <- function(partitions, folders) {
           "remote_ind=target_name,",
           "local_source='%s',",
           "mock_get=I('move'),",
-          "on_exists=I('replace'))",
+          "on_exists=I('update'))",
           sep="\n      "),
         scipiper::as_ind_file(file.path(folders$tmp, sprintf('%s.feather', task_name))))
     }
@@ -358,7 +358,7 @@ plan_wqp_munge <- function(partitions, pull_plan, folders) {
         # Error in self$right_store(type)$get_hash(name) : 
         #   file 1_wqdata/tmp/wqp/all_cdom.feather not found in file store
         "mock_get=I('copy'),",
-        "on_exists=I('replace'))",
+        "on_exists=I('update'))",
         sep="\n      ")
     }
   )

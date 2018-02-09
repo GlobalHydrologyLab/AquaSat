@@ -32,6 +32,17 @@ characteristicName:
   
   cdom:
     - 'Colored dissolved organic matter (CDOM)'
+    
+  doc:
+    - 'Organic carbon'
+    - 'Total carbon'
+    - 'Hydrophilic fraction of organic carbon'
+    - 'Non-purgeable Organic Carbon (NPOC)'
+    
+  poc:
+    - 'Particulate organic carbon'
+    - 'Total Particulate Carbon'
+    - 'Total Particulate Organic Carbon'
   
 # https://www.waterqualitydata.us/Codes/sampleMedia?mimeType=xml
 sampleMedia:
@@ -42,3 +53,5 @@ sampleMedia:
 siteType:
   - "Lake, Reservoir, Impoundment"
   - "Stream"
+  - "Estuary"
+  - "Facility"
