@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Indiana_doc_001.feather.ind
+type: file
+hash: a6ce3e683c11e2b4685ecc8b2d44fb14
+time: 2018-02-09 18:03:57 UTC
+depends:
+  1_wqdata/tmp/wqp/Indiana_doc_001.feather.ind: a6ce3e683c11e2b4685ecc8b2d44fb14
+fixed: f6e34ac87fcf55e337ebce2ffa764315
+code:
+  functions: {}
+

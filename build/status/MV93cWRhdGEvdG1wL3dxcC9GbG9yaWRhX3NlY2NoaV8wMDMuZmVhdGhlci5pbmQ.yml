@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Florida_secchi_003.feather.ind
+type: file
+hash: 30e3227774ba2ebba2d28abfc8242909
+time: 2018-02-09 17:41:28 UTC
+depends:
+  partition_Florida_secchi_003: c309b1b2ff0d070b9074470e73d87e66
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: d3e58f710a9bf3238fd18c8047e13fd0
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

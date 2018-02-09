@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Louisiana_doc_001.feather.ind
+type: file
+hash: 5fbb70851251db582ab475a4d3804685
+time: 2018-02-09 18:13:06 UTC
+depends:
+  1_wqdata/tmp/wqp/Louisiana_doc_001.feather.ind: 5fbb70851251db582ab475a4d3804685
+fixed: 2c7d12c5d0a751ac219fdea86e3db9d0
+code:
+  functions: {}
+

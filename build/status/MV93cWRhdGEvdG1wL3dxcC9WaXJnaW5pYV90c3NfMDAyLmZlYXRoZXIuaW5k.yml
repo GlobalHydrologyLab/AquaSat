@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Virginia_tss_002.feather.ind
+type: file
+hash: 323af50a294210d6e7914824fc0c2603
+time: 2018-02-06 22:24:30 UTC
+depends:
+  partition_Virginia_tss_002: 04a15516130a2f5c11d03ac8ed3532b0
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 99006f46daba7e35bf8a5b77be92d21d
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

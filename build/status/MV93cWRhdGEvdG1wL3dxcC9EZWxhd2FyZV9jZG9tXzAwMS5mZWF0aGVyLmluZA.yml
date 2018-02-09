@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Delaware_cdom_001.feather.ind
+type: file
+hash: 87873347535b8d846fc5b8f9a427ff42
+time: 2018-02-06 22:17:16 UTC
+depends:
+  partition_Delaware_cdom_001: ccb57b838973f527e0491813827e8036
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 5422c24e332cb55a99d54e8a8c17e8c7
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

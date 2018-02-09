@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Nevada_doc_001.feather.ind
+type: file
+hash: dd90d759fd8ee1d97c2e9365f31b9dcc
+time: 2018-02-09 20:32:57 UTC
+depends:
+  partition_Nevada_doc_001: 5fb106da074752f24a909b1fa9cb5129
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: f69787281974d911bee2ef31c690c2ca
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

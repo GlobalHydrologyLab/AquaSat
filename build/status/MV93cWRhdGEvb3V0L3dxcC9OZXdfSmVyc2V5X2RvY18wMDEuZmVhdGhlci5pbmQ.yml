@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/New_Jersey_doc_001.feather.ind
+type: file
+hash: 7b5ef3e32959d3e1b505fbac585d8ba6
+time: 2018-02-09 20:37:15 UTC
+depends:
+  1_wqdata/tmp/wqp/New_Jersey_doc_001.feather.ind: 7b5ef3e32959d3e1b505fbac585d8ba6
+fixed: 89ba0060859fe9e6eda3b5eebf5651a5
+code:
+  functions: {}
+

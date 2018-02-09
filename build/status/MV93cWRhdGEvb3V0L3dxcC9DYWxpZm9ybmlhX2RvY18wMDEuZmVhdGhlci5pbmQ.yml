@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/California_doc_001.feather.ind
+type: file
+hash: 162ec6f5a415b974b77f2dbc79e7c8a8
+time: 2018-02-09 16:00:53 UTC
+depends:
+  1_wqdata/tmp/wqp/California_doc_001.feather.ind: 162ec6f5a415b974b77f2dbc79e7c8a8
+fixed: 89078f5a948bb8aa078b19d7e611001b
+code:
+  functions: {}
+
