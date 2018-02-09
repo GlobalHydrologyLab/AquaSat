@@ -1,12 +1,12 @@
 version: 0.3.0
 name: 1_wqdata/out/wqp_inventory.feather.ind
 type: file
-hash: e980640cdbb1b156426c9b98f57ddc5d
-time: 2017-11-17 23:13:55 UTC
+hash: 94f0c9d797cdd2570a923b54f5032bd0
+time: 2018-02-09 15:43:30 UTC
 depends:
-  wqp_state_codes: 3113d092dcb83827a2a7d999e1e551b5
+  wqp_state_codes: a931f55b406b1486a4b326c73b1c0e33
   wqp_states: f2e193c5a34fc212dac005c971d24a51
-  wqp_codes: 7776a8897177a0c93ab505db0617aeb8
+  wqp_codes: aa8ce09c1eec598609a748b97abb1935
 fixed: 1ba9ec5e846851888f70b73c82b6fda7
 code:
   functions:

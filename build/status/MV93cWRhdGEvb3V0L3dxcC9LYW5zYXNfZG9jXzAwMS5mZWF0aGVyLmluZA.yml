@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Kansas_doc_001.feather.ind
+type: file
+hash: 2391865c2cc96b1133e1af50ca1cb505
+time: 2018-02-09 18:10:06 UTC
+depends:
+  1_wqdata/tmp/wqp/Kansas_doc_001.feather.ind: 2391865c2cc96b1133e1af50ca1cb505
+fixed: 72026cbc8721fd24ed50a662128cf03f
+code:
+  functions: {}
+

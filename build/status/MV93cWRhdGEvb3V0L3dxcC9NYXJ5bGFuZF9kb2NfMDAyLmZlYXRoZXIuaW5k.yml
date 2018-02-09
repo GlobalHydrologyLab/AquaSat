@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Maryland_doc_002.feather.ind
+type: file
+hash: 8ece80e4e1cf772f02f0fa7ff52fcbd6
+time: 2018-02-09 20:10:07 UTC
+depends:
+  1_wqdata/tmp/wqp/Maryland_doc_002.feather.ind: 8ece80e4e1cf772f02f0fa7ff52fcbd6
+fixed: 93d65ae2ef25b3f343dc8f517a4e1aed
+code:
+  functions: {}
+

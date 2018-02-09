@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Missouri_doc_001.feather.ind
+type: file
+hash: 26f67189016b04f15804b9f268915403
+time: 2018-02-09 20:29:42 UTC
+depends:
+  partition_Missouri_doc_001: 4464b7bcba505e546480aca89805bc25
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 38a99edb889c6bf78cce3eb9f83d371f
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/New_York_doc_001.feather.ind
+type: file
+hash: d839e9295435eba9a052dedf59b4540c
+time: 2018-02-09 20:41:50 UTC
+depends:
+  1_wqdata/tmp/wqp/New_York_doc_001.feather.ind: d839e9295435eba9a052dedf59b4540c
+fixed: 5f2fef91c0630a12fc7073cf48b8edca
+code:
+  functions: {}
+

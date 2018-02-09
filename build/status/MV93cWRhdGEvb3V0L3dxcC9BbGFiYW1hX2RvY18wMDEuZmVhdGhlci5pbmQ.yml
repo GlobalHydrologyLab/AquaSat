@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Alabama_doc_001.feather.ind
+type: file
+hash: 1c9eb463b5fac769388b81e4c4fc2b7a
+time: 2018-02-09 15:49:42 UTC
+depends:
+  1_wqdata/tmp/wqp/Alabama_doc_001.feather.ind: 1c9eb463b5fac769388b81e4c4fc2b7a
+fixed: 2e7c1374be27ede706bb6008ec09b6ca
+code:
+  functions: {}
+

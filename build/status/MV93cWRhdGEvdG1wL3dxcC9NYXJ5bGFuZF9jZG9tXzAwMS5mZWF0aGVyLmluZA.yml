@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Maryland_cdom_001.feather.ind
+type: file
+hash: 0abff858009c53520483ca5d2e1f2b38
+time: 2018-02-09 18:14:34 UTC
+depends:
+  partition_Maryland_cdom_001: 658b6937a2acd5819e693d662ab2d3f7
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 7977c3fa21b79445bce52a6335fcf7c8
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+
