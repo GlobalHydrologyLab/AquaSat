@@ -32,6 +32,8 @@ ALISON CAN YOU FILL IN SOME OF THIS HERE?
 #devtools::install_github('aappling-usgs/scipiper')
 
 library(scipiper)
+library(feather)
+library(tidyverse)
 ```
 
 
@@ -42,8 +44,10 @@ Like ```remake``` scipiper calls specific tasks using the ```scmake``` function.
 ```{r, eval=FALSE}
 #Check what water quality portal codes are already in the dataset
 #wqp_codes comes from the cfg yaml file. 
-wqp_codes <- scmake('wqp_codes')
-
+scmake('wqp_codes')
+scmake('wqp_states')
+scmake('wqp_pull')
+scmake('wq_dates')
 #Each characteristic name can have many constituent names associated with it
 print(wqp_codes$characteristicName)
 ```
@@ -59,17 +63,85 @@ This can take up to 30 minutes to run.
 
 NOTE: I'd like to add some tidying here to demonstrate what the inventory looks like and to explain why we are using feather. 
 ```{r, eval=F}
-#Repull an inventory of sites. This 
-scmake('tasks_1_wqp.yml')
+#Repull an inventory of sites. Dangerous so it is commented out
+library(scipiper)
+#scmake('tasks_1_wqp.yml')
 
+inv.sum <- inv %>%
+  group_by(ResolvedMonitoringLocationTypeName,Constituent) %>%
+  summarize(n=n())
 
+table(inv.combo$Constituent)
+inv.combo <-inv %>%
+  filter(Constituent %in% c('tss','chlorophyll','doc','secchi')) %>%
+  group_by(MonitoringLocationIdentifier) %>%
+  summarize(n=length(unique(Constituent)),
+            obs=sum(resultCount)) %>%
+  filter(n > 3)
+              
+
+write_csv(inv.sum,path='9_report/out/SiteByConstituent.csv')
 ```
 
 Uncommented below!
 
-##Full Water Quality Pull (10 hours or so)
-```{r}
+##Full Water Quality Pull (20 hours or so)
+```{r, eval=F}
 scmake('1_wqdata/log/tasks_1_wqp.ind')
+
+```
+
+#Munging that data
+```{r}
+library(scipiper)
+scmake('tasks_1_wqp_munge.yml','remake.yml')
+
+debug(scipiper::loop_tasks)
+scmake('1_wqdata/log/tasks_1_wqp_munge.ind')
+
+```
+
+##What the munging does
+```{r}
+
+state.doc <- list.files('1_wqdata/out/wqp',full.names = T,pattern='doc') %>%
+  .[!grepl('.ind',.)]
+
+
+dat <- feather::read_feather(state.doc[23])
+names(dat)
+
+
+```
+
+
+```{r}
+combine_feathers <- function(data_file, ...) {
+  # read and combine the individual raw data pull files
+  feathers <- c(...)
+  
+  unified.cols <- c('ActivityStartDate','ResultMeasureValue','ResultMeasure.MeasureUnitCode'
+                    ,'MonitoringLocationIdentifier','CharacteristicName','OrganizationFormalName',
+                    'OrganizationIdentifier')
+  
+  
+  #Use foreach and DoMC to make this operation parallel for computers 
+  #with more than 3 cores
+  
+  cores <- detectCores()-2
+  if(cores < 1){cores <- 1}
+  registerDoMC(cores=cores)
+  combo <- foreach(i=1:length(feathers),.combine=rbind) %dopar% {
+    library(feather)
+    feather::read_feather(feathers[i],columns=unified.cols)
+    # most columns are not particularly useful and they can be different by state so select
+    #only the vital ones here:
+  }
+  
+
+  # write the data file
+  feather::write_feather(combo, path=data_file)
+}
 
 ```
 

@@ -1,8 +1,8 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/California_poc_001.feather.ind
 type: file
-hash: 3f2078f297509209c76f7117f642da87
-time: 2018-02-09 16:01:24 UTC
+hash: 5f381350214dae7b0b12aaddab2213af
+time: 2018-02-16 03:33:46 UTC
 depends:
   partition_California_poc_001: 71cbda82cc1a301469d0c7de92524b0a
   wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db

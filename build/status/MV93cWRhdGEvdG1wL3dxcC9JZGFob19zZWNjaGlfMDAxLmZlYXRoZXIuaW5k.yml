@@ -1,10 +1,10 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Idaho_secchi_001.feather.ind
 type: file
-hash: 5313d24d8e563bd505dd3f277a00b21b
-time: 2017-11-19 23:15:18 UTC
+hash: f00dac5a3731d579b1d63ced45ebe614
+time: 2018-02-16 06:17:11 UTC
 depends:
-  partition_Idaho_secchi_001: f50df0b3d4cc07aae481941ff418092a
+  partition_Idaho_secchi_001: ab48104eb897795e146b9af4647b9264
   wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
 fixed: ffc90ffc2bb8d48c760745de88d70eea
 code:

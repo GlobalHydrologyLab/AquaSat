@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Vermont_doc_001.feather.ind
+type: file
+hash: 2267072860dbe98da0d36f038666a157
+time: 2018-02-16 12:39:26 UTC
+depends:
+  1_wqdata/tmp/wqp/Vermont_doc_001.feather.ind: 2267072860dbe98da0d36f038666a157
+fixed: 9a5cef77217d4004f9694863c7602d3e
+code:
+  functions: {}
+

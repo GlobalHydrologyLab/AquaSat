@@ -1,11 +1,11 @@
 version: 0.3.0
 name: 1_wqdata/out/wqp/New_Jersey_secchi_001.feather.ind
 type: file
-hash: c0d10eaf1f00b05dade37b997877992c
-time: 2017-11-20 02:13:07 UTC
+hash: 1d906f81403be8a41667ec7b87f71c9e
+time: 2018-02-16 10:35:40 UTC
 depends:
-  1_wqdata/tmp/wqp/New_Jersey_secchi_001.feather.ind: c0d10eaf1f00b05dade37b997877992c
-fixed: 3f5f017f8212cbe26c1bdf6df4d13f41
+  1_wqdata/tmp/wqp/New_Jersey_secchi_001.feather.ind: 1d906f81403be8a41667ec7b87f71c9e
+fixed: 7e8f169502702fdd2f0556c50ac50f25
 code:
   functions: {}
 

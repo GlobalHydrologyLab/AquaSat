@@ -1,8 +1,8 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Indiana_poc_001.feather.ind
 type: file
-hash: 01da09f90ae77be900e4f60e701a0428
-time: 2018-02-09 18:04:40 UTC
+hash: 105b9feea5d2b0fa484da8bd1338f6da
+time: 2018-02-16 06:31:50 UTC
 depends:
   partition_Indiana_poc_001: 724fcbd42bf91dd4fb88c7a0ad56286c
   wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db

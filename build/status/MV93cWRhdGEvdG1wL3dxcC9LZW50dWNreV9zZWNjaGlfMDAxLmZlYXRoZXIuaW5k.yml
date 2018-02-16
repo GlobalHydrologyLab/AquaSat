@@ -1,10 +1,10 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Kentucky_secchi_001.feather.ind
 type: file
-hash: afaf128db06d262181d6af0892b80a25
-time: 2017-11-19 23:41:22 UTC
+hash: abb79ab38752460e61752fe2a27750eb
+time: 2018-02-16 07:01:57 UTC
 depends:
-  partition_Kentucky_secchi_001: a12bd56fe57586965d6279789c1beb72
+  partition_Kentucky_secchi_001: 20f68334192e656caad38cfd5601933b
   wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
 fixed: 9978fe334cacdb4844e6bf1bb57e6b77
 code:

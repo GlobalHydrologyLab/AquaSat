@@ -1,10 +1,10 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/District_of_Columbia_chlorophyll_001.feather.ind
 type: file
-hash: 7f663543111b996aada8cce3a0da53e8
-time: 2017-11-19 21:39:04 UTC
+hash: 23c0eb03746a3be891ae7ee8cb873223
+time: 2018-02-16 04:05:21 UTC
 depends:
-  partition_District_of_Columbia_chlorophyll_001: a569cf880c27e350693f6eb5cd267e3a
+  partition_District_of_Columbia_chlorophyll_001: 1d687cffe72c87c2fa021fab9187382e
   wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
 fixed: 09574504281d560b842fe9411a901ca3
 code:

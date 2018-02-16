@@ -1,11 +1,11 @@
 version: 0.3.0
 name: 1_wqdata/out/wqp/Connecticut_secchi_001.feather.ind
 type: file
-hash: 5d0fac0bf233db84c35d3c642da526b9
-time: 2017-11-19 21:32:41 UTC
+hash: 5c2e674b4b0e77254d6946bc0d32b6ba
+time: 2018-02-16 03:54:42 UTC
 depends:
-  1_wqdata/tmp/wqp/Connecticut_secchi_001.feather.ind: 5d0fac0bf233db84c35d3c642da526b9
-fixed: 3770e104980ce7de8f9c8a9f1f33c599
+  1_wqdata/tmp/wqp/Connecticut_secchi_001.feather.ind: 5c2e674b4b0e77254d6946bc0d32b6ba
+fixed: 20eafe47900b63b2183c7a7792fed9c1
 code:
   functions: {}
 
