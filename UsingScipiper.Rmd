@@ -96,7 +96,6 @@ scmake('1_wqdata/log/tasks_1_wqp.ind')
 library(scipiper)
 scmake('tasks_1_wqp_munge.yml','remake.yml')
 
-debug(scipiper::loop_tasks)
 scmake('1_wqdata/log/tasks_1_wqp_munge.ind')
 
 ```

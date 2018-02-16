@@ -10,14 +10,16 @@
 # prepare a data.frame that maps state names to the FIPS codes used by WQP
 get_wqp_state_codes <- function() {
   states_xml <- xml2::read_xml('https://www.waterqualitydata.us/Codes/statecode?countrycode=US')
-  states_list <- xml2::as_list(states_xml) 
-  states_filtered <- states_list$Codes[names(states_list$Codes)=='Code']
-  states_df <- bind_rows(lapply(states_filtered, function(state) {
+  states_list <- xml2::as_list(states_xml)
+  states_df <- bind_rows(lapply(states_list[names(states_list)=='Code'], function(code) {
     data_frame(
-      value = attr(state, 'value'),
-      name = attr(state, 'desc'),
-      providers = attr(state, 'providers'))
+      value = attr(code, 'value'),
+      name = attr(code, 'desc'),
+      providers = attr(code, 'providers'))
   }))
+  if(nrow(states_df) < 1){stop('No State FIPS codes downloaded,
+                               which is critical for later steps, check 
+                               that get_wqp_state_codes works')}
   return(states_df)
 }
 
@@ -245,7 +247,7 @@ create_wqp_pull_makefile <- function(makefile, task_plan) {
   create_task_makefile(
     makefile=makefile, task_plan=task_plan,
     include='remake.yml',
-    packages=c('dplyr', 'dataRetrieval', 'feather', 'scipiper'),
+    packages=c('dplyr', 'dataRetrieval', 'feather', 'scipiper','doMC','foreach'),
     file_extensions=c('ind','feather'))
 }
 
@@ -376,7 +378,7 @@ create_wqp_munge_makefile <- function(makefile, task_plan, pull_makefile) {
   create_task_makefile(
     makefile=makefile, task_plan=task_plan,
     include=pull_makefile, # include the pull_makefile (which includes remake.yml) so we know how to build the raw data files if needed
-    packages=c('dplyr', 'feather', 'scipiper'),
+    packages=c('tidyverse', 'feather', 'scipiper','foreach','doMC'),
     file_extensions=c('ind','feather'))
 }
 
@@ -385,22 +387,25 @@ create_wqp_munge_makefile <- function(makefile, task_plan, pull_makefile) {
 combine_feathers <- function(data_file, ...) {
   # read and combine the individual raw data pull files
   feathers <- c(...)
-  df_list <- lapply(feathers, function(feather_file) {
-    feather::read_feather(feather_file) %>% 
-      # a few columns are inconsistent across files; harmonize them here
-      mutate(
-        ActivityBottomDepthHeightMeasure.MeasureValue = as.character(ActivityBottomDepthHeightMeasure.MeasureValue),
-        ActivityTopDepthHeightMeasure.MeasureValue = as.character(ActivityTopDepthHeightMeasure.MeasureValue),
-        ResultDepthHeightMeasure.MeasureValue = as.character(ResultDepthHeightMeasure.MeasureValue),
-        ActivityCommentText = as.character(ActivityCommentText),
-        MeasureQualifierCode = as.character(MeasureQualifierCode),
-        PrecisionValue = as.character(PrecisionValue),
-        ProjectIdentifier = as.character(ProjectIdentifier),
-        ResultAnalyticalMethod.MethodIdentifier = as.character(ResultAnalyticalMethod.MethodIdentifier),
-        ResultAnalyticalMethod.MethodIdentifierContext = as.character(ResultAnalyticalMethod.MethodIdentifierContext),
-        SampleCollectionMethod.MethodIdentifier = as.character(SampleCollectionMethod.MethodIdentifier))
-  })
-  combo <- bind_rows(df_list)
+  
+  unified.cols <- c('ActivityStartDate','ResultMeasureValue','ResultMeasure.MeasureUnitCode'
+                    ,'MonitoringLocationIdentifier','CharacteristicName','OrganizationFormalName',
+                    'OrganizationIdentifier')
+  
+  
+  #Use foreach and DoMC to make this operation parallel for computers 
+  #with more than 3 cores
+  
+  cores <- detectCores()-2
+  if(cores < 1){cores <- 1}
+  registerDoMC(cores=cores)
+  combo <- foreach(i=1:length(feathers),.combine=rbind) %dopar% {
+    library(feather)
+    feather::read_feather(feathers[i],columns=unified.cols)
+    # most columns are not particularly useful and they can be different by state so select
+    #only the vital ones here:
+  }
+  
   
   # write the data file
   feather::write_feather(combo, path=data_file)
