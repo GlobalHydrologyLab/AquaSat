@@ -1,8 +1,8 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Kansas_doc_001.feather.ind
 type: file
-hash: 2391865c2cc96b1133e1af50ca1cb505
-time: 2018-02-09 18:09:54 UTC
+hash: 29e520208913deb7b75fca93267c72c5
+time: 2018-02-16 06:51:35 UTC
 depends:
   partition_Kansas_doc_001: 4fccd8017404ba22b56eaccc1662d9b6
   wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db

@@ -1,8 +1,8 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Iowa_doc_001.feather.ind
 type: file
-hash: 5b1a0b94b6401bdb29db7d6fe0cbb9e1
-time: 2018-02-09 18:06:03 UTC
+hash: 669cfa06f3486977f7afcb33e448ce57
+time: 2018-02-16 06:41:16 UTC
 depends:
   partition_Iowa_doc_001: 581a9455ee3dbfef4960114ce4c2856c
   wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db

@@ -1,10 +1,10 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Arizona_chlorophyll_001.feather.ind
 type: file
-hash: a60fe0b306fdfda7bc3273e6e714c021
-time: 2017-11-19 21:11:03 UTC
+hash: 68075deb0b17a87f87a3229e750ddd91
+time: 2018-02-16 03:13:49 UTC
 depends:
-  partition_Arizona_chlorophyll_001: 63be250b5b04b50b8bdb0e7b1d720b79
+  partition_Arizona_chlorophyll_001: af5f2ee2434dd21bf8046b65d13431d8
   wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
 fixed: 34264086a0b3b5c0d63cb6d371df7a5b
 code:

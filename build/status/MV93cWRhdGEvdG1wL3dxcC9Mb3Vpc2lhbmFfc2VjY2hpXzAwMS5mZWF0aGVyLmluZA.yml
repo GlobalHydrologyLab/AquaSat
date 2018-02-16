@@ -1,10 +1,10 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Louisiana_secchi_001.feather.ind
 type: file
-hash: b950cc2dbc9e22b2e817a9d4bfa5c658
-time: 2017-11-19 23:44:52 UTC
+hash: 07d310737b729c65e48dd86a951edb08
+time: 2018-02-16 07:07:14 UTC
 depends:
-  partition_Louisiana_secchi_001: e1ed1b72a7c71e624ef014ced7e4d8de
+  partition_Louisiana_secchi_001: 2d0eb64d83447413786a20bbbd2b62f0
   wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
 fixed: eb9743724476de46be7cae615b7a5717
 code:

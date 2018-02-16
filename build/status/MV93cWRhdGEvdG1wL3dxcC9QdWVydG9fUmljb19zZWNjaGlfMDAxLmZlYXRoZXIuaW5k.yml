@@ -1,10 +1,10 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Puerto_Rico_secchi_001.feather.ind
 type: file
-hash: a2b979d1da95c2a7eedf68b941281a19
-time: 2017-11-20 02:58:26 UTC
+hash: e7f43613521ac0a71d6eb84734c00ad6
+time: 2018-02-16 11:49:09 UTC
 depends:
-  partition_Puerto_Rico_secchi_001: 9c58051bf3e46d74966db0b7f4310974
+  partition_Puerto_Rico_secchi_001: 6a9491c372dd66818ad0b8259b98b355
   wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
 fixed: eb00d0ba7f64c84704af20db01959097
 code:

@@ -1,10 +1,10 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Arkansas_tss_001.feather.ind
 type: file
-hash: 8f1a77b5e93e0d670fbb3352565db23e
-time: 2017-11-19 21:18:37 UTC
+hash: 2d77e2d6fe21b0f54f416289ea148b3e
+time: 2018-02-16 03:27:01 UTC
 depends:
-  partition_Arkansas_tss_001: 8e2658ceaa44a2207b7bc3dcec074a03
+  partition_Arkansas_tss_001: fb1fc47ef49c89c605d625d1fb66da7e
   wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
 fixed: 1485ad2684aab8c6ed8ae2404b7ce85e
 code:

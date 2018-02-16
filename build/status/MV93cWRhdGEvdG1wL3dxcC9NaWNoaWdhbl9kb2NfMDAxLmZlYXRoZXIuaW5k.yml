@@ -1,8 +1,8 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Michigan_doc_001.feather.ind
 type: file
-hash: ec3844dd37e62247305c3f2142911bf8
-time: 2018-02-09 20:23:54 UTC
+hash: 0cdb21d11e6040d2307e46f86c2118d1
+time: 2018-02-16 08:55:16 UTC
 depends:
   partition_Michigan_doc_001: 46a1b3b51c8359f054054ffa6be51c01
   wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db

@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/South_Dakota_doc_001.feather.ind
+type: file
+hash: f032e2dd74e438e5324bb0bc2cf62f0d
+time: 2018-02-16 12:03:02 UTC
+depends:
+  1_wqdata/tmp/wqp/South_Dakota_doc_001.feather.ind: f032e2dd74e438e5324bb0bc2cf62f0d
+fixed: 05876de5c354bd6ec0022dd8631a1bb0
+code:
+  functions: {}
+

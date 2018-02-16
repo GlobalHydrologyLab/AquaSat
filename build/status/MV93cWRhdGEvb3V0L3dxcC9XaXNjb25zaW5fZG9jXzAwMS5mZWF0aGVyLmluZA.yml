@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Wisconsin_doc_001.feather.ind
+type: file
+hash: f712f6fee9050a9a74f9f6e61be79230
+time: 2018-02-16 14:02:58 UTC
+depends:
+  1_wqdata/tmp/wqp/Wisconsin_doc_001.feather.ind: f712f6fee9050a9a74f9f6e61be79230
+fixed: cad749c1133146ea29dfd1ef1e7755db
+code:
+  functions: {}
+

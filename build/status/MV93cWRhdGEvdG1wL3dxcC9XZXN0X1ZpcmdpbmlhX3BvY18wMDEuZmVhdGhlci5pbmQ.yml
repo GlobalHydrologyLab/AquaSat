@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/West_Virginia_poc_001.feather.ind
+type: file
+hash: c1c9ce1042d186bb6741b4c9e449d36d
+time: 2018-02-16 13:53:00 UTC
+depends:
+  partition_West_Virginia_poc_001: 35b1d6f6bcc59368c8c987fde242c3b8
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: a73aeaa652352999d40eaaa538c14638
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

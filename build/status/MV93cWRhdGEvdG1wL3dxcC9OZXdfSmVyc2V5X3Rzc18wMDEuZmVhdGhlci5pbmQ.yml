@@ -1,10 +1,10 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/New_Jersey_tss_001.feather.ind
 type: file
-hash: 618f276180d45ff39e7c0448beabee37
-time: 2017-11-20 02:13:48 UTC
+hash: 12bb50ca36a628e187f3f670471ddd4e
+time: 2018-02-16 10:37:13 UTC
 depends:
-  partition_New_Jersey_tss_001: b82a1dece7aace26aa3bcec13840c9ee
+  partition_New_Jersey_tss_001: a5711a2c8ebbb1af6767821cf91af9de
   wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
 fixed: 425ab744e93e515928055178d7452feb
 code:

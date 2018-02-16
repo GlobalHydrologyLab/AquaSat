@@ -1,10 +1,10 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Arkansas_secchi_001.feather.ind
 type: file
-hash: 988f6d3cc4a9d9ca1996f05739ee66ff
-time: 2017-11-19 21:16:12 UTC
+hash: cc5ecfc1449b6a1f781277265ddd7796
+time: 2018-02-16 03:25:00 UTC
 depends:
-  partition_Arkansas_secchi_001: b9682578aa1ae103bba481153ecedd85
+  partition_Arkansas_secchi_001: 758b43445e00e35ae4674b091a71db73
   wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
 fixed: 8f3abe5ca52bf0ef7130f15770608bd7
 code:

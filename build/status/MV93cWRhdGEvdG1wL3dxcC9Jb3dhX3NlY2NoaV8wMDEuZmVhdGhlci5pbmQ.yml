@@ -1,10 +1,10 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Iowa_secchi_001.feather.ind
 type: file
-hash: 7c16ddb990ea1be9748a38665799f32a
-time: 2017-11-19 23:30:41 UTC
+hash: 9978c044b1a618040120310e3b9fb33a
+time: 2018-02-16 06:43:34 UTC
 depends:
-  partition_Iowa_secchi_001: 48c11f0c37d9b513275dc4780bd808f6
+  partition_Iowa_secchi_001: b020566ff3624c3e0ae9c6c0a2aaa8de
   wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
 fixed: b994a0e7a64c2c0fa5657713c6e4c212
 code:
