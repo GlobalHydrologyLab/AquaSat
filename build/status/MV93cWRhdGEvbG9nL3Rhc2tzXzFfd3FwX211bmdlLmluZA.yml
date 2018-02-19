@@ -1,0 +1,12 @@
+version: 0.3.0
+name: 1_wqdata/log/tasks_1_wqp_munge.ind
+type: file
+hash: 60e6ff12a10fc97083891dd108926929
+time: 2018-02-19 18:15:11 UTC
+depends:
+  wqp_munge_plan: 0d17011847a5fd711775bf6c716afd5b
+  tasks_1_wqp_munge.yml: 197c71945ed116d08725446da68ebf4f
+fixed: 9d5e2cd19eb358f4dea77ef7daa69258
+code:
+  functions: {}
+
