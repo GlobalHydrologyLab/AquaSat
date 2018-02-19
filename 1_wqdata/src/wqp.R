@@ -388,7 +388,7 @@ combine_feathers <- function(data_file, ...) {
   # read and combine the individual raw data pull files
   feathers <- c(...)
   
-  unified.cols <- c('ActivityStartDate','ResultMeasureValue','ResultMeasure.MeasureUnitCode'
+  unified.cols <- c('ActivityStartDateTime','ResultMeasureValue','ResultMeasure.MeasureUnitCode'
                     ,'MonitoringLocationIdentifier','CharacteristicName','OrganizationFormalName',
                     'OrganizationIdentifier')
   
@@ -553,7 +553,7 @@ munge_any <- function(raw_df, data_file, unit_map=NA) {
   
   munged_df <- raw_df %>%
     select(
-      Date=ActivityStartDate,
+      Date=ActivityStartDateTime,
       Value=ResultMeasureValue,
       UnitsRaw=ResultMeasure.MeasureUnitCode,
       SiteID=MonitoringLocationIdentifier,
