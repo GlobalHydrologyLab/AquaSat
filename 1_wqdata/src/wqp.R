@@ -414,6 +414,31 @@ combine_feathers <- function(data_file, ...) {
 #### munge ####
 
 # munge raw_file to data_file for each constituent
+munge_doc <- function(data_file, raw_file='1_wqdata/tmp/wqp/all_raw_doc.feather') {
+  raw_df <- feather::read_feather(raw_file)
+  # raw_df %>% group_by(ResultMeasure.MeasureUnitCode) %>%
+  #   summarize(n=n()) %>%
+  #   View(.)
+  
+  #DOC data is quite messy, might only keep mg/L for now. Lots of % which is confusing
+  unit_map <- NA
+  
+  munge_any(raw_df, data_file, unit_map)
+}
+
+
+munge_poc <- function(data_file, raw_file='1_wqdata/tmp/wqp/all_raw_poc.feather') {
+  raw_df <- feather::read_feather(raw_file)
+  # raw_df %>% group_by(ResultMeasure.MeasureUnitCode) %>%
+  #   summarize(n=n()) %>%
+  #   View(.)
+  
+  #DOC data is quite messy, might only keep mg/L for now. Lots of % which is confusing
+  unit_map <- NA
+  
+  munge_any(raw_df, data_file, unit_map)
+}
+
 
 munge_cdom <- function(data_file, raw_file='1_wqdata/tmp/wqp/all_raw_cdom.feather') {
   raw_df <- feather::read_feather(raw_file)

@@ -1,0 +1,23 @@
+ResolvedMonitoringLocationTypeName,Constituent,n
+Estuary,cdom,43
+Estuary,chlorophyll,30788
+Estuary,doc,9865
+Estuary,secchi,24506
+Estuary,tss,25377
+Facility,cdom,3
+Facility,chlorophyll,193
+Facility,doc,1552
+Facility,poc,2
+Facility,secchi,81
+Facility,tss,3945
+"Lake, Reservoir, Impoundment",cdom,69
+"Lake, Reservoir, Impoundment",chlorophyll,37669
+"Lake, Reservoir, Impoundment",doc,13905
+"Lake, Reservoir, Impoundment",secchi,54853
+"Lake, Reservoir, Impoundment",tss,19116
+Stream,cdom,97
+Stream,chlorophyll,40305
+Stream,doc,63369
+Stream,poc,1490
+Stream,secchi,24574
+Stream,tss,113834
