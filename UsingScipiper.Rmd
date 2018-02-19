@@ -82,6 +82,7 @@ Now that we have an inventory build we can do the full water quality pull using 
 ```tasks_1_wqp.yml```. We tell scmake() that we only want to do this part of the make by feeding it the indication file where it checks if the water quality pull has already been done this file is labeled ```1_wqdata/log/tasks_wqp.ind```
 
 ```{r, eval=F}
+#Warnign this can take a long time if the inventory has changed
 scmake('1_wqdata/log/tasks_1_wqp.ind')
 
 ```
