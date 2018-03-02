@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Vermont_nitrate_001.feather.ind
+type: file
+hash: 3380cf058e2d9b985351b2799311734a
+time: 2018-02-22 13:21:30 UTC
+depends:
+  1_wqdata/tmp/wqp/Vermont_nitrate_001.feather.ind: 3380cf058e2d9b985351b2799311734a
+fixed: 622fabaa5d494cba90a0c69068238f86
+code:
+  functions: {}
+

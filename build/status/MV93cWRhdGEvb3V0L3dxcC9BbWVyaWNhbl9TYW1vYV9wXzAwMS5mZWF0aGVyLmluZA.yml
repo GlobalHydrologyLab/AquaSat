@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/American_Samoa_p_001.feather.ind
+type: file
+hash: b7bc00776bc461f4624e0f5e403ea1be
+time: 2018-02-22 02:25:43 UTC
+depends:
+  1_wqdata/tmp/wqp/American_Samoa_p_001.feather.ind: b7bc00776bc461f4624e0f5e403ea1be
+fixed: 53f5985bf575b251c035c9c3e2993c15
+code:
+  functions: {}
+

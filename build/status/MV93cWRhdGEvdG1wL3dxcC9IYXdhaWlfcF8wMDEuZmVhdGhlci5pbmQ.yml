@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Hawaii_p_001.feather.ind
+type: file
+hash: db499c91c9a33ad072d1efe9e409d82c
+time: 2018-02-22 05:25:37 UTC
+depends:
+  partition_Hawaii_p_001: 5eb0209b0aba7af15acc33ecb0c2ce67
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 159ad47e390638a0453c456deb59bb14
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

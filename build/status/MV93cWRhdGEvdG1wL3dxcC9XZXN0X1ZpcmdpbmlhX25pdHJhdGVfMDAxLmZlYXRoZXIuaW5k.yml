@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/West_Virginia_nitrate_001.feather.ind
+type: file
+hash: a54ad9b21cb2f45409c31dd4b962465b
+time: 2018-02-22 14:36:35 UTC
+depends:
+  partition_West_Virginia_nitrate_001: d7fb4b4585e1751c0668c5788fe8eb0e
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: f04601876615ad81691fbaa8144f7c1d
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

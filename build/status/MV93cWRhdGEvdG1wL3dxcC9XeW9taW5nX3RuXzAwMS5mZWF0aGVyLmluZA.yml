@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Wyoming_tn_001.feather.ind
+type: file
+hash: 724a84065ed609172835dafef953066e
+time: 2018-02-22 15:10:55 UTC
+depends:
+  partition_Wyoming_tn_001: f844c94ad786aa093c3ab084136cb2c7
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 9933883c32362f56e9b4211123a3f6da
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

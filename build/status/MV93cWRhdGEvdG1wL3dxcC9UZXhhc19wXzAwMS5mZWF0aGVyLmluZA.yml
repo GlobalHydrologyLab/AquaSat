@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Texas_p_001.feather.ind
+type: file
+hash: d2661ff52557cd773d16e83978f0df55
+time: 2018-02-22 12:49:59 UTC
+depends:
+  partition_Texas_p_001: 0399dc2c3f4b5462110d24043a258c91
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 013f19a7691f70025622d488a16f9dda
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

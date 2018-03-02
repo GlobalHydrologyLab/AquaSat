@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Connecticut_nitrate_001.feather.ind
+type: file
+hash: 57d0decb9dea13d348123a67289c6087
+time: 2018-02-22 03:17:17 UTC
+depends:
+  partition_Connecticut_nitrate_001: 51a22e0eecc3526d11e66ae1100fa03d
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 1196488a0313e4fa2bd3386e87d06e86
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

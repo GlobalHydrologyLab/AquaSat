@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Delaware_p_001.feather.ind
+type: file
+hash: b93b6921d0f7f4b23973228829f87d18
+time: 2018-02-22 03:24:14 UTC
+depends:
+  partition_Delaware_p_001: d1c8e8bfa4495187bed8107a1e696312
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 4de140e0e1a16211541e5ce2ae73439e
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

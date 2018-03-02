@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Georgia_p_001.feather.ind
+type: file
+hash: bdefc1e68ac62377cf73e2f26280bcf8
+time: 2018-02-22 05:14:31 UTC
+depends:
+  partition_Georgia_p_001: 5566fd20af2c52ec27cca518ce8608eb
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: fab9a646dfa59166da2348fc226465fc
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

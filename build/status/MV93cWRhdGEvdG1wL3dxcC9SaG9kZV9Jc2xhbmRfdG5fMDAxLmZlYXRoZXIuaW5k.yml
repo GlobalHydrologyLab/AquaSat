@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Rhode_Island_tn_001.feather.ind
+type: file
+hash: 17cb7a3a700d311da666f64e397d7e11
+time: 2018-02-22 11:59:45 UTC
+depends:
+  partition_Rhode_Island_tn_001: e685acc2fb3210d41ea8fb83993ba8cd
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 950f59784b358b8bd2c0b7c2d5d4fa0f
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

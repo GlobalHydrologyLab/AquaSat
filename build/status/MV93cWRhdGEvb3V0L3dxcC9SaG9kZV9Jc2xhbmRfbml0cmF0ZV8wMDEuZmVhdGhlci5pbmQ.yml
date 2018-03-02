@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Rhode_Island_nitrate_001.feather.ind
+type: file
+hash: cf82a0b8e64108cb2df7ab9f1673cb15
+time: 2018-02-22 11:57:28 UTC
+depends:
+  1_wqdata/tmp/wqp/Rhode_Island_nitrate_001.feather.ind: cf82a0b8e64108cb2df7ab9f1673cb15
+fixed: 7961deeb4b428db5f5c03388946d9465
+code:
+  functions: {}
+

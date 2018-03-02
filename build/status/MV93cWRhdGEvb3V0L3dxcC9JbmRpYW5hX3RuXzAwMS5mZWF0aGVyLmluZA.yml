@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Indiana_tn_001.feather.ind
+type: file
+hash: a5b714fbdf932c573deda32c166e0660
+time: 2018-02-22 05:47:24 UTC
+depends:
+  1_wqdata/tmp/wqp/Indiana_tn_001.feather.ind: a5b714fbdf932c573deda32c166e0660
+fixed: 54eacb74f991ab6095b27ab3cf5504f1
+code:
+  functions: {}
+

@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/South_Dakota_nitrate_001.feather.ind
+type: file
+hash: fb340605df645da0e118948f8eed8091
+time: 2018-02-22 12:11:33 UTC
+depends:
+  partition_South_Dakota_nitrate_001: 4d6bd48c8762bad2851a4b80d9cf78b8
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 6023613cd9535413edca3041667134eb
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

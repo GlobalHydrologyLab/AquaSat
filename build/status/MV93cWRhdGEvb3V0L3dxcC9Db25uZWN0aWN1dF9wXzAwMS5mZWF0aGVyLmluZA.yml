@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Connecticut_p_001.feather.ind
+type: file
+hash: 1ecb0a9eae985cb676e8cfa03b038cd8
+time: 2018-02-22 03:19:15 UTC
+depends:
+  1_wqdata/tmp/wqp/Connecticut_p_001.feather.ind: 1ecb0a9eae985cb676e8cfa03b038cd8
+fixed: efc4081cf2c5ba31ed05fa895302f29b
+code:
+  functions: {}
+

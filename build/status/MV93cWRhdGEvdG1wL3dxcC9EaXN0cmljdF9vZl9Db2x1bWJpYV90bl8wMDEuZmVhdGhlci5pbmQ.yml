@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/District_of_Columbia_tn_001.feather.ind
+type: file
+hash: acf47b9ba44e863818c32758d53ffec2
+time: 2018-02-22 03:30:06 UTC
+depends:
+  partition_District_of_Columbia_tn_001: 9fb7601f5dee35bcee71a0e03b81b432
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: bd65cc2e299134542463a46bd5a4f6cb
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

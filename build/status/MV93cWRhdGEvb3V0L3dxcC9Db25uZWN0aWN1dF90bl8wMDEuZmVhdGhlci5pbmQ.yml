@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Connecticut_tn_001.feather.ind
+type: file
+hash: b797934b5339a386a1aa1ca8d3c34f5b
+time: 2018-02-22 03:21:25 UTC
+depends:
+  1_wqdata/tmp/wqp/Connecticut_tn_001.feather.ind: b797934b5339a386a1aa1ca8d3c34f5b
+fixed: 9fa9f12a9e2179e866e3bff4421de662
+code:
+  functions: {}
+
