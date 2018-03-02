@@ -12,6 +12,7 @@
 *.Rdata
 *.csv
 *.shp
+*.Feather
 # Allow
 !*/out/placeholder.txt
 tasks_*.yml
