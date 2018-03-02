@@ -11,6 +11,7 @@
 *.RData
 *.Rdata
 *.csv
+*.shp
 # Allow
 !*/out/placeholder.txt
 tasks_*.yml
