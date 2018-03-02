@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/New_York_tn_001.feather.ind
+type: file
+hash: 2344a9f3d157576254e07a8ce99165e1
+time: 2018-02-22 10:24:54 UTC
+depends:
+  partition_New_York_tn_001: 4ea87cc568f00f76acefc0edc2f3ccbc
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: dcd9e2c481542bc1639aac5d2f457205
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

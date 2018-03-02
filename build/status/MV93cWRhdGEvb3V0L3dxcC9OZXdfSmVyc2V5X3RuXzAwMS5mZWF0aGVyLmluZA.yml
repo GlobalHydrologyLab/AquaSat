@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/New_Jersey_tn_001.feather.ind
+type: file
+hash: 671c452429676f17b6cc5463620ca5f1
+time: 2018-02-22 10:10:57 UTC
+depends:
+  1_wqdata/tmp/wqp/New_Jersey_tn_001.feather.ind: 671c452429676f17b6cc5463620ca5f1
+fixed: 2f2e6f4e8c7feb4a8663a78d4f66c81d
+code:
+  functions: {}
+

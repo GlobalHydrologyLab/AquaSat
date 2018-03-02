@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/New_Hampshire_nitrate_001.feather.ind
+type: file
+hash: 80cadebfbf53599c238f8500eafce786
+time: 2018-02-22 09:53:03 UTC
+depends:
+  partition_New_Hampshire_nitrate_001: ca06c955764780b8c8a8cb05a5baf809
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 68d3d40c208d38dfb26a534f8a9b9c8f
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

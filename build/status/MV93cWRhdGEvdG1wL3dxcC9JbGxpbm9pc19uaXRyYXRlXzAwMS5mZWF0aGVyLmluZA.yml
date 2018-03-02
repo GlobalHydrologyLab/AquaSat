@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Illinois_nitrate_001.feather.ind
+type: file
+hash: 681f9c4ba6e6faf694cb00531ead74f2
+time: 2018-02-22 05:33:12 UTC
+depends:
+  partition_Illinois_nitrate_001: c5c99f773cbca7d3fd1554fa355bba7f
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 07c147aa84c6ba7e76b66204255d0469
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

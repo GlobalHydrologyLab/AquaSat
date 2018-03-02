@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Connecticut_p_001.feather.ind
+type: file
+hash: 1ecb0a9eae985cb676e8cfa03b038cd8
+time: 2018-02-22 03:18:33 UTC
+depends:
+  partition_Connecticut_p_001: 7dbd955fb8045d757870d86467908031
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 7065980ca1b5a18ab5216390b782f82c
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

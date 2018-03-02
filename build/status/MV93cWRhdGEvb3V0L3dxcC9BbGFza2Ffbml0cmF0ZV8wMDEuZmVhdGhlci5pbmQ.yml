@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Alaska_nitrate_001.feather.ind
+type: file
+hash: 782f00029510a57ea9a7bc28d47e644b
+time: 2018-02-22 02:20:46 UTC
+depends:
+  1_wqdata/tmp/wqp/Alaska_nitrate_001.feather.ind: 782f00029510a57ea9a7bc28d47e644b
+fixed: 4e9133fd0de36e2e634b1997891e89e2
+code:
+  functions: {}
+

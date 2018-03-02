@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Delaware_nitrate_001.feather.ind
+type: file
+hash: 4c339a15c3a4c482851524897f58598c
+time: 2018-02-22 03:22:30 UTC
+depends:
+  partition_Delaware_nitrate_001: b2c8d50c6bae340e561a28ff97be6e2b
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: cb4133a09f15779aad36b755ae6fe45a
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

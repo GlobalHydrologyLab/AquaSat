@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Alaska_p_001.feather.ind
+type: file
+hash: ebfb75488cad14948c7ae62b865e6904
+time: 2018-02-22 02:22:28 UTC
+depends:
+  partition_Alaska_p_001: ad5d2747a6ea8dd00c0c71637ab09ed1
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 06dcd88d5db939f658f04aef4e0fa479
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

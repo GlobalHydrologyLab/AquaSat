@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Tennessee_p_001.feather.ind
+type: file
+hash: 80b28c18f51983889c7d3f90dd8f0826
+time: 2018-02-22 12:33:08 UTC
+depends:
+  partition_Tennessee_p_001: 0c6bc4b88da83eb07b46175ed08ad413
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 37925e379735b6f672af2a89e793ee49
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Georgia_nitrate_001.feather.ind
+type: file
+hash: bfe3225c0943f0d13282c17d2a113224
+time: 2018-02-22 05:11:29 UTC
+depends:
+  partition_Georgia_nitrate_001: e1f51117367bb135d24e4d77d2f81873
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 25a2a70ad285ae06f700fc212832997e
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

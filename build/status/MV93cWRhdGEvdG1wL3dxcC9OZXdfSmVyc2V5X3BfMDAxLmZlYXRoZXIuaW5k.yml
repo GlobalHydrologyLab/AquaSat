@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/New_Jersey_p_001.feather.ind
+type: file
+hash: fd8bed9c4af5a30ef64b73f92aae4fad
+time: 2018-02-22 10:04:40 UTC
+depends:
+  partition_New_Jersey_p_001: 6596baae6955856a6ae2eb7309d62e6b
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: e3d38e1ed8a3c0a05ad7df788acee35e
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

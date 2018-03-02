@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Nebraska_tn_001.feather.ind
+type: file
+hash: 73cb03d9c3158f85de9d5290481c9efd
+time: 2018-02-22 09:45:24 UTC
+depends:
+  partition_Nebraska_tn_001: f27f7686ebefa00bb2701182b49f3bdd
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 9cd8512ba031ddb852807ce54c09beda
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

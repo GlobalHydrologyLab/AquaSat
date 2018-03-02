@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Montana_nitrate_001.feather.ind
+type: file
+hash: 1cebc7fd81522330a2f1487c643dc702
+time: 2018-02-22 09:31:58 UTC
+depends:
+  partition_Montana_nitrate_001: 4418df579667be4740a54af6342b98a7
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: f4b3533eb5581aba893b0aa04de777ba
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

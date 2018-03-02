@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Massachusetts_nitrate_001.feather.ind
+type: file
+hash: 17fcea5498a9698f04fcb1524af0b0c9
+time: 2018-02-22 08:17:29 UTC
+depends:
+  partition_Massachusetts_nitrate_001: 6622d9e9fe98c0f044ffabb9aae74cf4
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 240512a3f3850128383370af1b7a4f86
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

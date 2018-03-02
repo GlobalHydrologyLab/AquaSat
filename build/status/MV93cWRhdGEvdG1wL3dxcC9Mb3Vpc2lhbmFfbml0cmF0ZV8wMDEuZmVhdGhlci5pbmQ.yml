@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Louisiana_nitrate_001.feather.ind
+type: file
+hash: d5f51913ee1081ac13da2ad9f7fe7892
+time: 2018-02-22 06:15:42 UTC
+depends:
+  partition_Louisiana_nitrate_001: 3817de49374df80d1e557fa893606f81
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 34c39e1351d6c888e1577232a796c82f
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

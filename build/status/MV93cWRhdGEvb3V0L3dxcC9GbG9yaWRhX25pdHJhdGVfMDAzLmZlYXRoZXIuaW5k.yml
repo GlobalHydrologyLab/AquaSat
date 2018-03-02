@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Florida_nitrate_003.feather.ind
+type: file
+hash: f89c588d39786c0cfa44fce8b65d0451
+time: 2018-02-22 03:50:21 UTC
+depends:
+  1_wqdata/tmp/wqp/Florida_nitrate_003.feather.ind: f89c588d39786c0cfa44fce8b65d0451
+fixed: 87c722ae49074ddb5ecf18101b87fac0
+code:
+  functions: {}
+

@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Georgia_tn_001.feather.ind
+type: file
+hash: a10064dcb450c3bc5dbfe3e04eebdea2
+time: 2018-02-22 05:22:09 UTC
+depends:
+  1_wqdata/tmp/wqp/Georgia_tn_001.feather.ind: a10064dcb450c3bc5dbfe3e04eebdea2
+fixed: d060b203407327c846b105bbdd19a260
+code:
+  functions: {}
+

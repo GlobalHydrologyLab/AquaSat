@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Arizona_p_001.feather.ind
+type: file
+hash: 1914ffb3de50651858bda80fcaaf5091
+time: 2018-02-22 02:29:11 UTC
+depends:
+  1_wqdata/tmp/wqp/Arizona_p_001.feather.ind: 1914ffb3de50651858bda80fcaaf5091
+fixed: f674cf57d9646267926096aabc47b1c9
+code:
+  functions: {}
+

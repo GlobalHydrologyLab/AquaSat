@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Utah_tn_001.feather.ind
+type: file
+hash: 1453cc015ff75050070bab49878c5079
+time: 2018-02-22 13:10:04 UTC
+depends:
+  partition_Utah_tn_001: 76cb69d693e2fea6905aa493444abb85
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 2535cc8c5fabe271fd464dd3e140cfd4
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

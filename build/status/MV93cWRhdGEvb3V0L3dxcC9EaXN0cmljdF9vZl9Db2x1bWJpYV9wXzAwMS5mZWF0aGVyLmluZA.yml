@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/District_of_Columbia_p_001.feather.ind
+type: file
+hash: fdfdaa70f71c8be52699873af2f2e8a4
+time: 2018-02-22 03:29:25 UTC
+depends:
+  1_wqdata/tmp/wqp/District_of_Columbia_p_001.feather.ind: fdfdaa70f71c8be52699873af2f2e8a4
+fixed: 5bfe6b953b0db74d7cb3254b3f41f77b
+code:
+  functions: {}
+

@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Arizona_nitrate_001.feather.ind
+type: file
+hash: cc36b52bed8096885b78c909d8a15197
+time: 2018-02-22 02:27:44 UTC
+depends:
+  1_wqdata/tmp/wqp/Arizona_nitrate_001.feather.ind: cc36b52bed8096885b78c909d8a15197
+fixed: 0f7132ae1610b25ad6587c82051867ad
+code:
+  functions: {}
+

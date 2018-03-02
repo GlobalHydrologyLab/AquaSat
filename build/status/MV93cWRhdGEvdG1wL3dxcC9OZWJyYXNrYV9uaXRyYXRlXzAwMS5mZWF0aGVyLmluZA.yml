@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Nebraska_nitrate_001.feather.ind
+type: file
+hash: 9d58bdca5a57f7832e887fc49c031275
+time: 2018-02-22 09:41:31 UTC
+depends:
+  partition_Nebraska_nitrate_001: 807760deeb3384c07b4e7411c7ff4368
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 3ab48a06c9ee4d9dba691e11e930ccc5
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

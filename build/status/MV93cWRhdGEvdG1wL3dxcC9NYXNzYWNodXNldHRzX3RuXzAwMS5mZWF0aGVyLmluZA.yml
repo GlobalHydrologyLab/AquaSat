@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Massachusetts_tn_001.feather.ind
+type: file
+hash: 1dd6d9b6fa244649ca64868f8a258904
+time: 2018-02-22 08:20:31 UTC
+depends:
+  partition_Massachusetts_tn_001: 2ad6564f152b938c57e993044529d0b1
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 558a929d4b034609fef2841aa64b2a13
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

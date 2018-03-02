@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Connecticut_nitrate_001.feather.ind
+type: file
+hash: 57d0decb9dea13d348123a67289c6087
+time: 2018-02-22 03:17:51 UTC
+depends:
+  1_wqdata/tmp/wqp/Connecticut_nitrate_001.feather.ind: 57d0decb9dea13d348123a67289c6087
+fixed: 1422ed351273d8767e03ac3783106d7b
+code:
+  functions: {}
+
