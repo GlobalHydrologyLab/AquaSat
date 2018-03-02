@@ -1,0 +1,103 @@
+---
+title: "Watersat Full Pull"
+author: "Matthew Ross"
+date: "2/9/2018"
+output:
+  html_document:
+    toc: true
+    toc_depth: 2
+editor_options: 
+  chunk_output_type: console
+---
+
+
+# Why Scipiper? 
+
+Working collaboratively with distant colleagues can often involve multiple redundancies when getting data from cloud storage, working with the data locally, and then putting the munged data back up into the cloud. While the same problem can exist for the code itself, git and GitHub services provide a clear framework for collaboratively editing and altering large code chunks. But what about the same general problem with much larger datasets that exceed GitHub's data recommendations (> 2GB). 
+
+Alison Appling at the USGS has developed an implementation of the ```remake``` package called ```scipiper``` that helps multiple users work on, munge, and use large cloud-stored datasets, eliminating many redundancies along the way and generally keeping both the code clean and the provenance of the data clear. 
+
+For this project and implementaiton of ```scipiper``` our ultimate goal is to link any measure of water quality (in particular TSS, CDOM, DOC, Chl, and/or water clarity) ever recorded in either the [Water Quality Portal](http://onlinelibrary.wiley.com/doi/10.1002/2016WR019993/abstract) or in the harmonized national lake dataset [LAGOS](https://lagoslakes.org/). This involves large datapulls using USGS ```dataRetrieval``` package and a much smaller pull from the LAGOS dataset. Once the data has been pulled to a local computer it is then uploaded to a shared Google Drive folder using the ```googledrive``` package. This allows for our team to pull the data only once (or update it only once) and then the entire team can more easily pull the processed data directly from Google Drive which is much faster than querying the Water Quality Portal. 
+
+For now the following code does not include any of the remote sensing component which is all done in Google Earth Engine, but eventually that code will be either added directly to this document or placed in an additional one. 
+
+
+# Using Scipiper
+
+ALISON CAN YOU FILL IN SOME OF THIS HERE? 
+
+## Install scipiper
+```{r, eval=F}
+
+#devtools::install_github('aappling-usgs/scipiper')
+
+library(scipiper)
+library(feather)
+library(tidyverse)
+```
+
+
+## Setup water quality pull
+
+Like ```remake``` scipiper calls specific tasks using the ```scmake``` function. This function gets its instructions from YAML (.yml) documents which are held in ```1_wqdata/cfg``` These yaml files hold all the information to run the actual code which lives in ```1_wqdata/src```. An example is here:
+
+```{r, eval=FALSE}
+#Check what water quality portal codes are already in the dataset
+#wqp_codes comes from the 1_wqdata/cfg yaml files. 
+scmake('wqp_codes')
+scmake('wqp_states')
+scmake('wqp_pull')
+scmake('wq_dates')
+#Each characteristic name can have many constituent names associated with it
+```
+
+## Pull an inventory of sites with the parameter codes supplied
+
+Now that we have checked the parameter codes we can pull an inventory of sites 
+that meet our requirements using the ```scmake('tasks_1_wqp.yml')```. Unlike previously this time we are not just checking a YAML file, we are actually using the command to make one called ```tasks_1_wqp.yml```. This second file will hold all the task information to do a full water quality pull of all the data from the water quality portal, rather than just site summary info which this call does.  The instructions for generating the tasks_1_wqp.yml target are in remake.yml, right here. Scipiper knows to look in remake.yml because that's the default value of the `remake_file` argument in to `scmake()`, [here](https://github.com/USGS-R/scipiper/blob/master/R/scmake.R#L20). You can change the default `remake.yaml` file name, but likely you will not need to. 
+
+So let's build the inventory!
+
+This can take up to 30 minutes to run.
+
+NOTE: I'd like to add some tidying here to demonstrate what the inventory looks like and to explain why we are using feather. 
+
+```{r, eval=F}
+#Repull an inventory of sites. Dangerous so it is commented out
+#scmake('tasks_1_wqp.yml')
+
+inv <- feather::read_feather('1_wqdata/out/wqp_inventory.feather')
+
+inv.sum <- inv %>%
+  group_by(ResolvedMonitoringLocationTypeName,Constituent) %>%
+  summarize(n=n())
+
+write_csv(inv.sum,path='9_report/out/SiteByConstituent.csv')
+```
+
+
+##Full Water Quality Pull (15 hours or so)
+
+Now that we have an inventory build we can do the full water quality pull using the YAML instructions from
+```tasks_1_wqp.yml```. We tell scmake() that we only want to do this part of the make by feeding it the indication file where it checks if the water quality pull has already been done this file is labeled ```1_wqdata/log/tasks_wqp.ind```
+
+```{r, eval=F}
+#Warnign this can take a long time if the inventory has changed
+scmake('1_wqdata/log/tasks_1_wqp.ind')
+
+```
+
+#Munging Water Quality data
+
+The `remake.yml` file holds instructions some instructions for munging data and the src code wqp.R helps make that happen. So first we need to create a new YAML file ```tasks_1_wqp_munge.yml```. This will generate a YAML using code in wqp.R with instructions for muageing the data, like unit harmonization and stitching all the data into a single feather file. 
+
+```{r, eval=F}
+#Generate the yaml file 
+scmake('tasks_1_wqp_munge.yml','remake.yml')
+
+#Munge the data. 
+scmake('1_wqdata/log/tasks_1_wqp_munge.ind')
+
+```
+
+

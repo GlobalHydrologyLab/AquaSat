@@ -17,6 +17,9 @@ get_wqp_state_codes <- function() {
       name = attr(code, 'desc'),
       providers = attr(code, 'providers'))
   }))
+  if(nrow(states_df) < 1){stop('No State FIPS codes downloaded,
+                               which is critical for later steps, check 
+                               that get_wqp_state_codes works')}
   return(states_df)
 }
 
@@ -210,7 +213,7 @@ plan_wqp_pull <- function(partitions, folders) {
           "remote_ind=target_name,",
           "local_source='%s',",
           "mock_get=I('move'),",
-          "on_exists=I('replace'))",
+          "on_exists=I('update'))",
           sep="\n      "),
         scipiper::as_ind_file(file.path(folders$tmp, sprintf('%s.feather', task_name))))
     }
@@ -244,7 +247,7 @@ create_wqp_pull_makefile <- function(makefile, task_plan) {
   create_task_makefile(
     makefile=makefile, task_plan=task_plan,
     include='remake.yml',
-    packages=c('dplyr', 'dataRetrieval', 'feather', 'scipiper'),
+    packages=c('dplyr', 'dataRetrieval', 'feather', 'scipiper','doMC','foreach'),
     file_extensions=c('ind','feather'))
 }
 
@@ -358,7 +361,7 @@ plan_wqp_munge <- function(partitions, pull_plan, folders) {
         # Error in self$right_store(type)$get_hash(name) : 
         #   file 1_wqdata/tmp/wqp/all_cdom.feather not found in file store
         "mock_get=I('copy'),",
-        "on_exists=I('replace'))",
+        "on_exists=I('update'))",
         sep="\n      ")
     }
   )
@@ -375,7 +378,7 @@ create_wqp_munge_makefile <- function(makefile, task_plan, pull_makefile) {
   create_task_makefile(
     makefile=makefile, task_plan=task_plan,
     include=pull_makefile, # include the pull_makefile (which includes remake.yml) so we know how to build the raw data files if needed
-    packages=c('dplyr', 'feather', 'scipiper'),
+    packages=c('tidyverse', 'feather', 'scipiper','foreach','doMC'),
     file_extensions=c('ind','feather'))
 }
 
@@ -384,22 +387,25 @@ create_wqp_munge_makefile <- function(makefile, task_plan, pull_makefile) {
 combine_feathers <- function(data_file, ...) {
   # read and combine the individual raw data pull files
   feathers <- c(...)
-  df_list <- lapply(feathers, function(feather_file) {
-    feather::read_feather(feather_file) %>% 
-      # a few columns are inconsistent across files; harmonize them here
-      mutate(
-        ActivityBottomDepthHeightMeasure.MeasureValue = as.character(ActivityBottomDepthHeightMeasure.MeasureValue),
-        ActivityTopDepthHeightMeasure.MeasureValue = as.character(ActivityTopDepthHeightMeasure.MeasureValue),
-        ResultDepthHeightMeasure.MeasureValue = as.character(ResultDepthHeightMeasure.MeasureValue),
-        ActivityCommentText = as.character(ActivityCommentText),
-        MeasureQualifierCode = as.character(MeasureQualifierCode),
-        PrecisionValue = as.character(PrecisionValue),
-        ProjectIdentifier = as.character(ProjectIdentifier),
-        ResultAnalyticalMethod.MethodIdentifier = as.character(ResultAnalyticalMethod.MethodIdentifier),
-        ResultAnalyticalMethod.MethodIdentifierContext = as.character(ResultAnalyticalMethod.MethodIdentifierContext),
-        SampleCollectionMethod.MethodIdentifier = as.character(SampleCollectionMethod.MethodIdentifier))
-  })
-  combo <- bind_rows(df_list)
+  
+  unified.cols <- c('ActivityStartDateTime','ResultMeasureValue','ResultMeasure.MeasureUnitCode'
+                    ,'MonitoringLocationIdentifier','CharacteristicName','OrganizationFormalName',
+                    'OrganizationIdentifier')
+  
+  
+  #Use foreach and DoMC to make this operation parallel for computers 
+  #with more than 3 cores
+  
+  cores <- detectCores()-2
+  if(cores < 1){cores <- 1}
+  registerDoMC(cores=cores)
+  combo <- foreach(i=1:length(feathers),.combine=rbind) %dopar% {
+    library(feather)
+    feather::read_feather(feathers[i],columns=unified.cols)
+    # most columns are not particularly useful and they can be different by state so select
+    #only the vital ones here:
+  }
+  
   
   # write the data file
   feather::write_feather(combo, path=data_file)
@@ -408,6 +414,31 @@ combine_feathers <- function(data_file, ...) {
 #### munge ####
 
 # munge raw_file to data_file for each constituent
+munge_doc <- function(data_file, raw_file='1_wqdata/tmp/wqp/all_raw_doc.feather') {
+  raw_df <- feather::read_feather(raw_file)
+  # raw_df %>% group_by(ResultMeasure.MeasureUnitCode) %>%
+  #   summarize(n=n()) %>%
+  #   View(.)
+  
+  #DOC data is quite messy, might only keep mg/L for now. Lots of % which is confusing
+  unit_map <- NA
+  
+  munge_any(raw_df, data_file, unit_map)
+}
+
+
+munge_poc <- function(data_file, raw_file='1_wqdata/tmp/wqp/all_raw_poc.feather') {
+  raw_df <- feather::read_feather(raw_file)
+  # raw_df %>% group_by(ResultMeasure.MeasureUnitCode) %>%
+  #   summarize(n=n()) %>%
+  #   View(.)
+  
+  #DOC data is quite messy, might only keep mg/L for now. Lots of % which is confusing
+  unit_map <- NA
+  
+  munge_any(raw_df, data_file, unit_map)
+}
+
 
 munge_cdom <- function(data_file, raw_file='1_wqdata/tmp/wqp/all_raw_cdom.feather') {
   raw_df <- feather::read_feather(raw_file)
@@ -522,7 +553,7 @@ munge_any <- function(raw_df, data_file, unit_map=NA) {
   
   munged_df <- raw_df %>%
     select(
-      Date=ActivityStartDate,
+      Date=ActivityStartDateTime,
       Value=ResultMeasureValue,
       UnitsRaw=ResultMeasure.MeasureUnitCode,
       SiteID=MonitoringLocationIdentifier,

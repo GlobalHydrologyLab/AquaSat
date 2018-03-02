@@ -1,10 +1,10 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Minnesota_secchi_001.feather.ind
 type: file
-hash: 2428a5352df782d4f3a29265ad491233
-time: 2017-11-20 01:15:45 UTC
+hash: 7719c0ddf0194c79d48399057b1ae080
+time: 2018-02-16 09:20:51 UTC
 depends:
-  partition_Minnesota_secchi_001: 4a6a007f24d3753ade25cd97122c6c52
+  partition_Minnesota_secchi_001: 9d3e86ec1b3ecfada1fd82ae336adb5c
   wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
 fixed: 91ea1807718cb06f109144bc7e806723
 code:

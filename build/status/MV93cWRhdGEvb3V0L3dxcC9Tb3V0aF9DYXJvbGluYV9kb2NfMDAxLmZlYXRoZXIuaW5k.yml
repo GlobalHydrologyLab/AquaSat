@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/South_Carolina_doc_001.feather.ind
+type: file
+hash: 863d817d4e09b33601526129c25226ad
+time: 2018-02-16 11:57:01 UTC
+depends:
+  1_wqdata/tmp/wqp/South_Carolina_doc_001.feather.ind: 863d817d4e09b33601526129c25226ad
+fixed: 573dd6fe8c90a51d065bd7f429cfbb37
+code:
+  functions: {}
+

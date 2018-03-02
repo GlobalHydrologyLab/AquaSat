@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Ohio_doc_001.feather.ind
+type: file
+hash: 3a720ad7c1f6daeea35fcf79abdcfc6e
+time: 2018-02-16 11:17:59 UTC
+depends:
+  partition_Ohio_doc_001: 44fd834369084d929654407c2cfcabc7
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 7a58cc609937cfc396edd5ae2cec1a8a
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

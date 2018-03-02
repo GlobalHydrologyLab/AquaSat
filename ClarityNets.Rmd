@@ -1,0 +1,69 @@
+---
+title: "Using Bayes nets to look at causal links in water clarity"
+author: "Matthew Ross"
+date: "2/19/2018"
+output:
+  html_document:
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+
+This is an exploraty analysis to see how well in situ measurements of sediment, chlorophyll, and doc predict water clarity. I'm going to use Bayesian networks and the package bnlearn to start this exploration process
+
+```{r libraries}
+
+library(tidyverse)
+library(bnlearn)
+library(lubridate)
+library(feather)
+
+```
+
+
+
+```{r dataread}
+
+doc <- read_feather('1_wqdata/out/wqp/all_doc.feather') %>%
+  filter(Units %in% c('mg/l','ppm')) %>%
+  filter(CharacteristicName == 'Organic carbon') %>%
+  dplyr::select(Date,SiteID,doc=Value)
+
+poc <- read_feather('1_wqdata/out/wqp/all_poc.feather')
+
+chl <- read_feather('1_wqdata/out/wqp/all_chlorophyll.feather') %>%
+  filter(Units %in% c('ug/l')) %>%
+  mutate(Value=Value/1000) %>%
+  dplyr::select(Date,SiteID,chl=Value)
+
+tss <- read_feather('1_wqdata/out/wqp/all_tss.feather') %>%
+  filter(Units %in% c('mg/l')) %>%
+  dplyr::select(Date,SiteID,tss=Value)
+
+
+secchi <- read_feather('1_wqdata/out/wqp/all_secchi.feather') %>%
+  filter(Units %in% c('m')) %>%
+  dplyr::select(Date,SiteID,secchi=Value)
+
+inv <- read_feather('1_wqdata/out/wqp_inventory.feather')
+
+```
+
+
+```{r datajoin}
+
+
+
+md <- read_feather('1_wqdata/out/Maryland_chlorophyll_001.feather')
+
+
+inclusive <- inner_join(secchi,tss,by=c('SiteID','Date')) %>%
+  inner_join(chl,.,by=c('SiteID','Date')) 
+  inner_join(doc,by=c('SiteID','Date'))
+
+
+head(inclusive %>% arrange(Date))
+
+```
+

@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Minnesota_doc_001.feather.ind
+type: file
+hash: b49e443c94827d106d3695b8401e1186
+time: 2018-02-16 09:17:56 UTC
+depends:
+  1_wqdata/tmp/wqp/Minnesota_doc_001.feather.ind: b49e443c94827d106d3695b8401e1186
+fixed: 21c16fdd2c98c044bc18a31d122e3d7b
+code:
+  functions: {}
+

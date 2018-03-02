@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Minnesota_doc_001.feather.ind
+type: file
+hash: b49e443c94827d106d3695b8401e1186
+time: 2018-02-16 09:17:19 UTC
+depends:
+  partition_Minnesota_doc_001: 931d05af8fecbba5e95bc6c6a22a058b
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: cc6b6127d4ad6721244effe61f13fb73
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

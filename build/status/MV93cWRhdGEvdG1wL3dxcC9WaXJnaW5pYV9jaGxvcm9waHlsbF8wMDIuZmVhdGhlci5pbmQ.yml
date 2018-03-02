@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Virginia_chlorophyll_002.feather.ind
+type: file
+hash: e212b69e4cfdbaefb8f82869e9e33ff0
+time: 2018-02-16 13:13:36 UTC
+depends:
+  partition_Virginia_chlorophyll_002: e69fa1c2b16a1ffebcbcf50386df8fe9
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 634ad6584f910af4454df38cfc9fbcbb
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

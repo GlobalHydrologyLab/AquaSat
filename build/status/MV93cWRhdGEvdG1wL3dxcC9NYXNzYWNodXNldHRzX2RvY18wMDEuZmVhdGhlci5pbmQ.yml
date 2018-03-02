@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Massachusetts_doc_001.feather.ind
+type: file
+hash: 8842ba72ea5f90668eac152fb5fd8403
+time: 2018-02-16 08:40:00 UTC
+depends:
+  partition_Massachusetts_doc_001: ce9960e81387213c8be8c47c99cb2321
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 9d630c706c53c18e3adc7c3665f357c2
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

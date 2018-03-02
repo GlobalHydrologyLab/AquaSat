@@ -1,10 +1,10 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Colorado_secchi_001.feather.ind
 type: file
-hash: 6c443d12b1835b2dc6ea1178ee86bd0a
-time: 2017-11-19 21:28:09 UTC
+hash: 47a8962220936f1734cb03eb463ad5ad
+time: 2018-02-16 03:48:12 UTC
 depends:
-  partition_Colorado_secchi_001: 25f8be4313caba3274f93f22e1ffebd3
+  partition_Colorado_secchi_001: 5ecbe4fd150292384d996193e26b6964
   wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
 fixed: 1bcc15cff18f74e1f6b12c37ff157b32
 code:

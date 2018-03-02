@@ -1,18 +1,13 @@
 # https://www.waterqualitydata.us/Codes/Characteristicname?mimeType=xml
 characteristicName:
-  secchi:
-    - "Depth, Secchi disk depth"
-    - "Depth, Secchi disk depth (choice list)"
-    - "Secchi Reading Condition (choice list)"
-    - "Secchi depth"
-    - "Water transparency, Secchi disc"
-  
-  cdom:
-    - 'Colored dissolved organic matter (CDOM)'
-  
+
   tss:
     - 'Total suspended solids'
-  
+    - 'Suspended sediment concentration (SSC)'
+    - 'Suspended Sediment Concentration (SSC)'
+    - 'Total Suspended Particulate Matter'
+    - 'Fixed suspended solids'
+    
   chlorophyll:
     - "Chlorophyll"
     - "Chlorophyll A"
@@ -27,7 +22,28 @@ characteristicName:
     - "Chlorophyll b"
     - "Chlorophyll c"
     - "Chlorophyll/Pheophytin ratio"
-
+    
+  secchi:
+    - "Depth, Secchi disk depth"
+    - "Depth, Secchi disk depth (choice list)"
+    - "Secchi Reading Condition (choice list)"
+    - "Secchi depth"
+    - "Water transparency, Secchi disc"
+  
+  cdom:
+    - 'Colored dissolved organic matter (CDOM)'
+    
+  doc:
+    - 'Organic carbon'
+    - 'Total carbon'
+    - 'Hydrophilic fraction of organic carbon'
+    - 'Non-purgeable Organic Carbon (NPOC)'
+    
+  poc:
+    - 'Particulate organic carbon'
+    - 'Total Particulate Carbon'
+    - 'Total Particulate Organic Carbon'
+  
 # https://www.waterqualitydata.us/Codes/sampleMedia?mimeType=xml
 sampleMedia:
   - "Water"
@@ -37,3 +53,5 @@ sampleMedia:
 siteType:
   - "Lake, Reservoir, Impoundment"
   - "Stream"
+  - "Estuary"
+  - "Facility"

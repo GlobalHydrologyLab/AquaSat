@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Puerto_Rico_doc_001.feather.ind
+type: file
+hash: e7c837f316d1a7dd015af02760b2315f
+time: 2018-02-16 11:48:45 UTC
+depends:
+  1_wqdata/tmp/wqp/Puerto_Rico_doc_001.feather.ind: e7c837f316d1a7dd015af02760b2315f
+fixed: c7ad708d939ade6a953b47dbaa70e251
+code:
+  functions: {}
+

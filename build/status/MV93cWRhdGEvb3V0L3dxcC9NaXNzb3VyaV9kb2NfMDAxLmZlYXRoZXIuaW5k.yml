@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Missouri_doc_001.feather.ind
+type: file
+hash: d21f7e7e77f230824769e571c230873c
+time: 2018-02-16 09:57:29 UTC
+depends:
+  1_wqdata/tmp/wqp/Missouri_doc_001.feather.ind: d21f7e7e77f230824769e571c230873c
+fixed: 13a5539986399796a51982fabd3f0f5e
+code:
+  functions: {}
+

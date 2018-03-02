@@ -1,10 +1,10 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Maine_secchi_001.feather.ind
 type: file
-hash: dd3f8b94b641592efb0267cfe237f7a0
-time: 2017-11-19 23:48:01 UTC
+hash: 1cb5902917127ebf46e24f44ebab32b9
+time: 2018-02-16 07:11:58 UTC
 depends:
-  partition_Maine_secchi_001: af60a00e3b9cef970cafd4255f1522fb
+  partition_Maine_secchi_001: b19e6a1788980064250d46e8f8f0c792
   wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
 fixed: 3cbbe5a1c4711ee102700b43edf224e2
 code:

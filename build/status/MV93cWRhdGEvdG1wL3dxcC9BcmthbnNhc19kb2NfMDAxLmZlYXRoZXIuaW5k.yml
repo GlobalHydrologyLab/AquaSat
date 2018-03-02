@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Arkansas_doc_001.feather.ind
+type: file
+hash: 623de348ec6074712d54726afb151ff8
+time: 2018-02-16 03:22:48 UTC
+depends:
+  partition_Arkansas_doc_001: b2383ce30de3641f73e218beff6f3a46
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 4b7d8788364155a89ff10db9161d5646
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

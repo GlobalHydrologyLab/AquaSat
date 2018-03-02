@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Pennsylvania_doc_001.feather.ind
+type: file
+hash: 882342af5aaf0282d20edc085701e2d1
+time: 2018-02-16 11:41:52 UTC
+depends:
+  1_wqdata/tmp/wqp/Pennsylvania_doc_001.feather.ind: 882342af5aaf0282d20edc085701e2d1
+fixed: 7d7d690e49a89a1c9e8a8fd8e2adb493
+code:
+  functions: {}
+

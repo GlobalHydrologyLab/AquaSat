@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/New_Hampshire_doc_001.feather.ind
+type: file
+hash: 57463e8cf521cd6945071cdaa48dfd82
+time: 2018-02-16 10:26:58 UTC
+depends:
+  1_wqdata/tmp/wqp/New_Hampshire_doc_001.feather.ind: 57463e8cf521cd6945071cdaa48dfd82
+fixed: 337b3a758026f03df3b02b20226b0e5d
+code:
+  functions: {}
+
