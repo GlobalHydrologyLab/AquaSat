@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/New_York_nitrate_001.feather.ind
+type: file
+hash: 57e817259e539746791a5dd9773df2de
+time: 2018-02-22 10:19:13 UTC
+depends:
+  1_wqdata/tmp/wqp/New_York_nitrate_001.feather.ind: 57e817259e539746791a5dd9773df2de
+fixed: 12da90655d01fe469fb19e58e9f6631e
+code:
+  functions: {}
+

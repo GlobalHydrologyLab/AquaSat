@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/American_Samoa_tn_001.feather.ind
+type: file
+hash: 5a6551e65b8254d81fcd8698421f2f97
+time: 2018-02-22 02:26:21 UTC
+depends:
+  1_wqdata/tmp/wqp/American_Samoa_tn_001.feather.ind: 5a6551e65b8254d81fcd8698421f2f97
+fixed: 75ad2f8f717cccea861c98549d1a6503
+code:
+  functions: {}
+

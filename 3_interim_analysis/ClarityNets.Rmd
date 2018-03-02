@@ -1,0 +1,490 @@
+---
+title: "Using Bayes nets to look at causal links in water clarity"
+author: "Matthew Ross"
+date: "2/19/2018"
+output:
+  html_document:
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+
+This is an exploraty analysis to see how well in situ measurements of sediment, chlorophyll, and doc predict water clarity. I'm going to use Bayesian networks and the package bnlearn to start this exploration process
+
+```{r libraries}
+
+library(tidyverse)
+library(bnlearn)
+library(lubridate)
+library(feather)
+
+```
+
+
+
+```{r dataread,eval=F}
+
+doc <- read_feather('1_wqdata/out/wqp/all_doc.feather') %>%
+  filter(Units %in% c('mg/l','ppm')) %>%
+  filter(CharacteristicName == 'Organic carbon') %>%
+  filter(!is.na(Date)) %>%
+  group_by(SiteID,Date) %>%
+  summarize(doc=mean(Value))
+
+
+
+poc <- read_feather('1_wqdata/out/wqp/all_poc.feather') %>%
+  filter(Units %in% c('mg/l')) %>%
+  filter(!is.na(Date)) %>%
+  group_by(SiteID,Date) %>%
+  summarize(poc=mean(Value))
+
+
+chl <- read_feather('1_wqdata/out/wqp/all_chlorophyll.feather') %>%
+  filter(Units %in% c('ug/l')) %>%
+  mutate(Value=Value/1000) %>%
+  filter(!is.na(Date)) %>%
+  group_by(SiteID,Date) %>%
+  summarize(chl=mean(Value))
+
+
+tss <- read_feather('1_wqdata/out/wqp/all_tss.feather') %>%
+  filter(Units %in% c('mg/l')) %>%
+  filter(!is.na(Date)) %>%
+  group_by(SiteID,Date) %>%
+  summarize(tss=mean(Value))
+
+
+
+secchi <- read_feather('1_wqdata/out/wqp/all_secchi.feather') %>%
+  filter(Units %in% c('m')) %>%
+  filter(!is.na(Date)) %>%
+  group_by(SiteID,Date) %>%
+  summarize(secchi=mean(Value))
+
+tn <- read_feather('1_wqdata/out/wqp/all_tn.feather') 
+
+nitrate <- read_feather('1_wqdata/out/wqp/all_nitrate.feather')
+
+tn.wide <- tn %>%
+  bind_rows(nitrate) %>%
+  filter(SiteID %in% chl$SiteID) %>%
+  filter(Units %in% c('mg/l','mg/L','mg/lasN','mg/lasNO3','ug/l','ppm')) %>%
+  filter(CharacteristicName %in% c('Inorganc nitrogen (nitrate and nitrite)',
+                                   'Nitrate','Ammonia-nitrogen','Nitrogen',
+                                   'Inorgance nitrogen (nitrate and nitrite) as N',
+                                   'Nutrient-nitrogen','Total Nitrogen, mixed forms',
+                                   'Ammonia',
+                                   'Ammonia-nitrogen as N','Ammonia','Nitrate as N','Nitrate-N',
+                                   'Inorganic nitrogen (ammonia, nitrate and nitrite)')) %>%
+  mutate(Value = ifelse(Units == 'ug/l',Value/1000,Value)) %>%
+  mutate(Value = ifelse(Units == 'mg/lasNO3',Value/((14+48)/14),Value)) %>%
+  mutate(Value = ifelse(CharacteristicName == 'Nitrate' & Units == 'mg/l',Value/((14+48)/14),Value)) %>%
+  mutate(Value = ifelse(CharacteristicName == 'Ammonia'& Units == 'mg/l',Value/((14+3)/14),Value)) %>%
+  group_by(SiteID, Date, CharacteristicName) %>%
+  summarize(Value = mean(Value, na.rm=T)) %>%
+  spread(key=CharacteristicName,value=Value) %>%
+  ungroup() %>%
+  mutate(tn = rowSums(.[3:12],na.rm=T))
+
+only.am  <- tn.wide %>%
+  filter(!is.na(Ammonia) | !is.na(`Ammonia-nitrogen as N`) | !is.na(`Ammonia-nitrogen`)) %>%
+  mutate(ta = rowSums(.[3:5],na.rm=T)) %>%
+  filter(ta == tn)
+
+tn.final <-tn.wide %>%
+  anti_join(only.am,by=c('SiteID','Date')) %>%
+  select(SiteID,Date,tn)
+
+tp <- read_feather('1_wqdata/out/wqp/all_p.feather') 
+
+tp.final <- tp %>%
+  filter(SiteID %in% chl$SiteID) %>%
+  filter(CharacteristicName %in% c('Phosphorus','Phosphate-phosphorus','Phosphate-phosphorus as P','Total Phosphorus, mixed forms',
+                                   'Phosphate-phosphorus as PO4','Particulate Inorganic Phosphorus','Phosphorus as P','Soluble Reactive Phosphorus')) %>%
+  filter(Units %in% c('ppm','ppb','ug/l','mg/l','mg/lasP','mg/lPO4')) %>%
+  mutate(Value = ifelse(Units == 'ppb',Value/1000,Value)) %>%
+  mutate(Value = ifelse(Units == 'mg/lPO4', Value/((31+16*4)/31),Value)) %>%
+  mutate(Value = ifelse(Units == 'ug/l',Value/1000,Value)) %>%
+  mutate(Value = ifelse(CharacteristicName == 'Phosphate-phosphorus as PO4' & Units == 'mg/l', Value/((31+16*4)/31),Value)) %>%
+  group_by(SiteID,Date) %>%
+  summarize(tp=mean(Value,na.rm=T))
+
+
+inv <- read_feather('1_wqdata/out/wqp_inventory.feather') %>%
+    select(SiteID = MonitoringLocationIdentifier,Type=ResolvedMonitoringLocationTypeName,lat=LatitudeMeasure,long=LongitudeMeasure,FIPS=StateCode) %>%
+  distinct()
+
+
+
+
+
+
+```
+
+## Limit streams to sites that are close to GRWL to only keep big rivers for now
+```{r, eval=F}
+library(sf)
+grwl <- st_read('1_rsdata/out/GRWL/GRWL_summaryStats.shp')
+
+grwl.buf <- grwl %>%
+    st_transform(2163) %>%
+  st_buffer(.,300) 
+
+inv.streams <- inv %>%
+  filter(Type == 'Stream') %>%
+  filter(!is.na(long)) %>%
+  filter(!is.na(lat)) %>%
+  st_as_sf(.,coords=c('long','lat'),crs=4326) %>%
+  st_transform(2163)
+
+
+grwl.inv <- st_intersection(inv.streams,grwl.buf)
+
+inv.s.grwl <- inv %>%
+  filter(Type == 'Stream') %>%
+  filter(SiteID %in% c(grwl.inv$SiteID))
+
+inv.large <- inv %>%
+  ungroup() %>%
+  filter(Type != 'Stream') %>%
+  bind_rows(inv.s.grwl)
+
+write_feather(inv.s.grwl,'1_rsdata/out/GrwlStreams.feather')
+write_feather(inv.large,'1_rsdata/out/LandsatInv.feather')
+
+
+```
+
+
+
+```{r datajoin, eval=F}
+
+
+
+inclusive <- inner_join(secchi,tss,by=c('SiteID','Date')) %>%
+  filter(secchi > 0) %>%
+  inner_join(chl,.,by=c('SiteID','Date')) %>%
+  inner_join(doc,by=c('SiteID','Date')) %>%
+  inner_join(inv.large,by=c('SiteID')) %>%
+  mutate(Type = gsub('Lake, Reservoir, Impoundment','Lake',Type))
+
+nutrient <- inner_join(chl,tss,by=c('SiteID','Date')) %>%
+  inner_join(tn.final,by=c('SiteID','Date')) %>%
+  inner_join(tp.final,by=c('SiteID','Date')) %>%
+  inner_join(inv.large,by=c('SiteID')) %>%
+  mutate(Type = gsub('Lake, Reservoir, Impoundment','Lake',Type))
+
+
+nute.secchi <- inner_join(nutrient,secchi,by=c('SiteID','Date'))
+
+
+inclusive.poc <- inner_join(inclusive,poc,by=c('SiteID','Date'))
+
+
+
+save(nute.secchi,nutrient,inclusive,inclusive.poc,file='3_interim_analysis/tmp/inclusive.RData')
+
+
+```
+
+
+
+
+## Let's check the correlation structure 
+
+```{r, eval=f}
+load('3_interim_analysis/tmp/inclusive.RData')
+
+library(leaflet)
+
+est.only <- nutrient %>%
+  filter(Type %in% c('Estuary','Stream')) %>%
+  group_by(SiteID,lat,long) %>%
+  summarize(n=length(unique(Date))) %>%
+  filter(n > 5)
+
+head(est.only)
+leaflet() %>%
+  addProviderTiles(provider='Esri.WorldImagery') %>%
+  addCircleMarkers(lng=est.only$long,lat=est.only$lat)
+
+
+
+
+doc.only  <- inclusive %>%
+  select(SiteID,Date,doc)
+
+
+nute.log <- nute.secchi %>%
+  left_join(doc.only,by=c('SiteID','Date')) %>%
+  ungroup(.) %>%
+  dplyr::select(tss,tn,chl,tp,doc,SiteID,Type,Date) %>%
+  mutate(tis = tss-chl) %>%
+  gather(key=variable,value=value,-SiteID,-Type,-Date) %>%
+  filter(value > 0) %>%
+  filter(!is.na(value)) %>%
+  mutate(logvalue=log10(value)) %>%
+  filter(!is.na(value)) %>%
+  dplyr::select(-value) %>%
+  spread(variable,logvalue) %>%
+  group_by(SiteID) %>%
+  ungroup(.)
+
+head(nute.log)
+
+p.nutes.avg <- nute.log %>%
+  filter(Type != 'Facility') %>%
+  group_by(SiteID,Type) %>%
+  summarize(tis=median(tis),
+            tn=median(tn),
+            chl=median(chl),
+            tp=median(tp),
+            doc=median(doc)) %>%
+  ungroup() %>%
+  select(-SiteID)
+
+
+library(GGally)
+png('3_interim_analysis/figs/nutepairssiteavg.png',height=8,width=9,units='in',res=300)
+ggpairs(p.nutes.avg,mapping=aes(color=Type,alpha=0),columns=c('tis','chl','tp','tn','doc'))
+dev.off()
+
+library(broom)
+
+p.nutes <- nute.log %>%
+  filter(Type != 'Facility') %>%
+  mutate(tss=tss-chl) %>%
+  select(tis,tn,chl,tp,doc, Type)
+
+png('3_interim_analysis/figs/nutepairs.all.dat.png',height=8,width=9,units='in',res=300)
+ggpairs(p.nutes,mapping=aes(color=Type,alpha=0),columns=c('tis','chl','tp','tn','doc'))
+dev.off()
+
+
+tss.n.lm <- function(sub){
+  mod <- lm((chl) ~ (tis * tn  * tp), data=sub)
+}
+
+
+
+nute.mods <- nute.log %>%
+  group_by(SiteID,Type) %>%
+  mutate(count=n()) %>%
+  filter(count > 10) %>%
+  select(-count) %>%
+  nest() %>% 
+  mutate(mod=map(data,tss.n.lm)) %>%
+  mutate(glance=map(mod,glance)) %>%
+  mutate(tidy=map(mod,tidy)) %>%
+  unnest(glance) %>%
+  filter(p.value < 0.01)
+
+tis.term <- nute.mods %>% unnest(tidy) %>% 
+  filter(term == 'tis') 
+
+library(lubridate)
+head(month(nute.log$Date))
+nute.season <- nute.log %>%
+  mutate(season = ifelse(month(Date) %in% c(9,10,11,12,1,2,3,4,5),'Cold','Warm')) %>%
+  filter(Type  %in% c('Lake')) %>%
+  filter(season == 'Warm') %>%
+  mutate(sampid=1:n()) 
+
+
+nute.val <- nute.season %>%
+  sample_frac(0.4) 
+
+nute.train <- nute.season %>%
+  filter(!sampid %in% nute.val$sampid)
+
+
+
+total.mod <- lm(chl ~ tp*tss+tn,data=nute.train)
+
+summary(total.mod)
+
+library(Metrics)
+nute.val <- nute.val %>%
+  mutate(pred=predict(total.mod,nute.val)) %>%
+  na.omit()
+mape <- Metrics::rmse(10^nute.val$pred,10^nute.val$chl)
+
+mape
+
+png('3_interim_analysis/figs/chlprednolog.png',height=8,width=9,units='in',res=300)
+ggplot(nute.val,aes(x=10^chl,y=10^pred,color=Type)) +
+  geom_point(shape=1) + 
+  geom_abline(intercept=0,slope=1)+
+  xlab('Observed') + 
+  scale_x_log10() + 
+  scale_y_log10() + 
+  ylab('Predicted')
+dev.off()
+
+
+```
+
+
+```{r}
+load('3_interim_analysis/tmp/inclusive.RData')
+
+library(GGally)
+
+inclusive.log <- inclusive %>%
+  ungroup(.) %>%
+  dplyr::select(tss,secchi,chl,doc,SiteID,Type,Date) %>%
+  gather(key=variable,value=value,-SiteID,-Type,-Date) %>%
+  filter(value > 0) %>%
+  filter(!is.na(value)) %>%
+  mutate(logvalue=log10(value)) %>%
+  filter(!is.na(value)) %>%
+  dplyr::select(-value) %>%
+  spread(variable,logvalue) %>%
+  group_by(SiteID) %>%
+  filter(secchi > min(secchi)) %>%
+  ungroup(.)
+
+
+inclusive.poc.log <- inclusive.poc %>%
+  ungroup(.) %>%
+  dplyr::select(tss,secchi,chl,doc,poc,SiteID,Type,Date) %>%
+  gather(key=variable,value=value,-SiteID,-Type,-Date) %>%
+  filter(value > 0) %>%
+  mutate(logvalue=log10(value)) %>%
+  filter(!is.na(value)) %>%
+  dplyr::select(-value) %>%
+  spread(variable,logvalue)
+
+
+
+
+plotters <- inclusive.log %>%
+  filter(Type != 'Facility') %>%
+  select(tss,secchi,chl,doc, Type)
+
+
+
+
+# png('3_interim_analysis/figs/pairg.png',height=8,width=9,units='in',res=300)
+# ggpairs(plotters,mapping=aes(color=Type,alpha=0),columns=c('tss','secchi','chl','doc')) 
+# dev.off()
+
+```
+
+
+#Site models for sites with at least 50 obs
+
+```{r, eval=F}
+
+incl.50 <- inclusive.log %>%
+  group_by(SiteID,Type) %>%
+  summarize(n=n())%>%
+  filter(n > 50)
+
+tss.lm <- function(sub){
+  mod <- lm((chl) ~ (tss), data=sub)
+}
+
+
+library(broom)
+
+myglance <- function(mod){
+  keys <- tibble(r.squared=glance(mod)$r.squared,
+                 p.value=glance(mod)$p.value,
+                 reg.slope=tidy(mod)$estimate[2])
+}  
+tss.chl <- inclusive.log %>%
+  filter(SiteID %in% incl.50$SiteID) %>%
+  group_by(SiteID,Type) %>%
+  nest() %>%
+  mutate(mods = map(data,tss.lm)) %>%
+  mutate(glance= map(mods,myglance)) %>%
+  unnest(glance) %>%
+  filter(p.value < 0.01) 
+
+
+
+tss.chl.total <- inclusive.log %>%
+  filter(Type != 'Facility') %>%
+  group_by(Type) %>%
+  nest() %>%
+  mutate(mod = map(data,tss.lm)) %>%
+  mutate(glance = map(mod, myglance)) %>%
+  unnest(glance)
+
+tss.chl.total
+ggplot(tss.chl, aes(x=reg.slope,color=Type)) + 
+  geom_density(alpha=0.2,size=1) +
+  theme_few() + 
+  geom_vline(data=tss.chl.total,aes(xintercept = reg.slope,color=Type)) +
+  scale_colour_few()
+
+
+
+```
+
+
+
+```{r PCA}
+library(vegan)
+
+pcaready <- inclusive.log %>%
+  mutate(id=as.character(1:nrow(.))) %>%
+  na.omit() %>%
+  filter(tss > -Inf) %>%
+  filter(chl > -Inf) %>%
+  filter(doc > -Inf) %>%
+  filter(secchi < 2) %>%
+  filter(Type != 'Facility')
+
+pca.mat <- pcaready %>%
+  ungroup(.) %>%
+  select(tss,chl,doc,secchi) %>%
+  as.matrix(.)
+
+
+library(ggfortify)
+library(cluster)
+autoplot(prcomp(pca.mat,scale=F),data=pcaready,colour='secchi',shape='Type',loadings=T,loadings.label=T) +
+  scale_color_gradient2(low='red',high='blue',mid='gray70',midpoint=0) +
+  ggthemes::theme_few()
+
+autoplot(clara(pca.mat,4,samples=50,sampsize=1000,stand=T),data=pcaready,loadings=T,loadings.label=T,frame=T,shape='Type')
+
+
+```
+
+##Estuary sat visible
+```{r}
+satSites <- read_csv('2_rsdata/out/flatSites.csv') %>%
+  filter(!is.na(min)) %>%
+  filter(max > 70) %>%
+  rename(SiteID=MonitoringLocationIdentifier)
+
+
+inclusive.sat <- inclusive.log %>%
+  filter(SiteID %in% satSites$SiteID)
+
+est.sat <- inclusive.sat %>%
+  filter(Type == 'Estuary') %>%
+  mutate(secchi = 10^secchi)
+
+est.bottom <- est.sat %>%
+  group_by(SiteID) %>%
+  summarize(mind=min(secchi,na.rm=T),
+            mediand=median(secchi,na.rm=T)) %>%
+  filter(mind != mediand)
+
+est.sub <- est.sat %>%
+  filter(SiteID %in% est.bottom$SiteID) 
+est.mod <- lm(secchi ~ tss*chl*doc,data=est.sub)
+
+summary(est.mod)
+
+ggpairs(est.sat,columns=c('tss','secchi','chl','doc')) 
+
+
+```
+

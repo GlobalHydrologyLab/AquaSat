@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Louisiana_p_001.feather.ind
+type: file
+hash: 7d51dc3121ea8a2ad8f14a018e992309
+time: 2018-02-22 06:17:14 UTC
+depends:
+  partition_Louisiana_p_001: ca8fe04707c0a5010a751670349ae162
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: d12a533ff65fd5dabb37414c741301d9
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

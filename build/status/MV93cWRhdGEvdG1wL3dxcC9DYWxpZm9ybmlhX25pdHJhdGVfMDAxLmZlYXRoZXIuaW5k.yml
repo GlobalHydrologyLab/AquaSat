@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/California_nitrate_001.feather.ind
+type: file
+hash: a76c696e556f14157cb30ba573973be6
+time: 2018-02-22 02:44:00 UTC
+depends:
+  partition_California_nitrate_001: 05dea7f476d55a94903aecdc5442736c
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 4c930031e2bd60bb2f013264c1e80952
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

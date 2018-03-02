@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Michigan_tn_001.feather.ind
+type: file
+hash: 4c17f75e5c92feb84a408860b8649ac9
+time: 2018-02-22 08:30:21 UTC
+depends:
+  1_wqdata/tmp/wqp/Michigan_tn_001.feather.ind: 4c17f75e5c92feb84a408860b8649ac9
+fixed: a58d7a5cf2956b037c99e53dc8d74935
+code:
+  functions: {}
+

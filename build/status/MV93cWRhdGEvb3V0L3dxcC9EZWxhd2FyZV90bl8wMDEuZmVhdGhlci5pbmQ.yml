@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Delaware_tn_001.feather.ind
+type: file
+hash: 2668d9cc364ff21a87fbcc2a891eda44
+time: 2018-02-22 03:27:30 UTC
+depends:
+  1_wqdata/tmp/wqp/Delaware_tn_001.feather.ind: 2668d9cc364ff21a87fbcc2a891eda44
+fixed: 444b561668cda10ea141f6b2f16c6d90
+code:
+  functions: {}
+

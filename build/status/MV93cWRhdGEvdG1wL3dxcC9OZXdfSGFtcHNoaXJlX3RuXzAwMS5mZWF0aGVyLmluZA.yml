@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/New_Hampshire_tn_001.feather.ind
+type: file
+hash: 91c7e7fcf0482cdb0b1164a0529d29a6
+time: 2018-02-22 09:59:23 UTC
+depends:
+  partition_New_Hampshire_tn_001: 457dcd98e7c1749cc44c33da11109785
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 44c8546e8d0093963e9551c60219eba9
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Texas_nitrate_001.feather.ind
+type: file
+hash: 458b118c0ea86139953c4aaec476fdac
+time: 2018-02-22 12:45:57 UTC
+depends:
+  partition_Texas_nitrate_001: 38e439c8b7395e0132bac346987ffe02
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 83ae83089cfc37a6b74323a16ddde23b
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

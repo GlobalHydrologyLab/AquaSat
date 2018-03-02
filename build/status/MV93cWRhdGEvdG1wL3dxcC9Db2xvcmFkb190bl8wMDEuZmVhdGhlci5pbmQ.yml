@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Colorado_tn_001.feather.ind
+type: file
+hash: 2c7ad378cd071425972804a42eaf0a42
+time: 2018-02-22 03:08:53 UTC
+depends:
+  partition_Colorado_tn_001: 44bf14260cde2575a1124e49d2ab89ab
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: c11fcc8e277b8ec513f388f5d21b331e
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

@@ -1,0 +1,129 @@
+---
+title: "3_Flat_Overpasses"
+output: html_document
+---
+
+###THIS NEEDS MORE COMMENTING###
+
+```{r setup}
+library(knitr)
+opts_knit$set(root.dir='~/Dropbox/UNC-PostDoc All/aquasat/')
+library(feather)
+library(googledrive)
+library(tidyverse)
+library(sf)
+library(LAGOSNE)
+library(lubridate)
+
+```
+
+
+#Read in full datasets from WQP and LAGOS
+
+```{r}
+#Read in wrs inventory with path row
+wrs.inv <- read_feather('2_rsdata/out/WRSWaterInventory.feather')
+
+
+doc <- read_feather('1_wqdata/out/wqp/all_doc.feather') %>%
+  filter(Units %in% c('mg/l','ppm')) %>%
+  filter(CharacteristicName == 'Organic carbon') %>%
+  filter(!is.na(Date)) %>%
+  group_by(SiteID,Date) %>%
+  summarize(value=mean(Value)) %>%
+  inner_join(wrs.inv,by='SiteID') %>%
+  mutate(type='doc')
+
+
+
+# poc <- read_feather('1_wqdata/out/wqp/all_poc.feather') %>%
+#   filter(Units %in% c('mg/l')) %>%
+#   filter(!is.na(Date)) %>%
+#   group_by(SiteID,Date) %>%
+#   summarize(poc=mean(Value))
+
+chl <- read_feather('1_wqdata/out/wqp/all_chlorophyll.feather') %>%
+  filter(Units %in% c('ug/l')) %>% 
+  filter(CharacteristicName %in% c('Chlorophyll','Chlorophyll a','Chlorophyll a (probe)','Chlorophyll a (probe relative fluorescence','Chlorophyll a, corrected for pheophytin')) %>%
+  mutate(Value=Value/1000) %>%
+  filter(!is.na(Date)) %>%
+  group_by(SiteID,Date) %>%
+  summarize(value=mean(Value)) %>%
+  inner_join(wrs.inv,by='SiteID') %>%
+  mutate(type='chl')
+
+
+tss <- read_feather('1_wqdata/out/wqp/all_tss.feather') %>%
+  filter(Units %in% c('mg/l')) %>%
+  filter(!is.na(Date)) %>%
+  group_by(SiteID,Date) %>%
+  summarize(value=mean(Value)) %>%
+  inner_join(wrs.inv,by='SiteID') %>%
+  mutate(type='tss')
+
+
+
+secchi <- read_feather('1_wqdata/out/wqp/all_secchi.feather') %>%
+  filter(Units %in% c('m')) %>%
+  filter(!is.na(Date)) %>%
+  group_by(SiteID,Date) %>%
+  summarize(value=mean(Value)) %>%
+  inner_join(wrs.inv,by='SiteID') %>%
+  mutate(type='secchi')
+
+
+#Sites are repeated twice that have two landsat scene overlaps. Will get rid of this downstream when joining 
+#Path row to the overpass dataset. 
+wqp.flat <- bind_rows(secchi,tss,chl,doc) %>%
+  spread(key=type,value=value)
+
+```
+
+#Load in lagos data, flatten it and make it look exactly like the wqp.flat
+```{r}
+#lagosne_get('1.087.1')
+lagos <- lagosne_load("1.087.1")
+lagos.nute <- lagos$epi_nutr %>%
+  mutate(SiteID=paste('lagos',lagoslakeid,sep='-')) %>%
+  inner_join(wrs.inv,by='SiteID') %>%
+  mutate(Date=mdy(as.character(sampledate))) %>%
+  dplyr::select(SiteID,Date,max,med,min,PATH,ROW,chl=chla,doc,secchi) %>%
+  mutate(tss=NA)
+
+
+wqp.candidates <- bind_rows(wqp.flat,lagos.nute) %>%
+  mutate(SampDate=Date) %>% 
+  ungroup()
+```
+
+
+#Read in cloudiness data
+```{r}
+
+#Load in cloudy dataset which is called dat. 
+load('2_rsdata/in/Cloudy.RData') 
+clouds <- dat %>%
+  filter(WRS_PATH %in% wrs.inv$PATH &
+           WRS_ROW %in% wrs.inv$ROW) %>%
+  select(PATH=WRS_PATH,ROW=WRS_ROW,Date=DATE_ACQUIRED,clouds=CLOUD_COVER)
+
+wqp.pull.same <- inner_join(wqp.candidates,clouds,by=c('PATH','ROW','Date'))
+
+#Shoulder the data by 1 day
+wqp.pull.plus1 <- wqp.candidates %>%
+  mutate(Date = Date + 1) %>%
+  inner_join(clouds,by=c('PATH','ROW','Date'))
+
+#Shoulder the data by -1 day
+wqp.pull.minus1 <- wqp.candidates %>%
+  mutate(Date=Date-1) %>%
+  inner_join(clouds,by=c('PATH','ROW','Date')) %>%
+  ungroup()
+
+
+
+wqp.pull <- bind_rows(wqp.pull.same,wqp.pull.plus1,wqp.pull.minus1)
+
+write_feather(wqp.pull,path='2_rsdata/out/WidePull.Feather')
+```
+

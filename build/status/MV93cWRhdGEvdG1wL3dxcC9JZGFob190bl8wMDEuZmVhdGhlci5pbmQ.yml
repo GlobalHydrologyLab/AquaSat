@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Idaho_tn_001.feather.ind
+type: file
+hash: 984d5db30dfdad0a4aa7595b9c370e76
+time: 2018-02-22 05:31:15 UTC
+depends:
+  partition_Idaho_tn_001: a1a6e8c847905c252b75b61da0539aa3
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 493b2c73f4ac3f0112f20087432d62e6
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Oklahoma_tn_001.feather.ind
+type: file
+hash: 708a86c746aa0b2fa37595938741622d
+time: 2018-02-22 11:21:36 UTC
+depends:
+  1_wqdata/tmp/wqp/Oklahoma_tn_001.feather.ind: 708a86c746aa0b2fa37595938741622d
+fixed: 13888a70996337fbafeb794e7f37b750
+code:
+  functions: {}
+

@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Mississippi_tn_001.feather.ind
+type: file
+hash: f7aa0693b65d35c4510c4b00491bc30c
+time: 2018-02-22 09:20:05 UTC
+depends:
+  partition_Mississippi_tn_001: a94ef070f1c7bcfdd9fd43ff2d44bca4
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: da1b47985156c9031e8a2dbd6d9ed3d3
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

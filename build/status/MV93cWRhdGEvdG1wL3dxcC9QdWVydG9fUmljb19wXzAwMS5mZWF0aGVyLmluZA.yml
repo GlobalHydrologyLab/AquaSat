@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Puerto_Rico_p_001.feather.ind
+type: file
+hash: 4bc311540e16fd7a7744f64e3d3515f5
+time: 2018-02-22 11:53:55 UTC
+depends:
+  partition_Puerto_Rico_p_001: 4e3045419e8ee15fdb24b3a6fb5fd1e7
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: c7f83451015a0332eb5d351f939e3718
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

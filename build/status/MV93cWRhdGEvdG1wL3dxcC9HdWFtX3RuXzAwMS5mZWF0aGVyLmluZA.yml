@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Guam_tn_001.feather.ind
+type: file
+hash: 0c252aae00160eea468a2af8cd7bc63a
+time: 2018-02-22 05:24:16 UTC
+depends:
+  partition_Guam_tn_001: 72abd89da80f754ffb68ddb1f9abdc3e
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: f17eaffd716041d95b820030c6b785be
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

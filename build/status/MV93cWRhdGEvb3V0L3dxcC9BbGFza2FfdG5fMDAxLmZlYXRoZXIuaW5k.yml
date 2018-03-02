@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Alaska_tn_001.feather.ind
+type: file
+hash: 2e44a21f6006130a7a40be4ea592f1ee
+time: 2018-02-22 02:24:35 UTC
+depends:
+  1_wqdata/tmp/wqp/Alaska_tn_001.feather.ind: 2e44a21f6006130a7a40be4ea592f1ee
+fixed: aaebd2f0bbeb75516312d0b0a3d22621
+code:
+  functions: {}
+

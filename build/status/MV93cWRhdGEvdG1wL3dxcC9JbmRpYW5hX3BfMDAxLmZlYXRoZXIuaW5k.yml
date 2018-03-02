@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Indiana_p_001.feather.ind
+type: file
+hash: 3d4c63eed0dc657dddaf306512afdf56
+time: 2018-02-22 05:41:47 UTC
+depends:
+  partition_Indiana_p_001: ca33c1edc6016ebadd5202e753573730
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 1fd39c8b0a5fcc7cc1bc08669aaa1059
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

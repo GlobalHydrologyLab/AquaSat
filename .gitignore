@@ -9,6 +9,8 @@
 .remake/
 *.feather
 *.RData
+*.Rdata
+*.csv
 # Allow
 !*/out/placeholder.txt
 tasks_*.yml

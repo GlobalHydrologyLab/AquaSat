@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/South_Carolina_tn_001.feather.ind
+type: file
+hash: 5febd7321a5c6de2dd44662fa928da43
+time: 2018-02-22 12:06:48 UTC
+depends:
+  partition_South_Carolina_tn_001: e30535517a48a06cbf7f9207d8ce4771
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: ed4949890697e2b3cb3ee02b2a5a64fc
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Michigan_p_001.feather.ind
+type: file
+hash: 184b5f4e26b964fa9ab024a548b4b4db
+time: 2018-02-22 08:24:59 UTC
+depends:
+  partition_Michigan_p_001: 7bd491f3d35b34595cb60e98575b6d89
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: daf7ef2d3ad34b11d700e17d427ca438
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

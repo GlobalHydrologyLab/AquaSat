@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Arizona_tn_001.feather.ind
+type: file
+hash: dabc2b524afb160ae4191b55b46e140d
+time: 2018-02-22 02:29:59 UTC
+depends:
+  partition_Arizona_tn_001: ee521af351a489d593c5bf044c742b57
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: dad28cb7610fa6a4490d7311f9b0ff8c
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

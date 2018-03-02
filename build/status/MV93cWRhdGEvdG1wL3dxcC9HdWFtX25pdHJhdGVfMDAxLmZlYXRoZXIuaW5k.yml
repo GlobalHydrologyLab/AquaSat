@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Guam_nitrate_001.feather.ind
+type: file
+hash: a14cd74e9f69e2a5cf2a6c306e4158db
+time: 2018-02-22 05:22:41 UTC
+depends:
+  partition_Guam_nitrate_001: 786681851034c2d918e5856b19432904
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 9235d69a63a2bb65cf3ed6db8172cf7a
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+
