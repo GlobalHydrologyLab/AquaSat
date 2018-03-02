@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Montana_p_001.feather.ind
+type: file
+hash: 0be5856bd3726ddcdf6499184924edf1
+time: 2018-02-22 09:34:39 UTC
+depends:
+  partition_Montana_p_001: 2e9ec7662acc711812bfd596d4763945
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 975129684cfd067fdf7b59b32ce10ddd
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

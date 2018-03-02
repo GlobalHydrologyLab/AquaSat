@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Washington_p_001.feather.ind
+type: file
+hash: d0694058f23c99cd3313012f0fc3357d
+time: 2018-02-22 14:30:37 UTC
+depends:
+  partition_Washington_p_001: c32a68c6d421ecafe812e0dc6f360278
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 1e5def675ad79a33f85b145268a174ae
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

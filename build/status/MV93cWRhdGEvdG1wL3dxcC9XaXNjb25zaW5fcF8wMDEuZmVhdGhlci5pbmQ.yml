@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Wisconsin_p_001.feather.ind
+type: file
+hash: db64b061ff9da988347df858f3c818c1
+time: 2018-02-22 14:47:00 UTC
+depends:
+  partition_Wisconsin_p_001: 5aafd84c0dbd8eb0842ac917e6b5f2a3
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 2f71b2ad6a769d1a81fc6a8c1993f225
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

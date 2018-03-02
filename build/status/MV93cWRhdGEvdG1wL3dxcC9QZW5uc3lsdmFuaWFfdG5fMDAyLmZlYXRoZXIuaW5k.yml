@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Pennsylvania_tn_002.feather.ind
+type: file
+hash: 6acbfed0933514b2ef11bf554bdfe02e
+time: 2018-02-22 11:48:50 UTC
+depends:
+  partition_Pennsylvania_tn_002: d1dbaabe620a26b173102c8b9df3ceca
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 0eaa92a7216495465552aea3f0881303
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

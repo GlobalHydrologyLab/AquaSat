@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Nevada_nitrate_001.feather.ind
+type: file
+hash: 15905d33fc6e6da27dc911c92f899579
+time: 2018-02-22 09:47:36 UTC
+depends:
+  partition_Nevada_nitrate_001: eab2387c6c0a718239fceb298881ae4e
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 9ad937742fcf45749b006941f53ed5c0
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/South_Carolina_nitrate_001.feather.ind
+type: file
+hash: 2f4961f1133c33e71843da61f6baa771
+time: 2018-02-22 12:01:04 UTC
+depends:
+  partition_South_Carolina_nitrate_001: ae51262f4d4cc0583750ba802feb56fc
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 9cfc28dea435e2c965aed7bc07eea3dd
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

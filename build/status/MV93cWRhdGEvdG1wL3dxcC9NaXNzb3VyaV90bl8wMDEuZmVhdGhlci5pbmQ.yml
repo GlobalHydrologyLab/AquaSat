@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Missouri_tn_001.feather.ind
+type: file
+hash: 687968e9657b73dc8773dc49f01b661c
+time: 2018-02-22 09:28:15 UTC
+depends:
+  partition_Missouri_tn_001: 318650f16fd08994086b23ee5c1715ce
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 30ecd3245259b921568f9ea81388bc84
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

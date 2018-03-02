@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Arkansas_tn_001.feather.ind
+type: file
+hash: 0e997054c5529088a453987df63e4da3
+time: 2018-02-22 02:41:56 UTC
+depends:
+  1_wqdata/tmp/wqp/Arkansas_tn_001.feather.ind: 0e997054c5529088a453987df63e4da3
+fixed: 1bf44c7dd8c075c7873b1c4696629d9c
+code:
+  functions: {}
+

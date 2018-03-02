@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/American_Samoa_tn_001.feather.ind
+type: file
+hash: 5a6551e65b8254d81fcd8698421f2f97
+time: 2018-02-22 02:26:11 UTC
+depends:
+  partition_American_Samoa_tn_001: 4303ec109da141b4cf01ee8abfa20235
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: ee290eda6300b17d1e5ba7dce9d3bcca
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/New_Mexico_nitrate_001.feather.ind
+type: file
+hash: af60770e21cd4cbd3d88063777e0263a
+time: 2018-02-22 10:12:03 UTC
+depends:
+  partition_New_Mexico_nitrate_001: 7546a2225d1f3f1c3eb1196a0ae3e15d
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 83d22e833e5761480edc4e8ea2872042
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Kentucky_p_001.feather.ind
+type: file
+hash: 11c489efb5fd2cfdc642a2aeb27390cc
+time: 2018-02-22 06:12:36 UTC
+depends:
+  partition_Kentucky_p_001: 230bac5963c7dc40ba2d87ff8de0d3e8
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: be65e66114751d27750f7df790f5dadb
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

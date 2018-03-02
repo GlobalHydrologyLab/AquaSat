@@ -388,9 +388,11 @@ combine_feathers <- function(data_file, ...) {
   # read and combine the individual raw data pull files
   feathers <- c(...)
   
-  unified.cols <- c('ActivityStartDateTime','ResultMeasureValue','ResultMeasure.MeasureUnitCode'
+  # most columns are not particularly useful and they can be different by state so select
+  #only the vital ones here:
+  unified.cols <- c('ActivityStartDate','ResultMeasureValue','ResultMeasure.MeasureUnitCode'
                     ,'MonitoringLocationIdentifier','CharacteristicName','OrganizationFormalName',
-                    'OrganizationIdentifier')
+                    'OrganizationIdentifier','ActivityStartTime.Time')
   
   
   #Use foreach and DoMC to make this operation parallel for computers 
@@ -402,8 +404,6 @@ combine_feathers <- function(data_file, ...) {
   combo <- foreach(i=1:length(feathers),.combine=rbind) %dopar% {
     library(feather)
     feather::read_feather(feathers[i],columns=unified.cols)
-    # most columns are not particularly useful and they can be different by state so select
-    #only the vital ones here:
   }
   
   
@@ -433,7 +433,7 @@ munge_poc <- function(data_file, raw_file='1_wqdata/tmp/wqp/all_raw_poc.feather'
   #   summarize(n=n()) %>%
   #   View(.)
   
-  #DOC data is quite messy, might only keep mg/L for now. Lots of % which is confusing
+  #POC data is quite messy, might only keep mg/L for now. Lots of % which is confusing
   unit_map <- NA
   
   munge_any(raw_df, data_file, unit_map)
@@ -455,6 +455,37 @@ munge_cdom <- function(data_file, raw_file='1_wqdata/tmp/wqp/all_raw_cdom.feathe
   
   munge_any(raw_df, data_file, unit_map)
 }
+
+munge_nitrate <- function(data_file, raw_file='1_wqdata/tmp/wqp/all_raw_nitrate.feather') {
+  raw_df <- feather::read_feather(raw_file)
+  
+
+  unit_map <- NA
+  
+  munge_any(raw_df, data_file, unit_map)
+}
+
+munge_tn <- function(data_file, raw_file='1_wqdata/tmp/wqp/all_raw_tn.feather') {
+  raw_df <- feather::read_feather(raw_file)
+  # raw_df %>% group_by(ResultMeasure.MeasureUnitCode) %>%
+  #   summarize(n=n()) %>%
+  #   View(.)
+  
+  #DOC data is quite messy, might only keep mg/L for now. Lots of % which is confusing
+  unit_map <- NA
+  
+  munge_any(raw_df, data_file, unit_map)
+}
+
+munge_p <- function(data_file, raw_file='1_wqdata/tmp/wqp/all_raw_p.feather') {
+  raw_df <- feather::read_feather(raw_file)
+  
+  
+  unit_map <- NA
+  
+  munge_any(raw_df, data_file, unit_map)
+}
+
 
 munge_chlorophyll <- function(data_file, raw_file='1_wqdata/tmp/wqp/all_raw_chlorophyll.feather') {
   raw_df <- feather::read_feather(raw_file)
@@ -553,7 +584,8 @@ munge_any <- function(raw_df, data_file, unit_map=NA) {
   
   munged_df <- raw_df %>%
     select(
-      Date=ActivityStartDateTime,
+      Date=ActivityStartDate,
+      Time=ActivityStartTime.Time,
       Value=ResultMeasureValue,
       UnitsRaw=ResultMeasure.MeasureUnitCode,
       SiteID=MonitoringLocationIdentifier,

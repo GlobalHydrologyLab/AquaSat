@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Oregon_nitrate_001.feather.ind
+type: file
+hash: 6a7d71e5b311dea18d0d71b47cca359d
+time: 2018-02-22 11:23:47 UTC
+depends:
+  1_wqdata/tmp/wqp/Oregon_nitrate_001.feather.ind: 6a7d71e5b311dea18d0d71b47cca359d
+fixed: 77df03a76a35bb99153c1aa8ef3a1ffc
+code:
+  functions: {}
+

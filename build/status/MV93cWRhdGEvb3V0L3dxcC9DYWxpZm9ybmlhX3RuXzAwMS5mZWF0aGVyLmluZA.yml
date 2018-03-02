@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/California_tn_001.feather.ind
+type: file
+hash: 81db89fcb76b8150df582fb13e95fbe1
+time: 2018-02-22 02:55:11 UTC
+depends:
+  1_wqdata/tmp/wqp/California_tn_001.feather.ind: 81db89fcb76b8150df582fb13e95fbe1
+fixed: 767f235f5205f85b5e8d0da38dd69586
+code:
+  functions: {}
+

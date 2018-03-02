@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Kentucky_tn_001.feather.ind
+type: file
+hash: b4711d39b7a17ed03776d96e13ffaa26
+time: 2018-02-22 06:14:01 UTC
+depends:
+  partition_Kentucky_tn_001: 76ad996e89492bec56a619fa128ebe7c
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 104aa89964dcf9cde2ed28959d89d150
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

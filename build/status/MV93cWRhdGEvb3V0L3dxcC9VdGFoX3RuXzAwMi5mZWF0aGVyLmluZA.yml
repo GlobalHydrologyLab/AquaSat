@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Utah_tn_002.feather.ind
+type: file
+hash: 0504a4709534b3e2b46b7cb4eb42a0bd
+time: 2018-02-22 13:20:02 UTC
+depends:
+  1_wqdata/tmp/wqp/Utah_tn_002.feather.ind: 0504a4709534b3e2b46b7cb4eb42a0bd
+fixed: 296e6f82722477db1d11457df9cf5aae
+code:
+  functions: {}
+

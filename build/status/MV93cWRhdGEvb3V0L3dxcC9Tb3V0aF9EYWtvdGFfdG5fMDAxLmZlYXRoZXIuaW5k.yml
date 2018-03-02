@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/South_Dakota_tn_001.feather.ind
+type: file
+hash: 238919de441f0d03893810a7b59dd444
+time: 2018-02-22 12:29:08 UTC
+depends:
+  1_wqdata/tmp/wqp/South_Dakota_tn_001.feather.ind: 238919de441f0d03893810a7b59dd444
+fixed: a4258c01128f4788b2acd90d7ddc4a87
+code:
+  functions: {}
+

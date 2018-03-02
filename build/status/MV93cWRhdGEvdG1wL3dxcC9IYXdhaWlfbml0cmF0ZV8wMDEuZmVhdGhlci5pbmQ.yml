@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Hawaii_nitrate_001.feather.ind
+type: file
+hash: 59a0ce9c9a4d24f67775ccbc652b8cd5
+time: 2018-02-22 05:24:59 UTC
+depends:
+  partition_Hawaii_nitrate_001: bf737aaf4aab4dbecc80de14ac6c4e31
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 806d4a27cdb5698f04120ab18766d1f6
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

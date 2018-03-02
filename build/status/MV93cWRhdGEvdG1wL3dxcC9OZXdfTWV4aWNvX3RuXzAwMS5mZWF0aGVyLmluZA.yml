@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/New_Mexico_tn_001.feather.ind
+type: file
+hash: 21619b9059f0660a78438b41eb8f3405
+time: 2018-02-22 10:15:26 UTC
+depends:
+  partition_New_Mexico_tn_001: 2bcf0452220b754b3df4cafe953e99a1
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 774fad2633e1d2a3d14d19daa6725dd1
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

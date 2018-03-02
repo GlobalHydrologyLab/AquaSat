@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Rhode_Island_nitrate_001.feather.ind
+type: file
+hash: cf82a0b8e64108cb2df7ab9f1673cb15
+time: 2018-02-22 11:57:15 UTC
+depends:
+  partition_Rhode_Island_nitrate_001: 8b0e6edcea18b73ef19b24a67b3e4584
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: a2fd8f4507a79474ad54cb5389d35f63
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

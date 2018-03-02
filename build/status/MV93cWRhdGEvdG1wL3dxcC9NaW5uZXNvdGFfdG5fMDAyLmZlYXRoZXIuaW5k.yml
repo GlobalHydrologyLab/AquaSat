@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Minnesota_tn_002.feather.ind
+type: file
+hash: 64605c2e9968871a03c95ee782b6840d
+time: 2018-02-22 09:08:34 UTC
+depends:
+  partition_Minnesota_tn_002: 1e4f171c4fb288d566e980e09de84e6d
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: d76b2230c12ac7d8614f3a5de7938103
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

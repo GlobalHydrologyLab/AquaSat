@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Oklahoma_nitrate_001.feather.ind
+type: file
+hash: 5731589769c1eb39bf394f60b5700893
+time: 2018-02-22 11:14:54 UTC
+depends:
+  partition_Oklahoma_nitrate_001: 0accf3c1eb51dadfd50c6310797b0d7b
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 414927b6ee3394e58a0e32fa5ac49148
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

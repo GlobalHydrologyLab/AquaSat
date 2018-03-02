@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Florida_p_006.feather.ind
+type: file
+hash: c5ab45e4453736e61f04dee75bbe4380
+time: 2018-02-22 04:25:43 UTC
+depends:
+  partition_Florida_p_006: adeed012d3af82f25a12d26e1aad9518
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: b09fce7e79744bff9f44e2ce82238334
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

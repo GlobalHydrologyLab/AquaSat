@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/District_of_Columbia_tn_001.feather.ind
+type: file
+hash: acf47b9ba44e863818c32758d53ffec2
+time: 2018-02-22 03:30:41 UTC
+depends:
+  1_wqdata/tmp/wqp/District_of_Columbia_tn_001.feather.ind: acf47b9ba44e863818c32758d53ffec2
+fixed: a9f31124fa23703f9329e2961f00e04a
+code:
+  functions: {}
+

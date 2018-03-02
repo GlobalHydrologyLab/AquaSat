@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Maryland_p_002.feather.ind
+type: file
+hash: acc1f241d64c28706f540210de1fc556
+time: 2018-02-22 06:55:46 UTC
+depends:
+  partition_Maryland_p_002: fe93dd7a723c23b9750c27c21fb0a267
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 4e2fa819ff2f583e67018c1446a2c05c
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

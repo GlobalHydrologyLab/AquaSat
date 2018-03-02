@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Massachusetts_tn_001.feather.ind
+type: file
+hash: 1dd6d9b6fa244649ca64868f8a258904
+time: 2018-02-22 08:20:58 UTC
+depends:
+  1_wqdata/tmp/wqp/Massachusetts_tn_001.feather.ind: 1dd6d9b6fa244649ca64868f8a258904
+fixed: fb420cce68d184866b96a1ca34a4bce3
+code:
+  functions: {}
+

@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Wyoming_nitrate_001.feather.ind
+type: file
+hash: 0cbd795e24c7cb0018850de08f1982f6
+time: 2018-02-22 15:07:05 UTC
+depends:
+  1_wqdata/tmp/wqp/Wyoming_nitrate_001.feather.ind: 0cbd795e24c7cb0018850de08f1982f6
+fixed: c2babe1d7fc34beec595b0304e769402
+code:
+  functions: {}
+

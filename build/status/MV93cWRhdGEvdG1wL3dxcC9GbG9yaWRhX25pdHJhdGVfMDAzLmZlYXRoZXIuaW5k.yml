@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Florida_nitrate_003.feather.ind
+type: file
+hash: f89c588d39786c0cfa44fce8b65d0451
+time: 2018-02-22 03:47:49 UTC
+depends:
+  partition_Florida_nitrate_003: 05d819fb583655cd13106db13167e4aa
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: d9a2086232b7ed5b28f26b70dd548130
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

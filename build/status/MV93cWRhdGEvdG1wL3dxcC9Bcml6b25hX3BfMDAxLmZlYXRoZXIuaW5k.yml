@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Arizona_p_001.feather.ind
+type: file
+hash: 1914ffb3de50651858bda80fcaaf5091
+time: 2018-02-22 02:28:37 UTC
+depends:
+  partition_Arizona_p_001: c9adb2a03df9e18685edca89e8d1abad
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: c1964421fdbe28e516a6cbb0b68bf400
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

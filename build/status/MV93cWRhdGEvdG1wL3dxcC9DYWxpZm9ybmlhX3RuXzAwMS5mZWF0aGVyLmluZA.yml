@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/California_tn_001.feather.ind
+type: file
+hash: 81db89fcb76b8150df582fb13e95fbe1
+time: 2018-02-22 02:52:39 UTC
+depends:
+  partition_California_tn_001: 93d860745a26d2812b33320db5927864
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: fc09d0de3e5ae1c3e529ef594c3bd092
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

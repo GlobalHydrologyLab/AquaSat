@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Iowa_tn_001.feather.ind
+type: file
+hash: 6b7462b8acff91e937fce642a53e23cd
+time: 2018-02-22 05:56:42 UTC
+depends:
+  partition_Iowa_tn_001: 14487ba0333dda7ca8a7f403624800ca
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 7892c48b9d4a8ae94d1907cd8f8c1a29
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

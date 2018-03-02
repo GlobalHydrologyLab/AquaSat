@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Ohio_nitrate_001.feather.ind
+type: file
+hash: 7326831d61ae6edc27e2715a9c534b5a
+time: 2018-02-22 11:05:20 UTC
+depends:
+  partition_Ohio_nitrate_001: d7f786759625e36fcb2f804c30401d52
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: d2ac85bb734295e83710a284e81e3b21
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/California_p_001.feather.ind
+type: file
+hash: add260e9a647a6642576c668cd420f49
+time: 2018-02-22 02:49:46 UTC
+depends:
+  1_wqdata/tmp/wqp/California_p_001.feather.ind: add260e9a647a6642576c668cd420f49
+fixed: d65f15fc6ae0efcf4fa5755f156e6221
+code:
+  functions: {}
+

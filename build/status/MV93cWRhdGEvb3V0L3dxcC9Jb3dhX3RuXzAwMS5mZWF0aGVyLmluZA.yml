@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Iowa_tn_001.feather.ind
+type: file
+hash: 6b7462b8acff91e937fce642a53e23cd
+time: 2018-02-22 05:59:16 UTC
+depends:
+  1_wqdata/tmp/wqp/Iowa_tn_001.feather.ind: 6b7462b8acff91e937fce642a53e23cd
+fixed: 0b8f80552d0d5d382a598915a7192043
+code:
+  functions: {}
+

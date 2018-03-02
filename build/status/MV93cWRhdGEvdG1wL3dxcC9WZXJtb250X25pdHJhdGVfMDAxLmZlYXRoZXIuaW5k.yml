@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Vermont_nitrate_001.feather.ind
+type: file
+hash: 3380cf058e2d9b985351b2799311734a
+time: 2018-02-22 13:21:06 UTC
+depends:
+  partition_Vermont_nitrate_001: 985ab4b0d5ba768ac70d849af36d475f
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 1072aaf421b50258ac69c4c396aebd71
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

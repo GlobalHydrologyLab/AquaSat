@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Illinois_tn_001.feather.ind
+type: file
+hash: 557915b245d9d1d732f4f6ed26216f5e
+time: 2018-02-22 05:37:04 UTC
+depends:
+  partition_Illinois_tn_001: 85f78a57b9df7fce7944013a314c336e
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: a78552323bfe353dab5632364f7d3cc1
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

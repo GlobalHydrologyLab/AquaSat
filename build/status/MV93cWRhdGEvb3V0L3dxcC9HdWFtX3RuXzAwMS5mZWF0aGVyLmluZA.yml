@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Guam_tn_001.feather.ind
+type: file
+hash: 0c252aae00160eea468a2af8cd7bc63a
+time: 2018-02-22 05:24:33 UTC
+depends:
+  1_wqdata/tmp/wqp/Guam_tn_001.feather.ind: 0c252aae00160eea468a2af8cd7bc63a
+fixed: 2274611fae1e6bde1b774e14f7982ae7
+code:
+  functions: {}
+
