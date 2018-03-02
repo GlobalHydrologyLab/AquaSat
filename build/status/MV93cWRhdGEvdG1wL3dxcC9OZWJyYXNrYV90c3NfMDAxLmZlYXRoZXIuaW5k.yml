@@ -1,10 +1,10 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Nebraska_tss_001.feather.ind
 type: file
-hash: 9ea644b94ba384dd92b32c6a43a25de8
-time: 2017-11-20 02:03:19 UTC
+hash: 08d8ccd0d6993bead8b6d85c2eca9167
+time: 2018-02-16 10:18:18 UTC
 depends:
-  partition_Nebraska_tss_001: 3c29dc7b55cae7d3da4536d480e961be
+  partition_Nebraska_tss_001: 0ab8b2ce2fccb5e3463e9c7c22009fad
   wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
 fixed: 11320f953800bdfcf3ef89cd548678e6
 code:

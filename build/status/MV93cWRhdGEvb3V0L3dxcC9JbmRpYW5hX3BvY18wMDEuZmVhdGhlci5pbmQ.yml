@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Indiana_poc_001.feather.ind
+type: file
+hash: 105b9feea5d2b0fa484da8bd1338f6da
+time: 2018-02-16 06:31:59 UTC
+depends:
+  1_wqdata/tmp/wqp/Indiana_poc_001.feather.ind: 105b9feea5d2b0fa484da8bd1338f6da
+fixed: 5c85a02aecd2e37564d5516350cfb042
+code:
+  functions: {}
+

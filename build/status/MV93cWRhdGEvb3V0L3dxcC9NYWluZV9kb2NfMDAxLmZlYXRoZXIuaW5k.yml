@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Maine_doc_001.feather.ind
+type: file
+hash: 8cb7c94d4efce2efd3fd3f3b08016d06
+time: 2018-02-16 07:10:49 UTC
+depends:
+  1_wqdata/tmp/wqp/Maine_doc_001.feather.ind: 8cb7c94d4efce2efd3fd3f3b08016d06
+fixed: 80008c06a268fac5a7b3eef4dd9d5bb2
+code:
+  functions: {}
+

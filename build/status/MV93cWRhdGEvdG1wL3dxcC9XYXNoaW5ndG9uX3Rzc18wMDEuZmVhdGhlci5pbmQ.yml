@@ -1,10 +1,10 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Washington_tss_001.feather.ind
 type: file
-hash: 0c5e3804a11f97ff86b4a17b2dedd4cc
-time: 2017-11-20 03:56:59 UTC
+hash: 73300be00d0ef72deb0768723571d4be
+time: 2018-02-16 13:48:23 UTC
 depends:
-  partition_Washington_tss_001: f4ca36a1bd284a6822e512b5ada39a71
+  partition_Washington_tss_001: bda12b346ebccaca2fa8d95eb5b8325d
   wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
 fixed: e35e5f0ee0dbf3df51b010dbd4db6de2
 code:

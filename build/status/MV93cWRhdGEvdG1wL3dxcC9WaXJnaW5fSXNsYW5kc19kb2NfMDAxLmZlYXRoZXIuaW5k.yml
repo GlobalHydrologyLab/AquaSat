@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Virgin_Islands_doc_001.feather.ind
+type: file
+hash: 75b3a412c8e7473d4a5e2061e05558df
+time: 2018-02-16 12:44:03 UTC
+depends:
+  partition_Virgin_Islands_doc_001: 840402a0fc2f4021bbdb8b5747f1a52e
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: 6bb1faad5abaca60775a43d6fbce37a5
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

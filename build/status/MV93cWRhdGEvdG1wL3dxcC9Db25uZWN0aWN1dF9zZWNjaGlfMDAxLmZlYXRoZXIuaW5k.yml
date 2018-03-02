@@ -1,10 +1,10 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Connecticut_secchi_001.feather.ind
 type: file
-hash: 5d0fac0bf233db84c35d3c642da526b9
-time: 2017-11-19 21:32:35 UTC
+hash: 5c2e674b4b0e77254d6946bc0d32b6ba
+time: 2018-02-16 03:54:35 UTC
 depends:
-  partition_Connecticut_secchi_001: fa26d8e14ce929e91943d688f8cad5ac
+  partition_Connecticut_secchi_001: 97771c5290d32f4f975ea94415207f6a
   wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
 fixed: f7fede1311fb2997b18d2d863e77690a
 code:

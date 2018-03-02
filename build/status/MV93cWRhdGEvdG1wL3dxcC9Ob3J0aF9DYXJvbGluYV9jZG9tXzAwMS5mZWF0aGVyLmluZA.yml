@@ -1,10 +1,10 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/North_Carolina_cdom_001.feather.ind
 type: file
-hash: ed2713740917f82318007f495a4d97ed
-time: 2017-11-20 02:22:49 UTC
+hash: bde80187f70786b6b0d5110a6cd10133
+time: 2018-02-16 10:55:22 UTC
 depends:
-  partition_North_Carolina_cdom_001: e7ca13dc587d385c11d754b3ab09a2b5
+  partition_North_Carolina_cdom_001: 105df60af20913a510b3c32976461d5e
   wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
 fixed: bd3ceb9062c287c7edd956fcb1421844
 code:

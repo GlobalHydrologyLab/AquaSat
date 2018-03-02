@@ -7,6 +7,9 @@ packages:
   - LAGOSNE
   - scipiper
   - yaml
+  - xml2
+  - doMC
+  - foreach
   
 file_extensions:
   - feather
@@ -14,7 +17,6 @@ file_extensions:
   
 sources:
   - 1_wqdata/src/wqp.R
-  - 1_wqdata/src/lagosne.R
 
 targets:
 

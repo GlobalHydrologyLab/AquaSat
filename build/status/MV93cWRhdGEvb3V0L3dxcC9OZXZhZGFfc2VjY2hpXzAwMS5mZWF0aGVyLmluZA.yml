@@ -1,11 +1,11 @@
 version: 0.3.0
 name: 1_wqdata/out/wqp/Nevada_secchi_001.feather.ind
 type: file
-hash: 984320ee6550985062385fe7aa3312c1
-time: 2017-11-20 02:05:56 UTC
+hash: 196030b6105485d5869a54edcf4df019
+time: 2018-02-16 10:23:14 UTC
 depends:
-  1_wqdata/tmp/wqp/Nevada_secchi_001.feather.ind: 984320ee6550985062385fe7aa3312c1
-fixed: c685c76667cbe20e0cd44eff46c20297
+  1_wqdata/tmp/wqp/Nevada_secchi_001.feather.ind: 196030b6105485d5869a54edcf4df019
+fixed: b0ab555239d152449a1ad24c8360fb91
 code:
   functions: {}
 

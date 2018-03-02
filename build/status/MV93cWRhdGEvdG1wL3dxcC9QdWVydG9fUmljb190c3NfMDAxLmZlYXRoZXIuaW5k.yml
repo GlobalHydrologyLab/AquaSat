@@ -1,10 +1,10 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Puerto_Rico_tss_001.feather.ind
 type: file
-hash: 97606c0601d8554b87988ac4cfe44804
-time: 2017-11-20 02:59:06 UTC
+hash: cf0bbfb21c057d7f3460db8dd1a476cf
+time: 2018-02-16 11:49:50 UTC
 depends:
-  partition_Puerto_Rico_tss_001: a2fda99870ee5a6de8c0bc236eed823e
+  partition_Puerto_Rico_tss_001: b646e01a95e9caf85325c5c0a06c2668
   wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
 fixed: 4034f547e9dfeb128d8ec2058ce8c688
 code:

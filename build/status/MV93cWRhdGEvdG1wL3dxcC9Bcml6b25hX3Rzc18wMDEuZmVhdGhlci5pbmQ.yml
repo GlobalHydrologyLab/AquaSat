@@ -1,10 +1,10 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Arizona_tss_001.feather.ind
 type: file
-hash: 13505dafbfcd5baa551f78690e6019b6
-time: 2017-11-19 21:13:25 UTC
+hash: ae8eaa08c6c3f03eae43ea456d385a0c
+time: 2018-02-16 03:18:31 UTC
 depends:
-  partition_Arizona_tss_001: ea096332bf61c1366f7e08df2a43b1e8
+  partition_Arizona_tss_001: 417b0ade5ad94640bf97839ffce0b9de
   wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
 fixed: d6aee5ce4ca53e6cb591a0c2f707cfcc
 code:

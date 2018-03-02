@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Virginia_chlorophyll_002.feather.ind
+type: file
+hash: e212b69e4cfdbaefb8f82869e9e33ff0
+time: 2018-02-16 13:17:05 UTC
+depends:
+  1_wqdata/tmp/wqp/Virginia_chlorophyll_002.feather.ind: e212b69e4cfdbaefb8f82869e9e33ff0
+fixed: 015a13fcb5732622d22950aef243bf16
+code:
+  functions: {}
+

@@ -1,11 +1,11 @@
 version: 0.3.0
 name: 1_wqdata/out/wqp/Vermont_secchi_001.feather.ind
 type: file
-hash: 2dbc28959bcff877ae1c00f18892b229
-time: 2017-11-20 03:34:25 UTC
+hash: 9dacc6f72ad9ba8c8c71984f1dc6c0f7
+time: 2018-02-16 12:41:07 UTC
 depends:
-  1_wqdata/tmp/wqp/Vermont_secchi_001.feather.ind: 2dbc28959bcff877ae1c00f18892b229
-fixed: 433d9ba36ae7f5097c19846bfc7bcbd8
+  1_wqdata/tmp/wqp/Vermont_secchi_001.feather.ind: 9dacc6f72ad9ba8c8c71984f1dc6c0f7
+fixed: 568c750299b0297b477a077d56cc5ec9
 code:
   functions: {}
 

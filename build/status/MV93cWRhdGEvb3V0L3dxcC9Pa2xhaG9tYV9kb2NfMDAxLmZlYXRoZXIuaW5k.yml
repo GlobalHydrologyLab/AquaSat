@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Oklahoma_doc_001.feather.ind
+type: file
+hash: b7760fbc61749a395c17f7f7823f51bb
+time: 2018-02-16 11:24:11 UTC
+depends:
+  1_wqdata/tmp/wqp/Oklahoma_doc_001.feather.ind: b7760fbc61749a395c17f7f7823f51bb
+fixed: 0bf006b10f2a5d47c5504cd7321f1945
+code:
+  functions: {}
+

@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/Tennessee_doc_001.feather.ind
+type: file
+hash: 406733d2f9b663e704625b5dee65bb64
+time: 2018-02-16 12:12:24 UTC
+depends:
+  1_wqdata/tmp/wqp/Tennessee_doc_001.feather.ind: 406733d2f9b663e704625b5dee65bb64
+fixed: 8f6c6b7282050c8f1f5cc0a46997f0d7
+code:
+  functions: {}
+

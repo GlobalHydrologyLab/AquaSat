@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Virginia_doc_001.feather.ind
+type: file
+hash: f36b5df2df8f82d645ecdf7464b2fcbb
+time: 2018-02-16 13:18:29 UTC
+depends:
+  partition_Virginia_doc_001: 42f593730e1b3fb9d9242a12be6708c2
+  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+fixed: cda70c3a27df2627ca8a1474cc5fab99
+code:
+  functions:
+    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+

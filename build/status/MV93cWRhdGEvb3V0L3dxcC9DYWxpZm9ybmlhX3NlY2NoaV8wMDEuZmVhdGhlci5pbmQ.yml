@@ -1,11 +1,11 @@
 version: 0.3.0
 name: 1_wqdata/out/wqp/California_secchi_001.feather.ind
 type: file
-hash: c58c998b32ccb04bc0e0df57c70746c5
-time: 2017-11-19 21:23:55 UTC
+hash: a4c18ef98e7d18b3256981c0e1f6b9af
+time: 2018-02-16 03:37:07 UTC
 depends:
-  1_wqdata/tmp/wqp/California_secchi_001.feather.ind: c58c998b32ccb04bc0e0df57c70746c5
-fixed: e8c13e4f6fde7002754d76ebc7b372de
+  1_wqdata/tmp/wqp/California_secchi_001.feather.ind: a4c18ef98e7d18b3256981c0e1f6b9af
+fixed: ed5f9ff911722fc8ff0ad93aeec2a1bf
 code:
   functions: {}
 
