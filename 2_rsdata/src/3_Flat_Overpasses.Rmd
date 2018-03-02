@@ -124,6 +124,46 @@ wqp.pull.minus1 <- wqp.candidates %>%
 
 wqp.pull <- bind_rows(wqp.pull.same,wqp.pull.plus1,wqp.pull.minus1)
 
-write_feather(wqp.pull,path='2_rsdata/out/WidePull.Feather')
+#write_feather(wqp.pull,path='2_rsdata/out/WidePull.feather')
+```
+
+#Read the feather data in and split into path row pushes. If they have more than 5000 data points in a given pathrow, then split that into seperate files <5000
+```{r}
+wqp.pull <- read_feather('2_rsdata/out/WidePull.feather')
+
+wqp.nest <- wqp.pull %>%
+  mutate(pr = paste(PATH,ROW,sep='_')) %>%
+  mutate(index = 1:n())
+
+library(doMC)
+library(foreach)
+registerDoMC(4)
+
+pr.index <- unique(wqp.nest$pr)
+foreach(i = 1:length(pr.index)) %do%{
+  library(tidyverse)
+  wqp.sub <- wqp.nest %>%
+    filter(pr == pr.index[i])
+  nrow(wqp.sub)
+  if(nrow(wqp.sub) < 5000){
+    name = paste0('2_rsdata/out/SplitWide/',pr.index[i],'.feather')
+    write_feather(wqp.sub,path=name)
+  } else {
+    exp <- wqp.sub
+    ct = 0
+    while(nrow(exp) > 0){
+      ct = ct+1
+      ct.c = paste0('_',ct)
+      exp1 <- exp %>%
+        slice(1:5000)
+      exp <- exp %>%
+        filter(!index %in% exp1$index)
+      name = paste0('2_rsdata/out/SplitWide/',pr.index[i],ct.c,'.feather')
+      write_feather(exp1,path=name)
+    }
+  }
+}
+
+
 ```
 
