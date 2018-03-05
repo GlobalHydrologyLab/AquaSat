@@ -68,22 +68,33 @@ wrs.all.usa <- wrs %>%
 #Join inventory to wrs tiles
 ```{r}
 #Use st join to join inventory to wrs path rows
-inv.wrs.sf <- st_join(inv.sf,wrs.all.usa)
+inv.wrs.sf <- st_join(inv.sf,wrs.all.usa) %>%
+  st_transform(.,4326)
+
+
 
 #Convert tthis to a tibble
-inv.wrs <- as.tibble(inv.wrs.sf) %>%
-  select(-geometry,-id)
+sfc_as_cols <- function(x, names = c("x","y")) {
+  stopifnot(inherits(x,"sf") && inherits(sf::st_geometry(x),"sfc_POINT"))
+  ret <- do.call(rbind,sf::st_geometry(x))
+  ret <- tibble::as_tibble(ret)
+  stopifnot(length(names) == ncol(ret))
+  ret <- setNames(ret,names)
+  dplyr::bind_cols(x,ret)
+}
+inv.wrs <- sfc_as_cols(inv.wrs.sf,names=c('long','lat')) %>%
+  as.tibble() %>%
+  dplyr::select(-geometry,-id) 
 
 #Check the number of sites that didn't overlap
 inv.wrs.fail <- inv.wrs.sf%>%
   filter(is.na(PATH))
 
 
-
 #Check where these sites are (likely coastal)
-ggplot() + 
-  geom_sf(data=usa) + 
-  geom_sf(data=inv.wrs.fail)
+# ggplot() + 
+#   geom_sf(data=usa) + 
+#   geom_sf(data=inv.wrs.fail)
 
 #Turns out it is the florida keys and some island I can't recognize. I'm okay with not having these sites
 
