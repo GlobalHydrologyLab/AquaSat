@@ -20,10 +20,9 @@ library(lubridate)
 
 #Read in full datasets from WQP and LAGOS
 
-```{r}
+```{r, eval=FALSE}
 #Read in wrs inventory with path row
 wrs.inv <- read_feather('2_rsdata/out/WRSWaterInventory.feather')
-
 
 doc <- read_feather('1_wqdata/out/wqp/all_doc.feather') %>%
   filter(Units %in% c('mg/l','ppm')) %>%
@@ -75,30 +74,40 @@ secchi <- read_feather('1_wqdata/out/wqp/all_secchi.feather') %>%
 #Sites are repeated twice that have two landsat scene overlaps. Will get rid of this downstream when joining 
 #Path row to the overpass dataset. 
 wqp.flat <- bind_rows(secchi,tss,chl,doc) %>%
-  spread(key=type,value=value)
+  spread(key=type,value=value) %>%
+  filter(tss >= 0 & tss < 9999 | is.na(tss)) %>%
+  filter(doc >= 0 & doc < 9999 | is.na(doc)) %>%
+  filter(chl >= 0 & chl < 9999 | is.na(chl)) %>%
+  filter(secchi > 0 & secchi < 1000 | is.na(secchi)) 
+
+
 
 ```
 
-#Load in lagos data, flatten it and make it look exactly like the wqp.flat
-```{r}
+
+# Load in lagos data, flatten it and make it look exactly like the wqp.flat
+```{r, eval=F}
 #lagosne_get('1.087.1')
 lagos <- lagosne_load("1.087.1")
 lagos.nute <- lagos$epi_nutr %>%
   mutate(SiteID=paste('lagos',lagoslakeid,sep='-')) %>%
   inner_join(wrs.inv,by='SiteID') %>%
   mutate(Date=mdy(as.character(sampledate))) %>%
-  dplyr::select(SiteID,Date,max,med,min,PATH,ROW,chl=chla,doc,secchi) %>%
+  dplyr::select(SiteID,Date,max,med,min,PATH,ROW,long,lat,chl=chla,doc,secchi) %>%
   mutate(tss=NA)
-
 
 wqp.candidates <- bind_rows(wqp.flat,lagos.nute) %>%
   mutate(SampDate=Date) %>% 
-  ungroup()
+  ungroup() %>%
+  filter(year(SampDate) > 1970) %>%
+  filter(year(SampDate) < 2020)
+
+
 ```
 
 
 #Read in cloudiness data
-```{r}
+```{r, eval=F}
 
 #Load in cloudy dataset which is called dat. 
 load('2_rsdata/in/Cloudy.RData') 
@@ -124,6 +133,61 @@ wqp.pull.minus1 <- wqp.candidates %>%
 
 wqp.pull <- bind_rows(wqp.pull.same,wqp.pull.plus1,wqp.pull.minus1)
 
-write_feather(wqp.pull,path='2_rsdata/out/WidePull.Feather')
+#write_feather(wqp.pull,path='2_rsdata/out/WidePull.feather')
+```
+
+#Read the feather data in and split into path row pushes. If they have more than 5000 data points in a given pathrow, then split that into seperate files <5000
+```{r, eval=F}
+library(foreach)
+
+wqp.pull <- read_feather('2_rsdata/out/WidePull.feather')
+
+
+
+
+wqp.nest <- wqp.pull %>%
+  mutate(pr = paste(PATH,ROW,sep='_')) %>%
+  mutate(index = 1:n())
+
+#Subsection louisianna for matt.
+wqp.la <- wqp.nest %>%
+  filter(lat > 28.97 & lat < 32.97) %>%
+  filter(long > -92.077 & long < -89.904)
+
+#write_feather(wqp.la,path='2_rsdata/tmp/wqplouis.feather')
+
+
+data.splitter <- function(wqp.nest,dir='2_rsdata/out/SplitWide/'){
+  pr.index <- unique(wqp.nest$pr)
+  #Forloop and while loop to split data into 5000 or less feathers (which is a data requirement of GEE.)
+  foreach(i = 1:length(pr.index)) %do%{
+    library(tidyverse)
+    wqp.sub <- wqp.nest %>%
+      filter(pr == pr.index[i])
+    if(nrow(wqp.sub) < 5000){
+      name = paste0(dir,pr.index[i],'.feather')
+      write_feather(wqp.sub,path=name)
+    } else {
+      exp <- wqp.sub
+      ct = 0
+      while(nrow(exp) > 0){
+        ct = ct+1
+        ct.c = paste0('_',ct)
+        exp1 <- exp %>%
+          slice(1:5000)
+        exp <- exp %>%
+          filter(!index %in% exp1$index)
+        name = paste0(dir,pr.index[i],ct.c,'.feather')
+        write_feather(exp1,path=name)
+      }
+    }
+  }
+}
+
+data.splitter(wqp.la,dir='2_rsdata/tmp/SplitWide/')
+
+
+  
+
 ```
 
