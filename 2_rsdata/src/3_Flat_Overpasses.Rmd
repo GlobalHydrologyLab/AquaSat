@@ -147,7 +147,10 @@ wqp.pull <- read_feather('2_rsdata/out/WidePull.feather')
 
 wqp.nest <- wqp.pull %>%
   mutate(pr = paste(PATH,ROW,sep='_')) %>%
-  mutate(index = 1:n())
+  mutate(index = 1:n()) %>%
+  mutate(Date=as.character(Date)) %>%
+  mutate(SampDate=as.character(SampDate))
+
 
 #Subsection louisianna for matt.
 wqp.la <- wqp.nest %>%
