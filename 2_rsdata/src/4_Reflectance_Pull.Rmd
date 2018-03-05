@@ -1,0 +1,228 @@
+---
+title: "GGE_Landsat_Pull"
+author: "Simon Topp"
+date: "3/2/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(feather)
+library(knitr)
+opts_knit$set(root.dir='/Users/simontopp/Google Drive/Aquasat/')
+
+```
+
+This script takes the shouldered, filtered in situ water quality dataset pulled from Water Quality Portal/LAGOS and extracts associated reflectance values from Google Earth Engine.  The pulled reflectance values are the median pixel value of pixels with 80% water occurence (according to Pekel) within 120m of the provided lat/long of the in situ sample identified in the water quality dataset. 
+
+
+```{r}
+## This chunk splits up WidePull.Feather dataset here into subfiles of 5000 observations labeled by path/row.
+
+library(foreach)
+
+wqp.pull <- read_feather('2_rsdata/out/WidePull.feather')
+
+wqp.nest <- wqp.pull %>%
+  mutate(pr = paste(PATH,ROW,sep='_')) %>%
+  mutate(index = 1:n())
+
+data.splitter <- function(wqp.nest,dir='2_rsdata/out/SplitWide/'){
+  pr.index <- unique(wqp.nest$pr)
+  #Forloop and while loop to split data into 5000 or less feathers (which is a data requirement of GEE.)
+  foreach(i = 1:length(pr.index)) %do%{
+    library(tidyverse)
+    wqp.sub <- wqp.nest %>%
+      filter(pr == pr.index[i])
+    if(nrow(wqp.sub) < 5000){
+      name = paste0(dir,pr.index[i],'.feather')
+      write_feather(wqp.sub,path=name)
+    } else {
+      exp <- wqp.sub
+      ct = 0
+      while(nrow(exp) > 0){
+        ct = ct+1
+        ct.c = paste0('_',ct)
+        exp1 <- exp %>%
+          slice(1:5000)
+        exp <- exp %>%
+          filter(!index %in% exp1$index)
+        name = paste0(dir,pr.index[i],ct.c,'.feather')
+        write_feather(exp1,path=name)
+      }
+    }
+  }
+}
+
+data.splitter(wqp.la,dir='2_rsdata/tmp/SplitWide/')
+
+```
+
+
+```{python, eval=F, engine.path="/anaconda/bin/python2"}
+import time
+import ee
+import os
+import feather as f
+ee.Initialize()
+
+#Load in Pekel Layer and Landsat Collections.  Right now this 
+#script is set up to pull values from the Surface Refectance 
+#collections that have been atmoshperically corrected with LEDAPS.  
+#Eventually TOA collections will be incorporated here too.
+pekel = ee.Image('JRC/GSW1_0/GlobalSurfaceWater')
+l8 = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
+l7 = ee.ImageCollection('LANDSAT/LE07/C01/T1_SR')
+l5 = ee.ImageCollection('LANDSAT/LT05/C01/T1_SR')
+
+#Standardize band names between the various collections and aggregate 
+#them into one image collection
+bn8 = ['B2','B3', 'B4', 'B5', 'B6','B7', 'pixel_qa']
+bn57 = ['B1', 'B2', 'B3', 'B4', 'B5','B7', 'pixel_qa']
+bns = ['Blue', 'Green', 'Red', 'Nir', 'Swir1', 'Swir2','fmask']
+
+ls5 = l5.select(bn57, bns)
+ls7 = l7.select(bn57, bns)
+ls8 = l8.select(bn8, bns)
+
+ls = ee.ImageCollection(ls5.merge(ls7).merge(ls8))
+##.filterMetadata('CLOUD_COVER','less_than', 60)  ##optionaly filter by cloud cover
+
+#Selct the occurence layer in the pekel mask, which is just the 
+#percentage of water occurence over a given pixel from 1985-2015.
+#Set the percent occurance threshold and create a watermask from the result.
+threshold = 80
+water = pekel.select('occurrence').gt(threshold)
+water = water.updateMask(water)
+
+## Set buffer distance of pixels to include in median calculation.  Distance is in meters from supplied sample point.  
+dist = 120
+
+
+## Identify folder with in-situ data broken up into 5000 observation chunks by path/row
+#Eventually this shouldn't be unique to my directory, but I'm not sure how to get python to use the default working directory.
+folder = '2_rsdata/out/SplitWide/'
+
+#Create list of file names, remove hidden formatting file in directory
+filesUp = os.listdir(folder)
+filesUp  = filter(lambda x: x  != '.DS_Store', filesUp)
+
+### Functions
+
+####  This function maps across all the sites in a given Path/Row file
+
+def sitePull(i):
+
+  #Pull the overpass date associated with the sample (+/- 1 day)
+  date = ee.Date(i.get('Date'))
+    
+  #Create a buffer around the sample site. Size is determined above.
+  sdist = i.geometry().buffer(dist)
+    
+  #Filter the landsat scenes associated with the path/row to the sample date
+  #and clip it to the site buffer
+  lsSample = ee.Image(lsover.filterDate(date,date.advance(1,'day')).first()).clip(sdist)
+
+  #Create a mask that removes pixels identifed as cloud or cloud 
+  #shadow with the pixel qa band
+    
+  ##Cloud/Shadow masking  
+  cloudShadowBitMask = ee.Number(2).pow(3).int()
+  cloudsBitMask = ee.Number(2).pow(5).int()
+  qa = lsSample.select('fmask')
+    
+  ## Burn in roads that might not show up in Pekel and potentially 
+  #corrupt pixel values  
+  road = ee.FeatureCollection("TIGER/2016/Roads").filterBounds(sdist)\
+  .geometry().buffer(30)  
+    
+  #Create road, cloud, and shadow mask
+  mask = qa.bitwiseAnd(cloudShadowBitMask).eq(0)\
+  .And(qa.bitwiseAnd(cloudsBitMask).eq(0))\
+  .paint(road,0)
+  mask = mask.updateMask(mask)
+ 
+  #Create water only mask
+  wateronly = water.clip(sdist)
+    
+  #Update mask on imagery and add Pekel occurrence band for data export.
+  lsSample = lsSample.addBands(pekel.select('occurrence'))\
+  .updateMask(wateronly).updateMask(mask)
+    
+  #Collect mean reflectance and occurance values
+  lsout = lsSample.reduceRegion(ee.Reducer.median(), sdist, 30)
+    
+  #Create dictionaries of median values and attach them to original site feature.
+  output = i.set({'sat':ee.String(lsSample.get('SATELLITE')).split('_').get(1)})\
+  .set({"Blue": lsout.get('Blue')})\
+  .set({"Green": lsout.get('Green')})\
+  .set({"Red": lsout.get('Red')})\
+  .set({"Nir": lsout.get('Nir')})\
+  .set({"Swir1": lsout.get('Swir1')})\
+  .set({"Swir2": lsout.get('Swir2')})\
+  .set({"fmask": lsout.get('fmask')})\
+  .set({"pwater": lsout.get('occurrence')})\
+  .set({"lsDate": ee.Date(lsSample.get('system:time_start'))})\
+  .set({"pixelCount": lsSample.reduceRegion(ee.Reducer.count(), sdist, 30).get('Blue')})
+  
+  return output
+
+##Function for limiting the max number of tasks sent to
+#earth engine at one time to avoid time out errors
+
+def maximum_no_of_tasks(MaxNActive, waitingPeriod):
+  """maintain a maximum number of active tasks
+  """
+  time.sleep(10)
+  ## initialize submitting jobs
+  ts = list(ee.batch.Task.list())
+
+  NActive = 0
+  for task in ts:
+       if ('RUNNING' in str(task) or 'READY' in str(task)):
+           NActive += 1
+  ## wait if the number of current active tasks reach the maximum number
+  ## defined in MaxNActive
+  while (NActive >= MaxNActive):
+      time.sleep(waitingPeriod) # if reach or over maximum no. of active tasks, wait for 2min and check again
+      ts = list(ee.batch.Task.list())
+      NActive = 0
+      for task in ts:
+        if ('RUNNING' in str(task) or 'READY' in str(task)):
+          NActive += 1
+  return()
+    
+
+
+#### Wrap it all up in a for loop running through our list of files
+
+for x in range(0,len(filesUp)):
+
+  #Read in our file as a feather data frame
+  inv = f.read_dataframe(folder + filesUp[x])
+  #turn our inventory into a feature collection by assigning 
+  #lat longs and a site id.  Do this via list comprehension 
+  #(similar to for loop but faster and apparently plays nice with earth engine.)
+  invOut = ee.FeatureCollection([ee.Feature(ee.Geometry.Point([inv['long'][i],\
+  inv['lat'][i]]),{'SiteID':inv['SiteID'][i], 'Date':inv['Date'][i]}) for i in range(0,len(inv))]) 
+  
+  #Pull out the path/row from the file name
+  path = int(filesUp[x].replace('.','_').split('_')[0])
+  row = int(filesUp[x].replace('.','_').split('_')[1])
+  
+  #Filter image collection to path/row  
+  lsover = ee.ImageCollection(ls.filter(ee.Filter.eq('WRS_PATH',\
+  path)).filter(ee.Filter.eq('WRS_ROW', row)))
+    
+  ## Map over sites within specific path row
+  data = ee.FeatureCollection(invOut.map(sitePull))
+
+  dataOut = ee.batch.Export.table.toDrive(collection = data, \
+                                               description = "Export" + str(path)\
+                                               + '_' + str(row) + '_' + str(x),\
+                                               folder = 'WQP_SR_MatchUps',\
+                                               fileFormat = 'csv')
+  maximum_no_of_tasks(15, 60)
+  dataOut.start()
+```
+
