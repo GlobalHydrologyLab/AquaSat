@@ -1,6 +1,8 @@
 ---
 title: "3_Flat_Overpasses"
 output: html_document
+editor_options: 
+  chunk_output_type: console
 ---
 
 ###THIS NEEDS MORE COMMENTING###
@@ -110,18 +112,23 @@ wqp.candidates <- bind_rows(wqp.flat,lagos.nute) %>%
 ```{r, eval=F}
 
 #Load in cloudy dataset which is called dat. 
-load('2_rsdata/in/Cloudy.RData') 
+dat <- read_feather('2_rsdata/out/clouds.feather')
+
+
 clouds <- dat %>%
   filter(WRS_PATH %in% wrs.inv$PATH &
            WRS_ROW %in% wrs.inv$ROW) %>%
-  select(PATH=WRS_PATH,ROW=WRS_ROW,Date=DATE_ACQUIRED,clouds=CLOUD_COVER)
+  select(PATH=WRS_PATH,ROW=WRS_ROW,Date,clouds=CLOUD_COVER)
 
-wqp.pull.same <- inner_join(wqp.candidates,clouds,by=c('PATH','ROW','Date'))
+
+wqp.pull.same <- inner_join(wqp.candidates,clouds,by=c('PATH','ROW','Date')) %>% 
+  ungroup()
 
 #Shoulder the data by 1 day
 wqp.pull.plus1 <- wqp.candidates %>%
   mutate(Date = Date + 1) %>%
-  inner_join(clouds,by=c('PATH','ROW','Date'))
+  inner_join(clouds,by=c('PATH','ROW','Date')) %>%
+  ungroup()
 
 #Shoulder the data by -1 day
 wqp.pull.minus1 <- wqp.candidates %>%
@@ -133,7 +140,9 @@ wqp.pull.minus1 <- wqp.candidates %>%
 
 wqp.pull <- bind_rows(wqp.pull.same,wqp.pull.plus1,wqp.pull.minus1)
 
-#write_feather(wqp.pull,path='2_rsdata/out/WidePull.feather')
+
+
+write_feather(wqp.pull,path='2_rsdata/out/WidePull.feather')
 ```
 
 #Read the feather data in and split into path row pushes. If they have more than 5000 data points in a given pathrow, then split that into seperate files <5000
@@ -149,13 +158,17 @@ wqp.nest <- wqp.pull %>%
   mutate(pr = paste(PATH,ROW,sep='_')) %>%
   mutate(index = 1:n()) %>%
   mutate(Date=as.character(Date)) %>%
-  mutate(SampDate=as.character(SampDate))
+  mutate(SampDate=as.character(SampDate)) 
+
+
 
 
 #Subsection louisianna for matt.
 wqp.la <- wqp.nest %>%
   filter(lat > 28.97 & lat < 32.97) %>%
   filter(long > -92.077 & long < -89.904)
+
+
 
 #write_feather(wqp.la,path='2_rsdata/tmp/wqplouis.feather')
 
@@ -187,10 +200,10 @@ data.splitter <- function(wqp.nest,dir='2_rsdata/out/SplitWide/'){
   }
 }
 
-data.splitter(wqp.la,dir='2_rsdata/tmp/SplitWide/')
+data.splitter(wqp.nest,dir='2_rsdata/out/SplitWide/')
 
 
-  
+
 
 ```
 
