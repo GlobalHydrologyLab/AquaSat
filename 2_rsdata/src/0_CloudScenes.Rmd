@@ -1,0 +1,100 @@
+---
+title: "0_CloudScenes"
+author: "Matthew Ross"
+date: "3/5/2018"
+output: html_document
+---
+
+
+# Gettting Landsat Cloud Scores
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+opts_knit$set(root.dir='~/Dropbox/UNC-PostDoc All/aquasat/')
+library(tidyverse)
+```
+
+
+## Surface Reflectance cloudiness
+```{python, eval=F, engine.path="/usr/local/bin/python2"}
+import ee
+import time
+import numpy
+ee.Initialize()
+## Define a function to get properties from the landsat stack
+def getProperties(i):
+    return (ee.Feature(None, i.toDictionary(
+        ['CLOUD_COVER', 'WRS_PATH', 'WRS_ROW',
+        'LANDSAT_SCENE_ID', 'DATE_ACQUIRED'])))
+        
+
+#Make a rectangel around the USA
+usa = ee.Geometry.Rectangle([-128, 20, -66, 50])
+
+l8 = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
+l7 = ee.ImageCollection('LANDSAT/LE07/C01/T1_SR') 
+l5 = ee.ImageCollection('LANDSAT/LT05/C01/T1_SR')
+
+lsCollection= ee.ImageCollection(l5.merge(l7).merge(l8)).filterBounds(usa)
+
+md = '-01-01'
+
+MaxNActive = 9 # maximum number of task submitting to server
+ts = []
+
+years=numpy.arange(1984,2019,1)
+
+for year in years:
+  lsFiltered = lsCollection.filterDate(str(year) + md, str(year + 1) + md)
+  Cloudiness = lsFiltered.map(getProperties)
+  task0 = (ee.batch.Export.table.toDrive(
+       collection = Cloudiness,
+       description = 'Cloudiness' + str(year),
+       folder = '001_cloudiness_Lower_Global',
+       fileNamePrefix = str(year) ,
+       fileFormat = 'CSV'))
+  task0.start()
+  time.sleep(10)
+  ## initialize submitting jobs
+  ts = list(task0.list())
+  NActive = 0
+  for task in ts:
+    if ('RUNNING' in str(task) or 'READY' in str(task)):
+        NActive += 1       
+    ## wait if the number of current active tasks reach the maximum number
+   ## defined in MaxNActive
+  while (NActive >= MaxNActive):
+    time.sleep(120)
+    ts = list(task0.list())
+    NActive = 0
+    for task in ts:
+      if ('RUNNING' in str(task) or 'READY' in str(task)):
+        NActive += 1
+```
+
+
+## Download GEE data from google drive
+```{r}
+folder <- drive_ls('001_cloudiness_Lower_Global')
+
+
+for(i in 1:nrow(folder)) {
+  path=paste0('2_rsdata/tmp/Cloudiness/',folder$name[i])
+  drive_download(as_id(folder$id[i]),
+                 path=path)
+}
+
+
+
+```
+
+
+## Stitch cloud data together and do some simple scripting to get date and spacecraft id
+```{r}
+library(lubridate)
+clouds <- map_df(list.files('2_rsdata/tmp/Cloudiness',full.names = T),read_csv) %>%
+  mutate(Date = ymd(str_split_fixed(`system:index`,'_',5)[,5]))
+
+write_feather(clouds,'2_rsdata/out/clouds.feather')
+
+```
+
