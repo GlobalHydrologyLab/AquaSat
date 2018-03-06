@@ -107,10 +107,13 @@ def waterfunc(buf):
 #Loop over the index stored in split
 for x in split:
 
-#turn our inventory into a feature collection by assigning lat longs and a site ide
+#turn our inventory into a feature collection by assigning lat longs and a site id.
+#This is done via list comprehension which is similar to a for loop but faster and
+#plays nice with earth engine.  Collections are limited for 5000 to avoid time outs
+#on the server side.
   invOut = ee.FeatureCollection([ee.Feature(
             ee.Geometry.Point([inv['long'][i], inv['lat'][i]]),
-              {'SiteID':inv['SiteID'][i]}) for i in range(x, x + 5000)]) #SIMON CAN YOU EXPLAIN THIS? FOR LOOP?
+              {'SiteID':inv['SiteID'][i]}) for i in range(x, x + 5000)]) 
 
 
 
