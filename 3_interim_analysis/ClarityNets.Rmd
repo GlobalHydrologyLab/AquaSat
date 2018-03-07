@@ -12,7 +12,7 @@ editor_options:
 
 This is an exploraty analysis to see how well in situ measurements of sediment, chlorophyll, and doc predict water clarity. I'm going to use Bayesian networks and the package bnlearn to start this exploration process
 
-```{r libraries}
+```{r setup}
 
 library(tidyverse)
 library(bnlearn)
@@ -197,19 +197,6 @@ save(nute.secchi,nutrient,inclusive,inclusive.poc,file='3_interim_analysis/tmp/i
 ```{r, eval=f}
 load('3_interim_analysis/tmp/inclusive.RData')
 
-library(leaflet)
-
-est.only <- nutrient %>%
-  filter(Type %in% c('Estuary','Stream')) %>%
-  group_by(SiteID,lat,long) %>%
-  summarize(n=length(unique(Date))) %>%
-  filter(n > 5)
-
-head(est.only)
-leaflet() %>%
-  addProviderTiles(provider='Esri.WorldImagery') %>%
-  addCircleMarkers(lng=est.only$long,lat=est.only$lat)
-
 
 
 
@@ -221,7 +208,7 @@ nute.log <- nute.secchi %>%
   left_join(doc.only,by=c('SiteID','Date')) %>%
   ungroup(.) %>%
   dplyr::select(tss,tn,chl,tp,doc,SiteID,Type,Date) %>%
-  mutate(tis = tss-chl) %>%
+  mutate(tis = tss-(chl*100)) %>%
   gather(key=variable,value=value,-SiteID,-Type,-Date) %>%
   filter(value > 0) %>%
   filter(!is.na(value)) %>%
@@ -230,9 +217,13 @@ nute.log <- nute.secchi %>%
   dplyr::select(-value) %>%
   spread(variable,logvalue) %>%
   group_by(SiteID) %>%
-  ungroup(.)
+  ungroup(.) %>%
+  filter(tis > -2)
 
-head(nute.log)
+hist(nute.log$tis)
+
+summary(nute.log)
+
 
 p.nutes.avg <- nute.log %>%
   filter(Type != 'Facility') %>%
