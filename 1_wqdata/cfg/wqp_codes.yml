@@ -8,6 +8,9 @@ characteristicName:
     - 'Total Suspended Particulate Matter'
     - 'Fixed suspended solids'
     
+  #tis:
+    #- 'Sediment, inorganic, classification (choice list)'
+    
   chlorophyll:
     - "Chlorophyll"
     - "Chlorophyll A"

@@ -153,7 +153,6 @@ wqp.pull <- read_feather('2_rsdata/out/WidePull.feather')
 
 
 
-
 wqp.nest <- wqp.pull %>%
   mutate(pr = paste(PATH,ROW,sep='_')) %>%
   mutate(index = 1:n()) %>%
