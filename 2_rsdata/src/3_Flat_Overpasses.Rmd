@@ -113,12 +113,12 @@ wqp.candidates <- bind_rows(wqp.flat,lagos.nute) %>%
 
 #Load in cloudy dataset which is called dat. 
 dat <- read_feather('2_rsdata/out/clouds.feather')
-
-
+names(dat)
 clouds <- dat %>%
   filter(WRS_PATH %in% wrs.inv$PATH &
            WRS_ROW %in% wrs.inv$ROW) %>%
-  select(PATH=WRS_PATH,ROW=WRS_ROW,Date,clouds=CLOUD_COVER)
+  mutate(sat = str_split_fixed(`system:index`,'_',5)[,3]) %>%
+  select(PATH=WRS_PATH,ROW=WRS_ROW,Date,clouds=CLOUD_COVER,sat,time='SENSING_TIME',landsat_id=LANDSAT_ID)
 
 
 wqp.pull.same <- inner_join(wqp.candidates,clouds,by=c('PATH','ROW','Date')) %>% 
@@ -162,14 +162,12 @@ wqp.nest <- wqp.pull %>%
 
 
 
-#Subsection louisianna for matt.
-wqp.la <- wqp.nest %>%
-  filter(lat > 28.97 & lat < 32.97) %>%
-  filter(long > -92.077 & long < -89.904)
-
-
-
-#write_feather(wqp.la,path='2_rsdata/tmp/wqplouis.feather')
+# #Subsection louisianna for matt.
+# wqp.la <- wqp.nest %>%
+#   filter(lat > 28.97 & lat < 32.97) %>%
+#   filter(long > -92.077 & long < -89.904)
+# 
+# #write_feather(wqp.la,path='2_rsdata/tmp/wqplouis.feather')
 
 
 data.splitter <- function(wqp.nest,dir='2_rsdata/out/SplitWide/'){

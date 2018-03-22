@@ -3,13 +3,15 @@ title: "0_CloudScenes"
 author: "Matthew Ross"
 date: "3/5/2018"
 output: html_document
+editor_options: 
+  chunk_output_type: console
 ---
 
 
 # Gettting Landsat Cloud Scores
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-opts_knit$set(root.dir='~/Dropbox/UNC-PostDoc All/aquasat/')
+knitr::opts_knit$set(root.dir='~/Dropbox/UNC-PostDoc All/aquasat/')
 library(tidyverse)
 ```
 
@@ -24,7 +26,8 @@ ee.Initialize()
 def getProperties(i):
     return (ee.Feature(None, i.toDictionary(
         ['CLOUD_COVER', 'WRS_PATH', 'WRS_ROW',
-        'LANDSAT_SCENE_ID', 'DATE_ACQUIRED'])))
+        'LANDSAT_ID', 'DATE_ACQUIRED',
+        'SENSING_TIME'])))
         
 
 #Make a rectangel around the USA
@@ -73,7 +76,7 @@ for year in years:
 
 
 ## Download GEE data from google drive
-```{r}
+```{r, eval=F}
 folder <- drive_ls('001_cloudiness_Lower_Global')
 
 
@@ -92,7 +95,9 @@ for(i in 1:nrow(folder)) {
 ```{r}
 library(lubridate)
 clouds <- map_df(list.files('2_rsdata/tmp/Cloudiness',full.names = T),read_csv) %>%
-  mutate(Date = ymd(str_split_fixed(`system:index`,'_',5)[,5]))
+  mutate(Date = ymd(str_split_fixed(`system:index`,'_',5)[,5])) 
+
+names(clouds)
 
 write_feather(clouds,'2_rsdata/out/clouds.feather')
 
