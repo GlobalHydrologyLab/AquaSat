@@ -113,12 +113,15 @@ wqp.candidates <- bind_rows(wqp.flat,lagos.nute) %>%
 
 #Load in cloudy dataset which is called dat. 
 dat <- read_feather('2_rsdata/out/clouds.feather')
-names(dat)
+
+
 clouds <- dat %>%
   filter(WRS_PATH %in% wrs.inv$PATH &
            WRS_ROW %in% wrs.inv$ROW) %>%
-  mutate(sat = str_split_fixed(`system:index`,'_',5)[,3]) %>%
-  select(PATH=WRS_PATH,ROW=WRS_ROW,Date,clouds=CLOUD_COVER,sat,time='SENSING_TIME',landsat_id=LANDSAT_ID)
+  mutate(sat = str_split_fixed(LANDSAT_ID,'_',5)[,1]) %>%
+  select(PATH=WRS_PATH,ROW=WRS_ROW,Date,clouds=CLOUD_COVER,sat,time='SENSING_TIME',landsat_id=LANDSAT_ID) 
+clouds$sat <- str_split_fixed(clouds$sat,'0',2)[,2]
+
 
 
 wqp.pull.same <- inner_join(wqp.candidates,clouds,by=c('PATH','ROW','Date')) %>% 
@@ -150,7 +153,6 @@ write_feather(wqp.pull,path='2_rsdata/out/WidePull.feather')
 library(foreach)
 
 wqp.pull <- read_feather('2_rsdata/out/WidePull.feather')
-
 
 
 wqp.nest <- wqp.pull %>%

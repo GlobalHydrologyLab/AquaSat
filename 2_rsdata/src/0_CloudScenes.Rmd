@@ -97,7 +97,8 @@ library(lubridate)
 clouds <- map_df(list.files('2_rsdata/tmp/Cloudiness',full.names = T),read_csv) %>%
   mutate(Date = ymd(str_split_fixed(`system:index`,'_',5)[,5])) 
 
-names(clouds)
+
+
 
 write_feather(clouds,'2_rsdata/out/clouds.feather')
 
