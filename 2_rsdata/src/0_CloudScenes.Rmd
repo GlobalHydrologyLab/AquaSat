@@ -11,7 +11,7 @@ editor_options:
 # Gettting Landsat Cloud Scores
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-knitr::opts_knit$set(root.dir='~/Dropbox/UNC-PostDoc All/aquasat/')
+knitr::opts_knit$set(root.dir='~/Dropbox/UNC-PostDocAll/aquasat/')
 library(tidyverse)
 ```
 

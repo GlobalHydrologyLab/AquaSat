@@ -7,17 +7,25 @@ editor_options:
   chunk_output_type: console
 ---
 
-```{r setup, include=F}
+```{r setup, include=FALSE}
 library(tidyverse)
 library(googledrive)
 library(feather)
+library(lubridate)
+library(randomForest)
+
 knitr::opts_chunk$set(echo = TRUE)
-knitr::opts_knit$set(root.dir='~/Dropbox/UNC-PostDoc All/aquasat/')
+knitr::opts_knit$set(root.dir='~/Dropbox/UNC-PostDocAll/aquasat')
 
 
 ```
 
-##Download overpasses from Google Drive
+
+
+## Download overpasses from Google Drive
+
+### TOA
+
 ```{r, eval=F}
 
 #Read in the sr matchup folder
@@ -25,39 +33,96 @@ folder <- drive_ls('WQP_SR_MatchUps')
 
 
 #Loop over ids in that folder and download them.
-if(length(list.files('3_rswqjoin/data/in/MatchUps') < 500)){
+if(length(list.files('3_rswqjoin/data/in/SR_Matchups')) < 550){
   for(i in 1:nrow(folder)) {
-    path=paste0('3_rswqjoin/data/in/MatchUps/',folder$name[i])
+    path=paste0('3_rswqjoin/data/in/SR_Matchups/',folder$name[i])
     drive_download(as_id(folder$id[i]),
                    path=path)
   }
 }
 
+
+```
+
+### Surface Reflectance
+
+```{r, eval=F}
+
+#Read in the sr matchup folder
+folder <- drive_ls('WQP_TOA_MatchUps')
+
+
+#Loop over ids in that folder and download them.
+if(length(list.files('3_rswqjoin/data/in/TOA_Matchups')) < 550){
+  for(i in 1:nrow(folder)) {
+    path=paste0('3_rswqjoin/data/in/TOA_Matchups/',folder$name[i])
+    drive_download(as_id(folder$id[i]),
+                   path=path)
+  }
+}
+
+
 ```
 
 
 ## Read in overpass data, stitch and back join to wqp pull 
-```{r}
-#Read in reflectance matchups
-refl <- map_df(list.files('3_rswqjoin/data/in/MatchUps',full.names=T),read_csv) %>%
+```{r, eval=F}
+#Read in reflectance matchup
+
+refl <- map_df(list.files('3_rswqjoin/data/in/SR_Matchups',full.names=T),read_csv) %>%
+  select(-`system:index`,-lsDate,-.geo) %>%
   na.omit()
 
 
 #Read in concentration data
 conc <- read_feather('2_rsdata/out/WidePull.feather') %>%
-  select(-sat)
-
+  mutate(sat=as.numeric(sat))
 
 #Read in inventory
-inv <- read_feather('1_wqdata/out/wqp_inventory.feather')
-inv.est <- inv %>%
-  filter(ResolvedMonitoringLocationTypeName=='Estuary')
-
-#Just rivers and lakes
-match <- left_join(refl,conc, by=c('SiteID','Date')) %>%
-  filter(!SiteID %in% inv.est$MonitoringLocationIdentifier)
+inv <- read_feather('1_wqdata/out/wqp_inventory.feather') %>%
+  rename(SiteID=MonitoringLocationIdentifier) %>%
+  select(Type=ResolvedMonitoringLocationTypeName,SiteID,lat=LatitudeMeasure,lon=LongitudeMeasure) %>%
+  filter(SiteID %in% refl$SiteID) %>%
+  distinct(SiteID,Type,lat,lon)
 
 
+#Join reflectance and inventory and keep only same day
+match <- conc %>%
+  filter(Date == SampDate) %>%
+  inner_join(refl, by=c('SiteID','Date','PATH','ROW','sat')) 
+
+  
+
+write_feather(match,path='3_rswqjoin/data/out/SR_Sameday_Match.feather')
+
+```
+
+# Some playing
+```{r}
+match <- read_feather('3_rswqjoin/data/out/SR_Sameday_Match.feather')
+wqp.la <- match %>%
+   filter(lat > 28.97 & lat < 32.97) %>%
+   filter(long > -92.077 & long < -89.904)
+
+tss.la <- wqp.la %>%
+  filter(!is.na(tss)) %>%
+  filter(clouds < 10) %>%
+  filter(pixelCount > 9) %>%
+  mutate(RG=Red/Green) %>%
+  mutate(NR=Nir/Red) 
+
+
+
+tss.mod <- lm((tss) ~ RG*NR+Swir2,data=tss.la)
+
+hist(log10(tss.la$tss))
+
+```
+
+
+
+## Random Forest Prediction
+```{r}
 library(randomForest)
 
 names(match)
