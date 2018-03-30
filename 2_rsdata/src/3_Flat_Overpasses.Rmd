@@ -5,11 +5,12 @@ editor_options:
   chunk_output_type: console
 ---
 
-###THIS NEEDS MORE COMMENTING###
+# Widen data for final pre-processing before sending data to join with reflectance data.
+
+The way data is downloaded from the Water Quality Portal, each site*characteristic combination is downloaded independently so if sediment and chlorophyll were measured on the same day at the same site, they will be recorded as separate records. Here we merge that data together in a single wide data frame so that reflectance values for these simultaneous samples will be the exact same and only pulled down once. 
 
 ```{r setup}
 library(knitr)
-opts_knit$set(root.dir='~/Dropbox/UNC-PostDoc All/aquasat/')
 library(feather)
 library(googledrive)
 library(tidyverse)
@@ -17,15 +18,18 @@ library(sf)
 library(LAGOSNE)
 library(lubridate)
 
+opts_knit$set(root.dir='../..')
+
 ```
 
 
-#Read in full datasets from WQP and LAGOS
+## Read in full datasets from WQP and LAGOS
 
-```{r, eval=FALSE}
+```{r}
 #Read in wrs inventory with path row
 wrs.inv <- read_feather('2_rsdata/out/WRSWaterInventory.feather')
 
+#Doc read and some munging
 doc <- read_feather('1_wqdata/out/wqp/all_doc.feather') %>%
   filter(Units %in% c('mg/l','ppm')) %>%
   filter(CharacteristicName == 'Organic carbon') %>%
@@ -36,6 +40,7 @@ doc <- read_feather('1_wqdata/out/wqp/all_doc.feather') %>%
   mutate(type='doc')
 
 
+#---Excluding POC ---- # at this point.
 
 # poc <- read_feather('1_wqdata/out/wqp/all_poc.feather') %>%
 #   filter(Units %in% c('mg/l')) %>%
@@ -43,6 +48,7 @@ doc <- read_feather('1_wqdata/out/wqp/all_doc.feather') %>%
 #   group_by(SiteID,Date) %>%
 #   summarize(poc=mean(Value))
 
+#Chlorohpyll deserves much more attention for munging. 
 chl <- read_feather('1_wqdata/out/wqp/all_chlorophyll.feather') %>%
   filter(Units %in% c('ug/l')) %>% 
   filter(CharacteristicName %in% c('Chlorophyll','Chlorophyll a','Chlorophyll a (probe)','Chlorophyll a (probe relative fluorescence','Chlorophyll a, corrected for pheophytin')) %>%
@@ -53,7 +59,7 @@ chl <- read_feather('1_wqdata/out/wqp/all_chlorophyll.feather') %>%
   inner_join(wrs.inv,by='SiteID') %>%
   mutate(type='chl')
 
-
+#Sediment read in and clean
 tss <- read_feather('1_wqdata/out/wqp/all_tss.feather') %>%
   filter(Units %in% c('mg/l')) %>%
   filter(!is.na(Date)) %>%
@@ -63,7 +69,7 @@ tss <- read_feather('1_wqdata/out/wqp/all_tss.feather') %>%
   mutate(type='tss')
 
 
-
+#Secchi read in and clean
 secchi <- read_feather('1_wqdata/out/wqp/all_secchi.feather') %>%
   filter(Units %in% c('m')) %>%
   filter(!is.na(Date)) %>%
@@ -75,6 +81,8 @@ secchi <- read_feather('1_wqdata/out/wqp/all_secchi.feather') %>%
 
 #Sites are repeated twice that have two landsat scene overlaps. Will get rid of this downstream when joining 
 #Path row to the overpass dataset. 
+#Bind these datasets together and spread them into a wide dataset. Some small additional data cleaning
+#Maybe this data cleaning should go somewhere else? 
 wqp.flat <- bind_rows(secchi,tss,chl,doc) %>%
   spread(key=type,value=value) %>%
   filter(tss >= 0 & tss < 9999 | is.na(tss)) %>%
@@ -87,8 +95,8 @@ wqp.flat <- bind_rows(secchi,tss,chl,doc) %>%
 ```
 
 
-# Load in lagos data, flatten it and make it look exactly like the wqp.flat
-```{r, eval=F}
+## Load in lagos data, flatten it and make it look exactly like the wqp.flat
+```{r}
 #lagosne_get('1.087.1')
 lagos <- lagosne_load("1.087.1")
 lagos.nute <- lagos$epi_nutr %>%
@@ -109,11 +117,12 @@ wqp.candidates <- bind_rows(wqp.flat,lagos.nute) %>%
 
 
 #Read in cloudiness data
-```{r, eval=F}
+```{r}
 
 #Load in cloudy dataset which is called dat. 
 dat <- read_feather('2_rsdata/out/clouds.feather')
 
+#Subset to only WRS path rows in the inventory data. 
 clouds <- dat %>%
   filter(WRS_PATH %in% wrs.inv$PATH &
            WRS_ROW %in% wrs.inv$ROW) %>%
@@ -121,10 +130,21 @@ clouds <- dat %>%
   mutate(Date=ymd(str_split_fixed(LANDSAT_ID,'_',6)[,4])) %>%
   select(PATH=WRS_PATH,ROW=WRS_ROW,Date,clouds=CLOUD_COVER,sat,time='SENSING_TIME',landsat_id=LANDSAT_ID) 
 
+#Convert sat into a numeric
+clouds$sat <- as.numeric(str_split_fixed(clouds$sat,'0',2)[,2])
 
-clouds$sat <- str_split_fixed(clouds$sat,'0',2)[,2]
+
+```
 
 
+## Join WQ data to WRS data by date and path row. 
+
+Here we join the WQP data to the cloud dataset. We do this for same day observations, but we also shoulder the *in situ* data by one day. Previous work has shown that within about a day, mostly in lakes, reflectance information can still be predictive of water quality. Users can later decide to not use these shoulder dates. 
+
+On dates where in situ measurements were made both the day of an overpass and the days after or before, we simply keep the days with same day observations and throw away the shoulder days. 
+
+```{r}
+#Same day join
 wqp.pull.same <- inner_join(wqp.candidates,clouds,by=c('PATH','ROW','Date')) %>% 
   ungroup()
 
@@ -145,7 +165,7 @@ wqp.pull.minus1 <- wqp.candidates %>%
   ungroup()
 
 
-
+#Bind all this data together
 wqp.pull <- bind_rows(wqp.pull.same,wqp.pull.plus1,wqp.pull.minus1)
 
 #This should only return date site combos where the site was sampled only the day 
@@ -161,61 +181,5 @@ wqp.chk <- wqp.pull %>%
 write_feather(wqp.pull,path='2_rsdata/out/WidePull.feather')
 ```
 
-#Read the feather data in and split into path row pushes. If they have more than 5000 data points in a given pathrow, then split that into seperate files <5000
-```{r, eval=F}
-library(foreach)
 
-wqp.pull <- read_feather('2_rsdata/out/WidePull.feather')
-
-
-wqp.nest <- wqp.pull %>%
-  mutate(pr = paste(PATH,ROW,sep='_')) %>%
-  mutate(index = 1:n()) %>%
-  mutate(Date=as.character(Date)) %>%
-  mutate(SampDate=as.character(SampDate)) 
-
-
-
-
-# #Subsection louisianna for matt.
-# wqp.la <- wqp.nest %>%
-#   filter(lat > 28.97 & lat < 32.97) %>%
-#   filter(long > -92.077 & long < -89.904)
-# 
-# #write_feather(wqp.la,path='2_rsdata/tmp/wqplouis.feather')
-
-
-data.splitter <- function(wqp.nest,dir='2_rsdata/out/SplitWide/'){
-  pr.index <- unique(wqp.nest$pr)
-  #Forloop and while loop to split data into 5000 or less feathers (which is a data requirement of GEE.)
-  foreach(i = 1:length(pr.index)) %do%{
-    library(tidyverse)
-    wqp.sub <- wqp.nest %>%
-      filter(pr == pr.index[i])
-    if(nrow(wqp.sub) < 5000){
-      name = paste0(dir,pr.index[i],'.feather')
-      write_feather(wqp.sub,path=name)
-    } else {
-      exp <- wqp.sub
-      ct = 0
-      while(nrow(exp) > 0){
-        ct = ct+1
-        ct.c = paste0('_',ct)
-        exp1 <- exp %>%
-          slice(1:5000)
-        exp <- exp %>%
-          filter(!index %in% exp1$index)
-        name = paste0(dir,pr.index[i],ct.c,'.feather')
-        write_feather(exp1,path=name)
-      }
-    }
-  }
-}
-
-data.splitter(wqp.nest,dir='2_rsdata/out/SplitWide/')
-
-
-
-
-```
 

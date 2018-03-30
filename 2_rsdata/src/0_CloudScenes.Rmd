@@ -2,25 +2,39 @@
 title: "0_CloudScenes"
 author: "Matthew Ross"
 date: "3/5/2018"
-output: html_document
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
 editor_options: 
   chunk_output_type: console
 ---
 
 
 # Gettting Landsat Cloud Scores
+
+To save some computation later, we decided to download each landsat cloud score from Google Earth Engine. That way, when we eventually join the water quality data to reflectance infortmation we don't ask for data over water quality sites that are too small to be observed by landsat or on days when it is too cloudy to get reliable data. 
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-knitr::opts_knit$set(root.dir='~/Dropbox/UNC-PostDocAll/aquasat/')
+knitr::opts_knit$set(root.dir='../..')
 library(tidyverse)
 ```
 
 
-## Surface Reflectance cloudiness
-```{python, eval=F, engine.path="/usr/local/bin/python2"}
+## Surface Reflectance Cloudiness pull from GEE
+
+The code below grabs cloud scores, WRS PATH and ROW, landsat ID and date information from google earth engine using python code. The data is gathered only for the contiguous USA. 
+
+We use the USGS surface reflectance product for this data pull. Information on this data can be found [here](https://landsat.usgs.gov/landsat-surface-reflectance).
+
+
+```{python, engine.path="/usr/local/bin/python2"}
+#Import libraries
 import ee
 import time
 import numpy
+#Initialize earth engine
 ee.Initialize()
 ## Define a function to get properties from the landsat stack
 def getProperties(i):
@@ -33,33 +47,45 @@ def getProperties(i):
 #Make a rectangel around the USA
 usa = ee.Geometry.Rectangle([-128, 20, -66, 50])
 
+#Import landsat surface reflectance collections.
 l8 = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
 l7 = ee.ImageCollection('LANDSAT/LE07/C01/T1_SR') 
 l5 = ee.ImageCollection('LANDSAT/LT05/C01/T1_SR')
 
+#Merge landsat collections
 lsCollection= ee.ImageCollection(l5.merge(l7).merge(l8)).filterBounds(usa)
 
+#Define a month day to start years (Jan 1)
 md = '-01-01'
 
 MaxNActive = 9 # maximum number of task submitting to server
+#Define an empty vector.
 ts = []
 
+#Get data for years of Landsat 5-8 operation. 
 years=numpy.arange(1984,2019,1)
 
+#Loop over years such that we download a single csv for each year. 
 for year in years:
+  #Filter landsat stack to the year in the loop (starting with 1984)
   lsFiltered = lsCollection.filterDate(str(year) + md, str(year + 1) + md)
+  #Get the properties from all the scenes for that year. 
   Cloudiness = lsFiltered.map(getProperties)
-  task0 = (ee.batch.Export.table.toDrive(
+  #Define an export task to export the data
+  task0 = ee.batch.Export.table.toDrive(
        collection = Cloudiness,
        description = 'Cloudiness' + str(year),
-       folder = '001_cloudiness_Lower_Global',
+       folder = 'wqp_cloudiness',
        fileNamePrefix = str(year) ,
-       fileFormat = 'CSV'))
+       fileFormat = 'CSV')
+  #Start the defined task. 
   task0.start()
+  #Pause the task so that GEE doesn't get overloaded
   time.sleep(10)
   ## initialize submitting jobs
   ts = list(task0.list())
   NActive = 0
+  #Loop over the task list
   for task in ts:
     if ('RUNNING' in str(task) or 'READY' in str(task)):
         NActive += 1       
@@ -76,8 +102,11 @@ for year in years:
 
 
 ## Download GEE data from google drive
-```{r, eval=F}
-folder <- drive_ls('001_cloudiness_Lower_Global')
+
+Now that GEE has created and exported a summary of cloud scores for all landsat scenes over the USA, we want to download that data to our local computer. 
+
+```{r}
+folder <- drive_ls('wqp_cloudiness')
 
 
 for(i in 1:nrow(folder)) {
@@ -91,15 +120,15 @@ for(i in 1:nrow(folder)) {
 ```
 
 
-## Stitch cloud data together and do some simple scripting to get date and spacecraft id
+## Stitch cloud data together and do some simple scripting to get date 
+
+
 ```{r}
 library(lubridate)
+#Read in data. 
 clouds <- map_df(list.files('2_rsdata/tmp/Cloudiness',full.names = T),read_csv) %>%
   mutate(Date = ymd(str_split_fixed(`system:index`,'_',5)[,5])) 
-
-
-
-
+#Write out cloud data as a feather
 write_feather(clouds,'2_rsdata/out/clouds.feather')
 
 ```
