@@ -1,0 +1,185 @@
+---
+title: "3_Flat_Overpasses"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+# Widen data for final pre-processing before sending data to join with reflectance data.
+
+The way data is downloaded from the Water Quality Portal, each site*characteristic combination is downloaded independently so if sediment and chlorophyll were measured on the same day at the same site, they will be recorded as separate records. Here we merge that data together in a single wide data frame so that reflectance values for these simultaneous samples will be the exact same and only pulled down once. 
+
+```{r setup}
+library(knitr)
+library(feather)
+library(googledrive)
+library(tidyverse)
+library(sf)
+library(LAGOSNE)
+library(lubridate)
+
+opts_knit$set(root.dir='../..')
+
+```
+
+
+## Read in full datasets from WQP and LAGOS
+
+```{r}
+#Read in wrs inventory with path row
+wrs.inv <- read_feather('2_rsdata/out/WRSWaterInventory.feather')
+
+#Doc read and some munging
+doc <- read_feather('1_wqdata/out/wqp/all_doc.feather') %>%
+  filter(Units %in% c('mg/l','ppm')) %>%
+  filter(CharacteristicName == 'Organic carbon') %>%
+  filter(!is.na(Date)) %>%
+  group_by(SiteID,Date) %>%
+  summarize(value=mean(Value)) %>%
+  inner_join(wrs.inv,by='SiteID') %>%
+  mutate(type='doc')
+
+
+#---Excluding POC ---- # at this point.
+
+# poc <- read_feather('1_wqdata/out/wqp/all_poc.feather') %>%
+#   filter(Units %in% c('mg/l')) %>%
+#   filter(!is.na(Date)) %>%
+#   group_by(SiteID,Date) %>%
+#   summarize(poc=mean(Value))
+
+#Chlorohpyll deserves much more attention for munging. 
+chl <- read_feather('1_wqdata/out/wqp/all_chlorophyll.feather') %>%
+  filter(Units %in% c('ug/l')) %>% 
+  filter(CharacteristicName %in% c('Chlorophyll','Chlorophyll a','Chlorophyll a (probe)','Chlorophyll a (probe relative fluorescence','Chlorophyll a, corrected for pheophytin')) %>%
+  mutate(Value=Value/1000) %>%
+  filter(!is.na(Date)) %>%
+  group_by(SiteID,Date) %>%
+  summarize(value=mean(Value)) %>%
+  inner_join(wrs.inv,by='SiteID') %>%
+  mutate(type='chl')
+
+#Sediment read in and clean
+tss <- read_feather('1_wqdata/out/wqp/all_tss.feather') %>%
+  filter(Units %in% c('mg/l')) %>%
+  filter(!is.na(Date)) %>%
+  group_by(SiteID,Date) %>%
+  summarize(value=mean(Value)) %>%
+  inner_join(wrs.inv,by='SiteID') %>%
+  mutate(type='tss')
+
+
+#Secchi read in and clean
+secchi <- read_feather('1_wqdata/out/wqp/all_secchi.feather') %>%
+  filter(Units %in% c('m')) %>%
+  filter(!is.na(Date)) %>%
+  group_by(SiteID,Date) %>%
+  summarize(value=mean(Value)) %>%
+  inner_join(wrs.inv,by='SiteID') %>%
+  mutate(type='secchi')
+
+
+#Sites are repeated twice that have two landsat scene overlaps. Will get rid of this downstream when joining 
+#Path row to the overpass dataset. 
+#Bind these datasets together and spread them into a wide dataset. Some small additional data cleaning
+#Maybe this data cleaning should go somewhere else? 
+wqp.flat <- bind_rows(secchi,tss,chl,doc) %>%
+  spread(key=type,value=value) %>%
+  filter(tss >= 0 & tss < 9999 | is.na(tss)) %>%
+  filter(doc >= 0 & doc < 9999 | is.na(doc)) %>%
+  filter(chl >= 0 & chl < 9999 | is.na(chl)) %>%
+  filter(secchi > 0 & secchi < 1000 | is.na(secchi)) 
+
+
+
+```
+
+
+## Load in lagos data, flatten it and make it look exactly like the wqp.flat
+```{r}
+#lagosne_get('1.087.1')
+lagos <- lagosne_load("1.087.1")
+lagos.nute <- lagos$epi_nutr %>%
+  mutate(SiteID=paste('lagos',lagoslakeid,sep='-')) %>%
+  inner_join(wrs.inv,by='SiteID') %>%
+  mutate(Date=mdy(as.character(sampledate))) %>%
+  dplyr::select(SiteID,Date,max,med,min,PATH,ROW,long,lat,chl=chla,doc,secchi) %>%
+  mutate(tss=NA)
+
+wqp.candidates <- bind_rows(wqp.flat,lagos.nute) %>%
+  mutate(SampDate=Date) %>% 
+  ungroup() %>%
+  filter(year(SampDate) > 1970) %>%
+  filter(year(SampDate) < 2020)
+
+
+```
+
+
+#Read in cloudiness data
+```{r}
+
+#Load in cloudy dataset which is called dat. 
+dat <- read_feather('2_rsdata/out/clouds.feather')
+
+#Subset to only WRS path rows in the inventory data. 
+clouds <- dat %>%
+  filter(WRS_PATH %in% wrs.inv$PATH &
+           WRS_ROW %in% wrs.inv$ROW) %>%
+  mutate(sat = str_split_fixed(LANDSAT_ID,'_',5)[,1]) %>%
+  mutate(Date=ymd(str_split_fixed(LANDSAT_ID,'_',6)[,4])) %>%
+  select(PATH=WRS_PATH,ROW=WRS_ROW,Date,clouds=CLOUD_COVER,sat,time='SENSING_TIME',landsat_id=LANDSAT_ID) 
+
+#Convert sat into a numeric
+clouds$sat <- as.numeric(str_split_fixed(clouds$sat,'0',2)[,2])
+
+
+```
+
+
+## Join WQ data to WRS data by date and path row. 
+
+Here we join the WQP data to the cloud dataset. We do this for same day observations, but we also shoulder the *in situ* data by one day. Previous work has shown that within about a day, mostly in lakes, reflectance information can still be predictive of water quality. Users can later decide to not use these shoulder dates. 
+
+On dates where in situ measurements were made both the day of an overpass and the days after or before, we simply keep the days with same day observations and throw away the shoulder days. 
+
+```{r}
+#Same day join
+wqp.pull.same <- inner_join(wqp.candidates,clouds,by=c('PATH','ROW','Date')) %>% 
+  ungroup()
+
+
+#Shoulder the data by 1 day and make sure that sites where sequential samples occur only 
+#keep the same day sampling
+wqp.pull.plus1 <- wqp.candidates %>%
+  mutate(Date = Date + 1) %>%
+  anti_join(wqp.pull.same, by=c('SiteID','Date')) %>%
+  inner_join(clouds,by=c('PATH','ROW','Date')) %>%
+  ungroup()
+
+#Shoulder the data by -1 day
+wqp.pull.minus1 <- wqp.candidates %>%
+  mutate(Date=Date-1) %>%
+  anti_join(wqp.pull.same, by=c('SiteID','Date')) %>%
+  inner_join(clouds,by=c('PATH','ROW','Date')) %>%
+  ungroup()
+
+
+#Bind all this data together
+wqp.pull <- bind_rows(wqp.pull.same,wqp.pull.plus1,wqp.pull.minus1)
+
+#This should only return date site combos where the site was sampled only the day 
+#before and the day after landsat overpass, but not on the same day
+wqp.chk <- wqp.pull %>%
+  group_by(SiteID,Date,PATH,ROW,sat) %>%
+  mutate(n=n()) %>%
+  filter(n > 1) %>%
+  arrange(SiteID,Date)
+
+
+
+write_feather(wqp.pull,path='2_rsdata/out/WidePull.feather')
+```
+
+
+

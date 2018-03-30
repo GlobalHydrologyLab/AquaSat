@@ -1,0 +1,108 @@
+---
+title: "WQP Overlaps"
+author: "Matthew Ross"
+date: "1/3/2018"
+output: html_document
+---
+
+# Join WQP inventory data to the landsat wrs tiles. 
+
+In order to avoid sending up extraneous data to the WQP portal, we check for the PATH and ROW of each site that is near landsat-detectable water (from step "1_LandsatSiteInventory.Rmd"). Eventually this data will be joined to the actuall concentration data in 3_Flat_Overpasses.Rmd
+
+```{r setup}
+library(knitr)
+library(feather)
+library(googledrive)
+library(tidyverse)
+library(sf)
+library(LAGOSNE)
+
+opts_knit$set(root.dir='../..')
+```
+
+## Load in site data and convert to an sf object
+```{r}
+#Load in wqp data
+winv <- read_feather('2_rsdata/out/uniqueWaterInventory.feather')
+
+
+#Convert the data into sf object
+inv.sf <- st_as_sf(winv,coords=c('long','lat'),crs=4326) %>%
+  st_transform(.,2163)
+
+```
+
+
+```{r}
+#Read in usa data
+usa = st_as_sf(maps::map('usa',plot=F,fill=T)) %>%
+    st_transform(.,2163) %>%
+    st_buffer(.,0) 
+
+#Read in wrs data
+load('2_rsdata/in/wrs.RData')
+#Convert to sf object
+wrs <- st_as_sf(wrs) %>%
+  st_transform(.,2163)
+
+
+#Negative buffer on the wrs tiles in usa by 1 km
+wrs.usa <- wrs %>%
+  st_buffer(.,0) %>%
+  st_intersection(.,usa) %>%
+  group_by(PATH,ROW) %>%
+  st_buffer(.,-2000) %>%
+  na.omit(.) %>%
+  ungroup(.) %>%
+  filter(PATH < 133 | ROW != 91) # For some reason this covers the entire usa and messes up data downstream
+
+#The above operation clips the wrs tiles to the shape of the usa, which we don't want. So let's keep full tiles
+wrs.all.usa <- wrs %>%
+  filter(id %in% wrs.usa$id) %>%
+  select(id,PATH,ROW)
+
+#Check overpasses
+# ggplot() + 
+#   geom_sf(data=wrs.all.usa)+
+#   geom_sf(data=wrs.usa)
+```
+
+#Join inventory to wrs tiles
+```{r}
+#Use st join to join inventory to wrs path rows
+inv.wrs.sf <- st_join(inv.sf,wrs.all.usa) %>%
+  st_transform(.,4326)
+
+
+
+#Convert tthis to a tibble
+sfc_as_cols <- function(x, names = c("x","y")) {
+  stopifnot(inherits(x,"sf") && inherits(sf::st_geometry(x),"sfc_POINT"))
+  ret <- do.call(rbind,sf::st_geometry(x))
+  ret <- tibble::as_tibble(ret)
+  stopifnot(length(names) == ncol(ret))
+  ret <- setNames(ret,names)
+  dplyr::bind_cols(x,ret)
+}
+inv.wrs <- sfc_as_cols(inv.wrs.sf,names=c('long','lat')) %>%
+  as.tibble() %>%
+  dplyr::select(-geometry,-id) 
+
+#Check the number of sites that didn't overlap
+inv.wrs.fail <- inv.wrs.sf%>%
+  filter(is.na(PATH))
+
+
+#Check where these sites are (likely coastal)
+# ggplot() + 
+#   geom_sf(data=usa) + 
+#   geom_sf(data=inv.wrs.fail)
+
+#Turns out it is the florida keys and some island I can't recognize. I'm okay with not having these sites
+
+write_feather(inv.wrs,path='2_rsdata/out/WRSWaterInventory.feather')
+```
+
+
+
+
