@@ -1,0 +1,78 @@
+---
+title: "3_Flat_Overpasses"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+# Split flat overpass data into chunks of less than 5000 observations per WRS Path Row. 
+
+It saves a lot of computational time in GEE to send up data by PATH ROW, so we split our dataset into chunks per path row, where each chunk is smaller than the GEE recommended 5000 observations per chunk.
+
+```{r setup}
+library(knitr)
+library(feather)
+library(googledrive)
+library(tidyverse)
+library(sf)
+library(LAGOSNE)
+library(lubridate)
+
+opts_knit$set(root.dir='../..')
+
+```
+
+
+
+
+```{r, eval=F}
+#I like foreach here for the  updated output. This could easily be a simple for loop. No parellel. While loops are scary with parellel. 
+library(foreach)
+
+#Read in data
+wqp.pull <- read_feather('2_rsdata/out/WidePull.feather')
+
+#Nest data per site
+wqp.nest <- wqp.pull %>%
+  mutate(pr = paste(PATH,ROW,sep='_')) %>%
+  mutate(index = 1:n()) %>%
+  mutate(Date=as.character(Date)) %>%
+  mutate(SampDate=as.character(SampDate)) 
+
+
+
+#Define a function to split data into sub 5000 sized chunks
+data.splitter <- function(wqp.nest,dir='2_rsdata/out/SplitWide/'){
+  pr.index <- unique(wqp.nest$pr)
+  #Forloop and while loop to split data into 5000 or less feathers (which is a data requirement of GEE.)
+  foreach(i = 1:length(pr.index)) %do%{
+    library(tidyverse)
+    wqp.sub <- wqp.nest %>%
+      filter(pr == pr.index[i])
+    if(nrow(wqp.sub) < 5000){
+      name = paste0(dir,pr.index[i],'.feather')
+      write_feather(wqp.sub,path=name)
+    } else {
+      exp <- wqp.sub
+      ct = 0
+      while(nrow(exp) > 0){
+        ct = ct+1
+        ct.c = paste0('_',ct)
+        exp1 <- exp %>%
+          slice(1:5000)
+        exp <- exp %>%
+          filter(!index %in% exp1$index)
+        name = paste0(dir,pr.index[i],ct.c,'.feather')
+        write_feather(exp1,path=name)
+      }
+    }
+  }
+}
+
+data.splitter(wqp.nest,dir='2_rsdata/out/SplitWide/')
+
+
+
+
+```
+

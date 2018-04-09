@@ -1,0 +1,195 @@
+---
+title: "FlatSiteInventory"
+output: html_document
+editor_options: 
+  chunk_output_type: inline
+---
+
+# Subsetting Water Quality Portal sites to landsat visible pixels.
+
+The water quality portal gives us a big inventory of sites with siteids and lat longs. Lots of these sites are on small rivers or have multiple characteristics associated with them. So we need to create a subset of the data that is only landsat visible. For now this involves some initial cleaning of the data in R. Sending the data to earth engine and then checking if the water pixels associated with the point are landsat visible (generally wider than 60meters)
+
+Obviously this is not in the remake style yet. Future goals. 
+
+
+```{r setup}
+library(knitr)
+library(feather)
+library(googledrive)
+library(tidyverse)
+
+opts_knit$set(root.dir='../..')
+
+
+```
+
+## Grab all unique water quality sites. 
+
+Uniqueness is defined by a unique combination of site name and lat and long.
+
+```{r}
+
+#Read in inventory and exclude nutrient data (not a goal of this project just yet)
+inv <- read_feather('1_wqdata/out/wqp_inventory.feather') %>%
+  filter(!Constituent %in% c('tn','p','nitrate')) %>%
+  filter(!StateCode %in% c('02','15','72','66')) %>% #No alaska, hawaii, or puerto rico or guam
+  distinct(MonitoringLocationIdentifier,LatitudeMeasure,LongitudeMeasure) %>% #Keep only unique site lat and long. 
+  filter(!is.na(LatitudeMeasure)) %>% #Exclude sites with missing geospatial data
+  filter(!is.na(LongitudeMeasure)) %>%
+  rename(SiteID=MonitoringLocationIdentifier,lat=LatitudeMeasure,long=LongitudeMeasure)
+
+#Load in lagos data
+lagos.sites <- lagosne_load("1.087.1")$locus %>%
+  select(SiteID = lagoslakeid,lat=nhd_lat,long=nhd_long) %>%
+  mutate(SiteID = paste('lagos',SiteID,sep='-'))
+
+#Bind lagos and wqp data together
+lagos.wqp <- bind_rows(lagos.sites,inv)
+#write_csv(inv,'2_rsdata/tmp/uniqueInventory.csv')
+write_feather(lagos.wqp,'2_rsdata/tmp/uniqueInventory.feather')
+
+
+
+```
+
+
+## Check if sites are visible as a water body in Landsat. 
+
+Most of the data living in the Water Quality Portal is on streams, lakes, and/or estuaries that are too small to be visible as water bodies from Landsat satellites, which have a resolution of ~30m. In this project we only want to keep sites that are consistently close to areas classified as water. Luckily there is a really nice paper and dataset from Jean Francois Pekel and others, where they looked at the entire history of Landsat 5-8 and classified how often any given pixel was classified as water. Data from [this paper](https://www.nature.com/articles/nature20584) is available in GEE and we use it to only keep sites that are close to water bodies visible from landsat. 
+
+The code below checks all sites for water pixels within 200m of the lat long of sites in the WQP. It takes 5 minutes or so to run with 400000 sites
+
+```{python,engine.path="/usr/local/bin/python2"}
+import ee
+ee.Initialize()
+import pandas as p
+import feather as f
+
+#Read in the water mask
+pekel = ee.Image('JRC/GSW1_0/GlobalSurfaceWater')
+
+#Point to the inventory feather
+file = '2_rsdata/tmp/uniqueInventory.feather'
+
+#Read in our inventory feather
+inv = f.read_dataframe(file)
+
+#Get the length of unique sites
+obs = len(inv.index) + 1
+
+#To convert these sites into featurecollections we have to split it up 
+#in a loop. I don't entirely understand why, but it works quickly and reproducibly.
+split = range(0, obs, 5000)
+
+#Selct the occurence layer in the pekel mask, which is just the percentage of water occurence
+#over a given pixel from 1985-2015. 
+occ = pekel.select('occurrence')
+
+
+#####----------Earth Engine Pull here ---------######
+
+
+#Define our water extraction function outside of the loop 
+#so it is not defined over and over
+
+def waterfunc(buf):
+    #Define a 200m buffer around each point
+    invBuf = buf.buffer(200).geometry()
+    #Clip the pekel mask to this buffer
+    pekclip = occ.clip(invBuf)
+    #Reduce the buffer to pekel min and max
+    pekMin = pekclip.reduceRegion(ee.Reducer.minMax(), invBuf, 30)
+    #Add another reducer to get the median pekel occurnce
+    pekMed = pekclip.reduceRegion(ee.Reducer.median(),invBuf,30)
+    #Define the output features
+    out = buf.set({'max':pekMin.get('occurrence_max')})\
+            .set({'min':pekMin.get('occurrence_min')})\
+            .set({'med':pekMed.get('occurrence')})
+          
+    return out
+  
+#Loop over the index stored in split
+for x in split:
+
+#turn our inventory into a feature collection by assigning lat longs and a site id.
+#This is done via list comprehension which is similar to a for loop but faster and
+#plays nice with earth engine.  Collections are limited for 5000 to avoid time outs
+#on the server side.
+  invOut = ee.FeatureCollection([ee.Feature(
+            ee.Geometry.Point([inv['long'][i], inv['lat'][i]]),
+              {'SiteID':inv['SiteID'][i]}) for i in range(x, x + 5000)]) 
+
+
+
+  #Map this function over the 5000 or so created sites
+  outdata = invOut.map(waterfunc)
+
+
+  #Define a data export 
+  dataOut = ee.batch.Export.table.toDrive(collection = outdata,
+                        description = "LandsatSitePull" + str(x),
+                        folder='tempSiteWater',
+                        fileFormat = 'csv')
+                        
+  #Start that export
+  dataOut.start()
+  #Close the loop
+print(done)
+```
+
+
+
+## Local download
+
+```{r , eval=F}
+library(googledrive)
+
+#Download data from python output stored in local googledrive folder called tempSiteWater
+folder <- drive_ls('tempSiteWater')
+
+#Download the drive data
+
+# A case for a for loop, because google only allows you one query at a time
+for(i in 1:nrow(folder)) {
+  path=paste0('2_rsdata/tmp/siteWater/',folder$name[i])
+  drive_download(as_id(folder$id[i]),
+                 path=path,
+                 overwrite=T)
+  if(file.size(path) == 0){
+      drive_download(as_id(folder$id[i]),
+                 path=path,
+                 overwrite=T)
+  }
+}
+
+```
+
+## Read in data and save as a single file
+
+This produces a final water inventory if the max pekel occurence is greater than 60 (later steps can make this more strict).
+
+```{r}
+#Get a list of those files
+water.inv.files <- list.files('2_rsdata/tmp/siteWater',full.names = T)
+
+#Use map_df to read them all in and stitch them together
+water.inv <- map_df(water.inv.files,read_csv)
+
+#Keep only sites with max pekel > 60 (this number is arbitrary and can be changed)
+#Extract the coordinates from the .geo using str split
+water.60 <- water.inv %>%
+  filter(max > 60) %>%
+  mutate(coords = str_split_fixed(`.geo`,'\\[',2)[,2] %>%
+           gsub(']}','',.)) %>%
+  mutate(lat = as.numeric(str_split_fixed(coords,',',2)[,2])) %>%
+  mutate(long = as.numeric(str_split_fixed(coords,',',2)[,1])) %>%
+  select(-`.geo`,-coords,-`system:index`)
+
+
+
+
+
+write_feather(water.60,'2_rsdata/out/uniqueWaterInventory.feather')
+```
+
+
