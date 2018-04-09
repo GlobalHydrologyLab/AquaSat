@@ -1,0 +1,262 @@
+---
+title: "3_Flat_Overpasses"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(feather)
+library(knitr)
+opts_knit$set(root.dir='../..')
+
+```
+
+This script takes the shouldered, filtered in situ water quality dataset pulled from the Water Quality Portal/LAGOS and extracts associated top of atmosphere reflectance values from Google Earth Engine.  The pulled reflectance values are the median pixel value of pixels with 80% water occurence (according to Pekel) within 120m of the provided lat/long of the in situ sample identified in the water quality dataset.
+
+
+```{python, eval=F, engine.path="/anaconda/bin/python2"}
+import time
+import ee
+import os
+import feather as f
+ee.Initialize()
+
+#Load in Pekel water occurance Layer and Landsat Collections.
+
+pekel = ee.Image('JRC/GSW1_0/GlobalSurfaceWater')
+
+l8 = ee.ImageCollection('LANDSAT/LC08/C01/T1_TOA')
+l7 = ee.ImageCollection('LANDSAT/LE07/C01/T1_TOA')
+l5 = ee.ImageCollection('LANDSAT/LT05/C01/T1_TOA').map(addPan)
+  
+
+#Standardize band names between the various collections and aggregate 
+#them into one image collection
+
+bn8 = ['B2','B3', 'B4', 'B5', 'B6','B7', 'B8', 'BQA']
+bn57 = ['B1', 'B2', 'B3', 'B4', 'B5','B7', 'B8', 'BQA']
+bns = ['Blue', 'Green', 'Red', 'Nir', 'Swir1', 'Swir2', 'Pan', 'qa']
+  
+ls5 = l5.select(bn57, bns)
+ls7 = l7.select(bn57, bns)
+ls8 = l8.select(bn8, bns)
+
+ls = ee.ImageCollection(ls5.merge(ls7).merge(ls8))
+
+#Selct the occurence layer in the pekel mask, which is just the 
+#percentage of water occurence over a given pixel from 1985-2015.
+#Set the percent occurance threshold and create a watermask from the result.
+threshold = 80
+water = pekel.select('occurrence').gt(threshold)
+water = water.updateMask(water)
+
+## Set buffer distance of pixels to include in median calculation.  Distance is in meters from supplied sample point.  
+dist = 120
+
+
+## Identify folder with in-situ data broken up into 5000 observation chunks by path/row and
+#Remove Path/Row combo files that have already been sent up
+
+#Identify upload and download directories, eventually change this to to use PyDrive package which directly accesses google drive so it can be applicable between users.
+if sat == 'SR':
+  DLdir = "/Users/simontopp/Google Drive/WQP_SR_MatchUps/"
+else:
+  DLdir = "/Users/simontopp/Google Drive/WQP_TOA_MatchUps/"
+
+ULdir = '2_rsdata/out/SplitWide/'
+
+#Generate file lists for both
+filesDown = os.listdir(DLdir)
+filesUp = os.listdir(ULdir) 
+
+#Remove hidden formatting file in directory and any file names in filesUp that are already in files down.
+filesUp  = filter(lambda x: x  != '.DS_Store', filesUp)
+filesDown = [i.replace(".csv", ".feather") for i in filesDown]
+
+filesUpFlt = [x for x in filesUp if x not in filesDown]
+
+### Functions
+
+####  This function maps across all the sites in a given Path/Row file
+
+def sitePull(i):
+
+  #Pull the overpass date associated with the sample (+/- 1 day)
+  date = ee.Date(i.get('Date'))
+    
+  #Create a buffer around the sample site. Size is determined above.
+  sdist = i.geometry().buffer(dist)
+    
+  #Filter the landsat scenes associated with the path/row to the sample date
+  #and clip it to the site buffer
+  lsSample = ee.Image(lsover.filterDate(date,date.advance(1,'day')).first()).clip(sdist)
+
+  #Create a mask that removes pixels identifed as cloud or cloud 
+  #shadow with the pixel qa band
+  if sat == 'SR':
+    mission = ee.String(lsSample.get('SATELLITE')).split('_').get(1)
+  else:
+    mission = ee.String(lsSample.get('SPACECRAFT_ID')).split('_').get(1)
+  
+  ###These are functions for unpacking the bit quality assessment band for TOA  
+  def Unpack(bitBand, startingBit, bitWidth):
+   # unpacking bit bands
+   # see: https://groups.google.com/forum/#!starred/google-earth-engine-developers/iSV4LwzIW7A
+   return (ee.Image(bitBand)
+           .rightShift(startingBit)
+           .bitwiseAnd(ee.Number(2).pow(ee.Number(bitWidth)).subtract(ee.Number(1)).int()))
+  if mission == 8:
+    bitAffected = {
+      'Cloud': [4, 1],
+      'CirrusConfidence': [11,2],
+    # 'CloudConfidence': [5, 2],
+      'CloudShadowConfidence': [7, 2],
+      'SnowIceConfidence': [9, 2]
+    }
+  else:
+    bitAffected = {
+    'Cloud': [4, 1],
+    #'CloudConfidence': [5, 2],
+    'CloudShadowConfidence': [7, 2],
+    'SnowIceConfidence': [9, 2]
+    }
+    
+  def UnpackAll(bitBand, bitInfo):
+     unpackedImage = ee.Image.cat([Unpack(bitBand, bitInfo[key][0], bitInfo[key][1]).rename([key]) for key in bitInfo])
+     return unpackedImage
+  
+  ## Burn in roads that might not show up in Pekel and potentially 
+  #corrupt pixel values  
+  road = ee.FeatureCollection("TIGER/2016/Roads").filterBounds(sdist)\
+  .geometry().buffer(30) 
+  
+  ##Cloud/Shadow masking info for SR collections 
+  cloudShadowBitMask = ee.Number(2).pow(3).int()
+  cloudsBitMask = ee.Number(2).pow(5).int()
+  snowBitMask = ee.Number(2).pow(4).int()
+  qa = lsSample.select('fmask')
+    
+  #Create road, cloud, and shadow mask. TOA and SR require different functions.
+  if sat == "SR":
+    mask = qa.bitwiseAnd(cloudShadowBitMask).eq(0)\
+    .And(qa.bitwiseAnd(cloudsBitMask).eq(0))\
+    .And(qa.bitwiseAnd(snowBitMask).eq(0))\
+    .paint(road,0)
+
+  else:
+    qaUnpack = UnpackAll(qa, bitAffected)
+    if mission == 8:
+      mask = qaUnpack.select('Cloud').eq(1)\
+      .Or(qaUnpack.select('CloudShadowConfidence').eq(3))\
+      .Or(qaUnpack.select('SnowIceConfidence').eq(3))\
+      .Or(qaUnpack.select('CirrusConfidence').eq(3))\
+      .paint(road,1).Not()
+    else:
+      mask = qaUnpack.select('Cloud').eq(1)\
+        .Or(qaUnpack.select('CloudShadowConfidence').eq(3))\
+        .Or(qaUnpack.select('SnowIceConfidence').eq(3))\
+        .paint(road,1).Not()
+ 
+  #Create water only mask
+  wateronly = water.clip(sdist)
+    
+  #Update mask on imagery and add Pekel occurrence band for data export.
+  lsSample = lsSample.addBands(pekel.select('occurrence'))\
+  .updateMask(wateronly).updateMask(mask)
+    
+  #Collect mean reflectance and occurance values
+  lsout = lsSample.reduceRegion(ee.Reducer.median(), sdist, 30)
+    
+  #Create dictionaries of median values and attach them to original site feature.
+    
+  output = i.set({'sat': mission})\
+  .set({"Blue": lsout.get('Blue')})\
+  .set({"Green": lsout.get('Green')})\
+  .set({"Red": lsout.get('Red')})\
+  .set({"Nir": lsout.get('Nir')})\
+  .set({"Swir1": lsout.get('Swir1')})\
+  .set({"Swir2": lsout.get('Swir2')})\
+  .set({"fmask": lsout.get('fmask')})\
+  .set({"pwater": lsout.get('occurrence')})\
+  .set({"pixelCount": lsSample.reduceRegion(ee.Reducer.count(), sdist, 30).get('Blue')})\
+  .set({'PATH': lsSample.get('WRS_PATH')})\
+  .set({'ROW': lsSample.get('WRS_ROW')})
+  
+  if sat == 'TOA':
+    output = output.set({"Pan": lsout.get('Pan')})
+    
+  return output
+
+##Function for limiting the max number of tasks sent to
+#earth engine at one time to avoid time out errors
+
+def maximum_no_of_tasks(MaxNActive, waitingPeriod):
+  """maintain a maximum number of active tasks
+  """
+  time.sleep(10)
+  ## initialize submitting jobs
+  ts = list(ee.batch.Task.list())
+
+  NActive = 0
+  for task in ts:
+       if ('RUNNING' in str(task) or 'READY' in str(task)):
+           NActive += 1
+  ## wait if the number of current active tasks reach the maximum number
+  ## defined in MaxNActive
+  while (NActive >= MaxNActive):
+      time.sleep(waitingPeriod) # if reach or over maximum no. of active tasks, wait for 2min and check again
+      ts = list(ee.batch.Task.list())
+      NActive = 0
+      for task in ts:
+        if ('RUNNING' in str(task) or 'READY' in str(task)):
+          NActive += 1
+  return()
+    
+
+
+#### Wrap it all up in a for loop running through our list of files
+
+for x in range(0,len(filesUpFlt)):
+
+  #Read in our file as a feather data frame
+  inv = f.read_dataframe(ULdir + filesUpFlt[x])
+  #turn our inventory into a feature collection by assigning 
+  #lat longs and a site id.  Do this via list comprehension 
+  #(similar to for loop but faster and apparently plays nice with earth engine.)
+  invOut = ee.FeatureCollection([ee.Feature(ee.Geometry.Point([inv['long'][i],\
+  inv['lat'][i]]),{'SiteID':inv['SiteID'][i], 'Date':inv['Date'][i],'SampDate':inv['SampDate'][i]}) for i in range(0,len(inv))]) 
+  
+  #Pull out the path/row from the file name
+  path = int(filesUpFlt[x].replace('.','_').split('_')[0])
+  row = int(filesUpFlt[x].replace('.','_').split('_')[1])
+  
+  #Filter image collection to path/row  
+  lsover = ee.ImageCollection(ls.filter(ee.Filter.eq('WRS_PATH',\
+  path)).filter(ee.Filter.eq('WRS_ROW', row)))
+    
+  ## Map over sites within specific path row
+  data = ee.FeatureCollection(invOut.map(sitePull))
+  
+  #Extract path/row count Variable so names match up with file sent to GGE
+  if filesUpFlt[x].replace('.','_').split('_')[2] == 'feather':
+    count = ''
+  else:
+    count = '_'+str(int(filesUpFlt[x].replace('.','_').split('_')[2]))
+  
+  if sat == 'SR':
+    dataOut = ee.batch.Export.table.toDrive(collection = data, \
+                                                 description = str(path)\
+                                                 +'_'+str(row) + count,\
+                                                folder = 'WQP_SR_MatchUps',\
+                                                fileFormat = 'csv')
+  else:
+    dataOut = ee.batch.Export.table.toDrive(collection = data, \
+                                                description = str(path)\
+                                                 +'_'+str(row) + count,\
+                                                folder = 'WQP_TOA_MatchUps',\
+                                                fileFormat = 'csv')
+  maximum_no_of_tasks(15, 60)
+  dataOut.start()
+```
