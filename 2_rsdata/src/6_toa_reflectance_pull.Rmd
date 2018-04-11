@@ -1,5 +1,5 @@
 ---
-title: "3_Flat_Overpasses"
+title: "06_toa_matchups"
 output: html_document
 editor_options: 
   chunk_output_type: console
@@ -15,48 +15,21 @@ library(googledrive)
 opts_knit$set(root.dir='../..')
 
 ```
-```{r}
-
-repl_python()
-import os
-toapy = r.toa_existing
-#Identify upload and download directories.
-
-DLdir = '2_rsdata_out/toa_matchups/'
-
-ULdir = '2_rsdata/out/SplitWide/'
-
-#Generate file lists for both
-filesDown = r.toa_existing['name']
-filesUp = os.listdir(ULdir) 
-
-#Remove hidden formatting file in directory and any file names in filesUp that are already in files down.
-filesUp  = filter(lambda x: x  != '.DS_Store', filesUp)
-filesDown = [i.replace(".csv", ".feather") for i in filesDown]
-
-filesUpFlt = [x for x in filesUp if x not in filesDown]
-      
-      import ee
-print 'hello world'
-exit
-```
 
 This script takes the shouldered, filtered in situ water quality dataset pulled from the Water Quality Portal/LAGOS and extracts associated top of atmosphere reflectance values from Google Earth Engine.  The pulled reflectance values are the median pixel value of pixels with 80% water occurence (according to Pekel) within 120m of the provided lat/long of the in situ sample identified in the water quality dataset.
 
-## The engine path identified with an authorized google earth engine account may need updating from one individual computer to another.
+*Reticulate uses the default python path for the local machine.  This python needs to be authorized with google earth engine and have the necessary packages installed.*  
+```{r Get Existing}
 
+###Download the split wqp/lagos data to send up to GGE.  This is easier in R than python. Also create a list of existing reflectance csv's to filter whats been pulled down from gge already.
 
-```{r}
-
-###Download the split wqp/lagos data to send up to GGE.  This is easier in R than python. Also create a list of existing reflectance csv's to filter what's sent up.
-
-library(googledrive)
 splits <- drive_ls('watersat/2_rsdata/out/SplitWide/')
 
+##546 is the number of splitwide files as of 04/11/18, this may need to be changed if the wqp/lagos data changes.
 
 if(length(list.files('2_rsdata/out/SplitWide')) < 546){
   for(i in 1:nrow(splits)) {
-    path = paste0(getwd(),'/2_rsdata/out/SplitWide/', x$name[i])
+    path = paste0(getwd(),'/2_rsdata/out/SplitWide/', splits$name[i])
     drive_download(as_id(splits$id[i]),
                    path=path, overwrite = TRUE)
   }
@@ -67,21 +40,18 @@ filesDownR <- drive_ls("watersat/2_rsdata/out/toa_matchups/") %>%
 
 ```
 
-
-
-```{r}
-
+```{r Google Earth Engine Pull}
 ##repl_python basically starts a python bash window within your R chunk.  This can be used to actually interact with earth engine.
+
 repl_python()
 import time
 import ee
 import os
 import feather
-execfile('2_rsdata/src/5a_6a_GEE_pull_functions.py')
-
 ee.Initialize()
 
 #Source necessary functions.
+execfile('2_rsdata/src/5a_6a_GEE_pull_functions.py')
 
 #Load in Pekel water occurance Layer and Landsat Collections.
 
@@ -92,7 +62,6 @@ l7 = ee.ImageCollection('LANDSAT/LE07/C01/T1_TOA')
 l5 = ee.ImageCollection('LANDSAT/LT05/C01/T1_TOA').map(addPan)
 
 #Identify toa for use in sourced functions.
-
 collection = 'TOA'
 
 #Standardize band names between the various collections and aggregate 
@@ -121,7 +90,6 @@ dist = 120
 ## Identify folder with in-situ data broken up into 5000 observation chunks by path/row and
 ULdir = '2_rsdata/out/SplitWide/'
 
-
 #Generate file lists for both files to be sent and files already processed in google earth engine
 filesDown = r.filesDownR['name']
 filesUp = os.listdir(ULdir) 
@@ -135,15 +103,15 @@ filesUpFlt = [x for x in filesUp if x not in filesDown]
 
 #### Wrap it all up in a for loop running through our list of files
 
-for x in range(0,3):#len(filesUpFlt)):
+for x in range(0,len(filesUpFlt)):
 
   #Read in our file as a feather data frame
-  inv = f.read_dataframe(ULdir + filesUpFlt[x])
+  inv = feather.read_dataframe(ULdir + filesUpFlt[x])
   #turn our inventory into a feature collection by assigning 
   #lat longs and a site id.  Do this via list comprehension 
   #(similar to for loop but faster and apparently plays nice with earth engine.)
   invOut = ee.FeatureCollection([ee.Feature(ee.Geometry.Point([inv['long'][i],\
-  inv['lat'][i]]),{'SiteID':inv['SiteID'][i], 'Date':inv['Date'][i],'SampDate':inv['SampDate'][i]}) for i in range(0,len(inv))]) 
+  inv['lat'][i]]),{'SiteID':inv['SiteID'][i],  'Date':inv['Date'][i],'SampDate':inv['SampDate'][i]}) for i in range(0,len(inv))]) 
   
   #Pull out the path/row from the file name
   path = int(filesUpFlt[x].replace('.','_').split('_')[0])
@@ -162,18 +130,37 @@ for x in range(0,3):#len(filesUpFlt)):
   else:
     count = '_'+str(int(filesUpFlt[x].replace('.','_').split('_')[2]))
   
-  if sat == 'SR':
-    dataOut = ee.batch.Export.table.toDrive(collection = data, \
-                                                 description = str(path)\
-                                                 +'_'+str(row) + count,\
-                                                folder = 'WQP_SR_MatchUps',\
-                                                fileFormat = 'csv')
-  else:
-    dataOut = ee.batch.Export.table.toDrive(collection = data, \
-                                                description = str(path)\
-                                                 +'_'+str(row) + count,\
-                                                folder = 'WQP_TOA_MatchUps',\
-                                                fileFormat = 'csv')
+  dataOut = ee.batch.Export.table.toDrive(collection = data, \
+                                              description = str(path)\
+                                               +'_'+str(row) + count,\
+                                              folder = 'WQP_TOA_MatchUps',\
+                                              fileFormat = 'csv')
+  
   maximum_no_of_tasks(15, 60)
   dataOut.start()
+
+## End the python bash.
+exit
 ```
+
+```{r Update Repositories}
+  
+#Finally, Download the new data locally and share to team folder.
+filesNew <- drive_ls('WQP_TOA_MatchUps')
+
+for(i in 1:nrow(filesNew)) {
+  path = paste0(getwd(),'/2_rsdata/out/toa_matchups/', filesNew$name[i])
+  drive_download(as_id(filesNew$id[i]),
+                 path=path, overwrite = TRUE)
+}
+
+for(i in 1:nrow(filesNew)) {
+  file = paste0(getwd(),'/2_rsdata/out/toa_matchups/', filesNew$name[i])
+  drive_upload(file, path = 'watersat/2_rsdata/out/toa_matchups/')
+}
+
+##Clean up non-team folder so no duplicates end up in it during future pulls
+drive_rm(as_dribble(filesNew))
+
+```
+

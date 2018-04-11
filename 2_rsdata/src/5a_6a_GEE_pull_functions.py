@@ -23,7 +23,8 @@ def UnpackAll(bitBand, bitInfo):
   unpackedImage = ee.Image.cat([Unpack(bitBand, bitInfo[key][0], bitInfo[key][1]).rename([key]) for key in bitInfo])
   return unpackedImage
 
-####  This function maps across all the sites in a given Path/Row file
+####  This function maps across all the sites in a given Path/Row file and 
+# extracts reflectance data for each in situ sampling date after creating a water mask.
 def sitePull(i):
 
   #Pull the overpass date associated with the sample (+/- 1 day)
@@ -38,31 +39,29 @@ def sitePull(i):
 
   #Create a mask that removes pixels identifed as cloud or cloud 
   #shadow with the pixel qa band
-  if sat == 'SR':
+  if collection == 'SR':
     mission = ee.String(lsSample.get('SATELLITE')).split('_').get(1)
   else:
     mission = ee.String(lsSample.get('SPACECRAFT_ID')).split('_').get(1)
   
-  if mission == 8:
-    bitAffected = {
-      'Cloud': [4, 1],
-      'CirrusConfidence': [11,2],
-      'CloudShadowConfidence': [7, 2],
-      'SnowIceConfidence': [9, 2]
-    }
-  else:
-    bitAffected = {
+  bitAffected = {
     'Cloud': [4, 1],
     'CloudShadowConfidence': [7, 2],
     'SnowIceConfidence': [9, 2]
     }
+  
+  #Include cirrus confidence for landsat 8.  
+  if mission == 8:
+    bitAffected['CirrusConfidence'] = [11,2]
+    
   
   ## Burn in roads that might not show up in Pekel and potentially 
   #corrupt pixel values  
   road = ee.FeatureCollection("TIGER/2016/Roads").filterBounds(sdist)\
   .geometry().buffer(30) 
   
-  ##Cloud/Shadow masking info for SR collections 
+  ##Cloud/Shadow masking info for SR collections. Consider changing this to match TOA
+  # masking at some point.
   cloudShadowBitMask = ee.Number(2).pow(3).int()
   cloudsBitMask = ee.Number(2).pow(5).int()
   snowBitMask = ee.Number(2).pow(4).int()
@@ -70,7 +69,7 @@ def sitePull(i):
     
   #Create road, cloud, and shadow mask. TOA and SR require different 
   #functions both defined above
-  if sat == "SR":
+  if collection == "SR":
     mask = qa.bitwiseAnd(cloudShadowBitMask).eq(0)\
     .And(qa.bitwiseAnd(cloudsBitMask).eq(0))\
     .And(qa.bitwiseAnd(snowBitMask).eq(0))\
@@ -115,7 +114,7 @@ def sitePull(i):
   .set({'PATH': lsSample.get('WRS_PATH')})\
   .set({'ROW': lsSample.get('WRS_ROW')})
   
-  if sat == 'TOA':
+  if collection == 'TOA':
     output = output.set({"Pan": lsout.get('Pan')})
     
   return output
