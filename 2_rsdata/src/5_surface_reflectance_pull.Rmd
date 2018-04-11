@@ -57,9 +57,9 @@ execfile('2_rsdata/src/5a_6a_GEE_pull_functions.py')
 
 pekel = ee.Image('JRC/GSW1_0/GlobalSurfaceWater')
 
-l8 = ee.ImageCollection('LANDSAT/LC08/C01/T1_TOA')
-l7 = ee.ImageCollection('LANDSAT/LE07/C01/T1_TOA')
-l5 = ee.ImageCollection('LANDSAT/LT05/C01/T1_TOA').map(addPan)
+l8 = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
+l7 = ee.ImageCollection('LANDSAT/LE07/C01/T1_SR')
+l5 = ee.ImageCollection('LANDSAT/LT05/C01/T1_SR')
 
 #Identify toa for use in sourced functions.
 collection = 'SR'
@@ -67,9 +67,9 @@ collection = 'SR'
 #Standardize band names between the various collections and aggregate 
 #them into one image collection
 
-bn8 = ['B2','B3', 'B4', 'B5', 'B6','B7', 'B8', 'BQA']
-bn57 = ['B1', 'B2', 'B3', 'B4', 'B5','B7', 'B8', 'BQA']
-bns = ['Blue', 'Green', 'Red', 'Nir', 'Swir1', 'Swir2', 'Pan', 'qa']
+bn8 = ['B2','B3', 'B4', 'B5', 'B6','B7', 'BQA']
+bn57 = ['B1', 'B2', 'B3', 'B4', 'B5','B7', 'BQA']
+bns = ['Blue', 'Green', 'Red', 'Nir', 'Swir1', 'Swir2', 'qa']
   
 ls5 = l5.select(bn57, bns)
 ls7 = l7.select(bn57, bns)
