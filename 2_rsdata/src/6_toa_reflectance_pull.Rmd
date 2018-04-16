@@ -16,9 +16,9 @@ opts_knit$set(root.dir='../..')
 
 ```
 
-This script takes the shouldered, filtered in situ water quality dataset pulled from the Water Quality Portal/LAGOS and extracts associated top of atmosphere reflectance values from Google Earth Engine.  The pulled reflectance values are the median pixel value of pixels with 80% water occurence (according to Pekel) within 120m of the provided lat/long of the in situ sample identified in the water quality dataset.
+This script is essentially the same as script 05 but utilizes the top-of atmosphere Landsat collections instead of surface reflectance.
 
-*Reticulate uses the default python path for the local machine.  This python needs to be authorized with google earth engine and have the necessary packages installed.*  
+*Reticulate uses the default python path for the local machine.  This python needs to be authorized with google earth engine and have the necessary packages installed. To change the Python called by reticulate use use_pythion().For more information on Reticulate go to https://github.com/rstudio/reticulate*   
 ```{r Get Existing}
 
 ###Download the split wqp/lagos data to send up to GGE.  This is easier in R than python. Also create a list of existing reflectance csv's to filter whats been pulled down from gge already.
@@ -61,7 +61,7 @@ l8 = ee.ImageCollection('LANDSAT/LC08/C01/T1_TOA')
 l7 = ee.ImageCollection('LANDSAT/LE07/C01/T1_TOA')
 l5 = ee.ImageCollection('LANDSAT/LT05/C01/T1_TOA').map(addPan)
 
-#Identify toa for use in sourced functions.
+#Identify collection for use in sourced functions.
 collection = 'TOA'
 
 #Standardize band names between the various collections and aggregate 

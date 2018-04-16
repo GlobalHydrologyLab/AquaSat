@@ -109,7 +109,6 @@ def sitePull(i):
   .set({"Swir1": lsout.get('Swir1')})\
   .set({"Swir2": lsout.get('Swir2')})\
   .set({"qa": lsout.get('qa')})\
-  .set({"pwater": lsout.get('occurrence')})\
   .set({"pixelCount": lsSample.reduceRegion(ee.Reducer.count(), sdist, 30).get('Blue')})\
   .set({'PATH': lsSample.get('WRS_PATH')})\
   .set({'ROW': lsSample.get('WRS_ROW')})
