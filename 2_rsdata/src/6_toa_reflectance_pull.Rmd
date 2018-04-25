@@ -1,5 +1,5 @@
 ---
-title: "05_sr_matchups"
+title: "06_toa_matchups"
 output: html_document
 editor_options: 
   chunk_output_type: console
@@ -16,9 +16,9 @@ opts_knit$set(root.dir='../..')
 
 ```
 
-This script takes the shouldered, filtered in situ water quality dataset pulled from the Water Quality Portal/LAGOS and extracts associated surface atmosphere reflectance values from Google Earth Engine.  The pulled reflectance values are the median pixel value of pixels with 80% water occurence (according to Pekel) within 120m of the provided lat/long of the in situ sample identified in the water quality dataset.
+This script is essentially the same as script 05 but utilizes the top-of atmosphere Landsat collections instead of surface reflectance.
 
-*Reticulate uses the default python path for the local machine.  This python needs to be authorized with google earth engine and have the necessary packages installed. To change the Python called by reticulate use use_pythion().For more information on Reticulate go to https://github.com/rstudio/reticulate*  
+*Reticulate uses the default python path for the local machine.  This python needs to be authorized with google earth engine and have the necessary packages installed. To change the Python called by reticulate use use_pythion().For more information on Reticulate go to https://github.com/rstudio/reticulate*   
 ```{r Get Existing}
 
 ###Download the split wqp/lagos data to send up to GGE.  This is easier in R than python. Also create a list of existing reflectance csv's to filter whats been pulled down from gge already.
@@ -35,7 +35,7 @@ if(length(list.files('2_rsdata/out/SplitWide')) < 546){
   }
 }
 
-filesDownR <- drive_ls("watersat/2_rsdata/out/sr_matchups/") %>% 
+filesDownR <- drive_ls("watersat/2_rsdata/out/toa_matchups/") %>% 
   select(name)
 
 ```
@@ -57,19 +57,19 @@ execfile('2_rsdata/src/5a_6a_GEE_pull_functions.py')
 
 pekel = ee.Image('JRC/GSW1_0/GlobalSurfaceWater')
 
-l8 = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
-l7 = ee.ImageCollection('LANDSAT/LE07/C01/T1_SR')
-l5 = ee.ImageCollection('LANDSAT/LT05/C01/T1_SR')
+l8 = ee.ImageCollection('LANDSAT/LC08/C01/T1_TOA')
+l7 = ee.ImageCollection('LANDSAT/LE07/C01/T1_TOA')
+l5 = ee.ImageCollection('LANDSAT/LT05/C01/T1_TOA').map(addPan)
 
 #Identify collection for use in sourced functions.
-collection = 'SR'
+collection = 'TOA'
 
 #Standardize band names between the various collections and aggregate 
 #them into one image collection
 
-bn8 = ['B2','B3', 'B4', 'B5', 'B6','B7', 'BQA']
-bn57 = ['B1', 'B2', 'B3', 'B4', 'B5','B7', 'BQA']
-bns = ['Blue', 'Green', 'Red', 'Nir', 'Swir1', 'Swir2', 'qa']
+bn8 = ['B2','B3', 'B4', 'B5', 'B6','B7', 'B8', 'BQA']
+bn57 = ['B1', 'B2', 'B3', 'B4', 'B5','B7', 'B8', 'BQA']
+bns = ['Blue', 'Green', 'Red', 'Nir', 'Swir1', 'Swir2', 'Pan', 'qa']
   
 ls5 = l5.select(bn57, bns)
 ls7 = l7.select(bn57, bns)
@@ -133,8 +133,9 @@ for x in range(0,len(filesUpFlt)):
   dataOut = ee.batch.Export.table.toDrive(collection = data, \
                                               description = str(path)\
                                                +'_'+str(row) + count,\
-                                              folder = 'WQP_SR_MatchUps',\
+                                              folder = 'WQP_TOA_MatchUps',\
                                               fileFormat = 'csv')
+  
   maximum_no_of_tasks(15, 60)
   dataOut.start()
 
