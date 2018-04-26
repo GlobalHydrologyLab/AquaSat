@@ -1,0 +1,150 @@
+---
+title: "WQP Parameter and Method exploration"
+output:
+  pdf_document: default
+  html_document: default
+editor_options: 
+  chunk_output_type: console
+---
+
+# Harmonizing disparate data
+
+The data from the water quality portal includes a wide range of methods and characteristic names. For example in the "chlorophyll" this can be chlorophyll a, b, or both and retrieved using a variety of methods. To know which methods and characteristic names to keep and use, we must first get a better understanding of the type of data we have. 
+
+```{r setup, include=F, warnings='hide'}
+library(feather)
+library(tidyverse)
+knitr::opts_chunk$set(echo = TRUE)
+
+
+knitr::opts_knit$set(root.dir='../..')
+
+#Define a function that renames and reorders columns from the raw files
+wqp.renamer <- function(df){
+  simple.names <- df %>%
+                  dplyr::select(date=ActivityStartDate,
+                         parameter=CharacteristicName,
+                         units=ResultMeasure.MeasureUnitCode,
+                         SiteID=MonitoringLocationIdentifier,
+                         org=OrganizationFormalName,
+                         org_id=OrganizationIdentifier,
+                         time=ActivityStartTime.Time,
+                         value=ResultMeasureValue)
+  return(simple.names)
+}
+
+```
+
+We'll start with the easiest first. Secchi depth
+
+
+## Secchi depth
+
+### Secchi Table
+
+In many ways, the secchi disk depth measurement is the easiest water quality parameter to harmonize, 
+because there is really only 
+one method for measuring secchi disk depth (it's in the name after all),
+and there should always be units of depth (m, ft, inches, cm, etc...).
+So to harmonize secchi depth measurements we simpy drop all units that are not units of depth and convert all units to a single kind with a lookup table. 
+
+
+```{r secchi}
+
+
+
+#Read in the raw data from '1_wqdata/tmp'
+secchi <- read_feather('1_wqdata/tmp/wqp/all_raw_secchi.feather') %>%
+  wqp.renamer() %>%
+  #Remove trailing white space in labels
+  mutate(units = trimws(units)) 
+
+#Summarize by characteristic name and unit code
+secchi.ct <- secchi %>%
+  group_by(parameter,units) %>%
+  summarize(count=n()) 
+
+#Print the table
+secchi.ct %>%
+  knitr::kable()
+```
+
+### Secchi disharmony
+
+Now that we can see all the units we have we can drop non-depth units and make a lookup table to convert all units to meters. 
+
+The table below shows all the units we dropped and their counts
+```{r}
+secchi.lookup <- tibble(units=c('cm','ft','in','m','mi'),
+                        conversion = c(0.01,.3048,0.0254,1,1609.34))
+
+secchi.disharmony <- secchi %>%
+  anti_join(secchi.lookup,by='units') %>%
+  group_by(units) %>%
+  summarize(count=n())
+
+
+secchi.disharmony %>%
+  knitr::kable()
+```
+
+### Secchi harmony
+
+
+```{r}
+secchi.harmonized <- secchi %>%
+  inner_join(secchi.lookup,by='units') %>%
+  mutate(harmonized_value=value*conversion)
+
+#
+#Export here. 
+```
+
+
+
+Next easiest is TSS
+
+## TSS 
+```{r tss}
+#Read in the raw data from '1_wqdata/tmp'
+tss <- read_feather('1_wqdata/tmp/wqp/all_raw_tss.feather')
+
+#Summarize by characteristic name and unit code
+tss %>%
+  group_by(CharacteristicName,ResultMeasure.MeasureUnitCode) %>%
+  summarize(count=n()) %>%
+  knitr::kable()
+
+```
+
+Getting harder
+
+## DOC
+
+```{r}
+
+#Read in the raw data from '1_wqdata/tmp'
+doc <- read_feather('1_wqdata/tmp/wqp/all_raw_doc.feather')
+
+#Summarize by characteristic name and unit code
+doc %>%
+  group_by(CharacteristicName,ResultMeasure.MeasureUnitCode) %>%
+  summarize(count=n()) %>%
+  knitr::kable()
+```
+
+Hardest
+
+## Chlorophyll
+
+```{r}
+#Read in the raw data from '1_wqdata/tmp'
+chl <- read_feather('1_wqdata/tmp/wqp/all_raw_chlorophyll.feather')
+
+#Summarize by characteristic name and unit code
+chl %>%
+  group_by(CharacteristicName,ResultMeasure.MeasureUnitCode) %>%
+  summarize(count=n()) %>%
+  knitr::kable()
+```
+

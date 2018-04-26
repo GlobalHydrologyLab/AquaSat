@@ -110,7 +110,7 @@ folder <- drive_ls('wqp_cloudiness')
 
 
 for(i in 1:nrow(folder)) {
-  path=paste0('2_rsdata/tmp/Cloudiness/',folder$name[i])
+  path=paste0('2_rsdata/tmp/yearly_clouds/',folder$name[i])
   drive_download(as_id(folder$id[i]),
                  path=path)
 }
@@ -126,7 +126,7 @@ for(i in 1:nrow(folder)) {
 ```{r}
 library(lubridate)
 #Read in data. 
-clouds <- map_df(list.files('2_rsdata/tmp/Cloudiness',full.names = T),read_csv) %>%
+clouds <- map_df(list.files('2_rsdata/tmp/yearly_clouds',full.names = T),read_csv) %>%
   mutate(Date = ymd(str_split_fixed(`system:index`,'_',5)[,5])) 
 #Write out cloud data as a feather
 write_feather(clouds,'2_rsdata/out/clouds.feather')
