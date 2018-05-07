@@ -1,10 +1,10 @@
 version: 0.3.0
 name: 1_wqdata/out/wqp/all_doc.feather.ind
 type: file
-hash: 06b9074a5b199afff8c91e3be5995e81
-time: 2018-02-23 03:07:50 UTC
+hash: 395267c6eaa0574561f842ea1cbe71f6
+time: 2018-05-02 21:17:00 UTC
 depends:
-  1_wqdata/tmp/wqp/all_doc.feather: 3aff9ebc45eb4ac0f1e8771a0e395dd2
+  1_wqdata/tmp/wqp/all_raw_doc.feather: 97be7676ed44440e693718f5a58541d2
 fixed: f56f0ae9a0d6eff75d22d8648985754b
 code:
   functions: {}

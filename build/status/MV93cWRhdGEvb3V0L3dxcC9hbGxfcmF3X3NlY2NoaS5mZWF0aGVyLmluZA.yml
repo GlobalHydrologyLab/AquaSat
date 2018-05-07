@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/all_raw_secchi.feather.ind
+type: file
+hash: 8c5aca8c7e39ad6e5fc74f939fe82e2f
+time: 2018-05-03 15:48:06 UTC
+depends:
+  1_wqdata/tmp/wqp/all_raw_secchi.feather: 0c114871bc4fe188aa364642437da9a5
+fixed: beb01ff78f34346a932570764eb72902
+code:
+  functions: {}
+

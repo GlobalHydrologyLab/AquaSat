@@ -1,0 +1,11 @@
+version: 0.3.0
+name: 1_wqdata/out/wqp/all_raw_chlorophyll.feather.ind
+type: file
+hash: 148d4e9a844e10556a634d6c468ca4f9
+time: 2018-05-03 14:43:36 UTC
+depends:
+  1_wqdata/tmp/wqp/all_raw_chlorophyll.feather: 744f36a0bfeba7307c514a375cc7b40b
+fixed: 8454063d0578688d11013b9d99747e17
+code:
+  functions: {}
+

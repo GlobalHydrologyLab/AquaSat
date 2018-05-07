@@ -1,0 +1,260 @@
+---
+title: "WQP Parameter and Method exploration"
+output:
+  pdf_document: default
+  html_document: default
+editor_options: 
+  chunk_output_type: console
+---
+
+# Harmonizing disparate data
+
+The data from the water quality portal includes a wide range of methods and characteristic names. For example in the "chlorophyll" this can be chlorophyll a, b, or both and retrieved using a variety of methods. To know which methods and characteristic names to keep and use, we must first get a better understanding of the type of data we have. 
+
+Here we are harmonizing the entirety of the water quality portal data even though the vast majority of these sites will not be landsat visible. The computation time to do it for a few extra million samples is not onerous and the intermediate mostly harmonized full dataset will likely be useful for other uses. 
+
+
+
+```{r setup, include=F, warnings='hide'}
+library(feather)
+library(tidyverse)
+knitr::opts_chunk$set(echo = TRUE)
+
+
+knitr::opts_knit$set(root.dir='../..')
+
+#Define a function that renames and reorders columns from the raw files
+wqp.renamer <- function(df){
+  simple.names <- df %>%
+                  dplyr::select(date=ActivityStartDate,
+                         parameter=CharacteristicName,
+                         units=ResultMeasure.MeasureUnitCode,
+                         SiteID=MonitoringLocationIdentifier,
+                         org=OrganizationFormalName,
+                         org_id=OrganizationIdentifier,
+                         time=ActivityStartTime.Time,
+                         value=ResultMeasureValue,
+                         method=SampleCollectionMethod.MethodName,
+                         particle_size=ResultParticleSizeBasisText,
+                         date_time=ActivityStartDateTime)
+  return(simple.names)
+}
+
+```
+
+We'll start with the easiest first. Secchi depth
+
+
+## Secchi depth
+
+### Secchi Table
+
+In many ways, the secchi disk depth measurement is the easiest water quality parameter to harmonize, 
+because there is really only 
+one method for measuring secchi disk depth (it's in the name after all),
+and there should always be units of depth (m, ft, inches, cm, etc...).
+So to harmonize secchi depth measurements we simpy drop all units that are not units of depth and convert all units to a single kind with a lookup table. 
+
+
+```{r secchi all parameters}
+#Read in the raw data from '1_wqdata/out'
+secchi <- read_feather('1_wqdata/tmp/wqp/all_raw_secchi.feather') %>%
+  wqp.renamer() %>%
+  #Remove trailing white space in labels
+  mutate(units = trimws(units)) 
+
+#Summarize by characteristic name and unit code and print
+secchi %>%
+  group_by(parameter,units) %>%
+  summarize(count=n()) %>%
+  knitr::kable()
+```
+
+### Secchi disharmony
+
+Now that we can see all the units we have we can drop non-depth units and make a lookup table to convert all units to meters. 
+
+```{r secchi illogical}
+#Create a lookup table of units and conversion factors that we want to keep
+secchi.lookup <- tibble(units=c('cm','ft','in','m','mi'),
+                        conversion = c(0.01,.3048,0.0254,1,1609.34))
+
+# Do an anti_join to these units so that all units that aren't kept can be highlighted and displayed
+secchi.disharmony <- secchi %>%
+  anti_join(secchi.lookup,by='units') %>%
+  group_by(units) %>%
+  summarize(count=n())
+
+
+secchi.disharmony %>%
+  knitr::kable(.,caption='The following secchi measurements were dropped because the units do not make sense')
+
+
+```
+
+
+
+### Secchi harmony in meters
+
+```{r secchi sensible}
+#Join secchi by unit name and then multiply by conversion factor to get meters
+secchi.harmonized <- secchi %>%
+  inner_join(secchi.lookup,by='units') %>%
+  mutate(harmonized_parameter = 'secchi',
+         harmonized_value=value*conversion,
+         harmonized_unit='meters')
+
+```
+
+
+
+Next easiest is TSS
+
+## TSS 
+
+This [paper](https://water.usgs.gov/osw/pubs/WRIR00-4191.pdf) is really useful for exploring this data. In this paper, the USGS directly compares estimates of Suspended Sediment Concentration (SSC) and Total Suspended Solids (TSS). The primary difference between these methods, as laid out in this paper, is that SSC estimates the mass of suspended solids in a sample volume, by drying out the entire sample without subsampling the water volume. TSS methods often involve some form of subsampling of the total water volume. The paper highlights that while many estimates of TSS and SSC are essentially the same, samples with high sand content show systematic bias in TSS estimates. For our purposes, we have no apriori way to distinguish samples with high or low sand, so we have made the choice to assume that measurements of SSC and TSS are, over the bulk of samples, the same. We use the term "TSS" from here on to describe this data that is both SSC and TSS. 
+
+
+```{r}
+#Read in the raw data from '1_wqdata/out'
+tss <- read_feather('1_wqdata/out/wqp/all_raw_tss.feather') %>%
+  wqp.renamer() %>%
+  #Remove trailing white space in labels
+  mutate(units = trimws(units)) 
+
+#Summarize by characteristic name and unit code
+tss %>%
+  group_by(parameter,units) %>%
+  summarize(count=n()) %>%
+  knitr::kable()
+
+
+```
+
+### TSS disharmony
+
+As with secchi disk depth, we expect certain units to be associated with total suspended solids or suspended sediment concentration. These include mass per volume measurements like: mg/l, g/l, ug/l and others. 
+
+TSS does come with one less obvious parameter which is %. Any sample with a % unit is most commonly a sample where suspended sediments were split into particle size fractions. The relative proportion of clay, silt, and sand can have important impacts on the reflectance properties of water, so this is a useful parameter to keep, though it will require some exploration, using the additional data column that we relabeld as "particle_size."
+
+#### TSS particle size fractionation
+
+The table below shows all of the various particle fraction categories held within the TSS category. About half of the total observations (760,000) that use "%" as a unit are actually estimating the fraction of particles that are smaller than sand (<0.0625). The rest of the particle fractionation size classes are spread across *29* other particle fractions. This leaves us with a difficult choice. If we kept all of this data, we would widen our final dataset by 29 rows, with very few likely overpasses in a dataset of less than 80k observations per fraction category before checking for sites that are Landsat visible and were collected on relatively cloud free days. If we throw away all of the % data, we use valuable information that may help explain variability between sites with similar TSS but different reflectance values based on the particle size fractionation. Here, we will opt for an intermediate approach and keep only the > 300,000 observations that simply describe the fraction of sand in a sample (<0.0625 mm). 
+
+```{r, fig.width=5}
+#Select only units for %
+tss.p <- tss %>%
+  filter(units == '%') 
+
+#look at the breakdown of particle sizes
+tss.p %>%
+  group_by(particle_size) %>%
+  summarize(count=n()) %>%
+  knitr::kable()
+
+#Keep only the sand fraction data (~50% of the data)
+sand_harmonized  <- tss.p %>%
+  filter(particle_size %in%  c('< 0.0625 mm','sands')) %>%
+  mutate(conversion=NA,
+         harmonized_parameter='p.sand',
+         harmonized_value=value,
+         harmonized_unit='%')
+
+```
+
+
+#### TSS dropping bad units
+
+Now that we have split out the TSS values that had "%" units, we can deal with and drop the more nonsensical or missing units. The table below will also print out the number of "%" observations that we drop, but, remember, we kept about half of these in the above code. 
+
+Here we will convert all remaining sediment values to units of mg/L and drop any non mass/volume units. 
+
+
+```{r}
+#Make a tss lookup table
+tss.lookup <- tibble(units=c('mg/l','g/l','ug/l','ppm'),
+                        conversion = c(1,1000,1/1000,1))
+
+
+tss.disharmony <- tss %>%
+  anti_join(tss.lookup,by='units') %>%
+  filter(!particle_size %in% c('< 0.0625 mm','sands')) %>%
+  group_by(units) %>%
+  summarize(count=n()) 
+
+
+
+knitr::kable(tss.disharmony,caption='The following TSS measurements were dropped because the units do not make sense')
+
+
+
+```
+
+### TSS harmony in mg/l
+
+Now we can convert all TSS measurements to untis of 'mg/l.' We do need to do one final splitting of the data because there is another parameter name called "Fixed suspended solids." Fixed suspended solids are essentialy the inorganic component of a sediment sample that remains after kiln drying at 550&deg;F. We will relable these as a harmonized parameter 'Total inorganic sediment' or tis.
+
+```{r tss harmony}
+#Join to the lookup table and harmonize units
+
+tss.harmonized <- tss %>%
+  inner_join(tss.lookup,by='units') %>%
+  mutate(harmonized_parameter = 'tss',
+         harmonized_value=value*conversion,
+         harmonized_unit='mg/l') %>%
+  #Change harmonized parameter to tis for parameter "fixed suspended solids"
+  mutate(harmonized_parameter = ifelse(parameter == 'Fixed suspended solids','tis',harmonized_parameter))
+
+```
+
+
+## DOC
+
+*Didn't keep enough columns to really do this. Need to add resultsampletext and a few others. Otherwise total carbon can include fish biomass. Which is not what we are talking about*
+
+Dissolved organic carbon is a much more complex series of parameters, methods, and units. As with TSS we generally expect these to be in units of mass per unit volume, but we have many more possible variations of methods used to extract DOC values.
+
+First let's look at the total counts for parameter unit combinations
+```{r}
+
+#Summarize by characteristic name and unit code
+doc <- read_feather('1_wqdata/out/wqp/all_raw_doc.feather') %>%
+  wqp.renamer() %>%
+  #Remove trailing white space in labels
+  mutate(units = trimws(units)) 
+
+
+doc %>% 
+  group_by(parameter,units) %>%
+  summarize(count=n()) %>%
+  knitr::kable(.,caption='Carbon parameter names, units, and observation counts')
+
+```
+
+
+### DOC disharmony
+
+#### DOC percent values
+
+Once again we have quite a few observations of 'Organic carbon' and 'Total carbon' that are in units of % which is a perplexing unit without some more context. Let's examine these values a little more.
+
+```{r doc.p}
+doc.p <- doc %>%
+  filter(units=='%')
+
+
+
+
+```
+
+
+Hardest
+
+## Chlorophyll
+
+```{r}
+#Read in the raw data from '1_wqdata/tmp'
+chl <- read_feather('1_wqdata/out/wqp/all_raw_chlorophyll.feather')
+
+```
+
