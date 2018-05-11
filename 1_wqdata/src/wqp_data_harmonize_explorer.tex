@@ -1,0 +1,4462 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={WQP Parameter and Method exploration},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+  \title{WQP Parameter and Method exploration}
+  \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+  \author{}
+  \preauthor{}\postauthor{}
+  \date{}
+  \predate{}\postdate{}
+
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage[table]{xcolor}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage[normalem]{ulem}
+
+\begin{document}
+\maketitle
+
+\hypertarget{harmonizing-disparate-data}{%
+\section{Harmonizing disparate data}\label{harmonizing-disparate-data}}
+
+The data from the water quality portal includes a wide range of methods
+and characteristic names. For example in the ``chlorophyll'' this can be
+chlorophyll a, b, or both and retrieved using a variety of methods. To
+know which methods and characteristic names to keep and use, we must
+first get a better understanding of the type of data we have.
+
+Here we are harmonizing the entirety of the water quality portal data
+even though the vast majority of these sites will not be landsat
+visible. The computation time to do it for a few extra million samples
+is not onerous and the intermediate mostly harmonized full dataset will
+likely be useful for other uses.
+
+We'll start with the easiest first. Secchi depth
+
+\hypertarget{secchi-depth}{%
+\subsection{Secchi depth}\label{secchi-depth}}
+
+\hypertarget{secchi-table}{%
+\subsubsection{Secchi Table}\label{secchi-table}}
+
+In many ways, the secchi disk depth measurement is the easiest water
+quality parameter to harmonize, because there is really only one method
+for measuring secchi disk depth (it's in the name after all), and there
+should always be units of depth (m, ft, inches, cm, etc\ldots{}). So to
+harmonize secchi depth measurements we simpy drop all units that are not
+units of depth and convert all units to a single kind with a lookup
+table.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Read in the raw data from '1_wqdata/out'}
+\NormalTok{secchi <-}\StringTok{ }\KeywordTok{read_feather}\NormalTok{(}\StringTok{'1_wqdata/tmp/wqp/all_raw_secchi.feather'}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{wqp.renamer}\NormalTok{() }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "You dropped 1894 samples because the sample medium was not labeled as Water"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Summarize by characteristic name and unit code and print}
+\NormalTok{secchi }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{group_by}\NormalTok{(parameter,units) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{summarize}\NormalTok{(}\DataTypeTok{count=}\KeywordTok{n}\NormalTok{()) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{arrange}\NormalTok{(}\KeywordTok{desc}\NormalTok{(count)) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{kable}\NormalTok{(.,}\StringTok{'html'}\NormalTok{,}\DataTypeTok{caption=}\StringTok{'All secchi parameter and unit combinations'}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{kable_styling}\NormalTok{() }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{scroll_box}\NormalTok{(}\DataTypeTok{width=}\StringTok{'500px'}\NormalTok{,}\DataTypeTok{height=}\StringTok{'400px'}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+All secchi parameter and unit combinations
+
+parameter
+
+units
+
+count
+
+Depth, Secchi disk depth
+
+m
+
+1736036
+
+Depth, Secchi disk depth
+
+ft
+
+386408
+
+Depth, Secchi disk depth
+
+cm
+
+116596
+
+Depth, Secchi disk depth
+
+in
+
+54382
+
+Depth, Secchi disk depth (choice list)
+
+NA
+
+39281
+
+Depth, Secchi disk depth
+
+NA
+
+12037
+
+Secchi Reading Condition (choice list)
+
+NA
+
+864
+
+Secchi Reading Condition (choice list)
+
+None
+
+643
+
+Water transparency, Secchi disc
+
+in
+
+559
+
+Depth, Secchi disk depth (choice list)
+
+428
+
+Depth, Secchi disk depth (choice list)
+
+m
+
+208
+
+Depth, Secchi disk depth
+
+mg
+
+187
+
+Depth, Secchi disk depth
+
+ft/sec
+
+20
+
+Depth, Secchi disk depth (choice list)
+
+None
+
+13
+
+Depth, Secchi disk depth
+
+deg F
+
+6
+
+Depth, Secchi disk depth
+
+deg C
+
+1
+
+Depth, Secchi disk depth
+
+mi
+
+1
+
+Depth, Secchi disk depth (choice list)
+
+ft
+
+1
+
+\hypertarget{secchi-disharmony}{%
+\subsubsection{Secchi disharmony}\label{secchi-disharmony}}
+
+Now that we can see all the units we have we can drop non-depth units
+and make a lookup table to convert all units to meters.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Create a lookup table of units and conversion factors that we want to keep}
+\NormalTok{secchi.lookup <-}\StringTok{ }\KeywordTok{tibble}\NormalTok{(}\DataTypeTok{units=}\KeywordTok{c}\NormalTok{(}\StringTok{'cm'}\NormalTok{,}\StringTok{'ft'}\NormalTok{,}\StringTok{'in'}\NormalTok{,}\StringTok{'m'}\NormalTok{,}\StringTok{'mi'}\NormalTok{),}
+                        \DataTypeTok{conversion =} \KeywordTok{c}\NormalTok{(}\FloatTok{0.01}\NormalTok{,.}\DecValTok{3048}\NormalTok{,}\FloatTok{0.0254}\NormalTok{,}\DecValTok{1}\NormalTok{,}\FloatTok{1609.34}\NormalTok{))}
+
+\CommentTok{# Do an anti_join to these units so that all units that aren't kept can be highlighted and displayed}
+\NormalTok{secchi.disharmony <-}\StringTok{ }\NormalTok{secchi }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{anti_join}\NormalTok{(secchi.lookup,}\DataTypeTok{by=}\StringTok{'units'}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{group_by}\NormalTok{(units) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{summarize}\NormalTok{(}\DataTypeTok{count=}\KeywordTok{n}\NormalTok{())}
+
+
+\NormalTok{secchi.disharmony }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{kable}\NormalTok{(.,}\StringTok{'html'}\NormalTok{,}\DataTypeTok{caption=}\StringTok{'The following secchi measurements}
+\StringTok{        were dropped because the units do not make sense'}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{kable_styling}\NormalTok{() }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{scroll_box}\NormalTok{(}\DataTypeTok{width=}\StringTok{'500px'}\NormalTok{,}\DataTypeTok{height=}\StringTok{'400px'}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+The following secchi measurements were dropped because the units do not
+make sense
+
+units
+
+count
+
+428
+
+deg C
+
+1
+
+deg F
+
+6
+
+ft/sec
+
+20
+
+mg
+
+187
+
+None
+
+656
+
+NA
+
+52182
+
+\hypertarget{secchi-harmony-in-meters}{%
+\subsubsection{Secchi harmony in
+meters}\label{secchi-harmony-in-meters}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Join secchi by unit name and then multiply by conversion factor to get meters}
+\NormalTok{secchi.harmonized <-}\StringTok{ }\NormalTok{secchi }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{inner_join}\NormalTok{(secchi.lookup,}\DataTypeTok{by=}\StringTok{'units'}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{harmonized_parameter =} \StringTok{'secchi'}\NormalTok{,}
+         \DataTypeTok{harmonized_value=}\NormalTok{value}\OperatorTok{*}\NormalTok{conversion,}
+         \DataTypeTok{harmonized_unit=}\StringTok{'meters'}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Next easiest is TSS
+
+\hypertarget{tss}{%
+\subsection{TSS}\label{tss}}
+
+This \href{https://water.usgs.gov/osw/pubs/WRIR00-4191.pdf}{paper} is
+really useful for exploring this data. In this paper, the USGS directly
+compares estimates of Suspended Sediment Concentration (SSC) and Total
+Suspended Solids (TSS). The primary difference between these methods, as
+laid out in this paper, is that SSC estimates the mass of suspended
+solids in a sample volume, by drying out the entire sample without
+subsampling the water volume. TSS methods often involve some form of
+subsampling of the total water volume. The paper highlights that while
+many estimates of TSS and SSC are essentially the same, samples with
+high sand content show systematic bias in TSS estimates. For our
+purposes, we have no apriori way to distinguish samples with high or low
+sand, so we have made the choice to assume that measurements of SSC and
+TSS are, over the bulk of samples, the same. We use the term ``TSS''
+from here on to describe this data that is both SSC and TSS.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Read in the raw data from '1_wqdata/out'}
+\NormalTok{tss <-}\StringTok{ }\KeywordTok{read_feather}\NormalTok{(}\StringTok{'1_wqdata/out/wqp/all_raw_tss.feather'}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{wqp.renamer}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "You dropped 88556 samples because the sample medium was not labeled as Water"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Summarize by characteristic name and unit code}
+\NormalTok{tss }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{group_by}\NormalTok{(parameter,units) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{summarize}\NormalTok{(}\DataTypeTok{count=}\KeywordTok{n}\NormalTok{()) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{arrange}\NormalTok{(}\KeywordTok{desc}\NormalTok{(count)) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{kable}\NormalTok{(.,}\StringTok{'html'}\NormalTok{,}\DataTypeTok{caption=}\StringTok{'All tss parameter and unit combinations'}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{kable_styling}\NormalTok{() }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{scroll_box}\NormalTok{(}\DataTypeTok{width=}\StringTok{'500px'}\NormalTok{,}\DataTypeTok{height=}\StringTok{'400px'}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+All tss parameter and unit combinations
+
+parameter
+
+units
+
+count
+
+Total suspended solids
+
+mg/l
+
+2829187
+
+Suspended Sediment Concentration (SSC)
+
+mg/l
+
+1156062
+
+Suspended sediment concentration (SSC)
+
+\%
+
+719493
+
+Total suspended solids
+
+NA
+
+235106
+
+Fixed suspended solids
+
+mg/l
+
+220774
+
+Suspended sediment concentration (SSC)
+
+mg/l
+
+12041
+
+Fixed suspended solids
+
+NA
+
+9354
+
+Suspended Sediment Concentration (SSC)
+
+\%
+
+6758
+
+Suspended Sediment Concentration (SSC)
+
+NA
+
+5393
+
+Total suspended solids
+
+\%
+
+4735
+
+Suspended sediment concentration (SSC)
+
+NA
+
+3489
+
+Total suspended solids
+
+ppm
+
+1680
+
+Total suspended solids
+
+tons/day
+
+529
+
+Total suspended solids
+
+ug/l
+
+476
+
+Total suspended solids
+
+35
+
+Total suspended solids
+
+kg
+
+29
+
+Total suspended solids
+
+None
+
+16
+
+Total suspended solids
+
+count
+
+1
+
+Total suspended solids
+
+NTU
+
+1
+
+\hypertarget{tss-methods}{%
+\subsection{TSS methods}\label{tss-methods}}
+
+\hypertarget{tss-analytical-methods}{%
+\subsubsection{TSS analytical methods}\label{tss-analytical-methods}}
+
+Unlike with secchi disk depth measurements, there are a variety of
+analytical methods available to measure TSS. Many of these should
+provide similar results, but some can be used to highlight potential
+erroeneous data entry (Phosphorous content should not be a method of TSS
+calculation), but many of them are simply labeled by a state or federal
+protocol number, making trimming and evaluating these various methods
+difficult. Below is a table of all possible analytical methods and their
+count
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tss }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{group_by}\NormalTok{(analytical_method) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{summarize}\NormalTok{(}\DataTypeTok{count=}\KeywordTok{n}\NormalTok{()) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{arrange}\NormalTok{(}\KeywordTok{desc}\NormalTok{(count)) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{kable}\NormalTok{(.,}\StringTok{'html'}\NormalTok{,}\DataTypeTok{caption=}\StringTok{'All tss analytical methods and their count'}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{kable_styling}\NormalTok{() }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{scroll_box}\NormalTok{(}\DataTypeTok{width=}\StringTok{'600px'}\NormalTok{,}\DataTypeTok{height=}\StringTok{'400px'}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+All tss analytical methods and their count
+
+analytical\_method
+
+count
+
+NA
+
+2253048
+
+Total Suspended Solids in Water
+
+660620
+
+Non-Filterable Residue - TSS
+
+648298
+
+Residue by Evaporation and Gravimetric
+
+249769
+
+Sediment conc by filtration
+
+161882
+
+Sus solids, wat, 105C,wt (NWQL)
+
+108994
+
+analyticTSS\_101
+
+105332
+
+Computation by NWIS algorithm
+
+84571
+
+Sediment conc from size analysis
+
+74063
+
+Sediment conc by evaporation
+
+72438
+
+Volatile Residue
+
+68397
+
+analyticTSS\_GRAVIMETRIC; DRIED AT 103-105 C
+
+67208
+
+Wet sieve
+
+63916
+
+RESIDUE, TOTAL NONFILTRABLE (MG/L)
+
+53434
+
+Total Suspended Solids
+
+46581
+
+160.2
+
+32124
+
+V A tube
+
+28102
+
+Residue
+
+27186
+
+Fixed and Volatile Solids in Water
+
+26565
+
+SM2540D
+
+24720
+
+SM 2540D
+
+22725
+
+Unkn Lab Proc
+
+20850
+
+Dry sieve
+
+20609
+
+EPA 160.4
+
+17934
+
+UNKOWN
+
+15259
+
+UNKNOWN
+
+14844
+
+Effluent monitoring sample
+
+14835
+
+Historic
+
+14695
+
+Historic Procedure
+
+13486
+
+SM 2540 D
+
+11511
+
+Gravimetric Filtration Method; Dried At 90-105
+
+10224
+
+Suspended-Sediment in Water
+
+8892
+
+EPA 160.2
+
+8484
+
+!Generic Placeholder - To Be Determined
+
+8339
+
+Standard Methods for the Examination of Water and Wastewater
+
+8031
+
+Residue, NF,105C (SM2540D/DODEC)
+
+7776
+
+RESIDUE, FIXED NONFILTRABLE (MG/L)
+
+7726
+
+Pipet
+
+6224
+
+Analytical procedure not specified
+
+5729
+
+General Listing of Field and Lab Analytical Procedures for Manatee
+County
+
+4943
+
+Total Suspended Solids (TSS)
+
+4885
+
+L01
+
+4847
+
+SSC by filtration (D3977;WI WSC)
+
+4538
+
+Residue Non- filterable (TSS)
+
+4247
+
+Laboratory Procedures for Water Quality Chemical Analysis
+
+4120
+
+Sedigraph
+
+3939
+
+QA Plan \#900456
+
+3044
+
+SUSPENDED SEDIMENT CONCENTRATION
+
+2883
+
+Percent Of Suspended Sediment Particles Passing Through 0. 062 Mm Sieve
+
+2797
+
+TSS, 105C (SM 2540D; WI WSC)
+
+2566
+
+Sediments
+
+2539
+
+Nutrient analyses from water samples
+
+2396
+
+TSS, 105C (EPA 160.2 /DODEC)
+
+2382
+
+Metals in Water by ICP-AES
+
+2368
+
+Lake Trafford
+
+2267
+
+Total Sediment
+
+2163
+
+Nutrient analyses
+
+2157
+
+Total Dissolved Solids in Water
+
+2056
+
+DATABASE CALCULATED FSS - METHOD 1 - MDL
+
+1924
+
+Solids, Suspended and Volatile Suspended
+
+1852
+
+Suspended solids, 105C,grav (PA)
+
+1707
+
+Filterable Residue - TDS
+
+1706
+
+Solids, residue at 105°C
+
+1478
+
+USGS\_HIST
+
+1381
+
+Suspended SedimUSEPAent Concentration (SSC)
+
+1371
+
+Other or Unknown Procedure
+
+1361
+
+EPA160.4
+
+1355
+
+Legacy Guam EPA Analytical Procedures
+
+1310
+
+TOTAL SUSPENDED SOLIDS
+
+1302
+
+ASTM D3977
+
+1270
+
+TOTAL SUSPENDED SOLIDS, DRIED AT 103-105C
+
+1176
+
+See QA Plan for this Project
+
+1165
+
+Fines
+
+1140
+
+Sands
+
+1137
+
+ASTM 3977C, SEDIMENT CONCENTRATION
+
+1125
+
+TSS, dried 103-105C (SM2540D)
+
+935
+
+Gravimetric Evaporation Method; Dried At 90-105 Degrees C
+
+835
+
+Chlorophyll a-b-c Determination
+
+805
+
+L01\textasciitilde{}SSC\_\%FINE
+
+781
+
+Non-filterable residue by filtration and drying
+
+768
+
+R10PORTLANDHARBOR Method
+
+768
+
+LAKE COUNTY QUALITY SYSTEMS MANUAL
+
+763
+
+Residue, total nonfilter, 105C S
+
+754
+
+Total Solids Dried 103-105C in Water
+
+744
+
+L01\textasciitilde{}SSC\_\%SAND
+
+731
+
+total suspended solids
+
+649
+
+TSS
+
+605
+
+Unknown Method or Procedure
+
+574
+
+Residue,total nonfilterable,105C
+
+567
+
+TOTAL NONFILTRATABLE RESIDUE
+
+554
+
+Total suspended solids
+
+541
+
+Nitrogen in Water
+
+521
+
+STANDARD METHODS 2540D - TSS
+
+497
+
+Total Residue
+
+491
+
+Hawaii historic procedures for Legacy STORET
+
+482
+
+Estero Bay Aquatic Preserve tributary sampling
+
+464
+
+USGS I-3765-85
+
+445
+
+Field Office procedures
+
+435
+
+Harrel's TSS Procedure at BITH
+
+391
+
+Settleable Solids in Water
+
+382
+
+Total Phosphorus After Block Digestion
+
+373
+
+SM182540D
+
+371
+
+EPA160.2
+
+369
+
+Southern Ute Tribe Standard Operating Procedures
+
+361
+
+Alkalinity in Water by Titration
+
+349
+
+SOLIDS, SUSP. - RESIDUE ON EVAP. AT 180 C (MG/L)
+
+346
+
+Inorganic Anions by Ion Chromatography
+
+331
+
+Total Suspended Solids Dried at 103-105
+
+326
+
+NFS or Nonfilterable Solids
+
+322
+
+DATABASE CALCULATED FSS - METHOD 1 - 1 MDL
+
+284
+
+DATABASE CALCULATED FSS - METHOD 1 - 1/2 MDL
+
+284
+
+Turbidity by Nephelometry
+
+277
+
+Total Kjeldahl Nitrogen by Colorimetry
+
+269
+
+ASTM D3977M
+
+239
+
+UNK-CH2M
+
+236
+
+Conductance
+
+227
+
+Silica in Water by Colorimetry
+
+215
+
+Susp solids, 105C (160.2;CO WSC)
+
+198
+
+Total Suspended Solids determined by EPA Standard Method 160.2
+
+191
+
+Lower Brule Quality Assurance Project Plan
+
+190
+
+Bunker\_USGS Analytical Methods
+
+184
+
+Total Organic Carbon by Combustion-Infrared Method
+
+183
+
+WRS 14B.1
+
+173
+
+Cheyenne River Sioux Tribe Quality Assurance Procedures
+
+160
+
+Phosphorus by Colorimetry
+
+160
+
+Suspended solids, freeze dried
+
+160
+
+Procedure not Required when Result Entered into National Database
+
+156
+
+Nitrate, Total N, Total P, Si, TSS, Ammonia N, Chlorophyll `a';
+
+154
+
+Sus solids, wat, 110C,wt Ocala)
+
+148
+
+Standard Operation Procedure
+
+137
+
+Legacy STORET migration; analytical procedure not specified
+
+121
+
+Temperature
+
+117
+
+Confederated Salish and Kootenai Tribes Quality Assurance Project Plan
+
+98
+
+pH
+
+98
+
+EPA 160.2M
+
+97
+
+Ammonia in Water Using Automated Phenate Method
+
+92
+
+Residue, fixed nonfilterable
+
+91
+
+Sediment, wet-sieving-filtration
+
+90
+
+Nitrate-Nitrite Nitrogen by Colorimetry
+
+82
+
+ASTM 3977B, TOTAL SUSPENDED SOLIDS
+
+72
+
+SM 2540 B
+
+72
+
+Turbidity in Water
+
+69
+
+Nutrient water sample analyses from Santa Monica Bay
+
+63
+
+Procedure is unknown
+
+63
+
+Sediment size by photo optics
+
+60
+
+Suspended solids after ignition
+
+59
+
+TSS, dried 103-105C (I-3765-85)
+
+59
+
+SM 2540 E
+
+55
+
+Water Quality Measurements by Standard Methods, 14th Edition
+
+47
+
+Nutrient water sample analyses from Morro Bay
+
+46
+
+B W tube
+
+44
+
+5-Day Biochemical Oxygen Demand
+
+42
+
+Dissolved Oxygen Using an ISE
+
+33
+
+Sediment conc by centrifuge
+
+32
+
+Sed conc by acoustic backscatter
+
+27
+
+SLD04
+
+27
+
+SED10
+
+26
+
+HARDNESS IN WATER BY EDTA TITRATION
+
+17
+
+PH TEMPERATURE BY SM 2550B-00
+
+15
+
+Silica in Water by Spectrophotometry- Heteropoly Blue Method
+
+15
+
+TOTAL FILTRATABLE RESIDUE
+
+13
+
+USGS\_UNKN
+
+12
+
+LABORATORY CALCULATION
+
+11
+
+Quality Assurance Project Plan
+
+10
+
+Residue, fixednonfilterable (CO)
+
+10
+
+Dissolved Oxygen by Winkler Technique
+
+9
+
+Sediment size by sedigraph
+
+9
+
+Phosphorus by Two Reagent Colorimetry
+
+8
+
+SED16
+
+8
+
+STANDARD METHOD 4500 FOR PH
+
+6
+
+Ammonia in Water - Flow Injection Analysis
+
+5
+
+SED09
+
+5
+
+Determination of Inorganic Anions by Ion Chromatography
+
+4
+
+Metals in Waters by ICP/MS
+
+4
+
+Persufate Method for Total Nitrogen
+
+4
+
+Sediment by pressure difference
+
+4
+
+Total Nonfilterable Residue Solids
+
+4
+
+Total Organic Carbon in Water- Ultraviolet Oxidation Method
+
+4
+
+FIELD PARAMETERS
+
+3
+
+METALS
+
+3
+
+Standard Analytical Procedure
+
+3
+
+Total, Fixed and Volatile Solids
+
+3
+
+Enzyme substrate assay for measuring total coliforms and E. coli
+(ONPG-MUG test or CPRG-MUG test)
+
+2
+
+SM 2540 D v20
+
+2
+
+Susp solids,105C(160.2;CO;HFMAN)
+
+2
+
+TOTAL DISSOLVED SOLID DRIED AT 180 DEGREES CENTIGRAGE
+
+2
+
+5 Day Biochemical Oxygen Demand
+
+1
+
+Ammonia Nitrogen by Colorimetry
+
+1
+
+CONDUCTIVITY LABORATORY METHOD
+
+1
+
+Nephelometric Method
+
+1
+
+Sediment size by wet sieve
+
+1
+
+STANDARD METHOD 2320B
+
+1
+
+STANDARD METHOD 4500-H+
+
+1
+
+Many of these analytical methods are sensible and we can keep the
+majority of the data. One glaring issue is that more than 2 million
+observations have an analytical method of NA. What should we do with
+these samples? Throw out half of our data because the method is not
+verifiable? Or keep it knowing that some of the data might be using
+incompatable methods.
+
+\hypertarget{tss-sample-methods}{%
+\subsubsection{TSS sample methods}\label{tss-sample-methods}}
+
+We can breakdown our TSS data into other categories as well, above we
+describe the breakdown of analytical methods, but what about the various
+methods that might be used to actually collect the water from the water
+body (here called ``sample\_method'')
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tss }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{group_by}\NormalTok{(sample_method) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{summarize}\NormalTok{(}\DataTypeTok{count=}\KeywordTok{n}\NormalTok{()) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{arrange}\NormalTok{(}\KeywordTok{desc}\NormalTok{(count)) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{kable}\NormalTok{(.,}\StringTok{'html'}\NormalTok{,}\DataTypeTok{caption=}\StringTok{'All tss sample methods and their count (678 methods)'}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{kable_styling}\NormalTok{() }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{scroll_box}\NormalTok{(}\DataTypeTok{width=}\StringTok{'600px'}\NormalTok{,}\DataTypeTok{height=}\StringTok{'400px'}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+All tss sample methods and their count (678 methods)
+
+sample\_method
+
+count
+
+USGS
+
+1702606
+
+Surface
+
+322724
+
+Grab sample. Submerge and fill a water sampling vessel, or sample
+directly into the sample bottle provided by the an\ldots{}
+
+208770
+
+Point sample
+
+184816
+
+Equal width increment (ewi)
+
+177421
+
+Water Grab Sampling
+
+146899
+
+Grab
+
+128011
+
+G
+
+93474
+
+GRAB
+
+89945
+
+Ambient Water Quality Monitoring QAPP and SOP
+
+84467
+
+Total Suspended Solids/Volatile Suspended Sample Filtration, Processing
+\& Storage T
+
+82854
+
+Unknown
+
+68398
+
+Multiple verticals
+
+61189
+
+GRAB SAMPLE
+
+55010
+
+SJR-SOP
+
+54918
+
+Equal discharge increment (edi)
+
+51762
+
+Total Suspended Solids/Volatile Suspended Sample Filtration, Processing
+\& Storage
+
+49191
+
+Grab Sample
+
+46873
+
+ADEM SOPs-2000 Series-Surface Water
+
+44394
+
+STD\_SC
+
+43858
+
+Water\_Grab
+
+41246
+
+GRAB
+
+41147
+
+Grab sample (dip)
+
+38035
+
+SOP For The Collection And Preservation Of Stream And River Grab Samples
+For Chemical And Biological Analysis.
+
+37311
+
+STANDARD
+
+36280
+
+SuspSed; Pumping - stream sample using a pumping mechanism
+
+35832
+
+Chesapeake Bay Program
+
+35522
+
+Water Grab Sample
+
+33391
+
+OEPA Surface Water Sample Collection Method
+
+33110
+
+Standard UHL Sampling Procedure - Grab Samples
+
+29319
+
+Total Suspended Solids/Volatile Suspended Sample Filtration, Processing
+\& Storage B
+
+29030
+
+SOP
+
+27974
+
+WATER GRAB SAMPLE
+
+27739
+
+Grab water sample taken from a river by using a bottle
+
+27471
+
+Virginia CBP Non-Tidal Tributary Monitoring Program
+
+26492
+
+Grab Sample Collected With A Stainless Bucket
+
+26407
+
+Single vertical
+
+26028
+
+HISTORIC
+
+23895
+
+Automated Water Sampler
+
+23186
+
+WQM Sample collection
+
+22671
+
+Water quality grab sampling.
+
+21588
+
+FL DEP Field Sample Collection DEP SOP 01-001
+
+20919
+
+WATER SAMPLE
+
+20548
+
+UHL001
+
+20235
+
+Grab Sampling
+
+19765
+
+Lake depth point sampling. Lake water is sampled at a discrete depth in
+the water column using a vertical Kemmerer- \ldots{}
+
+17776
+
+Lake surface 2m depth-integrated sampling. Lower a 2-meter-long,
+2-inch-diameter PVC pipe vertically into the water, \ldots{}
+
+17711
+
+Generic SJRWMD Sample Collection Procedure
+
+17358
+
+NA
+
+17028
+
+ISU Lake Sample Collection Procedure
+
+16081
+
+SWFWMD SOP's for the Collection of Water Quality Samples
+
+15774
+
+FACILITY EFFLUENT SAMPLE
+
+14835
+
+R
+
+14365
+
+SuspSed;Partial Depth,depth integrated,part of single vert.
+
+14070
+
+Grab Water Sample
+
+14004
+
+SuspSed; Box-single ver, depth-int, attached to structure
+
+13729
+
+Unknown, Historic Data, Migrated from STOREASE
+
+13486
+
+Composite - Multiple point samples
+
+13287
+
+Standard Method
+
+11108
+
+COLLECT01
+
+10460
+
+Grab sample
+
+10369
+
+Standard Routine Sample Collection
+
+10351
+
+SP-001
+
+10267
+
+FDEP SOP Surface Water Sample
+
+10211
+
+NPS\_LEGACY
+
+9618
+
+Multiple verticals, non-isokinetic, equal widths and transit rate
+
+8517
+
+NOT PROVIDED
+
+8339
+
+UNKNOWN
+
+8290
+
+SOP-1
+
+8269
+
+Collier County Water Sampling Collection Procedure
+
+8182
+
+SM 1060B
+
+7977
+
+SWAMP Sample Collection Procedure
+
+7803
+
+Land Collections Directly from Water Source
+
+7793
+
+Sample-Routine
+
+7371
+
+Total Suspended Solids/Volatile Suspended Sample Filtration, Processing
+\& Storage A
+
+7304
+
+Photic
+
+6611
+
+Composite sample, flow-weighted/flow-paced with auto-sampler
+
+6604
+
+Unspecified grab
+
+6520
+
+SOP
+
+6467
+
+AZDEQ Standard Operating Procedures
+
+6294
+
+LEGACY SCP
+
+5954
+
+Surface Water Sample Collection QAPP
+
+5932
+
+Water Sampling, grab
+
+5782
+
+EPA METHOD
+
+5723
+
+kemmerer bottle
+
+5674
+
+IL\_EPA
+
+5606
+
+CREATEW-2
+
+5500
+
+Grab-Direct to Sample Container
+
+5362
+
+Land Station Collection from Bridge
+
+5352
+
+COMPOSITE
+
+5184
+
+Grab Sample Collected With A Water Bottle
+
+5138
+
+DH59 composite
+
+5104
+
+Weighted bottle
+
+5083
+
+UHLLAKE
+
+5074
+
+Water quality grab sampling
+
+4935
+
+Surface Water QAPP
+
+4839
+
+Grab water sample taken from a river using a bottle
+
+4725
+
+FDL QAPP
+
+4708
+
+STREAM\_1
+
+4674
+
+WPMP Stream Sampling SOP
+
+4533
+
+RAMP Sample Collection Procedure
+
+4363
+
+Bucket/Bottle Grab
+
+4247
+
+FPSWP
+
+4170
+
+Total Suspended Solids/Volatile Suspended Sample Filtration, Processing
+\& Storage K
+
+4161
+
+water sample collection
+
+3980
+
+NCA Water Sample
+
+3937
+
+Peristaltic pump
+
+3930
+
+UHL Lake sampling procedure
+
+3922
+
+Other
+
+3827
+
+GRAB-1
+
+3814
+
+RIGRABOT
+
+3774
+
+Standard Grab Sampler
+
+3620
+
+STD\_LM
+
+3617
+
+Grab Sample Collection
+
+3544
+
+Van Dorn bottle
+
+3477
+
+Boat Station Collections
+
+3426
+
+Grab water sample taken from a reservoir by using a Van Dorn bottle
+
+3333
+
+SOP-3
+
+3282
+
+GRAB01
+
+3221
+
+water bottle
+
+3203
+
+ASIS\_GRAB
+
+3182
+
+Grab water sample taken from a lake by using a Van Dorn bottle
+
+3085
+
+Coastal 2000 Program
+
+2947
+
+Chemistry - Sample
+
+2867
+
+RIBS-WCOL
+
+2753
+
+SURFACE WATER GRAB SAMPLE
+
+2730
+
+FPRMP
+
+2692
+
+DEP-SOP-001/01 FS2100 Surface Water Sampling
+
+2679
+
+DNRLAKE
+
+2676
+
+NCA Standard WQ Sample
+
+2660
+
+Shenandoah Fish Kill Task Force Study
+
+2642
+
+DEP-SOP-001/01 FS2100
+
+2629
+
+AMBIENT AND VRAP SAMPLING PROCEDURES
+
+2555
+
+Niskin water sampler
+
+2505
+
+Routine Water Quality Samples
+
+2410
+
+Composite Effluent Sample
+
+2407
+
+USGS Collection Method
+
+2373
+
+Go-Flo sampling bottle
+
+2157
+
+Water samples taken from a reservoir by using a Van Dorn bottle and
+composited
+
+2116
+
+Suction lift peristaltic pump
+
+2059
+
+R10BUNKER
+
+2033
+
+SRBC Standard Grab Sample Method
+
+1986
+
+Kemmerer composite
+
+1970
+
+LAGRBVAN
+
+1965
+
+THE COLLECTION AND PRESERVATION OF STREAM AND RIVER GRAB SAMPLES FOR
+CHEMICAL AND BIOLOGICAL ANALYSIS.
+
+1931
+
+REGRAVAN
+
+1898
+
+Samples Collection Procedures QAPP
+
+1833
+
+Blank water sample for QAQC purposes using a bottle
+
+1783
+
+Intermediate
+
+1781
+
+Timed sampling interval
+
+1762
+
+grab sampling
+
+1755
+
+USEPA
+
+1733
+
+EWI-CHURN
+
+1732
+
+GEPAMP022
+
+1688
+
+Grab-Using Sampler
+
+1688
+
+GRYN\_DH81
+
+1665
+
+Iowa Geological Survey - general procedures for grab samples
+
+1658
+
+Standard Operation Procedure
+
+1652
+
+Vacuum Filtration
+
+1604
+
+Brass Kemmerer sample
+
+1563
+
+Grab Sample-Grabber Bottle
+
+1555
+
+STD\_SP
+
+1505
+
+DRBC SRMP QAPP or SOP
+
+1503
+
+Delaware River Basin Commission QAPPs or SOPs
+
+1486
+
+Intermediate Grab
+
+1486
+
+IRONMT
+
+1450
+
+Water samples taken from a lake by a Van Dorn bottle and composited
+
+1445
+
+Sample-collection method not available
+
+1394
+
+EWI
+
+1368
+
+GRAB-01
+
+1358
+
+Marine Offshore Water Column Sample
+
+1331
+
+Guam EPA Legacy Sampling Procedures
+
+1310
+
+RECOMVAN
+
+1287
+
+Van Dorn sampler
+
+1284
+
+Replicate grab water sample taken from a river by using a bottle
+
+1240
+
+01
+
+1223
+
+Subsurface grabs equidistant across stream
+
+1173
+
+BB-002
+
+1171
+
+Potomac River Embayment Study
+
+1161
+
+STANDARD GRAB
+
+1160
+
+Standard sampling method
+
+1144
+
+Not Applicable (N/A)
+
+1141
+
+Fort Peck Tribes Sample Collection Procedure
+
+1140
+
+INVALID DATA SET QUALITY ASSURANCE FAILURE
+
+1136
+
+WATER
+
+1132
+
+South, SF Shenandoah and Shenandoah River Mercury Study
+
+1131
+
+Water sample taken from a river by using an integrated suspended
+sediment sampler
+
+1120
+
+CSKT\_QAPP
+
+1111
+
+SCP-001
+
+1093
+
+ACT
+
+1051
+
+WATER1
+
+1039
+
+GP
+
+1016
+
+Large Rivers Water Quality Monitoring Protocol
+
+1006
+
+Ute Mountain Ute Water Quality Standard Operating Procedures
+
+980
+
+G
+
+960
+
+Surface sample
+
+943
+
+LACOMVAN
+
+933
+
+Fort Belknap - Standard Sample Collection Procedure
+
+914
+
+Discrete grab with bottle
+
+913
+
+Water Quality Sampling
+
+909
+
+Collecting Water Quality Samples
+
+897
+
+R10MIDNITE
+
+894
+
+Integrated Vertical Profile
+
+891
+
+Project Sampling Plan
+
+881
+
+Water Sampler Standard Operation Procedure
+
+877
+
+WQ-1
+
+859
+
+The collection and preservation of stream and river grab samples for
+chemical and biological analysis.
+
+858
+
+Integrated Grab Water Sample
+
+847
+
+COLLECT1
+
+845
+
+ROUTINE
+
+836
+
+SP-01
+
+834
+
+Depth Integrated Water Sample
+
+832
+
+Texas Commission on Environmental Quality, Surface Water
+
+808
+
+FDL\_SCP
+
+805
+
+FCPC\_WQP
+
+789
+
+Spring Branch TMDL (VAP-K32R)
+
+785
+
+Grab sample collection
+
+768
+
+Portland Harbor Sampling Methods
+
+768
+
+Grab water sample taken from a river using a bucket
+
+747
+
+YLR001
+
+745
+
+TAT\_SCP
+
+738
+
+Chemical and Physical Monitoring of Water Resources
+
+736
+
+Van Dorn Water Sample
+
+734
+
+grab sample
+
+725
+
+ROUTINE
+
+704
+
+NM Surface Water Quality Bureau QAPP
+
+657
+
+UHL-Composite Sampling Procedure for TMDL
+
+653
+
+Lake surface depth-integrated sampling other than 0-2m
+
+652
+
+CDI
+
+648
+
+Equal Width Increment (EWI) Sample Collection
+
+640
+
+Elizabeth, Tidal James, New Rivers, and Mountain Run PCB TMDL Study
+
+636
+
+EPA R4 SESD FBQSTP
+
+633
+
+GB
+
+626
+
+CPCRI TRACE ELEMENTS MAJOR ANIONS CATIONS MAINSTEM CLINCH RIVER
+
+625
+
+General
+
+620
+
+Grab-Unknown Method
+
+615
+
+PORE\_WQSAM
+
+615
+
+General Water Quality Procedures
+
+611
+
+GRAB001
+
+607
+
+See Project QA Plan
+
+600
+
+Bucket
+
+574
+
+Stainless Steel Bucket
+
+573
+
+DRBC Project QAPP or SOP
+
+571
+
+Composite water sample taken from a river with an ISCO automated sampler
+
+570
+
+AUTOSAMPLE
+
+568
+
+Little Traverse Bay Bands of Odawa Indians Quality Assurance Project
+Plan
+
+562
+
+Oglala Sioux Tribe Sample Collection Procedure
+
+555
+
+SW1-WS
+
+549
+
+Eagle Mine Compliance Monitoring
+
+532
+
+Follow Collier County Pollution Control Standards
+
+529
+
+WPMP Lake Sampling SOP
+
+505
+
+North River Tributary TMDL Implementation
+
+500
+
+Prairie Island QAPP
+
+499
+
+2010 PCB Fish Consumption Study
+
+496
+
+Elizabeth and Upper James Tidal PCB TMDL Study
+
+492
+
+Surface Water Sampling
+
+489
+
+Bedload, single equal width increment (SEWI)
+
+482
+
+Historic Hawaii Sample Collection methods for legacy STORET
+
+482
+
+Southern Ute Tribe Sample Collection Procedures
+
+481
+
+Lake Sampling SOP (6/1/2010) - Depth Sample
+
+475
+
+SOP For The Collection And Preservation Of Lake Or Non-Wadable Wetland
+Water Column Samples For Chemical Analysis.
+
+463
+
+Field Surface Water Collection
+
+456
+
+303D-WAT
+
+451
+
+UT to Chickahominy R TMDL
+
+449
+
+Grab Sample (Laboratory Data)
+
+445
+
+Unspecified
+
+445
+
+NPS\_DIS
+
+435
+
+RIINTINT
+
+434
+
+Chippewa Cree 106 QAPP Sample Collection Procedure
+
+431
+
+RICOMAUT
+
+430
+
+Water: 2 L composite for onsite analyses
+
+424
+
+Composite Influent Sample
+
+420
+
+Quality Assurance mechanism for the Stockbridge-Munsee Community
+
+418
+
+See QA Plan for this Project
+
+417
+
+BB-005
+
+415
+
+Lac du Flambeau Tribe
+
+396
+
+QAPP
+
+392
+
+Harrel's WQ Sample Collection Procedures
+
+391
+
+Lake Ecology
+
+381
+
+Equipment Blank
+
+379
+
+Dan River Fly Ash Spill
+
+372
+
+Field Blank
+
+372
+
+NPS\_GRAB
+
+360
+
+Otoe Missouria Tribe
+
+350
+
+DRC
+
+346
+
+GTMGRAB
+
+344
+
+R10BUNEKR
+
+343
+
+Upper Sioux Community Quality Assurance Project Plan
+
+336
+
+Grab Sample Method
+
+330
+
+Surface Water Sampling Method
+
+330
+
+Rivanna River TMDL IP
+
+324
+
+SP-QAPP
+
+323
+
+Cheyenne River Sioux Tribe - Standard Sample Collection Proc
+
+322
+
+COLLECT-01
+
+322
+
+Field and Laboratory Methods for Sediment
+
+321
+
+Stream Water Sample
+
+317
+
+SMFY04QAPP
+
+313
+
+Water samples taken from a lake by a water bottle and composited
+
+311
+
+UAA Quality Assurance Project Plan
+
+306
+
+WHITBRST
+
+303
+
+Whitebreast Snapshot sampling procedure
+
+303
+
+Composite Sample Collected With A DH-81 Depth-Integrating Vertical
+Sampler
+
+296
+
+Water grab sample taken from a storm sewer by using a bottle
+
+289
+
+Lower Brule Tribe Sample Collection Procedure
+
+285
+
+GB-SCP
+
+283
+
+QAPP Sample Collection Procedure
+
+278
+
+Jackson River Benthic TMDL
+
+276
+
+1
+
+270
+
+MCCBCED
+
+270
+
+Velocity integrated
+
+267
+
+CCERIV
+
+263
+
+ISU CCE Standard Procudures for Sampling Rivers
+
+263
+
+Water Collection
+
+263
+
+Point Surface Water Sample
+
+261
+
+Laurel, Fridley Run, Little Stony Creek Benthic TMDL IP
+
+260
+
+PRO James River Bacterial TMDL Study
+
+260
+
+LAINTVAN
+
+256
+
+GLKNRVWQ
+
+249
+
+Unknown Sample Collection Procedure
+
+249
+
+Cooks Creek Blacks Run TMDL IP Monitoring
+
+243
+
+POTW HARDNESS AND THE EFFECT ON TOTAL AND DISSOLVED METALS
+
+242
+
+Composite Sampling
+
+239
+
+SCC-SOP
+
+239
+
+Laboratory Samples
+
+235
+
+Standard South Dakora equipment
+
+231
+
+Thief sample
+
+231
+
+COLLECT02
+
+230
+
+Meadow Creek and Shencks Branch Benthic TMDL
+
+220
+
+WQCD Stream Sampling Procedure
+
+217
+
+Procedure not Required when Result was Entered into National Database
+
+216
+
+Bottom
+
+214
+
+LAKE\_1
+
+213
+
+WATER GRAB SAMPLE 2005 Guidelines and Procedures
+
+213
+
+Grab water sample taken from a canal by using a bottle
+
+212
+
+SCITQAPP2013-2017
+
+211
+
+Water Sampler
+
+211
+
+HC041206
+
+207
+
+Composite sample, time-paced auto-sampler. Automatic composite sampling
+at regular time intervals.
+
+205
+
+Garden Creek Q04
+
+204
+
+Composite sample, flow-weighted/time-paced with auto-sampler
+
+198
+
+Water samples taken from vertical profile of a lake by using a Van Dorn
+bottle and composited
+
+197
+
+Discharge integrated, centroid
+
+191
+
+HANALEI
+
+191
+
+Grab water sample taken from a lake by using a bottle
+
+189
+
+POINT
+
+185
+
+South Fork and North Fork Catoctin Creek TMDL monitoring (A02)
+
+184
+
+GP
+
+182
+
+Water Quality Grab Sample Method
+
+177
+
+Sampling Collection
+
+176
+
+GRAB-001
+
+175
+
+Isco Flow Weighted Composite
+
+171
+
+Broad Run Benthic TMDL (VAN-A09)
+
+168
+
+MM-PMP-SOP
+
+166
+
+IASNAPSHOT
+
+165
+
+IOWATER Snapshot Sampling Procedure
+
+165
+
+Sandia Field Collection Measurements
+
+165
+
+Discrete sample, time-paced with auto-sampler
+
+161
+
+PFIESTERIA PROGRAM
+
+161
+
+UIT Quality Assurance Plan
+
+160
+
+HIDOH Sample Collection
+
+154
+
+SFAN\_SOP\_8
+
+154
+
+Auto Sampler
+
+153
+
+WRPT QAPP
+
+153
+
+Standing Rock Standard Collection Procedure
+
+152
+
+Clinch Powell Clean Rivers Initiative
+
+150
+
+Sokaogon Chippewa Community Quality Assurance Project Plan
+
+150
+
+Roanoke River Watershed TMDL
+
+148
+
+Pigg River Watershed TMDL
+
+147
+
+Watershed Projects with Lake and Stream Sites
+
+147
+
+Standard Collection Procedure
+
+145
+
+MM-PDDN-SOP
+
+144
+
+Composite sample, flow-triggered, time-paced, auto-sampler. Automatic
+sampling at regular time intervals triggered \ldots{}
+
+141
+
+Long Meadow and Turley Creek Benthic TMDL
+
+138
+
+Opequon Creek Abrams Creek TMDL IP Monitoring
+
+135
+
+Jeffries Branch Benthic TMDL (VAN-A04)
+
+134
+
+NC\_SCP
+
+134
+
+Stony Run and Deep Run Henrico Benthic TMDL
+
+134
+
+Sampling and Analysis Plan/ Quality Assurance Project Plan
+
+132
+
+Cunningham Creek TMDL
+
+131
+
+Powell River (VAS-P17R) Benthic and Bacteria TMDL
+
+131
+
+SAMPLE COLLECTION METHOD
+
+131
+
+Difficult Run Watershed for Benthic TMDL
+
+130
+
+New River Valley TMDL (Crab, Back, Peak)
+
+128
+
+ACF
+
+127
+
+LTBBQAPP
+
+127
+
+South River Intensive Water Column Mercury Sweep
+
+126
+
+Depth integrated sample with DH81 isokinetic sampler
+
+123
+
+Grab sample at water-supply tap
+
+123
+
+Integrated Water Sample
+
+122
+
+Lake Depth Integrated Water Sample
+
+119
+
+Shakopee Mdewkanton Sioux Community QAPP
+
+119
+
+Composite sample with auto-sampler
+
+118
+
+Clinch River:Dominion-DEQ
+
+117
+
+Water: 2 L composite for laboratory analyses
+
+117
+
+Water bottle
+
+114
+
+SMSCQAPP
+
+113
+
+water grab sampling
+
+113
+
+Grab water sample taken from a reservoir by using a bottle
+
+108
+
+UHL002
+
+108
+
+Composite water sample taken from a storm sewer with an ISCO automated
+sampler
+
+104
+
+Little Calfpasture River TMDL
+
+104
+
+Buffalo River E. coli TMDL Study (H11R, H12R)
+
+102
+
+FB
+
+102
+
+Special Study Sand Branch (Loudoun Co)
+
+102
+
+AQUA
+
+101
+
+Accotink Creek Watershed for Benthic TMDL
+
+100
+
+H\&C QAPP
+
+100
+
+Stream Grab Sample
+
+100
+
+Grab sample at Tap(s) on a Dam
+
+99
+
+Suction pump
+
+98
+
+Critical basket from bridge
+
+96
+
+Beaver Creek TMDL
+
+92
+
+ON\_QAPP
+
+91
+
+SHIL\_PCA\_2
+
+90
+
+2008 TMDL IP Monitoring
+
+89
+
+Microbiology Analysis, Critical basket from bridge
+
+89
+
+SCITQAPP2009
+
+88
+
+Blackwater River Franklin County TMDL
+
+87
+
+Clean Hands Dirty Hands
+
+87
+
+Columbus Water Works Sample Collection SOP
+
+87
+
+GOGA\_GRAB
+
+87
+
+STP Autosampler
+
+86
+
+West Strait Creek TMDL
+
+86
+
+SAP QAPP FOR GW AND SW MONITORING AT THE WEST EXPANSION OF THE PAGE
+REPOSITORY
+
+84
+
+CAGRABOT
+
+82
+
+Grab sample collected in response to an event.
+
+82
+
+Red Cliff Water Quality Monitoring
+
+82
+
+Summerduck Run Benthic TMDL (VAN-E10)
+
+82
+
+KBIC QAPP
+
+81
+
+106 QAPP
+
+80
+
+Bacteria Sampling
+
+80
+
+Composite sample (other)
+
+80
+
+Composite-Vertical-Discrete-Sampler
+
+80
+
+SuspSed;Single-stage,nozzle at fixed stage,passively fillng
+
+80
+
+MO Department of Natural Resource Water Sampling Protocol
+
+79
+
+South Anna Benthic TMDL (VAN-F01)
+
+76
+
+Tripps Run and Holmes Run TMDL monitoring (A13)
+
+76
+
+Crow Nation Sample Collection Procedure
+
+75
+
+TMDL sampling QAPP
+
+75
+
+Composite sample from multiple locations on a waterbody, combined with a
+churn splitter.
+
+74
+
+GP QAPP
+
+74
+
+Surface water collection
+
+74
+
+Surface Water Sampling SOP
+
+74
+
+Continuous-flow sampling, Clean Hands technique. Lower teflon collection
+tube to a representative depth of the water\ldots{}
+
+73
+
+Grab water sample taken from the bottle of the ISCO automated sampler
+from a river
+
+73
+
+Holmans Creek TMDL Implementation
+
+72
+
+Mountain Run Benthic TMDL (VAN-E09)
+
+72
+
+SCRO PCB Roanoke River 2007
+
+72
+
+SHIL\_PCA\_3
+
+71
+
+Rockfish Bacteria and Benthic TMDL IP H15R and H16R Nelson County
+
+70
+
+SOP For The Collection Of Lake Or Non-Wadable Wetland Water Samples
+Using 6-Foot Depth Integrated Column Sampler.
+
+70
+
+Smith Creek, Mountain Run, Fridley Run TMDLs
+
+69
+
+POLSWATER\_WQX\textasciitilde{}Field Probe
+
+67
+
+FLOYDCED
+
+66
+
+Laurel Fork (VAS-N37) TMDL
+
+66
+
+Little Calfpasture Turbidity Study
+
+66
+
+STORM SAMPLER
+
+66
+
+CCELAK
+
+63
+
+ISU CCE Standard Procedures for Sampling Lakes
+
+63
+
+Sample Method Unknown
+
+63
+
+Stroubles Creek TMDL
+
+63
+
+WPMP Estuary Sampling SOPng
+
+61
+
+Bluestone River and Tributary PCB and Chlordane TMDL Study
+
+60
+
+Bluestone RiverN36/N37 TMDL
+
+60
+
+Clinch and Tribs. (P03, P04)
+
+60
+
+Spout Run Bacteria TMDL
+
+60
+
+Stream Condition Index and Fixed Trend Monitoring Protocols
+
+59
+
+North Creek Benthic TMDL Stressor Study
+
+58
+
+North Fk. Holston and Tribs.
+
+58
+
+Rivanna NFRivanna Benthic TMDL
+
+58
+
+Sample Collection Method
+
+57
+
+Buffalo River Benthic TMDL Study
+
+56
+
+2013125
+
+52
+
+Pound River, North \& South Forks Q13R
+
+52
+
+Straight Creek (VAS-P20R) Benthic and Bacteria TMDL
+
+51
+
+Wadeable Stream Nutrient Criteria pilot Project
+
+51
+
+WICR\_UMCW
+
+51
+
+NEWSQAPP
+
+50
+
+SD WRAP
+
+50
+
+Special Study Quantico Creek 2015 \& 2016
+
+50
+
+Standard Sampling Methods
+
+50
+
+Composite
+
+49
+
+Lake Grab Sample
+
+48
+
+Upper Basin Field Studies Phase 1 Investigation
+
+48
+
+Water Sampling with Collapsible Container by Dasher
+
+47
+
+Meter
+
+46
+
+MORRTRAMA
+
+46
+
+SHIL\_PCA\_1
+
+45
+
+FMYN
+
+44
+
+North Fork Powell (VAS-P20) Benthic and Bacteria TMDL
+
+44
+
+OK Corp Comm QAPP
+
+44
+
+Wiyot Tribe Quality Assurance Project Plan
+
+44
+
+North Fork Holston River TMDL
+
+43
+
+SCITQAPP2012
+
+43
+
+QC Field Duplicate-Grab-Unknown Method
+
+42
+
+Standard Grab
+
+42
+
+Grab water sample taken from a facility by using a bottle
+
+41
+
+Match-E-Be-Nash-She-Wish Band of Pottawatomi Indians TWG Quality
+Assurance Project Plan
+
+41
+
+2004/2005 VRO BST Studies
+
+40
+
+Hogue Creek TMDL
+
+40
+
+Mill Creek (B48) TMDL
+
+40
+
+PN\_QAPP
+
+40
+
+FWS-2002
+
+37
+
+Hardness,Carbonate
+
+37
+
+SSGRABOT
+
+37
+
+DH-48 Water Sample
+
+36
+
+ON\_SCP
+
+36
+
+Three Creeks TMDL
+
+36
+
+Garden hose composite
+
+35
+
+Lick Creek P10
+
+35
+
+LAINTWAT
+
+34
+
+Maury River benthic TMDL
+
+34
+
+Terry's Run
+
+34
+
+Guest River TMDL
+
+33
+
+SCPN\_L1
+
+33
+
+Devil Fork and Bark Camp Branch Stressor Analysis Study (P12)
+
+32
+
+ISCO Water Sample
+
+32
+
+Roses Creek TMDL
+
+32
+
+SHIL\_PCA\_4
+
+32
+
+DRAFT SAP QAPP FOR GW AND SW MONITORING AT THE PAGE AREA
+
+30
+
+GRAB-CLEAN
+
+30
+
+Tinker Creek Watershed TMDL
+
+30
+
+Water samples taken from a lake by using an Integrated Verticle Tube and
+composited
+
+30
+
+Grab Pump
+
+29
+
+Routine Water Quality Sampling
+
+29
+
+Composite-Multiple point samples
+
+28
+
+FISH CONSUMPTION IMPAIRMENT IN THE ROANOKE (STAUNTON) RIVER
+
+28
+
+MM-SMP-SOP
+
+28
+
+QAPP for Cent Gt Plains HW Assessment
+
+28
+
+Ash Camp Creek
+
+27
+
+FLBS Integrated Vertical Water Sample
+
+27
+
+Toms Brook TMDL
+
+26
+
+South River/South Fork Shenandoah Bacteria TMDL
+
+25
+
+Bull Creek and tributaries Q08
+
+24
+
+SHIL\_TSS
+
+24
+
+Water samples taken from a reservoir by using a water bottle and
+composited
+
+24
+
+Depositional sample taken to analyze atmospheric phosphorus
+
+23
+
+Lewis Creek TMDL
+
+22
+
+Shallow Water Continuous Monitoring in Tidal Potomac
+
+22
+
+Depth Integrated Ambient procedure
+
+21
+
+Flow Measurement SOP
+
+21
+
+QC Trip Blank - Historical
+
+21
+
+Water sample taken from a storm sewer by using an integrated suspended
+sediment sampler
+
+21
+
+LRB\_NUT
+
+20
+
+Rush River
+
+20
+
+Stormwater Sampler and Mounting Kit
+
+20
+
+Middle Creek TMDL P03
+
+19
+
+SAMPLING PROCEDURES FOR VOLUNTEER LAKE ASSESSMENT PROGRAM
+
+19
+
+South Mayo River TMDL
+
+19
+
+Water Grab Sample (2005) Guidelines and Procedures
+
+19
+
+Multi Probe Sonde
+
+18
+
+Red Bank Creek
+
+18
+
+REDW\_DWR05
+
+18
+
+Critical manual grab from bank
+
+17
+
+MSLM
+
+17
+
+Bedload, multiple equal width increment (MEWI)
+
+16
+
+Bull Run \& South Run, and Popes Head Creek Biological Stressors Study
+
+16
+
+Composite w/o Parents
+
+16
+
+HEHO1
+
+16
+
+INDIAN CREEK TAZEWELL COUNTY WATERBODY VAS-P02R
+
+16
+
+Massaponax Creek
+
+16
+
+Naked Creek (Page) Benthic TMDL
+
+16
+
+Niskin Bottle Water Sample
+
+16
+
+Upper James and Lewis Creek PCB Study
+
+16
+
+Appomattox River TMDL
+
+15
+
+FAGRABOT
+
+14
+
+Highland Park Grab Sample
+
+14
+
+VA DEQ Biological Monitoring Program QAPP 2008 final
+
+14
+
+SP-Water
+
+13
+
+Big Reed Island Creek and Tribs TMDL Study (N13, N14, N15)
+
+12
+
+Chestnut Creek (VAS-N06R) Benthic and Bacteria TMDL
+
+12
+
+Chickahominy Mercury TMDL
+
+12
+
+Composite water sample taken from a canal with an ISCO automated sampler
+
+12
+
+Flat, Nibbs, Deep and West Creeks post-IP monitoring plan
+
+12
+
+Goldmine, Beaver, Pamunkey and Plentiful Creeks, Mountain \& Terrys Run
+
+12
+
+Hunting Camp Creek (VAS-N31R) TMDL
+
+12
+
+Little Buffalo Creek special study
+
+12
+
+Looney Creek TMDL
+
+12
+
+Quality Control Sample-Inter-lab Split
+
+12
+
+Robinson River and Little Dark Run Bacteria Study
+
+12
+
+Russell Fork and Tribs TMDL Study (Q09 \& Q10)
+
+12
+
+SJRWMD SAMPLE PROCEDURES FOR VOLUNTEERS
+
+12
+
+Split grab water sample taken from a river using a bottle
+
+12
+
+Standard
+
+12
+
+Standard Grab Method
+
+12
+
+Stock Creek (VAS-P13R) Benthic TMDL
+
+12
+
+Water nutrient samples
+
+12
+
+Water sample taken from a canal by using an integrated flow proportioned
+sampler
+
+12
+
+North Fork Holston Chloride Study
+
+11
+
+Standard USVI sampling method
+
+11
+
+Blackwater River PRO Mercury TMDL
+
+10
+
+Clinch River TMDL
+
+10
+
+Quail Run TMDL
+
+10
+
+Quality control blank. No sample collected.
+
+10
+
+Syringe sample
+
+10
+
+Unspecified Standard Grab Sample Procedure
+
+10
+
+Water Bottle
+
+10
+
+Water samples taken from a reservoir by using an Integrated Verticle
+Tube and composited
+
+10
+
+Water grab sample taken from a canal by using a bottle
+
+9
+
+BVR SWQAPP
+
+8
+
+PRO PCB Biosolid Study
+
+8
+
+GB
+
+7
+
+James River Mercury Study (H38-H39)
+
+7
+
+LCRQAPP
+
+7
+
+Microbiology Analysis, Critical sampling pole from bridge
+
+7
+
+PWD
+
+7
+
+Sewage sampler
+
+7
+
+Time series composite water sample taken from a storm sewer with an ISCO
+automated sampler
+
+7
+
+200
+
+6
+
+Goldmine Creek TMDL for DO (F07)
+
+6
+
+Hardware River Bacteria TMDL
+
+6
+
+Meherrin River watershed bacteria, nutrient, mercury TMDL
+
+6
+
+Monroe Creek Natural Assessment for Low pH and DO
+
+6
+
+Nottoway River watershed bacteria, nutrient, mercury TMDL
+
+6
+
+Reed Creek TMDL
+
+6
+
+Smith Creek TMDL IP Monitoring Study
+
+6
+
+USGS\_THST
+
+6
+
+Composite of grab samples, time-paced. Individual grab samples taken
+over time are composited for a single result.
+
+5
+
+DRBC QAPP
+
+5
+
+Grab water sample taken from a reservoir by using a water bottle
+
+5
+
+GROUND WATER GRAB SAMPLE
+
+5
+
+IDNR Fisheries Lake Sampling Technique
+
+5
+
+Lab QC
+
+5
+
+NPS\_DI\_SS
+
+5
+
+Phytoplankton Sample
+
+5
+
+surface- horizontally int
+
+5
+
+UNKNOWN
+
+5
+
+WWMD\_VA - YSI6600V2SondeGauge
+
+5
+
+YSI 6600 V2 Sonde Gauge
+
+5
+
+Critical sampling pole from bridge
+
+4
+
+EOR sample collection procedures
+
+4
+
+LC TRIBAL-QAPP
+
+4
+
+PHOTIC
+
+4
+
+Potomac River PCB TMDL Study
+
+4
+
+Upper New River pH Study
+
+4
+
+Equal Width Increment - Equal Transit Rate
+
+3
+
+Grab sample (dip)
+
+3
+
+Integrated Sampler
+
+3
+
+ISCO Composite Sample - Post-peak
+
+3
+
+ISCO Composite Sample - Pre-peak
+
+3
+
+Jeremy, Gooney, Flint Run and Passage Creek TMDL
+
+3
+
+Microbiology Analysis, Critical manual grab wade
+
+3
+
+No Sample Collection Procedure - No Sample Collected
+
+3
+
+Normal collection of surface water
+
+3
+
+Pamunkey Mercury TMDL
+
+3
+
+Spigot
+
+3
+
+Bedload, unequal width increment (UWI)
+
+2
+
+Benthic invertebrate-net
+
+2
+
+Critical manual grab wade
+
+2
+
+Discharge integrated, equal transit rate (etr)
+
+2
+
+Inland Lakes Water Quality Monitoring Protocol
+
+2
+
+Open-top bailer
+
+2
+
+QAPP
+
+2
+
+USGS\_LIBO
+
+2
+
+VICK\_ACEW
+
+2
+
+Crow Creek Water Collection Procedure
+
+1
+
+Direct Grab
+
+1
+
+Field Blank Sampling Method
+
+1
+
+Flowing well
+
+1
+
+FP
+
+1
+
+FR
+
+1
+
+FS 2100
+
+1
+
+GLKNLKWQ
+
+1
+
+Grab Sample for chemical parameters
+
+1
+
+GRAB-02
+
+1
+
+GRAB-CD
+
+1
+
+Grab-Using Sampler(QC)
+
+1
+
+Macroinvertebrate JAB Sample
+
+1
+
+Periphyton Sampling Gear
+
+1
+
+QC Rinsate Blank
+
+1
+
+SAMPLE PROCEDURES FOR CONDUCTING LAKES ASSESSMENTS
+
+1
+
+Sediment Sieved Sample
+
+1
+
+Soil Sampling
+
+1
+
+Split grab water sample taken from a reservoir by using a Van Dorn
+bottle
+
+1
+
+Tribal QAPP
+
+1
+
+UNK
+
+1
+
+Water Grab Sample: Bucket Sampler
+
+1
+
+Water Quality Metal Sampling
+
+1
+
+\hypertarget{tss-depth-of-sampling}{%
+\subsubsection{TSS depth of sampling}\label{tss-depth-of-sampling}}
+
+For TSS some sites also have the water depth of sample, which is very
+useful for validating whether or not the sample will reflect satellite
+observation of the same water parcel. However, most of the data doesn't
+have this depth of sampling data and it requires a bit of its own
+munging, since the sampling depth comes down in a range of units.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Define a depth lookup table to convert all depth data to meters. }
+\NormalTok{depth.lookup <-}\StringTok{ }\KeywordTok{tibble}\NormalTok{(}\DataTypeTok{sample_depth_unit=}\KeywordTok{c}\NormalTok{(}\StringTok{'cm'}\NormalTok{,}\StringTok{'feet'}\NormalTok{,}\StringTok{'ft'}\NormalTok{,}\StringTok{'in'}\NormalTok{,}\StringTok{'m'}\NormalTok{,}\StringTok{'meters'}\NormalTok{,}\StringTok{'None'}\NormalTok{),}
+                       \DataTypeTok{depth_conversion=}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\OperatorTok{/}\DecValTok{100}\NormalTok{,.}\DecValTok{3048}\NormalTok{,.}\DecValTok{3048}\NormalTok{,}\FloatTok{0.0254}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\OtherTok{NA}\NormalTok{)) }
+
+\CommentTok{#Join depth lookup table to tss data}
+\NormalTok{tss.depth <-}\StringTok{ }\KeywordTok{inner_join}\NormalTok{(tss,depth.lookup,}\DataTypeTok{by=}\KeywordTok{c}\NormalTok{(}\StringTok{'sample_depth_unit'}\NormalTok{)) }\OperatorTok{%>%}
+\StringTok{  }\CommentTok{#Some depth measurements have negative values (assume that is just preference)}
+\StringTok{  }\CommentTok{#I also added .01 meters because many samlples have depth of zero assuming they were}
+\StringTok{  }\CommentTok{# taken directly at the surface}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{harmonized_depth=}\KeywordTok{abs}\NormalTok{(sample_depth}\OperatorTok{*}\NormalTok{depth_conversion)}\OperatorTok{+}\NormalTok{.}\DecValTok{01}\NormalTok{)}
+
+\CommentTok{# We lose lots of data by keeping only data with depth measurements}
+\KeywordTok{print}\NormalTok{(}\KeywordTok{paste}\NormalTok{(}\StringTok{'If we only kept samples that had depth information we would lose'}\NormalTok{,}\KeywordTok{round}\NormalTok{((}\KeywordTok{nrow}\NormalTok{(tss)}\OperatorTok{-}\KeywordTok{nrow}\NormalTok{(tss.depth))}\OperatorTok{/}\KeywordTok{nrow}\NormalTok{(tss)}\OperatorTok{*}\DecValTok{100}\NormalTok{,}\DecValTok{1}\NormalTok{),}\StringTok{'% of samples'}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "If we only kept samples that had depth information we would lose 75.5 % of samples"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggplot}\NormalTok{(tss.depth,}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{harmonized_depth)) }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{geom_histogram}\NormalTok{(}\DataTypeTok{bins=}\DecValTok{100}\NormalTok{) }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{scale_x_log10}\NormalTok{(}\DataTypeTok{limits=}\KeywordTok{c}\NormalTok{(}\FloatTok{0.01}\NormalTok{,}\DecValTok{10}\OperatorTok{^}\DecValTok{3}\NormalTok{),}\DataTypeTok{breaks=}\KeywordTok{c}\NormalTok{(.}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{10}\NormalTok{,}\DecValTok{100}\NormalTok{)) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: Removed 8592 rows containing non-finite values (stat_bin).
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: Removed 1 rows containing missing values (geom_bar).
+\end{verbatim}
+
+\includegraphics{wqp_data_harmonize_explorer_files/figure-latex/depth breakdown-1.pdf}
+
+If we ignore all these additional data streams and simply assume SSC and
+TSS are generally near surface water samples collected with compatible
+field sampling and analytical methods. Then we can simply get rid of
+samples that have nonsensical units.
+
+\hypertarget{tss-disharmony}{%
+\subsubsection{TSS disharmony}\label{tss-disharmony}}
+
+As with secchi disk depth, we expect certain units to be associated with
+total suspended solids or suspended sediment concentration. These
+include mass per volume measurements like: mg/l, g/l, ug/l and others.
+
+TSS does come with one less obvious parameter which is \%. Any sample
+with a \% unit is most commonly a sample where suspended sediments were
+split into particle size fractions. The relative proportion of clay,
+silt, and sand can have important impacts on the reflectance properties
+of water, so this is a useful parameter to keep, though it will require
+some exploration, using the additional data column that we relabeld as
+``particle\_size.''
+
+\hypertarget{tss-particle-size-fractionation}{%
+\paragraph{TSS particle size
+fractionation}\label{tss-particle-size-fractionation}}
+
+The table below shows all of the various particle fraction categories
+held within the TSS category. About half of the total observations
+(760,000) that use ``\%'' as a unit are actually estimating the fraction
+of particles that are smaller than sand (\textless{}0.0625). The rest of
+the particle fractionation size classes are spread across \emph{29}
+other particle fractions. This leaves us with a difficult choice. If we
+kept all of this data, we would widen our final dataset by 29 rows, with
+very few likely overpasses in a dataset of less than 80k observations
+per fraction category before checking for sites that are Landsat visible
+and were collected on relatively cloud free days. If we throw away all
+of the \% data, we use valuable information that may help explain
+variability between sites with similar TSS but different reflectance
+values based on the particle size fractionation. Here, we will opt for
+an intermediate approach and keep only the \textgreater{} 300,000
+observations that simply describe the fraction of sand in a sample
+(\textless{}0.0625 mm).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Select only units for %}
+\NormalTok{tss.p <-}\StringTok{ }\NormalTok{tss }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(units }\OperatorTok{==}\StringTok{ '%'}\NormalTok{) }
+
+\CommentTok{#look at the breakdown of particle sizes}
+\NormalTok{tss.p }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{group_by}\NormalTok{(particle_size) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{summarize}\NormalTok{(}\DataTypeTok{count=}\KeywordTok{n}\NormalTok{()) }\OperatorTok{%>%}
+\StringTok{  }\NormalTok{knitr}\OperatorTok{::}\KeywordTok{kable}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lr@{}}
+\toprule
+particle\_size & count\tabularnewline
+\midrule
+\endhead
+\textless{} 0.001 mm & 655\tabularnewline
+\textless{} 0.002 mm & 32594\tabularnewline
+\textless{} 0.004 mm & 44399\tabularnewline
+\textless{} 0.008 mm & 24521\tabularnewline
+\textless{} 0.016 mm & 42984\tabularnewline
+\textless{} 0.031 mm & 23248\tabularnewline
+\textless{} 0.0625 mm & 327984\tabularnewline
+\textless{} 0.062mm & 172\tabularnewline
+\textless{} 0.063 mm & 15\tabularnewline
+\textless{} 0.09 mm & 86\tabularnewline
+\textless{} 0.125 mm & 77011\tabularnewline
+\textless{} 0.18 mm & 86\tabularnewline
+\textless{} 0.25 mm & 68509\tabularnewline
+\textless{} 0.355 mm & 80\tabularnewline
+\textless{} 0.5 mm & 52289\tabularnewline
+\textless{} 0.71 mm & 19\tabularnewline
+\textless{} 1 mm & 20561\tabularnewline
+\textless{} 1.4 mm & 1\tabularnewline
+\textless{} 128 mm & 15\tabularnewline
+\textless{} 16 mm & 16\tabularnewline
+\textless{} 2 mm & 4189\tabularnewline
+\textless{} 256 mm & 15\tabularnewline
+\textless{} 3.35 mm & 2\tabularnewline
+\textless{} 4 mm & 172\tabularnewline
+\textless{} 63 mm & 15\tabularnewline
+\textless{} 8 mm & 27\tabularnewline
+sands & 1137\tabularnewline
+silts and clays & 1140\tabularnewline
+NA & 9044\tabularnewline
+\bottomrule
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Keep only the sand fraction data (~50% of the data)}
+\NormalTok{sand_harmonized  <-}\StringTok{ }\NormalTok{tss.p }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(particle_size }\OperatorTok{%in%}\StringTok{  }\KeywordTok{c}\NormalTok{(}\StringTok{'< 0.0625 mm'}\NormalTok{,}\StringTok{'sands'}\NormalTok{)) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{conversion=}\OtherTok{NA}\NormalTok{,}
+         \DataTypeTok{harmonized_parameter=}\StringTok{'p.sand'}\NormalTok{,}
+         \DataTypeTok{harmonized_value=}\NormalTok{value,}
+         \DataTypeTok{harmonized_unit=}\StringTok{'%'}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{tss-dropping-bad-units}{%
+\paragraph{TSS dropping bad units}\label{tss-dropping-bad-units}}
+
+Now that we have split out the TSS values that had ``\%'' units, we can
+deal with and drop the more nonsensical or missing units. The table
+below will also print out the number of ``\%'' observations that we
+drop, but, remember, we kept about half of these in the above code.
+
+Here we will convert all remaining sediment values to units of mg/L and
+drop any non mass/volume units.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Make a tss lookup table}
+\NormalTok{tss.lookup <-}\StringTok{ }\KeywordTok{tibble}\NormalTok{(}\DataTypeTok{units=}\KeywordTok{c}\NormalTok{(}\StringTok{'mg/l'}\NormalTok{,}\StringTok{'g/l'}\NormalTok{,}\StringTok{'ug/l'}\NormalTok{,}\StringTok{'ppm'}\NormalTok{),}
+                        \DataTypeTok{conversion =} \KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{1000}\NormalTok{,}\DecValTok{1}\OperatorTok{/}\DecValTok{1000}\NormalTok{,}\DecValTok{1}\NormalTok{))}
+
+
+\NormalTok{tss.disharmony <-}\StringTok{ }\NormalTok{tss }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{anti_join}\NormalTok{(tss.lookup,}\DataTypeTok{by=}\StringTok{'units'}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(}\OperatorTok{!}\NormalTok{particle_size }\OperatorTok{%in%}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{'< 0.0625 mm'}\NormalTok{,}\StringTok{'sands'}\NormalTok{)) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{group_by}\NormalTok{(units) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{summarize}\NormalTok{(}\DataTypeTok{count=}\KeywordTok{n}\NormalTok{()) }
+
+
+
+\NormalTok{knitr}\OperatorTok{::}\KeywordTok{kable}\NormalTok{(tss.disharmony,}\DataTypeTok{caption=}\StringTok{'The following TSS measurements were dropped because the units do not make sense'}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lr@{}}
+\caption{The following TSS measurements were dropped because the units
+do not make sense}\tabularnewline
+\toprule
+units & count\tabularnewline
+\midrule
+\endfirsthead
+\toprule
+units & count\tabularnewline
+\midrule
+\endhead
+& 35\tabularnewline
+\% & 401865\tabularnewline
+count & 1\tabularnewline
+kg & 29\tabularnewline
+None & 16\tabularnewline
+NTU & 1\tabularnewline
+tons/day & 529\tabularnewline
+NA & 253293\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{tss-harmony-in-mgl}{%
+\subsubsection{TSS harmony in mg/l}\label{tss-harmony-in-mgl}}
+
+Now we can convert all TSS measurements to untis of `mg/l.' We do need
+to do one final splitting of the data because there is another parameter
+name called ``Fixed suspended solids.'' Fixed suspended solids are
+essentialy the inorganic component of a sediment sample that remains
+after kiln drying at 550°F. We will relable these as a harmonized
+parameter `Total inorganic sediment' or tis.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Join to the lookup table and harmonize units}
+
+\NormalTok{tss.harmonized <-}\StringTok{ }\NormalTok{tss }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{inner_join}\NormalTok{(tss.lookup,}\DataTypeTok{by=}\StringTok{'units'}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{harmonized_parameter =} \StringTok{'tss'}\NormalTok{,}
+         \DataTypeTok{harmonized_value=}\NormalTok{value}\OperatorTok{*}\NormalTok{conversion,}
+         \DataTypeTok{harmonized_unit=}\StringTok{'mg/l'}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\CommentTok{#Change harmonized parameter to tis for parameter "fixed suspended solids"}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{harmonized_parameter =} \KeywordTok{ifelse}\NormalTok{(parameter }\OperatorTok{==}\StringTok{ 'Fixed suspended solids'}\NormalTok{,}\StringTok{'tis'}\NormalTok{,harmonized_parameter))}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{doc}{%
+\subsection{DOC}\label{doc}}
+
+\emph{Didn't keep enough columns to really do this. Need to add
+resultsampletext and a few others. Otherwise total carbon can include
+fish biomass. Which is not what we are talking about}
+
+Dissolved organic carbon is a much more complex series of parameters,
+methods, and units. As with TSS we generally expect these to be in units
+of mass per unit volume, but we have many more possible variations of
+methods used to extract DOC values.
+
+First let's look at the total counts for parameter unit combinations
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Summarize by characteristic name and unit code}
+\NormalTok{doc <-}\StringTok{ }\KeywordTok{read_feather}\NormalTok{(}\StringTok{'1_wqdata/out/wqp/all_raw_doc.feather'}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{wqp.renamer}\NormalTok{() }\OperatorTok{%>%}
+\StringTok{  }\CommentTok{#Remove trailing white space in labels}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{units =} \KeywordTok{trimws}\NormalTok{(units)) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "You dropped 63589 samples because the sample medium was not labeled as Water"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{doc }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{group_by}\NormalTok{(parameter,units) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{summarize}\NormalTok{(}\DataTypeTok{count=}\KeywordTok{n}\NormalTok{()) }\OperatorTok{%>%}
+\StringTok{  }\NormalTok{knitr}\OperatorTok{::}\KeywordTok{kable}\NormalTok{(.,}\DataTypeTok{caption=}\StringTok{'Carbon parameter names, units, and observation counts'}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}llr@{}}
+\caption{Carbon parameter names, units, and observation
+counts}\tabularnewline
+\toprule
+parameter & units & count\tabularnewline
+\midrule
+\endfirsthead
+\toprule
+parameter & units & count\tabularnewline
+\midrule
+\endhead
+Non-purgeable Organic Carbon (NPOC) & mg/l & 1393\tabularnewline
+Organic carbon & \% & 2085\tabularnewline
+Organic carbon & g/kg & 2564\tabularnewline
+Organic carbon & mg/kg & 100\tabularnewline
+Organic carbon & mg/l & 2009224\tabularnewline
+Organic carbon & None & 510\tabularnewline
+Organic carbon & ppm & 5057\tabularnewline
+Organic carbon & ug/l & 627\tabularnewline
+Organic carbon & NA & 25907\tabularnewline
+Total carbon & mg/l & 14662\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{doc-disharmony}{%
+\subsubsection{DOC disharmony}\label{doc-disharmony}}
+
+\hypertarget{doc-percent-values}{%
+\paragraph{DOC percent values}\label{doc-percent-values}}
+
+Once again we have quite a few observations of `Organic carbon' and
+`Total carbon' that are in units of \% which is a perplexing unit
+without some more context. Let's examine these values a little more.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{doc.p <-}\StringTok{ }\NormalTok{doc }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(units}\OperatorTok{==}\StringTok{'%'}\NormalTok{)}
+
+
+\NormalTok{doc.min <-}\StringTok{ }\KeywordTok{read_feather}\NormalTok{(}\StringTok{'1_wqdata/out/wqp/Minnesota_doc_001.feather'}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{sample_frac}\NormalTok{(.}\DecValTok{1}\NormalTok{)}
+
+\KeywordTok{View}\NormalTok{(doc.min)}
+\end{Highlighting}
+\end{Shaded}
+
+Hardest
+
+\hypertarget{chlorophyll}{%
+\subsection{Chlorophyll}\label{chlorophyll}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Read in the raw data from '1_wqdata/tmp'}
+\NormalTok{chl <-}\StringTok{ }\KeywordTok{read_feather}\NormalTok{(}\StringTok{'1_wqdata/out/wqp/all_raw_chlorophyll.feather'}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+
+\end{document}

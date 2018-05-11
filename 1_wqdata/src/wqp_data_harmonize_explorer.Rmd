@@ -1,10 +1,10 @@
 ---
 title: "WQP Parameter and Method exploration"
 output:
-  pdf_document: default
-  html_document: default
+  html_document:
+    toc: true
 editor_options: 
-  chunk_output_type: console
+  chunk_output_type: inline
 ---
 
 # Harmonizing disparate data
@@ -18,9 +18,10 @@ Here we are harmonizing the entirety of the water quality portal data even thoug
 ```{r setup, include=F, warnings='hide'}
 library(feather)
 library(tidyverse)
+library(knitr)
+library(kableExtra)
+library(pander)
 knitr::opts_chunk$set(echo = TRUE)
-
-
 knitr::opts_knit$set(root.dir='../..')
 
 #Define a function that renames and reorders columns from the raw files
@@ -34,9 +35,21 @@ wqp.renamer <- function(df){
                          org_id=OrganizationIdentifier,
                          time=ActivityStartTime.Time,
                          value=ResultMeasureValue,
-                         method=SampleCollectionMethod.MethodName,
+                         sample_method=SampleCollectionMethod.MethodName,
+                         analytical_method=ResultAnalyticalMethod.MethodName,
                          particle_size=ResultParticleSizeBasisText,
-                         date_time=ActivityStartDateTime)
+                         date_time=ActivityStartDateTime,
+                         media=ActivityMediaName,
+                         sample_depth=ActivityDepthHeightMeasure.MeasureValue,
+                         sample_depth_unit=ActivityDepthHeightMeasure.MeasureUnitCode,
+                         fraction=ResultSampleFractionText,
+                         status=ResultStatusIdentifier) %>%
+  #Remove trailing white space in labels
+  mutate(units = trimws(units)) %>%
+  #Keep only samples that are water samples
+  filter(media=='Water')
+  dropped = nrow(df)-nrow(simple.names)
+  print(paste('You dropped',dropped,'samples because the sample medium was not labeled as Water'))
   return(simple.names)
 }
 
@@ -45,9 +58,13 @@ wqp.renamer <- function(df){
 We'll start with the easiest first. Secchi depth
 
 
-## Secchi depth
+# Secchi depth
 
-### Secchi Table
+## Secchi Methods
+
+The nice thing with secchi disk depth methods, is that the name explains the method and their are not really alternative methods so we will not filter this data by sampling or analytical method categories. 
+
+## Secchi Parameter and Units Table
 
 In many ways, the secchi disk depth measurement is the easiest water quality parameter to harmonize, 
 because there is really only 
@@ -59,18 +76,18 @@ So to harmonize secchi depth measurements we simpy drop all units that are not u
 ```{r secchi all parameters}
 #Read in the raw data from '1_wqdata/out'
 secchi <- read_feather('1_wqdata/tmp/wqp/all_raw_secchi.feather') %>%
-  wqp.renamer() %>%
-  #Remove trailing white space in labels
-  mutate(units = trimws(units)) 
-
+  wqp.renamer() 
 #Summarize by characteristic name and unit code and print
 secchi %>%
   group_by(parameter,units) %>%
   summarize(count=n()) %>%
-  knitr::kable()
+  arrange(desc(count)) %>%
+  kable(.,'html',caption='All secchi parameter and unit combinations') %>%
+  kable_styling() %>%
+  scroll_box(width='500px',height='400px')
 ```
 
-### Secchi disharmony
+### Secchi unit disharmony
 
 Now that we can see all the units we have we can drop non-depth units and make a lookup table to convert all units to meters. 
 
@@ -87,14 +104,15 @@ secchi.disharmony <- secchi %>%
 
 
 secchi.disharmony %>%
-  knitr::kable(.,caption='The following secchi measurements were dropped because the units do not make sense')
-
-
+  kable(.,'html',caption='The following secchi measurements
+        were dropped because the units do not make sense') %>%
+  kable_styling() %>%
+  scroll_box(width='500px',height='400px')
 ```
 
 
 
-### Secchi harmony in meters
+### Secchi unit harmony in meters
 
 ```{r secchi sensible}
 #Join secchi by unit name and then multiply by conversion factor to get meters
@@ -110,7 +128,7 @@ secchi.harmonized <- secchi %>%
 
 Next easiest is TSS
 
-## TSS 
+# TSS 
 
 This [paper](https://water.usgs.gov/osw/pubs/WRIR00-4191.pdf) is really useful for exploring this data. In this paper, the USGS directly compares estimates of Suspended Sediment Concentration (SSC) and Total Suspended Solids (TSS). The primary difference between these methods, as laid out in this paper, is that SSC estimates the mass of suspended solids in a sample volume, by drying out the entire sample without subsampling the water volume. TSS methods often involve some form of subsampling of the total water volume. The paper highlights that while many estimates of TSS and SSC are essentially the same, samples with high sand content show systematic bias in TSS estimates. For our purposes, we have no apriori way to distinguish samples with high or low sand, so we have made the choice to assume that measurements of SSC and TSS are, over the bulk of samples, the same. We use the term "TSS" from here on to describe this data that is both SSC and TSS. 
 
@@ -118,18 +136,109 @@ This [paper](https://water.usgs.gov/osw/pubs/WRIR00-4191.pdf) is really useful f
 ```{r}
 #Read in the raw data from '1_wqdata/out'
 tss <- read_feather('1_wqdata/out/wqp/all_raw_tss.feather') %>%
-  wqp.renamer() %>%
-  #Remove trailing white space in labels
-  mutate(units = trimws(units)) 
+  wqp.renamer()
 
 #Summarize by characteristic name and unit code
 tss %>%
   group_by(parameter,units) %>%
   summarize(count=n()) %>%
-  knitr::kable()
+  arrange(desc(count)) %>%
+  kable(.,'html',caption='All tss parameter and unit combinations') %>%
+  kable_styling() %>%
+  scroll_box(width='500px',height='400px')
+```
+
+## TSS methods
+
+Now that we have made the decision to call SSC and TSS interchangeable depsite their slight methodological differences, we need to explore the various methods used to get TSS or SSC concentration estimates. Unlike with issues with units, we can not harmonize our way out of methods that don't make sense. So instead we will be filtering out these methods. 
+
+There are essentially two important methods for thinking about TSS and SSC. The field method used to collect the water sample and the analytical method used to weigh out suspended sediment and total water volume. The sample methods are extremely verbose and varied, but mostly boil down to some version of sample collected in bottle of water. For posterity a table of sample method is reproduced here, but we do not filter based on sample method. 
+
+### TSS sample methods
+
+Many of these methods refer to other documents that were used as a protocol for sampling (EPA METHOD or USGS), but these also are versions of collecting water with a bottle, pump, or depth sampling equipment. 
+
+```{r tss sample method}
+tss %>%
+  group_by(sample_method) %>%
+  summarize(count=n()) %>% 
+  arrange(desc(count)) %>%
+  kable(.,'html',caption='All tss sample methods and their count (678 methods)') %>%
+  kable_styling() %>%
+  scroll_box(width='600px',height='400px')
 
 
 ```
+
+
+### TSS analytical methods
+Unlike with secchi disk depth measurements, there are a variety of analytical methods available to measure TSS. Many of these should provide similar results, but some can be used to highlight potential erroeneous data entry (Phosphorous content should not be a method of TSS calculation), but many of them are simply labeled by a state or federal protocol number, making trimming and evaluating these various methods difficult. Below is a table of all possible analytical methods and their count
+
+```{r tss analytical breakdown}
+
+tss %>%
+  group_by(analytical_method) %>%
+  summarize(count=n()) %>%
+  arrange(desc(count)) %>%
+  kable(.,'html',caption='All tss analytical methods and their count') %>%
+  kable_styling() %>%
+  scroll_box(width='600px',height='400px')
+
+```
+
+Many of these analytical methods are sensible and we can keep the majority of the data. One glaring issue is that more than 2 million observations have an analytical method of NA. What should we do with these samples? Throw out half of our data because the method is not verifiable? Or keep it knowing that some of the data might be using incompatable methods. 
+
+#### Filtering out nonsensical analytical TSS methods
+
+To keep the most data possible, we are making the explicit choice to only exclude methods that are clearly wrong (Ammonia content is not an appropriate TSS method). This means we are keeping the more than 2 million observatiosn with an analytical method of NA. While there are a variety of methods for estimating TSS, they can only differ so much, given that the primary goal is to get the mass of suspended matter per unit water volume. We assume most of these NA measurements were simply not recorded because the method used was a well-known method (like sediment concentratino by filtration). 
+
+The code below is essentially a list of parameters we do not want to keep. 
+
+
+```{r tss analytical method filtering}
+#There are a lot of parameter codes so we are just going to use a grepl command with key words that definitely disqualify the sample
+
+non.sensical.tss.methods <- tss %>%
+  filter(grepl("Oxygen|Nitrogen|Ammonia|Metals|E. coli|Carbon|Anion|Cation|Phosphorus|Silica|PH|HARDNESS|Nutrient|Turbidity|Temperature|Nitrate|Conductance|Alkalinity|Chlorophyll",analytical_method,ignore.case=T))
+
+
+tss.filtered <- tss %>%
+  filter(!analytical_method %in% non.sensical.tss.methods$analytical_method)
+
+print(paste('We dropped', round(nrow(non.sensical.tss.methods)/nrow(tss)*100,2),'% of samples, because the method used did not make sense. These methods are:'))
+
+p(unique(non.sensical.tss.methods$analytical_method),wrap='',sep=' - ') #Nice function for printing long vectors horizontally separated by dash
+```
+
+
+### TSS depth of sampling
+
+For TSS some sites also have the water depth of sample, which is very useful for validating whether or not the sample will reflect satellite observation of the same water parcel. However, most of the data doesn't have this depth of sampling data and it requires a bit of its own munging, since the sampling depth comes down in a range of units. Here we make the choice to not filter by depth of sample, but we show a histogram of sampling depths for sites that do have it. Most are near surface < 5 m. 
+
+```{r depth breakdown}
+#Define a depth lookup table to convert all depth data to meters. 
+depth.lookup <- tibble(sample_depth_unit=c('cm','feet','ft','in','m','meters','None'),
+                       depth_conversion=c(1/100,.3048,.3048,0.0254,1,1,NA)) 
+
+#Join depth lookup table to tss data
+tss.depth <- inner_join(tss,depth.lookup,by=c('sample_depth_unit')) %>%
+  #Some depth measurements have negative values (assume that is just preference)
+  #I also added .01 meters because many samlples have depth of zero assuming they were
+  # taken directly at the surface
+  mutate(harmonized_depth=abs(sample_depth*depth_conversion)+.01)
+
+# We lose lots of data by keeping only data with depth measurements
+print(paste('If we only kept samples that had depth information we would lose',round((nrow(tss)-nrow(tss.depth))/nrow(tss)*100,1),'% of samples'))
+
+
+ggplot(tss.depth,aes(x=harmonized_depth)) + 
+  geom_histogram(bins=100) + 
+  scale_x_log10(limits=c(0.01,10^3),breaks=c(.1,1,10,100)) 
+```
+
+If we ignore all these additional data streams and simply assume SSC and TSS are generally near surface water samples collected with compatible field sampling and analytical methods. Then we can simply get rid of samples that have nonsensical units.
+
+## TSS Units
 
 ### TSS disharmony
 
@@ -150,7 +259,9 @@ tss.p <- tss %>%
 tss.p %>%
   group_by(particle_size) %>%
   summarize(count=n()) %>%
-  knitr::kable()
+  kable(.,'html',caption='All particle size fractions and their count') %>%
+  kable_styling() %>%
+  scroll_box(width='600px',height='400px')
 
 #Keep only the sand fraction data (~50% of the data)
 sand_harmonized  <- tss.p %>%
@@ -159,6 +270,7 @@ sand_harmonized  <- tss.p %>%
          harmonized_parameter='p.sand',
          harmonized_value=value,
          harmonized_unit='%')
+
 
 ```
 
@@ -243,8 +355,10 @@ doc.p <- doc %>%
   filter(units=='%')
 
 
+doc.min <- read_feather('1_wqdata/out/wqp/Minnesota_doc_001.feather') %>%
+  sample_frac(.1)
 
-
+View(doc.min)
 ```
 
 
