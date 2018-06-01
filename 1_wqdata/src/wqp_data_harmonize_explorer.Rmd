@@ -49,7 +49,7 @@ wqp.renamer <- function(df){
   #Keep only samples that are water samples
   filter(media=='Water')
   dropped = nrow(df)-nrow(simple.names)
-  print(paste('You dropped',dropped,'samples because the sample medium was not labeled as Water'))
+  print(paste('we dropped',dropped,'samples because the sample medium was not labeled as Water'))
   return(simple.names)
 }
 
@@ -64,7 +64,7 @@ We'll start with the easiest first. Secchi depth
 
 The nice thing with secchi disk depth methods, is that the name explains the method and their are not really alternative methods so we will not filter this data by sampling or analytical method categories. 
 
-## Secchi Parameter and Units Table
+## Secchi Unit Harmonization
 
 In many ways, the secchi disk depth measurement is the easiest water quality parameter to harmonize, 
 because there is really only 
@@ -188,7 +188,7 @@ tss %>%
 
 Many of these analytical methods are sensible and we can keep the majority of the data. One glaring issue is that more than 2 million observations have an analytical method of NA. What should we do with these samples? Throw out half of our data because the method is not verifiable? Or keep it knowing that some of the data might be using incompatable methods. 
 
-#### Filtering out nonsensical analytical TSS methods
+#### TSS removing nonsensical analytical TSS methods
 
 To keep the most data possible, we are making the explicit choice to only exclude methods that are clearly wrong (Ammonia content is not an appropriate TSS method). This means we are keeping the more than 2 million observatiosn with an analytical method of NA. While there are a variety of methods for estimating TSS, they can only differ so much, given that the primary goal is to get the mass of suspended matter per unit water volume. We assume most of these NA measurements were simply not recorded because the method used was a well-known method (like sediment concentratino by filtration). 
 
@@ -238,7 +238,7 @@ ggplot(tss.depth,aes(x=harmonized_depth)) +
 
 If we ignore all these additional data streams and simply assume SSC and TSS are generally near surface water samples collected with compatible field sampling and analytical methods. Then we can simply get rid of samples that have nonsensical units.
 
-## TSS Units
+## TSS Unit Harmonization
 
 ### TSS disharmony
 
@@ -322,12 +322,12 @@ tss.harmonized <- tss %>%
 
 ## DOC
 
-*Didn't keep enough columns to really do this. Need to add resultsampletext and a few others. Otherwise total carbon can include fish biomass. Which is not what we are talking about*
+Dissolved organic carbon (DOC) is a complex series of parameters, methods, and unit combinations. We will not be examining particulate organic carbon, total organic carbon, or even colored dissolved organic matter (mostly because there is so few samples in the WQP with cdom).
 
-Dissolved organic carbon is a much more complex series of parameters, methods, and units. As with TSS we generally expect these to be in units of mass per unit volume, but we have many more possible variations of methods used to extract DOC values.
 
-First let's look at the total counts for parameter unit combinations
-```{r}
+First let's read in the data. 
+
+```{r doc read}
 
 #Summarize by characteristic name and unit code
 doc <- read_feather('1_wqdata/out/wqp/all_raw_doc.feather') %>%
@@ -335,30 +335,138 @@ doc <- read_feather('1_wqdata/out/wqp/all_raw_doc.feather') %>%
   #Remove trailing white space in labels
   mutate(units = trimws(units)) 
 
+```
 
-doc %>% 
-  group_by(parameter,units) %>%
-  summarize(count=n()) %>%
-  knitr::kable(.,caption='Carbon parameter names, units, and observation counts')
+
+### DOC analytical method and sample fraction
+
+The water quality portal does not have a category for "Dissolved Organic Carbon," so we pulled three parameter names that might capture this category. 'Total Carbon', 'Organic Carbon', and 'Non-purgeable Organic Carbon (NPOC)'. For our purposes NPOC and Organic Carbon are exchnageable parameter names. In this data, there is a key column that we labeled 'fraction', which declares what fraction of the carbon pool is being reported. For purposes of this work, we are only keeping the fraction that indicates dissolved organic carbon, which can include fraction names like 'Dissolved' or 'Filterable.' The full list of fraction names and parameter names. 
+
+
+```{r doc fraction}
+
+doc %>%
+  group_by(fraction) %>%
+  summarize(count=n()) %>% 
+  arrange(desc(count)) %>%
+  kable(.,'html',caption='All tss sample methods and their count (678 methods)') %>%
+  kable_styling() %>%
+  scroll_box(width='600px',height='400px')
+
+
+```
+
+#### Keeping only Dissolved Fraciton
+
+Here we subset the data to only include the data that we know is the Dissolved Organic Carbon pool. So far this is without regard to differences in analytical method. 
+
+```{r keep doc fraction}
+doc.fraction.names <- c('Dissolved','Filterable','Filtered, lab','Filtered, field')
+doc.dissolved <- doc %>%
+  filter(fraction %in% doc.fraction.names)
+
+
+print(paste('we dropped',nrow(doc)-nrow(doc.filtered),'samples because they were not labeled as dissolved'))
+```
+
+
+## DOC methods
+
+Here, we'll explore method, and unit combinations and trim the data down a lot to keep only the most useful data. 
+
+### DOC sample methods
+
+As with TSS we are not going to filter our DOC data by sample method but the table of sample methods are provided here. 
+
+```{r doc sample methods}
+
+doc.dissolved %>%
+  group_by(sample_method) %>%
+  summarize(count=n()) %>% 
+  arrange(desc(count)) %>%
+  kable(.,'html',caption='All tss sample methods and their count (678 methods)') %>%
+  kable_styling() %>%
+  scroll_box(width='600px',height='400px')
+```
+
+
+### DOC analytical method
+
+After removing the non "dissolved" fraction of carbon observations we are left with ~ 650,000 samples. Here we will remove analytical methods that explicitly do not make sense. As with TSS we will keep samples with analytical methods labeled as NA, assuming that they were done in a way that is exchangeable with other methods. This is a potentially erroneous assumption. 
+
+```{r}
+doc.dissolved %>%
+  group_by(analytical_method) %>%
+  summarize(count=n()) %>% 
+  arrange(desc(count)) %>% 
+  kable(.,'html',caption='All tss sample methods and their count (678 methods)') %>%
+  kable_styling() %>%
+  scroll_box(width='600px',height='400px')
 
 ```
 
 
-### DOC disharmony
-
-#### DOC percent values
-
-Once again we have quite a few observations of 'Organic carbon' and 'Total carbon' that are in units of % which is a perplexing unit without some more context. Let's examine these values a little more.
-
-```{r doc.p}
-doc.p <- doc %>%
-  filter(units=='%')
+#### DOC removing nonsensical analytical methods
+```{r}
+doc.nonsense.methods <- doc.dissolved %>%
+  filter(grepl("Oxygen|Nitrogen|Ammonia|Metals|E. coli|Anion|Cation|Phosphorus|Silica|PH|HARDNESS|Nutrient|Turbidity|Nitrate|Conductance|Alkalinity|Chlorophyll|Solids",analytical_method,ignore.case=T)) %>%
+  filter(analytical_method != 'Temperature')
 
 
-doc.min <- read_feather('1_wqdata/out/wqp/Minnesota_doc_001.feather') %>%
-  sample_frac(.1)
+doc.filtered <- doc.dissolved %>%
+  filter(!analytical_method %in% doc.nonsense.methods$analytical_method)
 
-View(doc.min)
+print(paste('We dropped', round(nrow(doc.nonsense.methods)/nrow(doc)*100,2),'% of samples, because the method used did not make sense. These methods are:'))
+
+  
+p(unique(non.sensical.tss.methods$analytical_method),wrap='',sep=' - ') 
+```
+
+## DOC Units
+
+
+As with TSS we generally expect DOC units to be in units of mass per unit volume, but we have many more possible variations of methods used to extract DOC values.
+
+```{r}
+doc %>% 
+  group_by(units) %>%
+  summarize(count=n()) %>%
+  arrange(desc(count)) %>%
+  kable(.,'html',caption='All doc units') %>%
+  kable_styling() %>%
+  scroll_box(width='600px',height='400px')
+
+```
+
+Wow that is great. The vast majority of data is in a sensible unit (mg/L). We'll harmonize the remaining mass/volume units (ppm/ug/L) and drop the NAs and % units. Looks like sampling by `sample fraction` column cuts out a lot of the potential disharmony in units. 
+
+
+### DOC unit disharmony
+doc.filtered %>%
+
+```{r}
+#Setup a lookup table so that final units are all in mg/L. 
+doc.lookup <- tibble(units=c('mg/l','ppm','ug/l'),
+                        conversion = c(1,1,.001))
+
+doc.unit.drop <- doc.filtered %>%
+  anti_join(doc.lookup,by='units') 
+
+print(paste('We dropped',nrow(doc.unit.drop),'DOC observations because the units do not make sense'))
+
+```
+
+## DOC harmony
+
+The final step. Convert all convertable units to mg/l!
+
+```{r}
+doc.harmonized <- doc %>%
+  inner_join(secchi.lookup,by='units') %>%
+  mutate(harmonized_parameter = 'secchi',
+         harmonized_value=value*conversion,
+         harmonized_unit='meters')
+
 ```
 
 

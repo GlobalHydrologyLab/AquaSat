@@ -97,25 +97,55 @@ write_feather(match,path='3_rswqjoin/data/out/SR_Sameday_Match.feather')
 
 ```
 
+
 # Some playing
 ```{r}
 match <- read_feather('3_rswqjoin/data/out/SR_Sameday_Match.feather')
+
 wqp.la <- match %>%
-   filter(lat > 28.97 & lat < 32.97) %>%
-   filter(long > -92.077 & long < -89.904)
+   filter(PATH %in% c(23,22)) %>%
+   filter(ROW %in% c(39,38))
+
+
 
 tss.la <- wqp.la %>%
   filter(!is.na(tss)) %>%
-  filter(clouds < 10) %>%
+  filter(clouds < 10,
+         max>80) %>%
   filter(pixelCount > 9) %>%
+  filter(Swir1 < 300,
+         Swir2 < 300) %>%
   mutate(RG=Red/Green) %>%
-  mutate(NR=Nir/Red) 
+  mutate(NR=Nir/Red) %>%
+  filter(NR < 1.5)
+
+hist(tss.la$NR)
+set.seed(4)
+tss.train <- tss.la %>%
+  sample_frac(0.6)
+
+tss.val <- tss.la %>%
+  anti_join(tss.train,by=c('SiteID','Date','tss')) %>%
+  filter(tss < 300)
+
+tss.mod <- lm(log(tss) ~ Swir1+Nir*Red+Red*Green,data=tss.train)
+
+
+summary(tss.mod)
+
+tss.val$pred <- exp(predict(tss.mod,tss.val)) 
 
 
 
-tss.mod <- lm((tss) ~ RG*NR+Swir2,data=tss.la)
 
-hist(log10(tss.la$tss))
+ggplot(tss.val,aes(x=tss,y=pred,color=sat)) + 
+  geom_point() 
+  
+
+
+rmse(tss.val$tss,tss.val$pred)
+mape(tss.val$tss,tss.val$pred)
+cbind(tss.val$pred,tss.val$tss)
 
 ```
 
