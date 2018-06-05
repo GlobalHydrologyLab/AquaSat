@@ -67,8 +67,8 @@ collection = 'SR'
 #Standardize band names between the various collections and aggregate 
 #them into one image collection
 
-bn8 = ['B2','B3', 'B4', 'B5', 'B6','B7', 'BQA']
-bn57 = ['B1', 'B2', 'B3', 'B4', 'B5','B7', 'BQA']
+bn8 = ['B2','B3', 'B4', 'B5', 'B6','B7', 'pixel_qa']
+bn57 = ['B1', 'B2', 'B3', 'B4', 'B5','B7', 'pixel_qa']
 bns = ['Blue', 'Green', 'Red', 'Nir', 'Swir1', 'Swir2', 'qa']
   
 ls5 = l5.select(bn57, bns)
@@ -111,7 +111,8 @@ for x in range(0,len(filesUpFlt)):
   #lat longs and a site id.  Do this via list comprehension 
   #(similar to for loop but faster and apparently plays nice with earth engine.)
   invOut = ee.FeatureCollection([ee.Feature(ee.Geometry.Point([inv['long'][i],\
-  inv['lat'][i]]),{'SiteID':inv['SiteID'][i],  'Date':inv['Date'][i],'SampDate':inv['SampDate'][i]}) for i in range(0,len(inv))]) 
+  inv['lat'][i]]),{'SiteID':inv['SiteID'][i],\
+  'date':inv['Date'][i],'sampDate':inv['SampDate'][i]}) for i in range(0,len(inv))]) 
   
   #Pull out the path/row from the file name
   path = int(filesUpFlt[x].replace('.','_').split('_')[0])

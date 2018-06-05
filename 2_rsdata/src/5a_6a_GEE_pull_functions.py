@@ -102,19 +102,19 @@ def sitePull(i):
   #Create dictionaries of median values and attach them to original site feature.
     
   output = i.set({'sat': mission})\
-  .set({"Blue": lsout.get('Blue')})\
-  .set({"Green": lsout.get('Green')})\
-  .set({"Red": lsout.get('Red')})\
-  .set({"Nir": lsout.get('Nir')})\
-  .set({"Swir1": lsout.get('Swir1')})\
-  .set({"Swir2": lsout.get('Swir2')})\
+  .set({"blue": lsout.get('Blue')})\
+  .set({"green": lsout.get('Green')})\
+  .set({"red": lsout.get('Red')})\
+  .set({"nir": lsout.get('Nir')})\
+  .set({"swir1": lsout.get('Swir1')})\
+  .set({"swir2": lsout.get('Swir2')})\
   .set({"qa": lsout.get('qa')})\
   .set({"pixelCount": lsSample.reduceRegion(ee.Reducer.count(), sdist, 30).get('Blue')})\
-  .set({'PATH': lsSample.get('WRS_PATH')})\
-  .set({'ROW': lsSample.get('WRS_ROW')})
+  .set({'path': lsSample.get('WRS_PATH')})\
+  .set({'row': lsSample.get('WRS_ROW')})
   
   if collection == 'TOA':
-    output = output.set({"Pan": lsout.get('Pan')})
+    output = output.set({"pan": lsout.get('Pan')})
     
   return output
 
