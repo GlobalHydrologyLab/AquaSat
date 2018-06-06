@@ -41,9 +41,12 @@ filesDownR <- drive_ls("watersat/2_rsdata/out/toa_matchups/") %>%
 ```
 
 ```{r Google Earth Engine Pull}
-##repl_python basically starts a python bash window within your R chunk.  This can be used to actually interact with earth engine.
+#Edit .RProfile to set the default python for reticulate
+Sys.setenv(RETICULATE_PYTHON = '/usr/local/bin/python2')
 
+##repl_python basically starts a python bash window within your R chunk.  This can be used to actually interact with earth engine.
 repl_python()
+
 import time
 import ee
 import os
