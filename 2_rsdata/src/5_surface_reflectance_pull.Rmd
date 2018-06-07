@@ -114,7 +114,7 @@ filesUpFlt = [x for x in filesUp if x not in filesDown]
 
 #### Wrap it all up in a for loop running through our list of files
 
-for x in range(1,len(filesUpFlt)):
+for x in range(0,len(filesUpFlt)):
 
   #Read in our file as a feather data frame
   inv = feather.read_dataframe(ULdir + filesUpFlt[x])
