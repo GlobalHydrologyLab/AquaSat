@@ -95,20 +95,20 @@ Now that we have an inventory build we can do the full water quality pull using 
 
 ```{r, eval=F}
 #Warning this can take a long time if the inventory has changed
-scipiper::scmake('1_wqdata/log/tasks_1_wqp.ind')
+#scipiper::scmake('1_wqdata/log/tasks_1_wqp.ind')
 
 ```
 
-#Munging Water Quality data
+#Merging Water Quality data
 
 The `remake.yml` file holds instructions some instructions for munging data and the src code wqp.R helps make that happen. So first we need to create a new YAML file ```tasks_1_wqp_munge.yml```. This will generate a YAML using code in wqp.R with instructions for muageing the data, like unit harmonization and stitching all the data into a single feather file. 
 
 ```{r, eval=F}
 #Generate the yaml file 
-scmake('tasks_1_wqp_munge.yml','remake.yml')
+scmake('tasks_1_wqp_merge.yml','remake.yml')
 
-#Munge the data. 
-scipiper::scmake('1_wqdata/log/tasks_1_wqp_munge.ind')
+#Merge the data. 
+scipiper::scmake('1_wqdata/log/tasks_1_wqp_merge.ind')
 
 
 ```

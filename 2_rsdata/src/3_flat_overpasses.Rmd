@@ -27,7 +27,7 @@ opts_knit$set(root.dir='../..')
 
 ```{r}
 #Read in wrs inventory with path row
-wrs.inv <- read_feather('2_rsdata/out/WRSWaterInventory.feather')
+wrs.inv <- read_feather('2_rsdata/out/site_inventory_path_row.feather')
 
 #Doc read and some munging
 doc <- read_feather('1_wqdata/out/wqp/all_doc.feather') %>%

@@ -1,0 +1,12 @@
+version: 0.3.0
+name: 1_wqdata/log/tasks_1_wqp_merge.ind
+type: file
+hash: 33e4f2b62355b352c3d09e4b3a1c05b0
+time: 2018-05-03 16:57:54 UTC
+depends:
+  wqp_merge_plan: 1efce277eed1bd5d9a5dfa2b2a515726
+  tasks_1_wqp_merge.yml: b537e9f39ac0ddb847a4cd13379a129d
+fixed: 9d5e2cd19eb358f4dea77ef7daa69258
+code:
+  functions: {}
+

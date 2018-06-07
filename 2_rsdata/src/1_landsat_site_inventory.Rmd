@@ -17,6 +17,7 @@ library(knitr)
 library(feather)
 library(googledrive)
 library(tidyverse)
+library(LAGOSNE)
 
 opts_knit$set(root.dir='../..')
 
@@ -45,8 +46,9 @@ lagos.sites <- lagosne_load("1.087.1")$locus %>%
 
 #Bind lagos and wqp data together
 lagos.wqp <- bind_rows(lagos.sites,inv)
-#write_csv(inv,'2_rsdata/tmp/uniqueInventory.csv')
-write_feather(lagos.wqp,'2_rsdata/tmp/uniqueInventory.feather')
+
+#Save this data. 
+write_feather(lagos.wqp,'2_rsdata/tmp/unique_site_inventory.feather')
 
 
 
@@ -69,7 +71,7 @@ import feather as f
 pekel = ee.Image('JRC/GSW1_0/GlobalSurfaceWater')
 
 #Point to the inventory feather
-file = '2_rsdata/tmp/uniqueInventory.feather'
+file = '2_rsdata/tmp/unique_site_inventory.feather'
 
 #Read in our inventory feather
 inv = f.read_dataframe(file)
@@ -151,7 +153,7 @@ folder <- drive_ls('tempSiteWater')
 
 # A case for a for loop, because google only allows you one query at a time
 for(i in 1:nrow(folder)) {
-  path=paste0('2_rsdata/tmp/siteWater/',folder$name[i])
+  path=paste0('2_rsdata/tmp/water_visible_sites/',folder$name[i])
   drive_download(as_id(folder$id[i]),
                  path=path,
                  overwrite=T)
@@ -170,7 +172,7 @@ This produces a final water inventory if the max pekel occurence is greater than
 
 ```{r}
 #Get a list of those files
-water.inv.files <- list.files('2_rsdata/tmp/siteWater',full.names = T)
+water.inv.files <- list.files('2_rsdata/tmp/water_visible_sites',full.names = T)
 
 #Use map_df to read them all in and stitch them together
 water.inv <- map_df(water.inv.files,read_csv)
@@ -180,16 +182,16 @@ water.inv <- map_df(water.inv.files,read_csv)
 water.60 <- water.inv %>%
   filter(max > 60) %>%
   mutate(coords = str_split_fixed(`.geo`,'\\[',2)[,2] %>%
-           gsub(']}','',.)) %>%
-  mutate(lat = as.numeric(str_split_fixed(coords,',',2)[,2])) %>%
-  mutate(long = as.numeric(str_split_fixed(coords,',',2)[,1])) %>%
+           gsub(']}','',.),
+        lat = as.numeric(str_split_fixed(coords,',',2)[,2]),
+        long = as.numeric(str_split_fixed(coords,',',2)[,1])) %>%
   select(-`.geo`,-coords,-`system:index`)
 
 
 
 
 
-write_feather(water.60,'2_rsdata/out/uniqueWaterInventory.feather')
+write_feather(water.60,'2_rsdata/out/unique_site_visible_inv.feather')
 ```
 
 
