@@ -4,7 +4,7 @@ output: html_document
 editor_options: 
   chunk_output_type: console
 ---
-#Pull surface reflectance values associated with in situ samples.
+#Pull toa reflectance values associated with in situ samples.
 
 This script is essentially the same as script 5_surface_reflectance_pull.Rmd but utilizes the top-of atmosphere Landsat collections instead of surface reflectance.  See script 5 for further detail. 
 
