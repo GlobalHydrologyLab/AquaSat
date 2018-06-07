@@ -19,6 +19,10 @@ To save some computation later, we decided to download each landsat cloud score 
 knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_knit$set(root.dir='../..')
 library(tidyverse)
+library(reticulate)
+library(googledrive)
+library(lubridate)
+library(feather)
 ```
 
 
@@ -29,23 +33,31 @@ The code below grabs cloud scores, WRS PATH and ROW, landsat ID and date informa
 We use the USGS surface reflectance product for this data pull. Information on this data can be found [here](https://landsat.usgs.gov/landsat-surface-reflectance).
 
 
-```{python, engine.path="/usr/local/bin/python2"}
+```{r Cloud Pull}
+#Set.RProfile to set the default python for reticulate
+Sys.setenv(RETICULATE_PYTHON = '/usr/local/bin/python2')
+
+#Start python bash
+repl_python()
+
 #Import libraries
 import ee
 import time
 import numpy
 #Initialize earth engine
 ee.Initialize()
+
 ## Define a function to get properties from the landsat stack
 def getProperties(i):
     return (ee.Feature(None, i.toDictionary(
         ['CLOUD_COVER', 'WRS_PATH', 'WRS_ROW',
         'LANDSAT_ID', 'DATE_ACQUIRED',
-        'SENSING_TIME'])))
+        'SENSING_TIME', 'SOLAR_AZIMUTH_ANGLE', 
+        'SOLAR_ZENITH_ANGLE'])))
         
 
-#Make a rectangel around the USA
-usa = ee.Geometry.Rectangle([-128, 20, -66, 50])
+#Pull out USA geometry from earth engine boudary layer
+usa = ee.FeatureCollection('USDOS/LSIB_SIMPLE/2017').filter(ee.Filter.eq('country_co','US')).geometry()
 
 #Import landsat surface reflectance collections.
 l8 = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
@@ -65,6 +77,9 @@ ts = []
 #Get data for years of Landsat 5-8 operation. 
 years=numpy.arange(1984,2019,1)
 
+#Source function to limit number of tasks sent up to earth engine.
+execfile('2_rsdata/src/5a_6a_GEE_pull_functions.py')
+
 #Loop over years such that we download a single csv for each year. 
 for year in years:
   #Filter landsat stack to the year in the loop (starting with 1984)
@@ -78,26 +93,18 @@ for year in years:
        folder = 'wqp_cloudiness',
        fileNamePrefix = str(year) ,
        fileFormat = 'CSV')
-  #Start the defined task. 
+  
+  #Check how many existing tasks are running and take a break if it's >15
+  maximum_no_of_tasks(15, 30)
+  #Send next task.
   task0.start()
-  #Pause the task so that GEE doesn't get overloaded
-  time.sleep(10)
-  ## initialize submitting jobs
-  ts = list(task0.list())
-  NActive = 0
-  #Loop over the task list
-  for task in ts:
-    if ('RUNNING' in str(task) or 'READY' in str(task)):
-        NActive += 1       
-    ## wait if the number of current active tasks reach the maximum number
-   ## defined in MaxNActive
-  while (NActive >= MaxNActive):
-    time.sleep(120)
-    ts = list(task0.list())
-    NActive = 0
-    for task in ts:
-      if ('RUNNING' in str(task) or 'READY' in str(task)):
-        NActive += 1
+
+#Make sure all Earth engine tasks are completed prior to moving on.  
+maximum_no_of_tasks(1,60)
+print('done')
+
+## End the python bash.
+exit
 ```
 
 
@@ -106,15 +113,20 @@ for year in years:
 Now that GEE has created and exported a summary of cloud scores for all landsat scenes over the USA, we want to download that data to our local computer. 
 
 ```{r}
+#List files
 folder <- drive_ls('wqp_cloudiness')
 
-
+#Download files locally.
 for(i in 1:nrow(folder)) {
   path=paste0('2_rsdata/tmp/yearly_clouds/',folder$name[i])
   drive_download(as_id(folder$id[i]),
                  path=path)
 }
 
+# Move files from personal drive folder into team drive folder. 
+for(i in 1:nrow(folder)) {
+  drive_mv(as_id(folder$id[i]), path = 'watersat/2_rsdata/tmp/yearly_clouds/')
+}
 
 
 ```
@@ -124,12 +136,14 @@ for(i in 1:nrow(folder)) {
 
 
 ```{r}
-library(lubridate)
 #Read in data. 
 clouds <- map_df(list.files('2_rsdata/tmp/yearly_clouds',full.names = T),read_csv) %>%
   mutate(Date = ymd(str_split_fixed(`system:index`,'_',5)[,5])) 
 #Write out cloud data as a feather
 write_feather(clouds,'2_rsdata/out/clouds.feather')
+
+#Upload data to team drive
+drive_upload('2_rsdata/out/clouds.feather', 'watersat/2_rsdata/out/')
 
 ```
 

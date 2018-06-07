@@ -16,6 +16,7 @@ library(googledrive)
 library(tidyverse)
 library(sf)
 library(LAGOSNE)
+library(maps)
 
 #Reset working directory to the top level
 opts_knit$set(root.dir='../..')
@@ -36,15 +37,18 @@ inv.sf <- st_as_sf(winv,coords=c('long','lat'),crs=4326) %>%
 
 ```{r}
 
-
 #Read in usa data
-usa = st_as_sf(maps::map('usa',plot=F,fill=T)) %>%
-    st_transform(.,2163) %>%
-    st_buffer(.,0) 
+usa = us_states() %>%
+  st_transform(.,2163)
 
-#Read in wrs spatial data ##THIS NEEDS TO BE GATHERED AGAIN##
-load('2_rsdata/in/wrs.RData')
 
+#Download and and read in WRS spatial data
+download.file('https://landsat.usgs.gov/sites/default/files/documents/wrs2_asc_desc.zip', destfile = paste0(getwd(),'/2_rsdata/in/wrs2_asc_desc.zip'), method = 'curl')
+
+unzip('2_rsdata/in/wrs2_asc_desc.zip', exdir = '2_rsdata/in/')
+
+wrs <- st_read('2_rsdata/in/wrs2_asc_desc/wrs2_asc_desc.shp') %>%
+  st_transform(.,2163)
 
 #Convert to sf object
 wrs <- st_as_sf(wrs) %>%
@@ -63,8 +67,8 @@ wrs.usa <- wrs %>%
 
 #The above operation clips the wrs tiles to the shape of the usa, which we don't want. So let's keep full tiles
 wrs.all.usa <- wrs %>%
-  filter(id %in% wrs.usa$id) %>%
-  select(id,PATH,ROW)
+  filter(PR %in% wrs.usa$PR) %>%
+  select(PR_ID,PATH,ROW)
 
 #Check overpasses
 # ggplot() + 
@@ -79,7 +83,6 @@ inv.wrs.sf <- st_join(inv.sf,wrs.all.usa) %>%
   st_transform(.,4326)
 
 
-
 #Convert this to a tibble
 sfc_as_cols <- function(x, names = c("x","y")) {
   stopifnot(inherits(x,"sf") && inherits(sf::st_geometry(x),"sfc_POINT"))
@@ -92,7 +95,7 @@ sfc_as_cols <- function(x, names = c("x","y")) {
 
 inv.wrs <- sfc_as_cols(inv.wrs.sf,names=c('long','lat')) %>%
   as.tibble() %>%
-  dplyr::select(-geometry,-id) 
+  dplyr::select(-geometry,-PR_ID) 
 
 #Check the number of sites that didn't overlap
 inv.wrs.fail <- inv.wrs.sf%>%
@@ -107,6 +110,9 @@ inv.wrs.fail <- inv.wrs.sf%>%
 #Turns out it is the florida keys and some island I can't recognize. I'm okay with not having these sites
 
 write_feather(inv.wrs,path='2_rsdata/out/site_inventory_path_row.feather')
+
+#Upload to team drive
+drive_upload('2_rsdata/out/site_inventory_path_row.feather', 'watersat/2_rsdata/out/')
 ```
 
 

@@ -48,7 +48,7 @@ filesDownR <- drive_ls("watersat/2_rsdata/out/sr_matchups/") %>%
 *Reticulate uses the default python path for the local machine.  This python needs to be authorized with google earth engine and have the necessary packages installed. To change the Python called by reticulate, change the default located in your .Rprofile.  This can be done using the 'Sys.setenv()' command at the top of the chunk. For more information on Reticulate go to https://github.com/rstudio/reticulate* 
 
 ```{r Google Earth Engine Pull}
-#Edit .RProfile to set the default python for reticulate
+#Set .RProfile to set the default python for reticulate
 Sys.setenv(RETICULATE_PYTHON = '/usr/local/bin/python2')
 
 
@@ -147,7 +147,7 @@ for x in range(0,len(filesUpFlt)):
                                                +'_'+str(row) + count,\
                                               folder = 'WQP_SR_MatchUps',\
                                               fileFormat = 'csv')
-  #Check how many existing tasks are running and break if it's >15
+  #Check how many existing tasks are running and take a break if it's >15
   maximum_no_of_tasks(15, 60)
   #Send next task.
   dataOut.start()

@@ -13,6 +13,11 @@
 *.csv
 *.shp
 *.Feather
+*.dbf
+*.prj
+*.shp
+*.shx
+*.xml
 # Allow
 !*/out/placeholder.txt
 tasks_*.yml

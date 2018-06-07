@@ -2,7 +2,7 @@
 title: "FlatSiteInventory"
 output: html_document
 editor_options: 
-  chunk_output_type: inline
+  chunk_output_type: console
 ---
 
 # Subsetting Water Quality Portal sites to landsat visible pixels.
@@ -33,7 +33,7 @@ Uniqueness is defined by a unique combination of site name and lat and long.
 #Read in inventory and exclude nutrient data (not a goal of this project just yet)
 inv <- read_feather('1_wqdata/out/wqp_inventory.feather') %>%
   filter(!Constituent %in% c('tn','p','nitrate')) %>%
-  filter(!StateCode %in% c('02','15','72','66')) %>% #No alaska, hawaii, or puerto rico or guam
+  filter(!StateCode %in% c('72','66')) %>% #No puerto rico or guam
   distinct(MonitoringLocationIdentifier,LatitudeMeasure,LongitudeMeasure) %>% #Keep only unique site lat and long. 
   filter(!is.na(LatitudeMeasure)) %>% #Exclude sites with missing geospatial data
   filter(!is.na(LongitudeMeasure)) %>%
@@ -61,7 +61,14 @@ Most of the data living in the Water Quality Portal is on streams, lakes, and/or
 
 The code below checks all sites for water pixels within 200m of the lat long of sites in the WQP. It takes 5 minutes or so to run with 400000 sites
 
-```{python,engine.path="/usr/local/bin/python2"}
+```{r Site Check}
+#Set.RProfile to set the default python for reticulate
+Sys.setenv(RETICULATE_PYTHON = '/usr/local/bin/python2')
+
+#Start python bash
+repl_python()
+
+#Import Libraries
 import ee
 ee.Initialize()
 import pandas as p
@@ -109,17 +116,19 @@ def waterfunc(buf):
             .set({'med':pekMed.get('occurrence')})
           
     return out
-  
+
+#Source function to limit number of tasks sent up to earth engine.
+execfile('2_rsdata/src/5a_6a_GEE_pull_functions.py')
+      
 #Loop over the index stored in split
 for x in split:
-
 #turn our inventory into a feature collection by assigning lat longs and a site id.
 #This is done via list comprehension which is similar to a for loop but faster and
 #plays nice with earth engine.  Collections are limited for 5000 to avoid time outs
 #on the server side.
   invOut = ee.FeatureCollection([ee.Feature(
-            ee.Geometry.Point([inv['long'][i], inv['lat'][i]]),
-              {'SiteID':inv['SiteID'][i]}) for i in range(x, x + 5000)]) 
+    ee.Geometry.Point([inv['long'][i], inv['lat'][i]]),
+    {'SiteID':inv['SiteID'][i]}) for i in range(x, x + 5000)]) 
 
 
 
@@ -133,10 +142,18 @@ for x in split:
                         folder='tempSiteWater',
                         fileFormat = 'csv')
                         
-  #Start that export
+
+  #Check how many existing tasks are running and take a break if it's >15
+  maximum_no_of_tasks(15, 30)
+  #Send next task.
   dataOut.start()
-  #Close the loop
-print(done)
+
+#Make sure all Earth engine tasks are completed prior to moving on.  
+maximum_no_of_tasks(1,60)
+print('done')
+
+## End the python bash.
+exit
 ```
 
 
@@ -144,25 +161,22 @@ print(done)
 ## Local download
 
 ```{r , eval=F}
-library(googledrive)
-
 #Download data from python output stored in local googledrive folder called tempSiteWater
 folder <- drive_ls('tempSiteWater')
 
-#Download the drive data
 
-# A case for a for loop, because google only allows you one query at a time
+#Download files locally.
 for(i in 1:nrow(folder)) {
   path=paste0('2_rsdata/tmp/water_visible_sites/',folder$name[i])
   drive_download(as_id(folder$id[i]),
-                 path=path,
-                 overwrite=T)
-  if(file.size(path) == 0){
-      drive_download(as_id(folder$id[i]),
-                 path=path,
-                 overwrite=T)
-  }
+                 path=path)
 }
+
+# Move files from personal drive folder into team drive folder. 
+for(i in 1:nrow(folder)) {
+  drive_mv(as_id(folder$id[i]), path = '2_rsdata/tmp/water_visible_sites/')
+}
+
 
 ```
 
@@ -188,10 +202,11 @@ water.60 <- water.inv %>%
   select(-`.geo`,-coords,-`system:index`)
 
 
-
-
-
 write_feather(water.60,'2_rsdata/out/unique_site_visible_inv.feather')
+
+#Upload to team drive
+drive_upload('2_rsdata/out/unique_site_visible_inv.feather', 'watersat/2_rsdata/out/')
+
 ```
 
 
