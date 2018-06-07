@@ -4,6 +4,9 @@ output: html_document
 editor_options: 
   chunk_output_type: console
 ---
+#Pull surface reflectance values associated with in situ samples.
+
+This script is essentially the same as script 5_surface_reflectance_pull.Rmd but utilizes the top-of atmosphere Landsat collections instead of surface reflectance.  See script 5 for further detail. 
 
 ```{r setup, include=FALSE}
 library(tidyverse)
@@ -16,13 +19,11 @@ opts_knit$set(root.dir='../..')
 
 ```
 
-This script is essentially the same as script 05 but utilizes the top-of atmosphere Landsat collections instead of surface reflectance.
+#Retrieve existing data to avoid duplicating reflectance pulls
 
-*Reticulate uses the default python path for the local machine.  This python needs to be authorized with google earth engine and have the necessary packages installed. To change the Python called by reticulate use use_pythion().For more information on Reticulate go to https://github.com/rstudio/reticulate*   
 ```{r Get Existing}
 
-###Download the split wqp/lagos data to send up to GGE.  This is easier in R than python. Also create a list of existing reflectance csv's to filter whats been pulled down from gge already.
-
+##Download in-situ sites and dates
 splits <- drive_ls('watersat/2_rsdata/out/SplitWide/')
 
 ##546 is the number of splitwide files as of 04/11/18, this may need to be changed if the wqp/lagos data changes.
@@ -39,6 +40,8 @@ filesDownR <- drive_ls("watersat/2_rsdata/out/toa_matchups/") %>%
   select(name)
 
 ```
+
+#Open a python bash script to interact with Google Earth Engine using the package reticulate.
 
 ```{r Google Earth Engine Pull}
 #Edit .RProfile to set the default python for reticulate
@@ -87,10 +90,10 @@ threshold = 80
 water = pekel.select('occurrence').gt(threshold)
 water = water.updateMask(water)
 
-## Set buffer distance of pixels to include in median calculation.  Distance is in meters from supplied sample point.  
+#Set buffer distance of pixels to include in median and standard deviation #calculation.  Distance is in meters from supplied sample point.  
 dist = 120
 
-## Identify folder with in-situ data broken up into 5000 observation chunks by path/row and
+#Identify folder with in-situ data broken up into 5000 observation chunks by path/row and
 ULdir = '2_rsdata/out/SplitWide/'
 
 #Generate file lists for both files to be sent and files already processed in google earth engine
@@ -114,7 +117,7 @@ for x in range(0,len(filesUpFlt)):
   #lat longs and a site id.  Do this via list comprehension 
   #(similar to for loop but faster and apparently plays nice with earth engine.)
   invOut = ee.FeatureCollection([ee.Feature(ee.Geometry.Point([inv['long'][i],\
-  inv['lat'][i]]),{'SiteID':inv['SiteID'][i],  'Date':inv['Date'][i],'SampDate':inv['SampDate'][i]}) for i in range(0,len(inv))]) 
+  inv['lat'][i]]),{'SiteID':inv['SiteID'][i],  'date':inv['Date'][i],'sampDate':inv['SampDate'][i]}) for i in range(0,len(inv))]) 
   
   #Pull out the path/row from the file name
   path = int(filesUpFlt[x].replace('.','_').split('_')[0])
@@ -124,7 +127,7 @@ for x in range(0,len(filesUpFlt)):
   lsover = ee.ImageCollection(ls.filter(ee.Filter.eq('WRS_PATH',\
   path)).filter(ee.Filter.eq('WRS_ROW', row)))
     
-  ## Map over sites within specific path row
+  ## Map over sites within specific path row and pull reflectance values
   data = ee.FeatureCollection(invOut.map(sitePull))
   
   #Extract path/row count Variable so names match up with file sent to GGE
@@ -133,22 +136,31 @@ for x in range(0,len(filesUpFlt)):
   else:
     count = '_'+str(int(filesUpFlt[x].replace('.','_').split('_')[2]))
   
+  #Create queue of tasks to export to earth engine
   dataOut = ee.batch.Export.table.toDrive(collection = data, \
                                               description = str(path)\
                                                +'_'+str(row) + count,\
                                               folder = 'WQP_TOA_MatchUps',\
                                               fileFormat = 'csv')
-  
+  #Check how many existing tasks are running and break if it's >15
   maximum_no_of_tasks(15, 60)
+  #Send next task.
   dataOut.start()
+
+#Make sure all Earth engine tasks are completed prior to moving on.  
+maximum_no_of_tasks(1,300)
+print('done')
 
 ## End the python bash.
 exit
 ```
 
+#Update local repository
+
 ```{r Update Repositories}
   
-#Finally, Download the new data locally and share to team folder.
+#Finally, download the new data locally.
+
 filesNew <- drive_ls('WQP_TOA_MatchUps')
 
 for(i in 1:nrow(filesNew)) {
@@ -157,13 +169,10 @@ for(i in 1:nrow(filesNew)) {
                  path=path, overwrite = TRUE)
 }
 
+# Move files from personal folder into team folder. This should leave the team folder #up-to-date and the personal folder empty to avoid duplicates for future pulls.
 for(i in 1:nrow(filesNew)) {
-  file = paste0(getwd(),'/2_rsdata/out/toa_matchups/', filesNew$name[i])
-  drive_upload(file, path = 'watersat/2_rsdata/out/toa_matchups/')
+  drive_mv(as_id(filesNew$id[i]), path = 'watersat/2_rsdata/out/toa_matchups/')
 }
-
-##Clean up non-team folder so no duplicates end up in it during future pulls
-drive_rm(as_dribble(filesNew))
 
 ```
 
