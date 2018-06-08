@@ -4,6 +4,9 @@ output: html_document
 editor_options: 
   chunk_output_type: console
 ---
+#Pull surface reflectance values associated with in situ samples.
+
+This script takes the shouldered, filtered in situ water quality dataset pulled from the Water Quality Portal/LAGOS and extracts associated Landsat surface reflectance values from Google Earth Engine.  The pulled reflectance values are the median pixel value of pixels with 80% water occurence (according to Pekel) within 120m of the provided lat/long of the in situ sample identified in the water quality dataset.  The standard deviation of the water pixel reflectance is included to enable quality control filtering.
 
 ```{r setup, include=FALSE}
 library(tidyverse)
@@ -16,13 +19,12 @@ opts_knit$set(root.dir='../..')
 
 ```
 
-This script takes the shouldered, filtered in situ water quality dataset pulled from the Water Quality Portal/LAGOS and extracts associated surface atmosphere reflectance values from Google Earth Engine.  The pulled reflectance values are the median pixel value of pixels with 80% water occurence (according to Pekel) within 120m of the provided lat/long of the in situ sample identified in the water quality dataset.
+#Retrieve existing data to avoid duplicating reflectance pulls
 
-*Reticulate uses the default python path for the local machine.  This python needs to be authorized with google earth engine and have the necessary packages installed. To change the Python called by reticulate use use_pythion().For more information on Reticulate go to https://github.com/rstudio/reticulate*  
+Download the split wqp/lagos data to send up to GGE.  This is easier in R than python. Also create a list of existing reflectance csv's to filter whats been pulled down from gge already.
 ```{r Get Existing}
 
-###Download the split wqp/lagos data to send up to GGE.  This is easier in R than python. Also create a list of existing reflectance csv's to filter whats been pulled down from gge already.
-
+#Download in-situ sites and dates
 splits <- drive_ls('watersat/2_rsdata/out/SplitWide/')
 
 ##546 is the number of splitwide files as of 04/11/18, this may need to be changed if the wqp/lagos data changes.
@@ -35,15 +37,24 @@ if(length(list.files('2_rsdata/out/SplitWide')) < 546){
   }
 }
 
+#Retrieve existing reflectance data to avoid duplicates
 filesDownR <- drive_ls("watersat/2_rsdata/out/sr_matchups/") %>% 
   select(name)
 
 ```
 
-```{r Google Earth Engine Pull}
-##repl_python basically starts a python bash window within your R chunk.  This can be used to actually interact with earth engine.
+#Open a python bash script to interact with Google Earth Engine using the package reticulate.
 
+*Reticulate uses the default python path for the local machine.  This python needs to be authorized with google earth engine and have the necessary packages installed. To change the Python called by reticulate, change the default located in your .Rprofile.  This can be done using the 'Sys.setenv()' command at the top of the chunk. For more information on Reticulate go to https://github.com/rstudio/reticulate* 
+
+```{r Google Earth Engine Pull}
+#Edit .RProfile to set the default python for reticulate
+Sys.setenv(RETICULATE_PYTHON = '/usr/local/bin/python2')
+
+
+##repl_python basically starts a python bash window within your R chunk.  This can be used to actually interact with earth engine.
 repl_python()
+
 import time
 import ee
 import os
@@ -67,8 +78,8 @@ collection = 'SR'
 #Standardize band names between the various collections and aggregate 
 #them into one image collection
 
-bn8 = ['B2','B3', 'B4', 'B5', 'B6','B7', 'BQA']
-bn57 = ['B1', 'B2', 'B3', 'B4', 'B5','B7', 'BQA']
+bn8 = ['B2','B3', 'B4', 'B5', 'B6','B7', 'pixel_qa']
+bn57 = ['B1', 'B2', 'B3', 'B4', 'B5','B7', 'pixel_qa']
 bns = ['Blue', 'Green', 'Red', 'Nir', 'Swir1', 'Swir2', 'qa']
   
 ls5 = l5.select(bn57, bns)
@@ -77,17 +88,17 @@ ls8 = l8.select(bn8, bns)
 
 ls = ee.ImageCollection(ls5.merge(ls7).merge(ls8))
 
-#Selct the occurence layer in the pekel mask, which is just the 
+#Select the occurence layer in the pekel mask, which is just the 
 #percentage of water occurence over a given pixel from 1985-2015.
 #Set the percent occurance threshold and create a watermask from the result.
 threshold = 80
 water = pekel.select('occurrence').gt(threshold)
 water = water.updateMask(water)
 
-## Set buffer distance of pixels to include in median calculation.  Distance is in meters from supplied sample point.  
+#Set buffer distance of pixels to include in median and standard deviation #calculation.  Distance is in meters from supplied sample point.  
 dist = 120
 
-## Identify folder with in-situ data broken up into 5000 observation chunks by path/row and
+## Identify folder with in-situ data broken up into 5000 observation chunks by path/row
 ULdir = '2_rsdata/out/SplitWide/'
 
 #Generate file lists for both files to be sent and files already processed in google earth engine
@@ -109,9 +120,10 @@ for x in range(0,len(filesUpFlt)):
   inv = feather.read_dataframe(ULdir + filesUpFlt[x])
   #turn our inventory into a feature collection by assigning 
   #lat longs and a site id.  Do this via list comprehension 
-  #(similar to for loop but faster and apparently plays nice with earth engine.)
+  #(similar to for loop but faster and plays nice with earth engine.)
   invOut = ee.FeatureCollection([ee.Feature(ee.Geometry.Point([inv['long'][i],\
-  inv['lat'][i]]),{'SiteID':inv['SiteID'][i],  'Date':inv['Date'][i],'SampDate':inv['SampDate'][i]}) for i in range(0,len(inv))]) 
+  inv['lat'][i]]),{'SiteID':inv['SiteID'][i],\
+  'date':inv['Date'][i],'sampDate':inv['SampDate'][i]}) for i in range(0,len(inv))]) 
   
   #Pull out the path/row from the file name
   path = int(filesUpFlt[x].replace('.','_').split('_')[0])
@@ -121,7 +133,7 @@ for x in range(0,len(filesUpFlt)):
   lsover = ee.ImageCollection(ls.filter(ee.Filter.eq('WRS_PATH',\
   path)).filter(ee.Filter.eq('WRS_ROW', row)))
     
-  ## Map over sites within specific path row
+  ## Map over sites within specific path/row and pull reflectance values
   data = ee.FeatureCollection(invOut.map(sitePull))
   
   #Extract path/row count Variable so names match up with file sent to GGE
@@ -129,37 +141,42 @@ for x in range(0,len(filesUpFlt)):
     count = ''
   else:
     count = '_'+str(int(filesUpFlt[x].replace('.','_').split('_')[2]))
-  
+  #Create queue of tasks to export to earth engine
   dataOut = ee.batch.Export.table.toDrive(collection = data, \
                                               description = str(path)\
                                                +'_'+str(row) + count,\
                                               folder = 'WQP_SR_MatchUps',\
                                               fileFormat = 'csv')
+  #Check how many existing tasks are running and break if it's >15
   maximum_no_of_tasks(15, 60)
+  #Send next task.
   dataOut.start()
+
+#Make sure all Earth engine tasks are completed prior to moving on.  
+maximum_no_of_tasks(1,300)
+print('done')
 
 ## End the python bash.
 exit
 ```
 
+#Update local repository
+
 ```{r Update Repositories}
   
-#Finally, Download the new data locally and share to team folder.
-filesNew <- drive_ls('WQP_TOA_MatchUps')
+#Finally, download the new data locally.
+filesNew <- drive_ls('WQP_SR_MatchUps')
 
 for(i in 1:nrow(filesNew)) {
-  path = paste0(getwd(),'/2_rsdata/out/toa_matchups/', filesNew$name[i])
+  path = paste0(getwd(),'/2_rsdata/out/sr_matchups/', filesNew$name[i])
   drive_download(as_id(filesNew$id[i]),
                  path=path, overwrite = TRUE)
 }
 
+# Move files from personal folder into team folder. This should leave the team folder #up-to-date and the personal folder empty to avoid duplicates for future pulls.
 for(i in 1:nrow(filesNew)) {
-  file = paste0(getwd(),'/2_rsdata/out/toa_matchups/', filesNew$name[i])
-  drive_upload(file, path = 'watersat/2_rsdata/out/toa_matchups/')
+  drive_mv(as_id(filesNew$id[i]), path = 'watersat/2_rsdata/out/sr_matchups/')
 }
-
-##Clean up non-team folder so no duplicates end up in it during future pulls
-drive_rm(as_dribble(filesNew))
 
 ```
 
