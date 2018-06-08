@@ -4,7 +4,7 @@ output:
   html_document:
     toc: true
 editor_options: 
-  chunk_output_type: inline
+  chunk_output_type: console
 ---
 
 # Harmonizing disparate data
@@ -21,6 +21,8 @@ library(tidyverse)
 library(knitr)
 library(kableExtra)
 library(pander)
+library(LAGOSNE)
+library(lubridate)
 knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_knit$set(root.dir='../..')
 
@@ -264,7 +266,7 @@ tss.p %>%
   scroll_box(width='600px',height='400px')
 
 #Keep only the sand fraction data (~50% of the data)
-sand_harmonized  <- tss.p %>%
+sand.harmonized  <- tss.p %>%
   filter(particle_size %in%  c('< 0.0625 mm','sands')) %>%
   mutate(conversion=NA,
          harmonized_parameter='p.sand',
@@ -320,7 +322,7 @@ tss.harmonized <- tss %>%
 ```
 
 
-## DOC
+# DOC
 
 Dissolved organic carbon (DOC) is a complex series of parameters, methods, and unit combinations. We will not be examining particulate organic carbon, total organic carbon, or even colored dissolved organic matter (mostly because there is so few samples in the WQP with cdom).
 
@@ -338,7 +340,7 @@ doc <- read_feather('1_wqdata/out/wqp/all_raw_doc.feather') %>%
 ```
 
 
-### DOC analytical method and sample fraction
+### DOC sample fraction and sample methods
 
 The water quality portal does not have a category for "Dissolved Organic Carbon," so we pulled three parameter names that might capture this category. 'Total Carbon', 'Organic Carbon', and 'Non-purgeable Organic Carbon (NPOC)'. For our purposes NPOC and Organic Carbon are exchnageable parameter names. In this data, there is a key column that we labeled 'fraction', which declares what fraction of the carbon pool is being reported. For purposes of this work, we are only keeping the fraction that indicates dissolved organic carbon, which can include fraction names like 'Dissolved' or 'Filterable.' The full list of fraction names and parameter names. 
 
@@ -349,7 +351,7 @@ doc %>%
   group_by(fraction) %>%
   summarize(count=n()) %>% 
   arrange(desc(count)) %>%
-  kable(.,'html',caption='All tss sample methods and their count (678 methods)') %>%
+  kable(.,'html',caption='All doc sample fraction names and their count') %>%
   kable_styling() %>%
   scroll_box(width='600px',height='400px')
 
@@ -366,7 +368,7 @@ doc.dissolved <- doc %>%
   filter(fraction %in% doc.fraction.names)
 
 
-print(paste('we dropped',nrow(doc)-nrow(doc.filtered),'samples because they were not labeled as dissolved'))
+print(paste('we dropped',nrow(doc)-nrow(doc.dissolved),'samples because they were not labeled as dissolved'))
 ```
 
 
@@ -384,7 +386,7 @@ doc.dissolved %>%
   group_by(sample_method) %>%
   summarize(count=n()) %>% 
   arrange(desc(count)) %>%
-  kable(.,'html',caption='All tss sample methods and their count (678 methods)') %>%
+  kable(.,'html',caption='All doc sample methods and their count (678 methods)') %>%
   kable_styling() %>%
   scroll_box(width='600px',height='400px')
 ```
@@ -399,7 +401,7 @@ doc.dissolved %>%
   group_by(analytical_method) %>%
   summarize(count=n()) %>% 
   arrange(desc(count)) %>% 
-  kable(.,'html',caption='All tss sample methods and their count (678 methods)') %>%
+  kable(.,'html',caption='All DOC analytical methods') %>%
   kable_styling() %>%
   scroll_box(width='600px',height='400px')
 
@@ -428,7 +430,7 @@ p(unique(non.sensical.tss.methods$analytical_method),wrap='',sep=' - ')
 As with TSS we generally expect DOC units to be in units of mass per unit volume, but we have many more possible variations of methods used to extract DOC values.
 
 ```{r}
-doc %>% 
+doc.filtered %>% 
   group_by(units) %>%
   summarize(count=n()) %>%
   arrange(desc(count)) %>%
@@ -461,22 +463,229 @@ print(paste('We dropped',nrow(doc.unit.drop),'DOC observations because the units
 The final step. Convert all convertable units to mg/l!
 
 ```{r}
-doc.harmonized <- doc %>%
-  inner_join(secchi.lookup,by='units') %>%
-  mutate(harmonized_parameter = 'secchi',
+doc.harmonized <- doc.filtered %>%
+  inner_join(doc.lookup,by='units') %>%
+  mutate(harmonized_parameter = 'doc',
          harmonized_value=value*conversion,
-         harmonized_unit='meters')
+         harmonized_unit='mg/L')
 
 ```
 
 
-Hardest
 
-## Chlorophyll
+
+# Chlorophyll
+
+Chlorophyll concentration is a good proxy for algal biomass, but it may be the hardest parameter to harmonize because of a large array of diverse methods and measurements. Fist let's drop measurements that were not water samples (benthic chlorophyll)
+
+```{r Chlorophyll}
+#Read in the raw data from '1_wqdata/out'
+chl <- read_feather('1_wqdata/out/wqp/all_raw_chlorophyll.feather') %>%
+  wqp.renamer() %>%
+  #Remove trailing white space in labels
+  mutate(units = trimws(units)) 
+
+```
+
+
+## Chlorophyll a only
+
+Here we are reducing the harmonization difficulty associated with chlorphyll by only keeping Chlorophyll a measurements, which is by far the most common measurement. But let's first look at all the various chlorophyll names we pulled down from the water quality portal. 
+
+
+```{r chl all }
+
+chl %>%
+   group_by(parameter) %>%
+   summarize(count=n()) %>% 
+   arrange(desc(count)) %>%
+   kable(.,'html',caption='All chlorophyll parameter names and their count') %>%
+   kable_styling() %>%
+   scroll_box(width='600px',height='400px')
+
+```
+
+One key parameter we are deciding to drop here is the Chl a, uncorrected for pheophytin. Pheophytin is a biproduct of chlorophyll degradation that can be generated by the processes used to extract chlorophyll from samples. Samples that do not correct for pheophytin can consistently underestimate in situ chlorophyll concentration, so we are choosing to drop these > 250,000 observations in addition to other non-chlorophyll a samples
+
+### Chlorophyll a parameter disharmony
+
+We are dropping the below parameter names
+```{r chl throw away}
+
+chl.a.names <- c('Chlorophyll a','Chlorophyll a (probe relative fluorescence)','Chlorophyll a, corrected for pheophytin','Chlorophyll a (probe)','Chlorophyll a, free of pheophytin', 'Chlorophyll a - Phytoplankton (suspended)') 
+
+chl %>%
+  filter(!parameter %in% chl.a.names) %>%
+  group_by(parameter) %>%
+  summarize(count=n()) %>%
+  kable(.,'html',caption='All dropped chlorophyll parameter names and their count') %>%
+  kable_styling() %>%
+  scroll_box(width='600px',height='400px')
+```
+
+### Chlorophyll a keep
+
+```{r chl a keepers}
+
+chl.a <- chl %>%
+  filter(parameter %in% chl.a.names)
+
+```
+
+
+## Chlorophyll a sample fraction
+
+Now that we are only keeping the chlorophyll a fraction, we can start removing disharmony in the sample fraction, analytical method, and units categories. We'll start with the sample fraction
+
+### Chlorophyll a all fractions
+```{r}
+chl.a %>%
+   group_by(fraction) %>%
+   summarize(count=n()) %>% 
+   arrange(desc(count)) %>%
+   kable(.,'html',caption='All chlorophyll sample methods and their count') %>%
+   kable_styling() %>%
+   scroll_box(width='600px',height='400px')
+
+```
+
+
+This table highlights essentially four dominant categories for chlorophyll a sample fraction: Total (not-filtered), Filtered, Particle, and NA. The NA category is the most concenrting as this makes up almost 1/4 of the remaining data. There is some chance that downstream `analytical_method` cleaning will help clarify the NA category, but we won't know that until later downstream, so for now we will keep NA. Next, we need to decide which type of Chlorophyll measurements to keep, which given that most of the data is either total or dissolved, we will keep both. [Previous work](https://epic.awi.de/16281/1/Kne2007b.pdf) has shown that the filtering on Chlorophyll a samples captures 10-20% of the chlorophyll. Given the scope of this project and similar decisisons made between SSC and TSS, we are electing to combine Total and Dissolved chlorophyll a into one category and drop the particle fraction.  
+
+### Chlorophyll fraction keep
 
 ```{r}
-#Read in the raw data from '1_wqdata/tmp'
-chl <- read_feather('1_wqdata/out/wqp/all_raw_chlorophyll.feather')
+chl.particles <- c('Non-Filterable (Particle)','Suspended','Non-filterable','<Blank>','Acid Soluble')
+
+chl.a.fraction <- chl.a %>%
+  filter(!fraction %in% chl.particles)
+
 
 ```
 
+
+## Chlorophyll a Methods
+
+### Chlorophyll a sample methods
+
+As with all other parameters we are not filtering by sample method
+
+```{r chl sample method}
+chl.a.fraction %>%
+  group_by(sample_method) %>%
+  summarize(count=n()) %>% 
+  arrange(desc(count)) %>%
+  kable(.,'html',caption='All chlorophyll sample methods and their count') %>%
+  kable_styling() %>%
+  scroll_box(width='600px',height='400px')
+
+```
+
+### Chlorophyll a analytical methods
+
+```{r}
+chl.a.fraction %>%
+  group_by(analytical_method) %>%
+  summarize(count=n()) %>% 
+  arrange(desc(count)) %>%
+  kable(.,'html',caption='All chlorophyll analytical methods and their count') %>%
+  kable_styling() %>%
+  scroll_box(width='600px',height='400px')
+
+```
+
+
+
+#### Chlorophyll a removing nonsensical analytical methods
+
+There are quite a few different analytical methods for chlorophyll analysis. Unfortunately the most common category is NA. As with previous parameters we can use this category to simply remove clearly non-sensical methods and keep all others including NA and blank.
+```{r}
+chl.a.nonsense.methods <- chl.a.fraction %>%
+  filter(grepl("Oxygen|Nitrogen|Ammonia|Metals|Anion|Cation|Phosphorus|Silica|HARDNESS|Nutrient|Turbidity|Nitrate|Conductance|Alkalinity|Solids",analytical_method,ignore.case=T)) %>%
+  filter(analytical_method != 'Temperature',
+         analytical_method != 'PH')
+  
+chl.filtered <- chl.a.fraction %>%
+  filter(!analytical_method %in% chl.a.nonsense.methods$analytical_method)
+
+print(paste('We dropped', round(nrow(chl.a.nonsense.methods)/nrow(chl)*100,2),'% of samples, because the method used did not make sense. These methods are:'))
+
+  
+p(unique(non.sensical.tss.methods$analytical_method),wrap='',sep=' - ') 
+```
+
+
+
+## Chlorophyll a units
+
+
+As with TSS and DOC we generally expect Chlorophyll a units to be in units of mass per unit volume.
+
+```{r}
+chl.filtered %>% 
+  group_by(units) %>%
+  summarize(count=n()) %>%
+  arrange(desc(count)) %>%
+  kable(.,'html',caption='All doc units') %>%
+  kable_styling() %>%
+  scroll_box(width='600px',height='400px')
+
+```
+
+Wow that is great. The vast majority of data is in a sensible unit (ug/L). We'll harmonize the remaining mass/volume units (ppm,mg/L) and drop the NAs and % units. We'll harmonize Chlorophyll a to the most common unit in the data (ug/L). 
+
+
+### Chlorophyll a unit disharmony
+
+
+```{r}
+#Setup a lookup table so that final units are all in mg/L. 
+chl.lookup <- tibble(units=c('mg/l','ppm','ug/l','mg/m3','ppb','mg/cm3','ug/ml','mg/ml'),
+                        conversion = c(1000,1000,1,1,1,1000000,1000,1000000))
+
+chl.unit.drop <- chl.filtered %>%
+  anti_join(chl.lookup,by='units') 
+
+
+print(paste('We dropped',round(100*(nrow(chl.unit.drop)/nrow(chl.filtered)),2),'% of Chl data because the units do not make sense'))
+
+```
+
+## Chl harmony
+
+The final step. Convert all convertable units to mg/l!
+
+```{r}
+chl.a.harmonized <- chl.filtered %>%
+  inner_join(chl.lookup,by='units') %>%
+  mutate(harmonized_parameter = 'chl.a',
+         harmonized_value=value*conversion,
+         harmonized_unit='ug/L')
+
+```
+
+
+# Bind and save the harmonized data
+
+At the end of all this harmonization we want a data frame with parameter columns that hold the final harmonized values, along with a date, lat, long, and siteid. But first we need to do some more quality control on the full, harmonized dataset. This additional data munging can be found in the script `2_combined_wqp_munge.Rmd`
+
+```{r}
+#Bind all the harmonized data together
+harmonized.datasets <- list(chl.a.harmonized,doc.harmonized,tss.harmonized,sand.harmonized,secchi.harmonized)
+
+names(harmonized.datasets) <- c('chl.a','doc','tss','sand','secchi')
+
+
+## Initially we combined all of these datasets here, but this made computation down the line needlessly slow. 
+# wqp.long <- map_df(harmonized.datasets,rbind) %>%
+#   mutate(index=1:nrow(.)) %>%
+#   dplyr::select(-parameter,-units,-org,-org_id,-sample_method,-analytical_method,-particle_size,-media,-sample_depth,-sample_depth_unit,-fraction,-status,-conversion)
+
+
+for(i in 1:length(harmonized.datasets)){
+  write_feather(harmonized.datasets[[i]],path=paste0('1_wqdata/out/harmonized/',                                                    names(harmonized.datasets)[i],'_harmony.feather'))
+}
+
+
+
+```

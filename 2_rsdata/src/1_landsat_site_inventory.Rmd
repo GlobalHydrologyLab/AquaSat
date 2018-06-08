@@ -33,7 +33,7 @@ Uniqueness is defined by a unique combination of site name and lat and long.
 #Read in inventory and exclude nutrient data (not a goal of this project just yet)
 inv <- read_feather('1_wqdata/out/wqp_inventory.feather') %>%
   filter(!Constituent %in% c('tn','p','nitrate')) %>%
-  filter(!StateCode %in% c('02','15','72','66')) %>% #No alaska, hawaii, or puerto rico or guam
+  filter(!StateCode %in% c('15','72','66')) %>% #No hawaii, or puerto rico or guam
   distinct(MonitoringLocationIdentifier,LatitudeMeasure,LongitudeMeasure) %>% #Keep only unique site lat and long. 
   filter(!is.na(LatitudeMeasure)) %>% #Exclude sites with missing geospatial data
   filter(!is.na(LongitudeMeasure)) %>%

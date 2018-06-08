@@ -1,0 +1,165 @@
+---
+title: "2_combined_wqp_munge"
+author: "Matthew Ross"
+date: "6/6/2018"
+output:
+  html_document:
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=F, warnings='hide'}
+library(feather)
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+library(pander)
+library(LAGOSNE)
+library(lubridate)
+library(parallel)
+library(foreach)
+library(doParallel)
+#devtools::install_github("hadley/multidplyr")
+library(multidplyr)
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir='../..')
+```
+
+# Munging on full dataset
+
+Now we have a fully harmonized dataset in terms of units, methods, etc... But we have yet more cleaning to do first starting with cleaning up the dataset for repeat observations and multiple observations on the same day
+
+### Date time cleaning
+
+The vast majority of water quality portal data (> 80% ) that we have gathered is a unique collection for a given site, datetime, and parameter. However there are plenty of times where there are multiple observations at the same site with the same parameter value and same time. These double, triple, larger multiples of the same observation could arise several different ways. First samples could have been taken at several points in a water body at around the same time and the time recorded reflects a general time not an exact one. This data can safely be averaged over and will still accurately reflect the general water clarity conditions. The other way for this kind of double data to occur is for there to be errors in the data recording, the data integration, or data management. With the data we have it is impossible to distinguish between these very different cases. So to keep as much data as possible, we are only keeping data that is either unique or has less than 5 simultaneous observations with the same datetime and 20 with the same date. For sites with multiple observations at the same time, we are only keeping data with a coefficient of variation of less than 10%. Unlike with the data harmonization code, the guts of this code is in a fairly nested format that makes it difficult to display exactly which sites/dates are dropped, but we do store all dropped samples for posterity.  
+
+
+```{r functions}
+
+#We need to split the data into two datasets. One with date and time and one with just date. 
+#This takes kind of a long time so we will use foreach to run the analyses in parallel. 
+
+
+
+#single and multiple obs harmonization that will live inside the next function. 
+pluribus <- function(dt,x,...){
+  #seperate out the data that has only 1 obs at unique site, datetime, and parameter combination. 
+  #This should be most data and will simply be kept. 
+  dt.singles <- dt %>%
+    filter(count == 1) 
+  
+  #What should we do with multiple data for the same site, time, and parameter? 
+  dt.multiples <- dt %>%
+    filter(count > 1,
+           count < x) %>%
+    #The dots are so that the user can switch between datetime or date
+    group_by_('SiteID','harmonized_parameter',...) %>%
+    #Get the median and cv
+    mutate(median=median(harmonized_value),
+           cv=sd(harmonized_value)/mean(harmonized_value)) %>%
+    #Remove sites with cvs greater than 0.1
+    filter(cv < 0.1) %>%
+    #Keep only a single observation with unique combinations
+    distinct_('SiteID','harmonized_parameter',.keep_all=T,...) %>%
+    mutate(harmonized_value = median) %>%
+    dplyr::select(-median,-cv) %>%
+    ungroup()
+  
+  return(rbind(dt.singles,dt.multiples))
+}
+
+#Function to split out data with date_time or date and time. 
+ 
+
+date.time.splitter<- function(df) {
+  #Add an index and remove nas
+  df <- df %>%
+    mutate(index = 1:nrow(.)) %>%
+    filter(!is.na(harmonized_value)) %>%
+    ungroup() %>%
+    dplyr::select(-parameter,-units,-org,-org_id,-sample_method,
+                  -analytical_method,-particle_size,-media,-sample_depth,
+                  -sample_depth_unit,-fraction,-status,-conversion) 
+  
+  #Remove extraneous columns
+  dt <- df %>% 
+    #Filter out data that has no date_time OR time data
+    filter(!is.na(date_time))%>%
+    #Generate a count to fix duplicates later. 
+    group_by(SiteID,date_time,harmonized_parameter) %>%
+    mutate(count=n()) %>%
+    ungroup() %>%
+    as_tibble()
+
+
+  #Date only data
+  d <- df %>%
+    filter(!index %in% dt$index) %>%
+    group_by(SiteID,date,harmonized_parameter) %>%
+    mutate(count=n()) %>%
+    ungroup()
+    
+  dt.final <- pluribus(dt,5,'date_time')
+  d.final <- pluribus(d,20,'date')
+  
+
+  #Put these two datasets into a list
+  out <- rbind(dt.final,d.final) %>%
+    dplyr::select(-index,-count)
+  
+  print(paste('You dropped',round((nrow(df)-nrow(out))/nrow(df),2),'% of data because the number of replicates on the same day was too high or simultaneous observations varied too much'))
+
+  return(out)
+}
+
+
+
+```
+
+
+
+```{r file setup}
+#Setup paths for reading in data
+harmonized.files <- list.files('1_wqdata/out/harmonized',full.names =T)
+
+```
+
+
+#### Dropping and taking median of all samples
+
+This takes a very long time to run (4 hours). Not entirely sure why. 
+```{r}
+dt.split.stack <- list()
+for(i in 1:length(harmonized.files)){
+  print(i)
+  df <- read_feather(harmonized.files[i]) 
+  out <- date.time.splitter(df)
+  dt.split.stack[[i]] <- out
+}
+
+
+```
+
+
+
+### Example of processing the data in parallel
+
+This doesn't work on general laptop computers because the datasets are too large. But if you have smaller datasets or a powerful desktop this
+should work. 
+```{r,eval=F}
+#make a cluster with the same number of cores as the harmonized.dataset list or the total cores on the machine 
+cores = ifelse(length(harmonized.files) < detectCores(),length(harmonized.files),detectCores()-1)
+cl <- makeCluster(cores) 
+registerDoParallel(cl,cores=cores) 
+dt.split.stack <- foreach(i = 1:length(harmonized.files)) %dopar% {
+  library('lubridate')
+  library('tidyverse')
+  library('feather')
+  df <- read_feather(harmonized.files[i]) 
+  date.time.splitter(df)
+}
+stopCluster(cl)
+
+```
+

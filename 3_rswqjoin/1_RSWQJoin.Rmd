@@ -102,6 +102,27 @@ write_feather(match,path='3_rswqjoin/data/out/SR_Sameday_Match.feather')
 ```{r}
 match <- read_feather('3_rswqjoin/data/out/SR_Sameday_Match.feather')
 
+names(match)
+match %>% 
+  filter(Swir1 < 500) %>%
+  nrow(.)
+  filter(pwater > 0.99) %>%
+  mutate(swir.nir=Swir1/Green) %>%
+  ggplot(.,aes(x=Swir1)) + 
+  geom_density() + 
+  scale_x_log10()
+
+
+
+match %>%
+  filter(!is.na(tss)) %>%
+  mutate(ndvi=((Nir-Red)/(Nir+Red))) %>%
+  filter(ndvi>0.02) %>%
+  filter(ndvi < 1) %>%
+  ggplot(.,aes(x=ndvi)) + 
+  geom_density() 
+
+
 wqp.la <- match %>%
    filter(PATH %in% c(23,22)) %>%
    filter(ROW %in% c(39,38))
