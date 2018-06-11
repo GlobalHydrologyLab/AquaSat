@@ -23,8 +23,14 @@ library(kableExtra)
 library(pander)
 library(LAGOSNE)
 library(lubridate)
+library(GenKern) #For nearest function
 knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_knit$set(root.dir='../..')
+
+```
+
+
+```{r functions}
 
 #Define a function that renames and reorders columns from the raw files
 wqp.renamer <- function(df){
@@ -55,6 +61,48 @@ wqp.renamer <- function(df){
   return(simple.names)
 }
 
+#Function for making a nice table that gets a summary of units and the number of observations with that unit code
+unit.kable <- function(d){
+  d %>%
+    group_by(units) %>%
+    summarize(count=n()) %>%
+    arrange(desc(count)) %>%
+    kable(.,'html',caption='All secchi parameter and unit combinations') %>%
+    kable_styling() %>%
+    scroll_box(width='500px',height='400px')
+}
+
+unit.disharmony <- function(d,lookup){
+  d %>%
+    anti_join(lookup,by='units') %>%
+    group_by(units) %>%
+    summarize(count=n())  %>%
+    kable(.,'html',caption='The following measurements
+          were dropped because the units do not make sense') %>%
+    kable_styling() %>%
+    scroll_box(width='500px',height='400px')
+}
+
+sample.kable <- function(d){
+d %>%
+  group_by(sample_method) %>%
+  summarize(count=n()) %>% 
+  arrange(desc(count)) %>%
+  kable(.,'html',caption='All sample methods and their count') %>%
+  kable_styling() %>%
+  scroll_box(width='600px',height='400px')
+}
+
+analytical.kable <- function(d){
+  d %>%
+    group_by(sample_method) %>%
+    summarize(count=n()) %>% 
+    arrange(desc(count)) %>%
+    kable(.,'html',caption='All analytical methods and their count') %>%
+    kable_styling() %>%
+    scroll_box(width='600px',height='400px')
+}
+
 ```
 
 We'll start with the easiest first. Secchi depth
@@ -80,13 +128,8 @@ So to harmonize secchi depth measurements we simpy drop all units that are not u
 secchi <- read_feather('1_wqdata/tmp/wqp/all_raw_secchi.feather') %>%
   wqp.renamer() 
 #Summarize by characteristic name and unit code and print
-secchi %>%
-  group_by(parameter,units) %>%
-  summarize(count=n()) %>%
-  arrange(desc(count)) %>%
-  kable(.,'html',caption='All secchi parameter and unit combinations') %>%
-  kable_styling() %>%
-  scroll_box(width='500px',height='400px')
+unit.kable(secchi)
+
 ```
 
 ### Secchi unit disharmony
@@ -99,17 +142,7 @@ secchi.lookup <- tibble(units=c('cm','ft','in','m','mi'),
                         conversion = c(0.01,.3048,0.0254,1,1609.34))
 
 # Do an anti_join to these units so that all units that aren't kept can be highlighted and displayed
-secchi.disharmony <- secchi %>%
-  anti_join(secchi.lookup,by='units') %>%
-  group_by(units) %>%
-  summarize(count=n())
-
-
-secchi.disharmony %>%
-  kable(.,'html',caption='The following secchi measurements
-        were dropped because the units do not make sense') %>%
-  kable_styling() %>%
-  scroll_box(width='500px',height='400px')
+unit.disharmony(secchi,secchi.lookup)
 ```
 
 
@@ -141,13 +174,7 @@ tss <- read_feather('1_wqdata/out/wqp/all_raw_tss.feather') %>%
   wqp.renamer()
 
 #Summarize by characteristic name and unit code
-tss %>%
-  group_by(parameter,units) %>%
-  summarize(count=n()) %>%
-  arrange(desc(count)) %>%
-  kable(.,'html',caption='All tss parameter and unit combinations') %>%
-  kable_styling() %>%
-  scroll_box(width='500px',height='400px')
+unit.kable(tss)
 ```
 
 ## TSS methods
@@ -161,14 +188,8 @@ There are essentially two important methods for thinking about TSS and SSC. The 
 Many of these methods refer to other documents that were used as a protocol for sampling (EPA METHOD or USGS), but these also are versions of collecting water with a bottle, pump, or depth sampling equipment. 
 
 ```{r tss sample method}
-tss %>%
-  group_by(sample_method) %>%
-  summarize(count=n()) %>% 
-  arrange(desc(count)) %>%
-  kable(.,'html',caption='All tss sample methods and their count (678 methods)') %>%
-  kable_styling() %>%
-  scroll_box(width='600px',height='400px')
 
+sample.kable(tss)
 
 ```
 
@@ -178,13 +199,7 @@ Unlike with secchi disk depth measurements, there are a variety of analytical me
 
 ```{r tss analytical breakdown}
 
-tss %>%
-  group_by(analytical_method) %>%
-  summarize(count=n()) %>%
-  arrange(desc(count)) %>%
-  kable(.,'html',caption='All tss analytical methods and their count') %>%
-  kable_styling() %>%
-  scroll_box(width='600px',height='400px')
+analytical.kable(tss)
 
 ```
 
@@ -290,15 +305,7 @@ tss.lookup <- tibble(units=c('mg/l','g/l','ug/l','ppm'),
                         conversion = c(1,1000,1/1000,1))
 
 
-tss.disharmony <- tss %>%
-  anti_join(tss.lookup,by='units') %>%
-  filter(!particle_size %in% c('< 0.0625 mm','sands')) %>%
-  group_by(units) %>%
-  summarize(count=n()) 
-
-
-
-knitr::kable(tss.disharmony,caption='The following TSS measurements were dropped because the units do not make sense')
+unit.disharmony(tss,tss.lookup)
 
 
 
@@ -311,7 +318,7 @@ Now we can convert all TSS measurements to untis of 'mg/l.' We do need to do one
 ```{r tss harmony}
 #Join to the lookup table and harmonize units
 
-tss.harmonized <- tss %>%
+tss.tis.harmonized <- tss %>%
   inner_join(tss.lookup,by='units') %>%
   mutate(harmonized_parameter = 'tss',
          harmonized_value=value*conversion,
@@ -333,9 +340,7 @@ First let's read in the data.
 
 #Summarize by characteristic name and unit code
 doc <- read_feather('1_wqdata/out/wqp/all_raw_doc.feather') %>%
-  wqp.renamer() %>%
-  #Remove trailing white space in labels
-  mutate(units = trimws(units)) 
+  wqp.renamer() 
 
 ```
 
@@ -381,14 +386,7 @@ Here, we'll explore method, and unit combinations and trim the data down a lot t
 As with TSS we are not going to filter our DOC data by sample method but the table of sample methods are provided here. 
 
 ```{r doc sample methods}
-
-doc.dissolved %>%
-  group_by(sample_method) %>%
-  summarize(count=n()) %>% 
-  arrange(desc(count)) %>%
-  kable(.,'html',caption='All doc sample methods and their count (678 methods)') %>%
-  kable_styling() %>%
-  scroll_box(width='600px',height='400px')
+sample.kable(doc.dissolved)
 ```
 
 
@@ -397,14 +395,7 @@ doc.dissolved %>%
 After removing the non "dissolved" fraction of carbon observations we are left with ~ 650,000 samples. Here we will remove analytical methods that explicitly do not make sense. As with TSS we will keep samples with analytical methods labeled as NA, assuming that they were done in a way that is exchangeable with other methods. This is a potentially erroneous assumption. 
 
 ```{r}
-doc.dissolved %>%
-  group_by(analytical_method) %>%
-  summarize(count=n()) %>% 
-  arrange(desc(count)) %>% 
-  kable(.,'html',caption='All DOC analytical methods') %>%
-  kable_styling() %>%
-  scroll_box(width='600px',height='400px')
-
+analytical.kable(doc.dissolved)
 ```
 
 
@@ -430,14 +421,7 @@ p(unique(non.sensical.tss.methods$analytical_method),wrap='',sep=' - ')
 As with TSS we generally expect DOC units to be in units of mass per unit volume, but we have many more possible variations of methods used to extract DOC values.
 
 ```{r}
-doc.filtered %>% 
-  group_by(units) %>%
-  summarize(count=n()) %>%
-  arrange(desc(count)) %>%
-  kable(.,'html',caption='All doc units') %>%
-  kable_styling() %>%
-  scroll_box(width='600px',height='400px')
-
+unit.kable(doc.filtered)
 ```
 
 Wow that is great. The vast majority of data is in a sensible unit (mg/L). We'll harmonize the remaining mass/volume units (ppm/ug/L) and drop the NAs and % units. Looks like sampling by `sample fraction` column cuts out a lot of the potential disharmony in units. 
@@ -451,11 +435,7 @@ doc.filtered %>%
 doc.lookup <- tibble(units=c('mg/l','ppm','ug/l'),
                         conversion = c(1,1,.001))
 
-doc.unit.drop <- doc.filtered %>%
-  anti_join(doc.lookup,by='units') 
-
-print(paste('We dropped',nrow(doc.unit.drop),'DOC observations because the units do not make sense'))
-
+unit.disharmony(doc.filtered,doc.lookup)
 ```
 
 ## DOC harmony
@@ -481,10 +461,7 @@ Chlorophyll concentration is a good proxy for algal biomass, but it may be the h
 ```{r Chlorophyll}
 #Read in the raw data from '1_wqdata/out'
 chl <- read_feather('1_wqdata/out/wqp/all_raw_chlorophyll.feather') %>%
-  wqp.renamer() %>%
-  #Remove trailing white space in labels
-  mutate(units = trimws(units)) 
-
+  wqp.renamer() 
 ```
 
 
@@ -543,7 +520,7 @@ chl.a %>%
    group_by(fraction) %>%
    summarize(count=n()) %>% 
    arrange(desc(count)) %>%
-   kable(.,'html',caption='All chlorophyll sample methods and their count') %>%
+   kable(.,'html',caption='All chlorophyll sample fractions and their count') %>%
    kable_styling() %>%
    scroll_box(width='600px',height='400px')
 
@@ -559,8 +536,6 @@ chl.particles <- c('Non-Filterable (Particle)','Suspended','Non-filterable','<Bl
 
 chl.a.fraction <- chl.a %>%
   filter(!fraction %in% chl.particles)
-
-
 ```
 
 
@@ -571,26 +546,14 @@ chl.a.fraction <- chl.a %>%
 As with all other parameters we are not filtering by sample method
 
 ```{r chl sample method}
-chl.a.fraction %>%
-  group_by(sample_method) %>%
-  summarize(count=n()) %>% 
-  arrange(desc(count)) %>%
-  kable(.,'html',caption='All chlorophyll sample methods and their count') %>%
-  kable_styling() %>%
-  scroll_box(width='600px',height='400px')
+sample.kable(chl.a.fraction)
 
 ```
 
 ### Chlorophyll a analytical methods
 
 ```{r}
-chl.a.fraction %>%
-  group_by(analytical_method) %>%
-  summarize(count=n()) %>% 
-  arrange(desc(count)) %>%
-  kable(.,'html',caption='All chlorophyll analytical methods and their count') %>%
-  kable_styling() %>%
-  scroll_box(width='600px',height='400px')
+analytical.kable(chl.a.fraction)
 
 ```
 
@@ -605,7 +568,7 @@ chl.a.nonsense.methods <- chl.a.fraction %>%
   filter(analytical_method != 'Temperature',
          analytical_method != 'PH')
   
-chl.filtered <- chl.a.fraction %>%
+chl.a.filtered <- chl.a.fraction %>%
   filter(!analytical_method %in% chl.a.nonsense.methods$analytical_method)
 
 print(paste('We dropped', round(nrow(chl.a.nonsense.methods)/nrow(chl)*100,2),'% of samples, because the method used did not make sense. These methods are:'))
@@ -622,17 +585,11 @@ p(unique(non.sensical.tss.methods$analytical_method),wrap='',sep=' - ')
 As with TSS and DOC we generally expect Chlorophyll a units to be in units of mass per unit volume.
 
 ```{r}
-chl.filtered %>% 
-  group_by(units) %>%
-  summarize(count=n()) %>%
-  arrange(desc(count)) %>%
-  kable(.,'html',caption='All doc units') %>%
-  kable_styling() %>%
-  scroll_box(width='600px',height='400px')
+unit.kable(chl.a.filtered)
 
 ```
 
-Wow that is great. The vast majority of data is in a sensible unit (ug/L). We'll harmonize the remaining mass/volume units (ppm,mg/L) and drop the NAs and % units. We'll harmonize Chlorophyll a to the most common unit in the data (ug/L). 
+Here again, the  majority of data is in a sensible unit (ug/L). We'll harmonize the remaining mass/volume units (ppm,mg/L) and drop the NAs and % units. We'll harmonize Chlorophyll a to the most common unit in the data (ug/L). 
 
 
 ### Chlorophyll a unit disharmony
@@ -643,11 +600,7 @@ Wow that is great. The vast majority of data is in a sensible unit (ug/L). We'll
 chl.lookup <- tibble(units=c('mg/l','ppm','ug/l','mg/m3','ppb','mg/cm3','ug/ml','mg/ml'),
                         conversion = c(1000,1000,1,1,1,1000000,1000,1000000))
 
-chl.unit.drop <- chl.filtered %>%
-  anti_join(chl.lookup,by='units') 
-
-
-print(paste('We dropped',round(100*(nrow(chl.unit.drop)/nrow(chl.filtered)),2),'% of Chl data because the units do not make sense'))
+unit.disharmony(chl.a.filtered,chl.lookup)
 
 ```
 
@@ -670,21 +623,65 @@ chl.a.harmonized <- chl.filtered %>%
 At the end of all this harmonization we want a data frame with parameter columns that hold the final harmonized values, along with a date, lat, long, and siteid. But first we need to do some more quality control on the full, harmonized dataset. This additional data munging can be found in the script `2_combined_wqp_munge.Rmd`
 
 ```{r}
+#Downstream code can't handle the size of the single TSS data file so we will split that into a few separate datasets  instead of one
+
+#First just the TIS data
+tis.harmonized <- tss.tis.harmonized %>%
+  filter(harmonized_parameter=='tis')
+
+#Add an index to help with splitting
+tss.harmonized <- tss.tis.harmonized %>%
+  filter(harmonized_parameter=='tss') %>%
+  arrange(SiteID,date) %>%
+  mutate(index=1:nrow(.))
+
+#Grab all the indexes where the siteid switches. This keeps Sites intact
+tss.group.diff <- tss.harmonized %>%
+  filter(SiteID != lag(SiteID,1)) 
+
+#Get the index with whole sites nearest to half of the tss sites
+split.index <- tss.group.diff[nearest(tss.group.diff$index,nrow(tss.harmonized)/2),'index'] %>%
+  as.numeric()
+split.index
+str(split.index)
+str(tss.harmonized$index)
+tss.harmonized.1 <- tss.harmonized %>%
+  filter(index < split.index) %>%
+  dplyr::select(-index) 
+
+tss.harmonized.2 <- tss.harmonized %>%
+  filter(index >= split.index) %>%
+  dplyr::select(-index)
+
 #Bind all the harmonized data together
-harmonized.datasets <- list(chl.a.harmonized,doc.harmonized,tss.harmonized,sand.harmonized,secchi.harmonized)
+harmonized.datasets <- list(chl.a.harmonized,doc.harmonized,tis.harmonized,tss.harmonized.1,tss.harmonized.2,sand.harmonized,secchi.harmonized)
 
-names(harmonized.datasets) <- c('chl.a','doc','tss','sand','secchi')
+h.names <- c('chl.a','doc','tis','tss1','tss2','sand','secchi')
 
+#Remove extraneous columns
+extraneous <- function(df){
+  df <- df %>%
+    mutate(index = 1:nrow(.)) %>%
+    filter(!is.na(harmonized_value)) %>%
+    ungroup() %>%
+    #Remove extraneous columns
+    dplyr::select(-parameter,-units,-org,-org_id,-sample_method,
+                  -analytical_method,-particle_size,-media,-sample_depth,
+                  -sample_depth_unit,-fraction,-status,-conversion) 
 
-## Initially we combined all of these datasets here, but this made computation down the line needlessly slow. 
-# wqp.long <- map_df(harmonized.datasets,rbind) %>%
-#   mutate(index=1:nrow(.)) %>%
-#   dplyr::select(-parameter,-units,-org,-org_id,-sample_method,-analytical_method,-particle_size,-media,-sample_depth,-sample_depth_unit,-fraction,-status,-conversion)
-
-
-for(i in 1:length(harmonized.datasets)){
-  write_feather(harmonized.datasets[[i]],path=paste0('1_wqdata/out/harmonized/',                                                    names(harmonized.datasets)[i],'_harmony.feather'))
 }
+
+
+#Remove columns and save
+for(i in 1:length(harmonized.datasets)){
+  print(i)
+  dat <- extraneous(harmonized.datasets[[i]])
+  write_feather(dat,
+                path=paste0('1_wqdata/tmp/harmonized/',
+                            h.names[i],'_harmony.feather'))
+}
+
+
 
 
 

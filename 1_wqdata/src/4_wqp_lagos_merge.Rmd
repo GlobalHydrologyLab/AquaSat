@@ -1,0 +1,133 @@
+---
+title: "4_wqp_lagos_merge"
+author: "Matthew Ross"
+date: "6/11/2018"
+output: html_document
+---
+
+
+# Merging LAGOS with Water Quality Portal 
+
+In addition to the relativley munging intensive Water Quality Portal data, we are also leveraging a more 'analysis-ready' dataset from the LAke multi-scaled GEoSpatial and temporal dataset (LAGOS). This dataset is a harmonized dataset that includes secchi, doc, and chlorophyll data from datasets in the Water Quality Portal and many other datasets from individual researchers, state agencies, and citizen science groups. 
+
+Merging this dataset with our harmonized, unified, and widened water quality portal data requires some parallel munging but with much less quality control, since the LAGOS crew has already done that. 
+
+```{r setup, include=F, warnings='hide'}
+library(feather)
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+library(pander)
+library(LAGOSNE)
+library(lubridate)
+library(tidyr)
+
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir='../..')
+
+dt <- secchi
+#Slightly altered pluribus function
+pluribus <- function(dt,x,...){
+  #seperate out the data that has only 1 obs at unique site, datetime, and parameter combination. 
+  #This should be most data and will simply be kept. 
+  
+  dt.not.unique <- dt %>%
+    select_('SiteID','date_unity') %>%
+    filter(duplicated(.))
+  
+  dt.singles <- dt %>%
+    anti_join(dt.not.unique)
+
+  #What should we do with multiple data for the same site, time, and parameter? 
+  dt.multiples <- dt %>%
+    inner_join(dt.not.unique) %>%
+    #The dots are so that the user can switch between datetime or date
+    group_by_('SiteID','date_unity') %>%
+    #Get the median and cv
+    mutate(count=n(),
+           median=median(secchi),
+           cv=sd(secchi)/mean(secchi)) %>%
+    #Remove sites with cvs greater than 0.1
+    filter(count < x) %>%
+    filter(cv < 0.1) %>%
+    #Keep only a single observation with unique combinations
+    distinct_('SiteID','date_unity',.keep_all=T) %>%
+    mutate(secchi = median) %>%
+    dplyr::select(-median,-cv,-count) %>%
+    ungroup()
+  
+  return(rbind(dt.singles,dt.multiples))
+}
+
+```
+
+
+## LAGOS data read
+
+The package `LAGOSNE` has all of the lagos data and metadata already read in and requires a few simple commands to download. We will be using version 1.087.1 for this paper
+
+```{r lagos get}
+# For the first time you will download the data using lagosne_get
+lagosne_get('1.087.1')
+
+#Once that data has been downloaded you can simply read it into R
+lagos <- lagosne_load("1.087.1")
+```
+
+
+### WQP read
+
+We'll read in the wide water quality portal data so we know exactly how to reshape the LAGOS data
+
+
+```{r}
+wqp.wide <- read_feather('1_wqdata/out/wqp_unity_wide.feather')
+
+names(wqp.wide)
+```
+
+
+
+### LAGOS reshaping
+
+LAGOS data of interest for this project lives in two key places `lagos$secchi` and `lagos$epi_nutr`
+```{r}
+secchi <- lagos$secchi %>%
+  #All lagos data is date only
+  mutate(date_only=T) %>%
+  #Mutate the date data to a posixct format
+  mutate(date_unity=mdy_hms(paste(as.character(sampledate),'00:00:00'),tz='UTC')) %>%
+  #Grab only the columns needed
+  select(SiteID=lagoslakeid,date_unity,date_only,secchi) 
+
+secchi.unity <- pluribus(secchi,10)
+ 
+#Now we have a complete LAGOS secchi dataset, but LAGOS also holds chlorophyll and DOC data
+chl.doc <- lagos$epi_nutr %>%
+  mutate(date_unity=mdy_hms(paste(as.character(sampledate),'00:00:00'),tz='UTC')) %>%
+  select(SiteID=lagoslakeid,date_unity,chla,doc)
+
+lagos.all <- full_join(secchi.unity,chl.doc,by=c('SiteID','date_unity')) %>%
+  rename(chl_a=chla) %>%
+  mutate(p_sand=NA,
+         tis=NA,
+         tss=NA,
+         source='LAGOSNE') %>%
+  select(names(wqp.wide))
+
+
+lagos.all %>%
+  distinct(SiteID,date_unity) %>%
+  nrow(.)
+
+978081-817359
+
+nrow(secchi)-nrow(secchi.unity)
+
+```
+
+
+```{r}
+
+```
+
