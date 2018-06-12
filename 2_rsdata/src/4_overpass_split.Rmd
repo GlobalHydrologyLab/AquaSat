@@ -26,23 +26,23 @@ opts_knit$set(root.dir='../..')
 
 
 ```{r, eval=F}
-#I like foreach here for the  updated output. This could easily be a simple for loop. No parellel. While loops are scary with parellel. 
+#I like foreach here for theupdated output. This could easily be a simple for loop. No parellel. While loops are scary with parellel. 
 library(foreach)
 
 #Read in data
-wqp.pull <- read_feather('2_rsdata/out/WidePull.feather')
+wqp.pull <- read_feather('2_rsdata/out/wide_pull.feather') %>%
+  arrange(lat,long)
 
 #Nest data per site
 wqp.nest <- wqp.pull %>%
   mutate(pr = paste(PATH,ROW,sep='_')) %>%
   mutate(index = 1:n()) %>%
-  mutate(Date=as.character(Date)) %>%
-  mutate(SampDate=as.character(SampDate)) 
-
+  mutate(date=as.character(date)) %>%
+  mutate(date_unity=as.character(date_unity))
 
 
 #Define a function to split data into sub 5000 sized chunks
-data.splitter <- function(wqp.nest,dir='2_rsdata/out/SplitWide/'){
+data.splitter <- function(wqp.nest,dir='2_rsdata/out/split_wide/'){
   pr.index <- unique(wqp.nest$pr)
   #Forloop and while loop to split data into 5000 or less feathers (which is a data requirement of GEE.)
   foreach(i = 1:length(pr.index)) %do%{
@@ -69,10 +69,20 @@ data.splitter <- function(wqp.nest,dir='2_rsdata/out/SplitWide/'){
   }
 }
 
-data.splitter(wqp.nest,dir='2_rsdata/out/SplitWide/')
+data.splitter(wqp.nest,dir='2_rsdata/out/split_wide/')
 
 
+```
 
+
+```{r}
+# Move files from local to google drive
+split.files <- list.files('2_rsdata/out/split_wide',full.names=T)
+split.names= list.files('2_rsdata/out/split_wide')
+
+for(i in 1:length(split.files)) {
+  drive_upload(split.files[i], paste0('watersat/2_rsdata/out/split_wide/',split.names[i]))
+}
 
 ```
 

@@ -1,0 +1,187 @@
+---
+title: "4_wqp_lagos_merge"
+author: "Matthew Ross"
+date: "6/11/2018"
+output: html_document
+editor_options: 
+  chunk_output_type: inline
+---
+
+
+# Merging LAGOS with Water Quality Portal 
+
+In addition to the relativley munging intensive Water Quality Portal data, we are also leveraging a more 'analysis-ready' dataset from the LAke multi-scaled GEoSpatial and temporal dataset (LAGOS). This dataset is a harmonized dataset that includes secchi, doc, and chlorophyll data from datasets in the Water Quality Portal and many other datasets from individual researchers, state agencies, and citizen science groups. 
+
+Merging this dataset with our harmonized, unified, and widened water quality portal data requires some parallel munging but with much less quality control, since the LAGOS crew has already done that. 
+
+```{r setup, include=F, warnings='hide'}
+library(feather)
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+library(pander)
+library(LAGOSNE)
+library(lubridate)
+library(tidyr)
+
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir='../..')
+
+#Slightly altered pluribus function
+
+
+#single and multiple obs harmonization that will live inside the next function. 
+pluribus.unum <- function(dt,x,...){
+  #seperate out the data that has only 1 obs at unique site, datetime, and parameter combination. 
+  #This should be most data and will simply be kept. 
+  
+  dt.not.unique <- dt %>%
+    select_('SiteID','harmonized_parameter',...) %>%
+    filter(duplicated(.))
+  
+  dt.singles <- dt %>%
+    anti_join(dt.not.unique)
+  
+  #Okay lots of thos have the same exact information. 
+  #We can get rid of those kinds of duplicates with a simple distinct call
+  dt.distinct.okay <- dt %>%
+    inner_join(dt.not.unique) %>% 
+    filter(duplicated(.)) 
+
+  dt.distinct.not.okay <- dt %>%
+    inner_join(dt.not.unique) %>%
+    anti_join(dt.distinct.okay %>%
+                select_('SiteID','harmonized_parameter',...))
+
+  #What should we do with multiple data for the same site, time, and parameter? 
+  dt.multiples <- dt.distinct.not.okay %>%
+    inner_join(dt.not.unique) %>%
+    #The dots are so that the user can switch between datetime or date
+    group_by_('SiteID','harmonized_parameter',...) %>%
+    #Get the median and cv
+    mutate(count=n(),
+           median=median(harmonized_value),
+           cv=sd(harmonized_value)/mean(harmonized_value)) %>%
+    #Remove sites with cvs greater than 0.1
+    filter(count < x) %>%
+    filter(cv < 0.1) %>%
+    #Keep only a single observation with unique combinations
+    distinct_('SiteID','harmonized_parameter',.keep_all=T,...) %>%
+    mutate(harmonized_value = median) %>%
+    dplyr::select(-median,-cv,-count) %>%
+    ungroup()
+  
+  return(rbind(dt.singles,dt.distinct.okay,dt.multiples) %>%
+           #Last bit of paranoia to catch any NAs or doubles that sneak through
+           distinct_('SiteID','harmonized_parameter',...,.keep_all=T))
+}
+
+```
+
+
+## LAGOS data read
+
+The package `LAGOSNE` has all of the lagos data and metadata already read in and requires a few simple commands to download. We will be using version 1.087.1 for this paper
+
+```{r lagos get}
+# For the first time you will download the data using lagosne_get
+lagosne_get('1.087.1')
+
+#Once that data has been downloaded you can simply read it into R
+lagos <- lagosne_load("1.087.1")
+```
+
+
+### WQP read
+
+We'll read in the wide water quality portal data so we know exactly how to reshape the LAGOS data
+
+
+```{r}
+wqp.wide <- read_feather('1_wqdata/out/wqp_unity_wide.feather')
+
+names(wqp.wide)
+```
+
+
+
+### LAGOS reshaping
+
+
+#### Secchi 
+
+LAGOS data of interest for this project lives in two key places `lagos$secchi` and `lagos$epi_nutr`. Let's first look at the secchi data, reshape it, and remove any leftover duplicates
+
+```{r}
+secchi <- lagos$secchi %>%
+  #All lagos data is date only
+  mutate(date_only=T) %>%
+  #Mutate the date data to a posixct format
+  mutate(date_unity=mdy_hms(paste(as.character(sampledate),'00:00:00'),tz='UTC')) %>%
+  #Grab only the columns needed
+  select(SiteID=lagoslakeid,date_unity,date_only,harmonized_value=secchi)  %>%
+  #Add a harmonized paramter column
+  mutate(harmonized_parameter='secchi')
+
+
+
+#Are there duplicate observations with the same date and time?
+secchi %>%
+  select('SiteID','harmonized_parameter','date_unity') %>%
+  filter(duplicated(.)) %>%
+  #yes there are lots. Dang.
+  slice(100:110) %>%
+  kable()
+
+
+#Thats okay, we have a function for that
+secchi.unity <- pluribus.unum(secchi,20,'date_unity')
+
+```
+
+#### Chlorophyll and DOC
+
+Chlorophyll and DOC data both live in the `epi_nutr` dataset and need a small amount of duplicate removal
+
+```{r}
+
+#Now we have a complete LAGOS secchi dataset, but LAGOS also holds chlorophyll and DOC data
+chl.doc <- lagos$epi_nutr %>%
+  mutate(date_unity=mdy_hms(paste(as.character(sampledate),'00:00:00'),tz='UTC')) %>%
+  select(SiteID=lagoslakeid,date_unity,chla,doc) %>%
+  #lengthen dataset so it plays nicely with unity code
+  gather(.,key=harmonized_parameter,value=harmonized_value,-date_unity,-SiteID) %>%
+  #Add date_only column
+  mutate(date_only=T) %>%
+  select(names(secchi))
+
+chl.doc.unity <- pluribus.unum(chl.doc,20,'date_unity')
+
+```
+
+### Lagos unification
+```{r}
+
+lagos.unity <- rbind(secchi.unity,chl.doc.unity) %>%
+  filter(!is.na(harmonized_value)) %>%
+  mutate(SiteID=as.character(SiteID)) %>%
+  spread(key=harmonized_parameter,value=harmonized_value) %>%
+  rename(chl_a=chla) %>%
+  mutate(p_sand=NA,
+         tis=NA,
+         tss=NA,
+         source='LAGOS') %>%
+  select(names(wqp.wide))
+
+```
+
+
+
+## Water Quality Portal and Lagos unification
+```{r}
+wqp.lagos <- rbind(wqp.wide,lagos.unity) 
+
+write_feather(wqp.lagos,path='1_wqdata/out/wqp_lagos_unity.feather')
+
+```
+

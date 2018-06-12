@@ -1,0 +1,83 @@
+---
+title: "3_wqp_merge_widen"
+author: "Matthew Ross"
+date: "6/11/2018"
+output: html_document
+---
+
+
+
+# Merging all parameters into a long `tidy` format
+
+In previous steps we attempted to: 1) Harmonize water quality parameter data across analytical methods, sampled fraction, and units (harmony), and 2) making sure that the output data from this harmonization returned only one observation per site, date/date_time, and harmonized_parameter record (unity). Here we are taking the results of the unified dataset with only one observation and combining them into a single table. 
+
+```{r setup, include=F, warnings='hide'}
+library(feather)
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+library(pander)
+library(LAGOSNE)
+library(lubridate)
+library(tidyr)
+
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir='../..')
+```
+
+
+## Long dataset
+```{r}
+#Get all the unified files
+#Read them in with a map_df read_csv
+unity.raw <- map_df(list.files('1_wqdata/out/unity',full.names=T),read_feather)
+
+```
+
+
+## Single date_time column
+
+Previously we had code to deal seperately with timestamps that included either date and time data or just date data. Here we want to only have one time column with all observations both date and date_time. We will create a flag for data that came in with only date information, then we will put the time as 00:00:00 UTC. Many of the date_time data we already have has implicitly done the same thing due to how R harmonizes date and date_time POSIXct objects. We will make these implied date_time harmonizations explicti by assuming that all times   
+
+```{r}
+#Extract a simplified time column
+unity <- unity.raw %>%
+  mutate(time = as.character(format(date_time, '%H:%M:%S'))) %>%
+  mutate(date_only=ifelse(is.na(date_time) | time == '00:00:00',T,F)) %>%
+  mutate(date_unity = ymd_hms(ifelse(date_only == T,
+                             paste(date,'00:00:00'),
+                             as.character(date_time)),
+                             tz='UTC')) %>%
+  #remove any time stamps that are NA
+  filter(!is.na(date_unity))
+
+```
+
+
+## Widen data
+
+Now that we have a single long dataset we need to select our key columns and spread the data into a wide data table so that when we send it up to google earth engine we only pull one landsat record for a single sampling effort, whether that sampling effort included only a secchi disk measurment or secchi depth, chlorophyll a and other observations. To do this we drop our units column. Metadata will provide unit information since they are the same within a given parameter. 
+
+
+```{r}
+#There are less than 100 remaining duplicates because of NAs in time or date propogating to this point. We will 
+#Simply remove these duplicated points
+sneaky.duplicates <- unity %>%
+  select(SiteID,date_unity,harmonized_parameter) %>%
+  filter(duplicated(.))
+
+
+wqp.wide <- unity %>%
+  anti_join(sneaky.duplicates) %>%
+  select(SiteID,date_unity,date_only,harmonized_value,harmonized_parameter) %>%
+  spread(key=harmonized_parameter,value=harmonized_value) %>%
+  #fix a naming convention error from earlier (trying to have no dots in column names)
+  rename(chl_a=chl.a,p_sand=p.sand) %>%
+  mutate(source='WQP')
+  
+
+write_feather(wqp.wide,path='1_wqdata/out/wqp_unity_wide.feather')
+
+
+```
+

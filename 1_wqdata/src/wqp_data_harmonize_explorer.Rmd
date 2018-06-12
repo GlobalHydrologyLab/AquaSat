@@ -1,8 +1,8 @@
 ---
 title: "WQP Parameter and Method exploration"
 output:
-  pdf_document: default
-  html_document: default
+  html_document:
+    toc: true
 editor_options: 
   chunk_output_type: console
 ---
@@ -18,10 +18,19 @@ Here we are harmonizing the entirety of the water quality portal data even thoug
 ```{r setup, include=F, warnings='hide'}
 library(feather)
 library(tidyverse)
+library(knitr)
+library(kableExtra)
+library(pander)
+library(LAGOSNE)
+library(lubridate)
+library(GenKern) #For nearest function
 knitr::opts_chunk$set(echo = TRUE)
-
-
 knitr::opts_knit$set(root.dir='../..')
+
+```
+
+
+```{r functions}
 
 #Define a function that renames and reorders columns from the raw files
 wqp.renamer <- function(df){
@@ -34,10 +43,64 @@ wqp.renamer <- function(df){
                          org_id=OrganizationIdentifier,
                          time=ActivityStartTime.Time,
                          value=ResultMeasureValue,
-                         method=SampleCollectionMethod.MethodName,
+                         sample_method=SampleCollectionMethod.MethodName,
+                         analytical_method=ResultAnalyticalMethod.MethodName,
                          particle_size=ResultParticleSizeBasisText,
-                         date_time=ActivityStartDateTime)
+                         date_time=ActivityStartDateTime,
+                         media=ActivityMediaName,
+                         sample_depth=ActivityDepthHeightMeasure.MeasureValue,
+                         sample_depth_unit=ActivityDepthHeightMeasure.MeasureUnitCode,
+                         fraction=ResultSampleFractionText,
+                         status=ResultStatusIdentifier) %>%
+  #Remove trailing white space in labels
+  mutate(units = trimws(units)) %>%
+  #Keep only samples that are water samples
+  filter(media=='Water')
+  dropped = nrow(df)-nrow(simple.names)
+  print(paste('we dropped',dropped,'samples because the sample medium was not labeled as Water'))
   return(simple.names)
+}
+
+#Function for making a nice table that gets a summary of units and the number of observations with that unit code
+unit.kable <- function(d){
+  d %>%
+    group_by(units) %>%
+    summarize(count=n()) %>%
+    arrange(desc(count)) %>%
+    kable(.,'html',caption='All secchi parameter and unit combinations') %>%
+    kable_styling() %>%
+    scroll_box(width='500px',height='400px')
+}
+
+unit.disharmony <- function(d,lookup){
+  d %>%
+    anti_join(lookup,by='units') %>%
+    group_by(units) %>%
+    summarize(count=n())  %>%
+    kable(.,'html',caption='The following measurements
+          were dropped because the units do not make sense') %>%
+    kable_styling() %>%
+    scroll_box(width='500px',height='400px')
+}
+
+sample.kable <- function(d){
+d %>%
+  group_by(sample_method) %>%
+  summarize(count=n()) %>% 
+  arrange(desc(count)) %>%
+  kable(.,'html',caption='All sample methods and their count') %>%
+  kable_styling() %>%
+  scroll_box(width='600px',height='400px')
+}
+
+analytical.kable <- function(d){
+  d %>%
+    group_by(sample_method) %>%
+    summarize(count=n()) %>% 
+    arrange(desc(count)) %>%
+    kable(.,'html',caption='All analytical methods and their count') %>%
+    kable_styling() %>%
+    scroll_box(width='600px',height='400px')
 }
 
 ```
@@ -45,9 +108,13 @@ wqp.renamer <- function(df){
 We'll start with the easiest first. Secchi depth
 
 
-## Secchi depth
+# Secchi depth
 
-### Secchi Table
+## Secchi Methods
+
+The nice thing with secchi disk depth methods, is that the name explains the method and their are not really alternative methods so we will not filter this data by sampling or analytical method categories. 
+
+## Secchi Unit Harmonization
 
 In many ways, the secchi disk depth measurement is the easiest water quality parameter to harmonize, 
 because there is really only 
@@ -59,18 +126,13 @@ So to harmonize secchi depth measurements we simpy drop all units that are not u
 ```{r secchi all parameters}
 #Read in the raw data from '1_wqdata/out'
 secchi <- read_feather('1_wqdata/tmp/wqp/all_raw_secchi.feather') %>%
-  wqp.renamer() %>%
-  #Remove trailing white space in labels
-  mutate(units = trimws(units)) 
-
+  wqp.renamer() 
 #Summarize by characteristic name and unit code and print
-secchi %>%
-  group_by(parameter,units) %>%
-  summarize(count=n()) %>%
-  knitr::kable()
+unit.kable(secchi)
+
 ```
 
-### Secchi disharmony
+### Secchi unit disharmony
 
 Now that we can see all the units we have we can drop non-depth units and make a lookup table to convert all units to meters. 
 
@@ -80,21 +142,12 @@ secchi.lookup <- tibble(units=c('cm','ft','in','m','mi'),
                         conversion = c(0.01,.3048,0.0254,1,1609.34))
 
 # Do an anti_join to these units so that all units that aren't kept can be highlighted and displayed
-secchi.disharmony <- secchi %>%
-  anti_join(secchi.lookup,by='units') %>%
-  group_by(units) %>%
-  summarize(count=n())
-
-
-secchi.disharmony %>%
-  knitr::kable(.,caption='The following secchi measurements were dropped because the units do not make sense')
-
-
+unit.disharmony(secchi,secchi.lookup)
 ```
 
 
 
-### Secchi harmony in meters
+### Secchi unit harmony in meters
 
 ```{r secchi sensible}
 #Join secchi by unit name and then multiply by conversion factor to get meters
@@ -110,7 +163,7 @@ secchi.harmonized <- secchi %>%
 
 Next easiest is TSS
 
-## TSS 
+# TSS 
 
 This [paper](https://water.usgs.gov/osw/pubs/WRIR00-4191.pdf) is really useful for exploring this data. In this paper, the USGS directly compares estimates of Suspended Sediment Concentration (SSC) and Total Suspended Solids (TSS). The primary difference between these methods, as laid out in this paper, is that SSC estimates the mass of suspended solids in a sample volume, by drying out the entire sample without subsampling the water volume. TSS methods often involve some form of subsampling of the total water volume. The paper highlights that while many estimates of TSS and SSC are essentially the same, samples with high sand content show systematic bias in TSS estimates. For our purposes, we have no apriori way to distinguish samples with high or low sand, so we have made the choice to assume that measurements of SSC and TSS are, over the bulk of samples, the same. We use the term "TSS" from here on to describe this data that is both SSC and TSS. 
 
@@ -118,18 +171,91 @@ This [paper](https://water.usgs.gov/osw/pubs/WRIR00-4191.pdf) is really useful f
 ```{r}
 #Read in the raw data from '1_wqdata/out'
 tss <- read_feather('1_wqdata/out/wqp/all_raw_tss.feather') %>%
-  wqp.renamer() %>%
-  #Remove trailing white space in labels
-  mutate(units = trimws(units)) 
+  wqp.renamer()
 
 #Summarize by characteristic name and unit code
-tss %>%
-  group_by(parameter,units) %>%
-  summarize(count=n()) %>%
-  knitr::kable()
+unit.kable(tss)
+```
 
+## TSS methods
+
+Now that we have made the decision to call SSC and TSS interchangeable depsite their slight methodological differences, we need to explore the various methods used to get TSS or SSC concentration estimates. Unlike with issues with units, we can not harmonize our way out of methods that don't make sense. So instead we will be filtering out these methods. 
+
+There are essentially two important methods for thinking about TSS and SSC. The field method used to collect the water sample and the analytical method used to weigh out suspended sediment and total water volume. The sample methods are extremely verbose and varied, but mostly boil down to some version of sample collected in bottle of water. For posterity a table of sample method is reproduced here, but we do not filter based on sample method. 
+
+### TSS sample methods
+
+Many of these methods refer to other documents that were used as a protocol for sampling (EPA METHOD or USGS), but these also are versions of collecting water with a bottle, pump, or depth sampling equipment. 
+
+```{r tss sample method}
+
+sample.kable(tss)
 
 ```
+
+
+### TSS analytical methods
+Unlike with secchi disk depth measurements, there are a variety of analytical methods available to measure TSS. Many of these should provide similar results, but some can be used to highlight potential erroeneous data entry (Phosphorous content should not be a method of TSS calculation), but many of them are simply labeled by a state or federal protocol number, making trimming and evaluating these various methods difficult. Below is a table of all possible analytical methods and their count
+
+```{r tss analytical breakdown}
+
+analytical.kable(tss)
+
+```
+
+Many of these analytical methods are sensible and we can keep the majority of the data. One glaring issue is that more than 2 million observations have an analytical method of NA. What should we do with these samples? Throw out half of our data because the method is not verifiable? Or keep it knowing that some of the data might be using incompatable methods. 
+
+#### TSS removing nonsensical analytical TSS methods
+
+To keep the most data possible, we are making the explicit choice to only exclude methods that are clearly wrong (Ammonia content is not an appropriate TSS method). This means we are keeping the more than 2 million observatiosn with an analytical method of NA. While there are a variety of methods for estimating TSS, they can only differ so much, given that the primary goal is to get the mass of suspended matter per unit water volume. We assume most of these NA measurements were simply not recorded because the method used was a well-known method (like sediment concentratino by filtration). 
+
+The code below is essentially a list of parameters we do not want to keep. 
+
+
+```{r tss analytical method filtering}
+#There are a lot of parameter codes so we are just going to use a grepl command with key words that definitely disqualify the sample
+
+non.sensical.tss.methods <- tss %>%
+  filter(grepl("Oxygen|Nitrogen|Ammonia|Metals|E. coli|Carbon|Anion|Cation|Phosphorus|Silica|PH|HARDNESS|Nutrient|Turbidity|Temperature|Nitrate|Conductance|Alkalinity|Chlorophyll",analytical_method,ignore.case=T))
+
+
+tss.filtered <- tss %>%
+  filter(!analytical_method %in% non.sensical.tss.methods$analytical_method)
+
+print(paste('We dropped', round(nrow(non.sensical.tss.methods)/nrow(tss)*100,2),'% of samples, because the method used did not make sense. These methods are:'))
+
+p(unique(non.sensical.tss.methods$analytical_method),wrap='',sep=' - ') #Nice function for printing long vectors horizontally separated by dash
+```
+
+
+### TSS depth of sampling
+
+For TSS some sites also have the water depth of sample, which is very useful for validating whether or not the sample will reflect satellite observation of the same water parcel. However, most of the data doesn't have this depth of sampling data and it requires a bit of its own munging, since the sampling depth comes down in a range of units. Here we make the choice to not filter by depth of sample, but we show a histogram of sampling depths for sites that do have it. Most are near surface < 5 m. 
+
+```{r depth breakdown}
+#Define a depth lookup table to convert all depth data to meters. 
+depth.lookup <- tibble(sample_depth_unit=c('cm','feet','ft','in','m','meters','None'),
+                       depth_conversion=c(1/100,.3048,.3048,0.0254,1,1,NA)) 
+
+#Join depth lookup table to tss data
+tss.depth <- inner_join(tss,depth.lookup,by=c('sample_depth_unit')) %>%
+  #Some depth measurements have negative values (assume that is just preference)
+  #I also added .01 meters because many samlples have depth of zero assuming they were
+  # taken directly at the surface
+  mutate(harmonized_depth=abs(sample_depth*depth_conversion)+.01)
+
+# We lose lots of data by keeping only data with depth measurements
+print(paste('If we only kept samples that had depth information we would lose',round((nrow(tss)-nrow(tss.depth))/nrow(tss)*100,1),'% of samples'))
+
+
+ggplot(tss.depth,aes(x=harmonized_depth)) + 
+  geom_histogram(bins=100) + 
+  scale_x_log10(limits=c(0.01,10^3),breaks=c(.1,1,10,100)) 
+```
+
+If we ignore all these additional data streams and simply assume SSC and TSS are generally near surface water samples collected with compatible field sampling and analytical methods. Then we can simply get rid of samples that have nonsensical units.
+
+## TSS Unit Harmonization
 
 ### TSS disharmony
 
@@ -150,15 +276,18 @@ tss.p <- tss %>%
 tss.p %>%
   group_by(particle_size) %>%
   summarize(count=n()) %>%
-  knitr::kable()
+  kable(.,'html',caption='All particle size fractions and their count') %>%
+  kable_styling() %>%
+  scroll_box(width='600px',height='400px')
 
 #Keep only the sand fraction data (~50% of the data)
-sand_harmonized  <- tss.p %>%
+sand.harmonized  <- tss.p %>%
   filter(particle_size %in%  c('< 0.0625 mm','sands')) %>%
   mutate(conversion=NA,
          harmonized_parameter='p.sand',
          harmonized_value=value,
          harmonized_unit='%')
+
 
 ```
 
@@ -176,15 +305,7 @@ tss.lookup <- tibble(units=c('mg/l','g/l','ug/l','ppm'),
                         conversion = c(1,1000,1/1000,1))
 
 
-tss.disharmony <- tss %>%
-  anti_join(tss.lookup,by='units') %>%
-  filter(!particle_size %in% c('< 0.0625 mm','sands')) %>%
-  group_by(units) %>%
-  summarize(count=n()) 
-
-
-
-knitr::kable(tss.disharmony,caption='The following TSS measurements were dropped because the units do not make sense')
+unit.disharmony(tss,tss.lookup)
 
 
 
@@ -197,7 +318,7 @@ Now we can convert all TSS measurements to untis of 'mg/l.' We do need to do one
 ```{r tss harmony}
 #Join to the lookup table and harmonize units
 
-tss.harmonized <- tss %>%
+tss.tis.harmonized <- tss %>%
   inner_join(tss.lookup,by='units') %>%
   mutate(harmonized_parameter = 'tss',
          harmonized_value=value*conversion,
@@ -208,53 +329,360 @@ tss.harmonized <- tss %>%
 ```
 
 
-## DOC
+# DOC
 
-*Didn't keep enough columns to really do this. Need to add resultsampletext and a few others. Otherwise total carbon can include fish biomass. Which is not what we are talking about*
+Dissolved organic carbon (DOC) is a complex series of parameters, methods, and unit combinations. We will not be examining particulate organic carbon, total organic carbon, or even colored dissolved organic matter (mostly because there is so few samples in the WQP with cdom).
 
-Dissolved organic carbon is a much more complex series of parameters, methods, and units. As with TSS we generally expect these to be in units of mass per unit volume, but we have many more possible variations of methods used to extract DOC values.
 
-First let's look at the total counts for parameter unit combinations
-```{r}
+First let's read in the data. 
+
+```{r doc read}
 
 #Summarize by characteristic name and unit code
 doc <- read_feather('1_wqdata/out/wqp/all_raw_doc.feather') %>%
-  wqp.renamer() %>%
-  #Remove trailing white space in labels
-  mutate(units = trimws(units)) 
-
-
-doc %>% 
-  group_by(parameter,units) %>%
-  summarize(count=n()) %>%
-  knitr::kable(.,caption='Carbon parameter names, units, and observation counts')
+  wqp.renamer() 
 
 ```
 
 
-### DOC disharmony
+### DOC sample fraction and sample methods
 
-#### DOC percent values
-
-Once again we have quite a few observations of 'Organic carbon' and 'Total carbon' that are in units of % which is a perplexing unit without some more context. Let's examine these values a little more.
-
-```{r doc.p}
-doc.p <- doc %>%
-  filter(units=='%')
+The water quality portal does not have a category for "Dissolved Organic Carbon," so we pulled three parameter names that might capture this category. 'Total Carbon', 'Organic Carbon', and 'Non-purgeable Organic Carbon (NPOC)'. For our purposes NPOC and Organic Carbon are exchnageable parameter names. In this data, there is a key column that we labeled 'fraction', which declares what fraction of the carbon pool is being reported. For purposes of this work, we are only keeping the fraction that indicates dissolved organic carbon, which can include fraction names like 'Dissolved' or 'Filterable.' The full list of fraction names and parameter names. 
 
 
+```{r doc fraction}
+
+doc %>%
+  group_by(fraction) %>%
+  summarize(count=n()) %>% 
+  arrange(desc(count)) %>%
+  kable(.,'html',caption='All doc sample fraction names and their count') %>%
+  kable_styling() %>%
+  scroll_box(width='600px',height='400px')
 
 
 ```
 
+#### Keeping only Dissolved Fraciton
 
-Hardest
+Here we subset the data to only include the data that we know is the Dissolved Organic Carbon pool. So far this is without regard to differences in analytical method. 
 
-## Chlorophyll
+```{r keep doc fraction}
+doc.fraction.names <- c('Dissolved','Filterable','Filtered, lab','Filtered, field')
+doc.dissolved <- doc %>%
+  filter(fraction %in% doc.fraction.names)
+
+
+print(paste('we dropped',nrow(doc)-nrow(doc.dissolved),'samples because they were not labeled as dissolved'))
+```
+
+
+## DOC methods
+
+Here, we'll explore method, and unit combinations and trim the data down a lot to keep only the most useful data. 
+
+### DOC sample methods
+
+As with TSS we are not going to filter our DOC data by sample method but the table of sample methods are provided here. 
+
+```{r doc sample methods}
+sample.kable(doc.dissolved)
+```
+
+
+### DOC analytical method
+
+After removing the non "dissolved" fraction of carbon observations we are left with ~ 650,000 samples. Here we will remove analytical methods that explicitly do not make sense. As with TSS we will keep samples with analytical methods labeled as NA, assuming that they were done in a way that is exchangeable with other methods. This is a potentially erroneous assumption. 
 
 ```{r}
-#Read in the raw data from '1_wqdata/tmp'
-chl <- read_feather('1_wqdata/out/wqp/all_raw_chlorophyll.feather')
+analytical.kable(doc.dissolved)
+```
+
+
+#### DOC removing nonsensical analytical methods
+```{r}
+doc.nonsense.methods <- doc.dissolved %>%
+  filter(grepl("Oxygen|Nitrogen|Ammonia|Metals|E. coli|Anion|Cation|Phosphorus|Silica|PH|HARDNESS|Nutrient|Turbidity|Nitrate|Conductance|Alkalinity|Chlorophyll|Solids",analytical_method,ignore.case=T)) %>%
+  filter(analytical_method != 'Temperature')
+
+
+doc.filtered <- doc.dissolved %>%
+  filter(!analytical_method %in% doc.nonsense.methods$analytical_method)
+
+print(paste('We dropped', round(nrow(doc.nonsense.methods)/nrow(doc)*100,2),'% of samples, because the method used did not make sense. These methods are:'))
+
+  
+p(unique(non.sensical.tss.methods$analytical_method),wrap='',sep=' - ') 
+```
+
+## DOC Units
+
+
+As with TSS we generally expect DOC units to be in units of mass per unit volume, but we have many more possible variations of methods used to extract DOC values.
+
+```{r}
+unit.kable(doc.filtered)
+```
+
+Wow that is great. The vast majority of data is in a sensible unit (mg/L). We'll harmonize the remaining mass/volume units (ppm/ug/L) and drop the NAs and % units. Looks like sampling by `sample fraction` column cuts out a lot of the potential disharmony in units. 
+
+
+### DOC unit disharmony
+doc.filtered %>%
+
+```{r}
+#Setup a lookup table so that final units are all in mg/L. 
+doc.lookup <- tibble(units=c('mg/l','ppm','ug/l'),
+                        conversion = c(1,1,.001))
+
+unit.disharmony(doc.filtered,doc.lookup)
+```
+
+## DOC harmony
+
+The final step. Convert all convertable units to mg/l!
+
+```{r}
+doc.harmonized <- doc.filtered %>%
+  inner_join(doc.lookup,by='units') %>%
+  mutate(harmonized_parameter = 'doc',
+         harmonized_value=value*conversion,
+         harmonized_unit='mg/L')
 
 ```
 
+
+
+
+# Chlorophyll
+
+Chlorophyll concentration is a good proxy for algal biomass, but it may be the hardest parameter to harmonize because of a large array of diverse methods and measurements. Fist let's drop measurements that were not water samples (benthic chlorophyll)
+
+```{r Chlorophyll}
+#Read in the raw data from '1_wqdata/out'
+chl <- read_feather('1_wqdata/out/wqp/all_raw_chlorophyll.feather') %>%
+  wqp.renamer() 
+```
+
+
+## Chlorophyll a only
+
+Here we are reducing the harmonization difficulty associated with chlorphyll by only keeping Chlorophyll a measurements, which is by far the most common measurement. But let's first look at all the various chlorophyll names we pulled down from the water quality portal. 
+
+
+```{r chl all }
+
+chl %>%
+   group_by(parameter) %>%
+   summarize(count=n()) %>% 
+   arrange(desc(count)) %>%
+   kable(.,'html',caption='All chlorophyll parameter names and their count') %>%
+   kable_styling() %>%
+   scroll_box(width='600px',height='400px')
+
+```
+
+One key parameter we are deciding to drop here is the Chl a, uncorrected for pheophytin. Pheophytin is a biproduct of chlorophyll degradation that can be generated by the processes used to extract chlorophyll from samples. Samples that do not correct for pheophytin can consistently underestimate in situ chlorophyll concentration, so we are choosing to drop these > 250,000 observations in addition to other non-chlorophyll a samples
+
+### Chlorophyll a parameter disharmony
+
+We are dropping the below parameter names
+```{r chl throw away}
+
+chl.a.names <- c('Chlorophyll a','Chlorophyll a (probe relative fluorescence)','Chlorophyll a, corrected for pheophytin','Chlorophyll a (probe)','Chlorophyll a, free of pheophytin', 'Chlorophyll a - Phytoplankton (suspended)') 
+
+chl %>%
+  filter(!parameter %in% chl.a.names) %>%
+  group_by(parameter) %>%
+  summarize(count=n()) %>%
+  kable(.,'html',caption='All dropped chlorophyll parameter names and their count') %>%
+  kable_styling() %>%
+  scroll_box(width='600px',height='400px')
+```
+
+### Chlorophyll a keep
+
+```{r chl a keepers}
+
+chl.a <- chl %>%
+  filter(parameter %in% chl.a.names)
+
+```
+
+
+## Chlorophyll a sample fraction
+
+Now that we are only keeping the chlorophyll a fraction, we can start removing disharmony in the sample fraction, analytical method, and units categories. We'll start with the sample fraction
+
+### Chlorophyll a all fractions
+```{r}
+chl.a %>%
+   group_by(fraction) %>%
+   summarize(count=n()) %>% 
+   arrange(desc(count)) %>%
+   kable(.,'html',caption='All chlorophyll sample fractions and their count') %>%
+   kable_styling() %>%
+   scroll_box(width='600px',height='400px')
+
+```
+
+
+This table highlights essentially four dominant categories for chlorophyll a sample fraction: Total (not-filtered), Filtered, Particle, and NA. The NA category is the most concenrting as this makes up almost 1/4 of the remaining data. There is some chance that downstream `analytical_method` cleaning will help clarify the NA category, but we won't know that until later downstream, so for now we will keep NA. Next, we need to decide which type of Chlorophyll measurements to keep, which given that most of the data is either total or dissolved, we will keep both. [Previous work](https://epic.awi.de/16281/1/Kne2007b.pdf) has shown that the filtering on Chlorophyll a samples captures 10-20% of the chlorophyll. Given the scope of this project and similar decisisons made between SSC and TSS, we are electing to combine Total and Dissolved chlorophyll a into one category and drop the particle fraction.  
+
+### Chlorophyll fraction keep
+
+```{r}
+chl.particles <- c('Non-Filterable (Particle)','Suspended','Non-filterable','<Blank>','Acid Soluble')
+
+chl.a.fraction <- chl.a %>%
+  filter(!fraction %in% chl.particles)
+```
+
+
+## Chlorophyll a Methods
+
+### Chlorophyll a sample methods
+
+As with all other parameters we are not filtering by sample method
+
+```{r chl sample method}
+sample.kable(chl.a.fraction)
+
+```
+
+### Chlorophyll a analytical methods
+
+```{r}
+analytical.kable(chl.a.fraction)
+
+```
+
+
+
+#### Chlorophyll a removing nonsensical analytical methods
+
+There are quite a few different analytical methods for chlorophyll analysis. Unfortunately the most common category is NA. As with previous parameters we can use this category to simply remove clearly non-sensical methods and keep all others including NA and blank.
+```{r}
+chl.a.nonsense.methods <- chl.a.fraction %>%
+  filter(grepl("Oxygen|Nitrogen|Ammonia|Metals|Anion|Cation|Phosphorus|Silica|HARDNESS|Nutrient|Turbidity|Nitrate|Conductance|Alkalinity|Solids",analytical_method,ignore.case=T)) %>%
+  filter(analytical_method != 'Temperature',
+         analytical_method != 'PH')
+  
+chl.a.filtered <- chl.a.fraction %>%
+  filter(!analytical_method %in% chl.a.nonsense.methods$analytical_method)
+
+print(paste('We dropped', round(nrow(chl.a.nonsense.methods)/nrow(chl)*100,2),'% of samples, because the method used did not make sense. These methods are:'))
+
+  
+p(unique(non.sensical.tss.methods$analytical_method),wrap='',sep=' - ') 
+```
+
+
+
+## Chlorophyll a units
+
+
+As with TSS and DOC we generally expect Chlorophyll a units to be in units of mass per unit volume.
+
+```{r}
+unit.kable(chl.a.filtered)
+
+```
+
+Here again, the  majority of data is in a sensible unit (ug/L). We'll harmonize the remaining mass/volume units (ppm,mg/L) and drop the NAs and % units. We'll harmonize Chlorophyll a to the most common unit in the data (ug/L). 
+
+
+### Chlorophyll a unit disharmony
+
+
+```{r}
+#Setup a lookup table so that final units are all in mg/L. 
+chl.lookup <- tibble(units=c('mg/l','ppm','ug/l','mg/m3','ppb','mg/cm3','ug/ml','mg/ml'),
+                        conversion = c(1000,1000,1,1,1,1000000,1000,1000000))
+
+unit.disharmony(chl.a.filtered,chl.lookup)
+
+```
+
+## Chl harmony
+
+The final step. Convert all convertable units to mg/l!
+
+```{r}
+chl.a.harmonized <- chl.filtered %>%
+  inner_join(chl.lookup,by='units') %>%
+  mutate(harmonized_parameter = 'chl.a',
+         harmonized_value=value*conversion,
+         harmonized_unit='ug/L')
+
+```
+
+
+# Bind and save the harmonized data
+
+At the end of all this harmonization we want a data frame with parameter columns that hold the final harmonized values, along with a date, lat, long, and siteid. But first we need to do some more quality control on the full, harmonized dataset. This additional data munging can be found in the script `2_combined_wqp_munge.Rmd`
+
+```{r}
+#Downstream code can't handle the size of the single TSS data file so we will split that into a few separate datasets  instead of one
+
+#First just the TIS data
+tis.harmonized <- tss.tis.harmonized %>%
+  filter(harmonized_parameter=='tis')
+
+#Add an index to help with splitting
+tss.harmonized <- tss.tis.harmonized %>%
+  filter(harmonized_parameter=='tss') %>%
+  arrange(SiteID,date) %>%
+  mutate(index=1:nrow(.))
+
+#Grab all the indexes where the siteid switches. This keeps Sites intact
+tss.group.diff <- tss.harmonized %>%
+  filter(SiteID != lag(SiteID,1)) 
+
+#Get the index with whole sites nearest to half of the tss sites
+split.index <- tss.group.diff[nearest(tss.group.diff$index,nrow(tss.harmonized)/2),'index'] %>%
+  as.numeric()
+split.index
+str(split.index)
+str(tss.harmonized$index)
+tss.harmonized.1 <- tss.harmonized %>%
+  filter(index < split.index) %>%
+  dplyr::select(-index) 
+
+tss.harmonized.2 <- tss.harmonized %>%
+  filter(index >= split.index) %>%
+  dplyr::select(-index)
+
+#Bind all the harmonized data together
+harmonized.datasets <- list(chl.a.harmonized,doc.harmonized,tis.harmonized,tss.harmonized.1,tss.harmonized.2,sand.harmonized,secchi.harmonized)
+
+h.names <- c('chl.a','doc','tis','tss1','tss2','sand','secchi')
+
+#Remove extraneous columns
+extraneous <- function(df){
+  df <- df %>%
+    mutate(index = 1:nrow(.)) %>%
+    filter(!is.na(harmonized_value)) %>%
+    ungroup() %>%
+    #Remove extraneous columns
+    dplyr::select(-parameter,-units,-org,-org_id,-sample_method,
+                  -analytical_method,-particle_size,-media,-sample_depth,
+                  -sample_depth_unit,-fraction,-status,-conversion) 
+
+}
+
+
+#Remove columns and save
+for(i in 1:length(harmonized.datasets)){
+  print(i)
+  dat <- extraneous(harmonized.datasets[[i]])
+  write_feather(dat,
+                path=paste0('1_wqdata/tmp/harmonized/',
+                            h.names[i],'_harmony.feather'))
+}
+
+
+
+
+
+```

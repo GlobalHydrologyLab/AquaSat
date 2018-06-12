@@ -380,7 +380,8 @@ combine_feathers <- function(data_file, ...) {
   unified.cols <- c('ActivityStartDate','ResultMeasureValue','ResultMeasure.MeasureUnitCode'
                     ,'MonitoringLocationIdentifier','CharacteristicName','OrganizationFormalName',
                     'OrganizationIdentifier','ActivityStartTime.Time','ActivityStartDateTime','ResultParticleSizeBasisText',
-                    'SampleCollectionMethod.MethodName')
+                    'SampleCollectionMethod.MethodName','ResultAnalyticalMethod.MethodName','ActivityMediaName','ActivityDepthHeightMeasure.MeasureValue',
+                    'ActivityDepthHeightMeasure.MeasureUnitCode','ResultSampleFractionText','ResultStatusIdentifier')
   
   
   #Use foreach and DoMC to make this operation parallel for computers 

@@ -25,13 +25,13 @@ Download the split wqp/lagos data to send up to GGE.  This is easier in R than p
 ```{r Get Existing}
 
 #Download in-situ sites and dates
-splits <- drive_ls('watersat/2_rsdata/out/SplitWide/')
+splits <- drive_ls('watersat/2_rsdata/out/split_wide/')
 
-##546 is the number of splitwide files as of 04/11/18, this may need to be changed if the wqp/lagos data changes.
+##546 is the number of split_wide files as of 04/11/18, this may need to be changed if the wqp/lagos data changes.
 
-if(length(list.files('2_rsdata/out/SplitWide')) < 546){
+if(length(list.files('2_rsdata/out/split_wide')) < 546){
   for(i in 1:nrow(splits)) {
-    path = paste0(getwd(),'/2_rsdata/out/SplitWide/', splits$name[i])
+    path = paste0(getwd(),'/2_rsdata/out/split_wide/', splits$name[i])
     drive_download(as_id(splits$id[i]),
                    path=path, overwrite = TRUE)
   }
@@ -99,7 +99,7 @@ water = water.updateMask(water)
 dist = 120
 
 ## Identify folder with in-situ data broken up into 5000 observation chunks by path/row
-ULdir = '2_rsdata/out/SplitWide/'
+ULdir = '2_rsdata/out/split_wide/'
 
 #Generate file lists for both files to be sent and files already processed in google earth engine
 filesDown = r.filesDownR['name']
@@ -123,7 +123,7 @@ for x in range(0,len(filesUpFlt)):
   #(similar to for loop but faster and plays nice with earth engine.)
   invOut = ee.FeatureCollection([ee.Feature(ee.Geometry.Point([inv['long'][i],\
   inv['lat'][i]]),{'SiteID':inv['SiteID'][i],\
-  'date':inv['Date'][i],'sampDate':inv['SampDate'][i]}) for i in range(0,len(inv))]) 
+  'date':inv['date'][i],'date_unity':inv['date_unity'][i]}) for i in range(0,len(inv))]) 
   
   #Pull out the path/row from the file name
   path = int(filesUpFlt[x].replace('.','_').split('_')[0])

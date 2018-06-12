@@ -7,7 +7,7 @@ output:
     toc: true
     toc_depth: 3
 editor_options: 
-  chunk_output_type: console
+  chunk_output_type: inline
 ---
 
 
@@ -70,10 +70,6 @@ lsCollection= ee.ImageCollection(l5.merge(l7).merge(l8)).filterBounds(usa)
 #Define a month day to start years (Jan 1)
 md = '-01-01'
 
-MaxNActive = 9 # maximum number of task submitting to server
-#Define an empty vector.
-ts = []
-
 #Get data for years of Landsat 5-8 operation. 
 years=numpy.arange(1984,2019,1)
 
@@ -120,7 +116,8 @@ folder <- drive_ls('wqp_cloudiness')
 for(i in 1:nrow(folder)) {
   path=paste0('2_rsdata/tmp/yearly_clouds/',folder$name[i])
   drive_download(as_id(folder$id[i]),
-                 path=path)
+                 path=path,
+                 overwrite=T)
 }
 
 # Move files from personal drive folder into team drive folder. 

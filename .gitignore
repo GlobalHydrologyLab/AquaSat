@@ -18,6 +18,9 @@
 *.shp
 *.shx
 *.xml
+*.zip
 # Allow
 !*/out/placeholder.txt
 tasks_*.yml
+.RDataTmp
+
