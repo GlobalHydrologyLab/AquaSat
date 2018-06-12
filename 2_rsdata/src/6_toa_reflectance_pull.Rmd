@@ -44,7 +44,7 @@ filesDownR <- drive_ls("watersat/2_rsdata/out/toa_matchups/") %>%
 #Open a python bash script to interact with Google Earth Engine using the package reticulate.
 
 ```{r Google Earth Engine Pull}
-#Edit .RProfile to set the default python for reticulate
+#Set .RProfile to set the default python for reticulate
 Sys.setenv(RETICULATE_PYTHON = '/usr/local/bin/python2')
 
 ##repl_python basically starts a python bash window within your R chunk.  This can be used to actually interact with earth engine.
@@ -142,7 +142,7 @@ for x in range(0,len(filesUpFlt)):
                                                +'_'+str(row) + count,\
                                               folder = 'WQP_TOA_MatchUps',\
                                               fileFormat = 'csv')
-  #Check how many existing tasks are running and break if it's >15
+  #Check how many existing tasks are running and take a break if it's >15
   maximum_no_of_tasks(15, 60)
   #Send next task.
   dataOut.start()
