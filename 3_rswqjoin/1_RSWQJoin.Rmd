@@ -24,7 +24,7 @@ knitr::opts_knit$set(root.dir='~/Dropbox/UNC-PostDocAll/aquasat')
 
 ## Download overpasses from Google Drive
 
-### TOA
+### SR
 
 ```{r, eval=F}
 
@@ -44,7 +44,7 @@ if(length(list.files('3_rswqjoin/data/in/SR_Matchups')) < 550){
 
 ```
 
-### Surface Reflectance
+### TOA
 
 ```{r, eval=F}
 
