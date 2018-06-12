@@ -117,7 +117,7 @@ for x in range(0,len(filesUpFlt)):
   #lat longs and a site id.  Do this via list comprehension 
   #(similar to for loop but faster and apparently plays nice with earth engine.)
   invOut = ee.FeatureCollection([ee.Feature(ee.Geometry.Point([inv['long'][i],\
-  inv['lat'][i]]),{'SiteID':inv['SiteID'][i],  'date':inv['Date'][i],'sampDate':inv['SampDate'][i]}) for i in range(0,len(inv))]) 
+  inv['lat'][i]]),{'SiteID':inv['SiteID'][i],  'date':inv['date'][i],'date_unity':inv['date_unity'][i]}) for i in range(0,len(inv))]) 
   
   #Pull out the path/row from the file name
   path = int(filesUpFlt[x].replace('.','_').split('_')[0])

@@ -18,6 +18,8 @@ library(sf)
 library(LAGOSNE)
 library(maps)
 
+library(USAboundaries)
+
 #Reset working directory to the top level
 opts_knit$set(root.dir='../..')
 ```
@@ -60,7 +62,7 @@ wrs.usa <- wrs %>%
   st_buffer(.,0) %>%
   st_intersection(.,usa) %>%
   group_by(PATH,ROW) %>%
-  st_buffer(.,-2000) %>%
+  st_buffer(.,-1000) %>%
   na.omit(.) %>%
   ungroup(.) %>%
   filter(PATH < 133 | ROW != 91) # For some reason this covers the entire usa and messes up data downstream

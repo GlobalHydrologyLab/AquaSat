@@ -18,6 +18,7 @@ library(feather)
 library(googledrive)
 library(tidyverse)
 library(LAGOSNE)
+library(reticulate)
 
 opts_knit$set(root.dir='../..')
 
@@ -37,15 +38,18 @@ inv <- read_feather('1_wqdata/out/wqp_inventory.feather') %>%
   distinct(MonitoringLocationIdentifier,LatitudeMeasure,LongitudeMeasure) %>% #Keep only unique site lat and long. 
   filter(!is.na(LatitudeMeasure)) %>% #Exclude sites with missing geospatial data
   filter(!is.na(LongitudeMeasure)) %>%
-  rename(SiteID=MonitoringLocationIdentifier,lat=LatitudeMeasure,long=LongitudeMeasure)
+  rename(SiteID=MonitoringLocationIdentifier,lat=LatitudeMeasure,long=LongitudeMeasure) %>%
+  mutate(source='WQP')
 
 #Load in lagos data
 lagos.sites <- lagosne_load("1.087.1")$locus %>%
   select(SiteID = lagoslakeid,lat=nhd_lat,long=nhd_long) %>%
-  mutate(SiteID = paste('lagos',SiteID,sep='-'))
+  mutate(SiteID = paste('lagos',SiteID,sep='-')) %>%
+  mutate(source='LAGOS')
 
 #Bind lagos and wqp data together
-lagos.wqp <- bind_rows(lagos.sites,inv)
+lagos.wqp <- bind_rows(lagos.sites,inv) %>%
+  arrange(lat,long)
 
 #Save this data. 
 write_feather(lagos.wqp,'2_rsdata/tmp/unique_site_inventory.feather')
@@ -61,7 +65,7 @@ Most of the data living in the Water Quality Portal is on streams, lakes, and/or
 
 The code below checks all sites for water pixels within 200m of the lat long of sites in the WQP. It takes 5 minutes or so to run with 400000 sites
 
-```{r Site Check}
+```{r}
 #Set.RProfile to set the default python for reticulate
 Sys.setenv(RETICULATE_PYTHON = '/usr/local/bin/python2')
 
@@ -73,6 +77,7 @@ import ee
 ee.Initialize()
 import pandas as p
 import feather as f
+import time
 
 #Read in the water mask
 pekel = ee.Image('JRC/GSW1_0/GlobalSurfaceWater')
@@ -84,11 +89,15 @@ file = '2_rsdata/tmp/unique_site_inventory.feather'
 inv = f.read_dataframe(file)
 
 #Get the length of unique sites
-obs = len(inv.index) + 1
+obs = len(inv.index) 
 
 #To convert these sites into featurecollections we have to split it up 
-#in a loop. I don't entirely understand why, but it works quickly and reproducibly.
-split = range(0, obs, 5000)
+#in a loop. 
+#List comprehension loop requires exact indecis to convert site lat long
+#into gee collections
+splitStart = range(0, obs, 5000)
+splitEnd=range(5000,obs + 5000 ,5000)
+splitEnd[-1]=obs
 
 #Selct the occurence layer in the pekel mask, which is just the percentage of water occurence
 #over a given pixel from 1985-2015. 
@@ -102,52 +111,42 @@ occ = pekel.select('occurrence')
 #so it is not defined over and over
 
 def waterfunc(buf):
-    #Define a 200m buffer around each point
-    invBuf = buf.buffer(200).geometry()
-    #Clip the pekel mask to this buffer
-    pekclip = occ.clip(invBuf)
-    #Reduce the buffer to pekel min and max
-    pekMin = pekclip.reduceRegion(ee.Reducer.minMax(), invBuf, 30)
-    #Add another reducer to get the median pekel occurnce
-    pekMed = pekclip.reduceRegion(ee.Reducer.median(),invBuf,30)
-    #Define the output features
-    out = buf.set({'max':pekMin.get('occurrence_max')})\
-            .set({'min':pekMin.get('occurrence_min')})\
-            .set({'med':pekMed.get('occurrence')})
+  #Define a 200m buffer around each point
+  invBuf = buf.buffer(200).geometry()
+  #Clip the pekel mask to this buffer
+  pekclip = occ.clip(invBuf)
+  #Reduce the buffer to pekel min and max
+  pekMin = pekclip.reduceRegion(ee.Reducer.minMax(), invBuf, 30)
+  #Add another reducer to get the median pekel occurnce
+  pekMed = pekclip.reduceRegion(ee.Reducer.median(),invBuf,30)
+  #Define the output features
+  out = buf.set({'max':pekMin.get('occurrence_max')})\
+          .set({'min':pekMin.get('occurrence_min')})\
+          .set({'med':pekMed.get('occurrence')})
           
-    return out
+  return out
 
 #Source function to limit number of tasks sent up to earth engine.
 execfile('2_rsdata/src/5a_6a_GEE_pull_functions.py')
       
 #Loop over the index stored in split
-for x in split:
+for x in range(0,len(splitStart)):
 #turn our inventory into a feature collection by assigning lat longs and a site id.
 #This is done via list comprehension which is similar to a for loop but faster and
 #plays nice with earth engine.  Collections are limited for 5000 to avoid time outs
 #on the server side.
   invOut = ee.FeatureCollection([ee.Feature(
     ee.Geometry.Point([inv['long'][i], inv['lat'][i]]),
-    {'SiteID':inv['SiteID'][i]}) for i in range(x, x + 5000)]) 
-
-
-
+    {'SiteID':inv['SiteID'][i]}) for i in range(splitStart[x], splitEnd[x])]) 
   #Map this function over the 5000 or so created sites
   outdata = invOut.map(waterfunc)
-
-
   #Define a data export 
   dataOut = ee.batch.Export.table.toDrive(collection = outdata,
-                        description = "LandsatSitePull" + str(x),
-                        folder='tempSiteWater',
-                        fileFormat = 'csv')
-                        
-
-  #Check how many existing tasks are running and take a break if it's >15
-  maximum_no_of_tasks(15, 30)
+                                          description = "LandsatSitePull" + str(x),
+                                          folder='tempSiteWater',
+                                          fileFormat = 'csv')
   #Send next task.
   dataOut.start()
-
 #Make sure all Earth engine tasks are completed prior to moving on.  
 maximum_no_of_tasks(1,60)
 print('done')
@@ -193,8 +192,9 @@ water.inv <- map_df(water.inv.files,read_csv)
 
 #Keep only sites with max pekel > 60 (this number is arbitrary and can be changed)
 #Extract the coordinates from the .geo using str split
+pekel.max <- 60
 water.60 <- water.inv %>%
-  filter(max > 60) %>%
+  filter(max > pekel.max) %>%
   mutate(coords = str_split_fixed(`.geo`,'\\[',2)[,2] %>%
            gsub(']}','',.),
         lat = as.numeric(str_split_fixed(coords,',',2)[,2]),
