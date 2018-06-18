@@ -27,20 +27,35 @@ opts_knit$set(root.dir='../..')
 
 ```{r}
 #Read in wrs inventory with path row
-wrs.inv <- read_feather('2_rsdata/out/site_inventory_path_row.feather')
 
-unq.inv <- read_feather('2_rsdata/tmp/unique_site_inventory.feather')
+#This is the landsat visible path row data
+wrs.inv <- read_feather('2_rsdata/out/site_inventory_path_row.feather') %>%
+  arrange(SiteID)
+
+#This is the inventory of wrs data with source attached
+unq.inv <- read_feather('2_rsdata/tmp/unique_site_inventory.feather') %>%
+  arrange(SiteID) %>%
+  filter(!is.na(source)) %>%
+  select(-lat,-long)
+
 
 #Grab back source column (lagos or wqp)
-wrs.source.inv <- wrs.inv %>%
-  left_join(unq.inv,by=c('SiteID','lat','long'))
+wrs.source.inv <- unq.inv %>%
+    #Remove the lagos tag in the id (this kept lagos and wqp separate for the gee pull) 
+  inner_join(wrs.inv,by=c('SiteID')) %>%
+  mutate(SiteID=gsub('lagos-','',SiteID)) %>%
+  distinct(SiteID,source,PATH,ROW,.keep_all=T)
 
+#Read in the full water quality portal lagos data
 wqp.lagos <- read_feather('1_wqdata/out/wqp_lagos_unity.feather')
+
 
 site.candidates <- wqp.lagos %>%
   inner_join(wrs.source.inv,by=c('SiteID','source')) %>%
   #add a date column
-  mutate(date=as.Date(date_unity))
+  mutate(date=as.Date(date_unity)) 
+
+
 
 ```
 
@@ -50,10 +65,10 @@ site.candidates <- wqp.lagos %>%
 ```{r}
 
 #Load in cloudy dataset which is called dat. 
-dat <- read_feather('2_rsdata/out/clouds.feather')
+cloud.raw <- read_feather('2_rsdata/out/clouds.feather')
 
 #Subset to only WRS path rows in the inventory data. 
-clouds <- dat %>%
+clouds <- cloud.raw %>%
   filter(WRS_PATH %in% wrs.inv$PATH &
            WRS_ROW %in% wrs.inv$ROW) %>%
   mutate(sat = str_split_fixed(LANDSAT_ID,'_',5)[,1]) %>%
@@ -80,6 +95,8 @@ On dates where in situ measurements were made both the day of an overpass and th
 wqp.pull.same <- inner_join(site.candidates,clouds,by=c('PATH','ROW','date')) %>% 
   ungroup()
 
+
+
 #Shoulder the data by 1 day and make sure that sites where sequential samples occur only 
 #keep the same day sampling
 wqp.pull.plus1 <- site.candidates %>%
@@ -98,7 +115,6 @@ wqp.pull.minus1 <- site.candidates %>%
 
 #Bind all this data together
 wqp.pull <- bind_rows(wqp.pull.same,wqp.pull.plus1,wqp.pull.minus1)
-
 
 write_feather(wqp.pull,path='2_rsdata/out/wide_pull.feather')
 

@@ -197,8 +197,8 @@ water.60 <- water.inv %>%
   filter(max > pekel.max) %>%
   mutate(coords = str_split_fixed(`.geo`,'\\[',2)[,2] %>%
            gsub(']}','',.),
-        lat = as.numeric(str_split_fixed(coords,',',2)[,2]),
-        long = as.numeric(str_split_fixed(coords,',',2)[,1])) %>%
+        long = as.numeric(str_split_fixed(coords,',',2)[,1]),
+        lat = as.numeric(str_split_fixed(coords,',',2)[,2])) %>%
   select(-`.geo`,-coords,-`system:index`)
 
 

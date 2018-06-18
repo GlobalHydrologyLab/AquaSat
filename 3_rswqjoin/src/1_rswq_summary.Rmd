@@ -1,0 +1,55 @@
+---
+title: "1_rswq_summary"
+author: "Matthew Ross"
+date: "6/18/2018"
+output: html_document
+---
+
+
+# A unified water quality portal and landsat dataset
+
+```{r setup}
+library(googledrive)
+library(tidyverse)
+library(feather)
+
+knitr::opts_knit$set(root.dir='../..')
+
+```
+
+## Summary data
+
+```{r download}
+sr_match <- drive_ls('sr_matchups')
+
+down.paths <- paste0('3_rswqjoin/data/in/',sr_match$name)
+
+
+for(i in 1:nrow(sr_match)){
+  drive_download(as_id(sr_match$id[i]),path=down.paths[i],overwrite = T)
+}
+
+
+```
+
+
+
+### Not so cloudy
+
+```{r}
+
+```
+
+
+
+### Not so much glint
+
+```{r}
+
+```
+
+
+
+### Secchi 
+
+

@@ -29,7 +29,6 @@ opts_knit$set(root.dir='../..')
 #Load in wqp data
 winv <- read_feather('2_rsdata/out/unique_site_visible_inv.feather')
 
-
 #Convert the data into sf object
 inv.sf <- st_as_sf(winv,coords=c('long','lat'),crs=4326) %>%
   st_transform(.,2163)
@@ -52,10 +51,6 @@ unzip('2_rsdata/in/wrs2_asc_desc.zip', exdir = '2_rsdata/in/')
 wrs <- st_read('2_rsdata/in/wrs2_asc_desc/wrs2_asc_desc.shp') %>%
   st_transform(.,2163)
 
-#Convert to sf object
-wrs <- st_as_sf(wrs) %>%
-  st_transform(.,2163)
-
 
 #Negative buffer on the wrs tiles in usa by 1 km
 wrs.usa <- wrs %>%
@@ -64,18 +59,25 @@ wrs.usa <- wrs %>%
   group_by(PATH,ROW) %>%
   st_buffer(.,-1000) %>%
   na.omit(.) %>%
-  ungroup(.) %>%
-  filter(PATH < 133 | ROW != 91) # For some reason this covers the entire usa and messes up data downstream
+  ungroup(.) 
+
 
 #The above operation clips the wrs tiles to the shape of the usa, which we don't want. So let's keep full tiles
 wrs.all.usa <- wrs %>%
   filter(PR %in% wrs.usa$PR) %>%
-  select(PR_ID,PATH,ROW)
+  select(PR_ID,PATH,ROW) %>%
+  st_buffer(.,-1000) %>%
+  mutate(area.km2=st_area(.)/(1000*1000)) %>%
+  arrange(desc(area.km2)) %>%
+  #Most of the tile areas are less than 32000 km2
+  #But there are 3 with huge areas that don't have any data in them
+  #Lets drop those %>% 
+  mutate(pr=paste(PATH,ROW,sep='-')) %>%
+  filter(!pr %in% c('23-153','133-91','24-153')) %>%
+  select(-pr)
 
-#Check overpasses
-# ggplot() + 
-#   geom_sf(data=wrs.all.usa)+
-#   geom_sf(data=wrs.usa)
+
+
 ```
 
 #Join inventory to wrs tiles
@@ -83,7 +85,6 @@ wrs.all.usa <- wrs %>%
 #Use st join to join inventory to wrs path rows
 inv.wrs.sf <- st_join(inv.sf,wrs.all.usa) %>%
   st_transform(.,4326)
-
 
 #Convert this to a tibble
 sfc_as_cols <- function(x, names = c("x","y")) {
@@ -99,19 +100,8 @@ inv.wrs <- sfc_as_cols(inv.wrs.sf,names=c('long','lat')) %>%
   as.tibble() %>%
   dplyr::select(-geometry,-PR_ID) 
 
-#Check the number of sites that didn't overlap
-inv.wrs.fail <- inv.wrs.sf%>%
-  filter(is.na(PATH))
-
-
-#Check where these sites are (likely coastal)
-# ggplot() + 
-#   geom_sf(data=usa) + 
-#   geom_sf(data=inv.wrs.fail)
-
-#Turns out it is the florida keys and some island I can't recognize. I'm okay with not having these sites
-
 write_feather(inv.wrs,path='2_rsdata/out/site_inventory_path_row.feather')
+
 
 #Upload to team drive
 drive_upload('2_rsdata/out/site_inventory_path_row.feather', 'watersat/2_rsdata/out/')
