@@ -69,6 +69,8 @@ data.splitter <- function(wqp.nest,dir='2_rsdata/out/split_wide/'){
   }
 }
 
+
+
 data.splitter(wqp.nest,dir='2_rsdata/out/split_wide/')
 
 

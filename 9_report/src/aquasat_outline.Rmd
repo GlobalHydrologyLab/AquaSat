@@ -1,0 +1,677 @@
+---
+title: "A national, multi-decadal, water color and landsat dataset"
+author: "Matthew Ross"
+date: "7/2/2018"
+output:
+  html_document:
+    toc: yes
+  pdf_document:
+    toc: yes
+editor_options:
+  chunk_output_type: console
+---
+
+```{r setup, include=F, warnings='hide'}
+library(feather)
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+library(pander)
+library(LAGOSNE)
+library(lubridate)
+library(parallel)
+library(foreach)
+library(ggthemes)
+library(sf)
+library(USAboundaries)
+library(scales)
+
+
+knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_knit$set(root.dir='../..')
+lagos <- lagosne_load("1.087.1")
+
+theme_set(theme_bw(base_size=12))
+theme_update(
+          panel.grid.major = element_line(color='transparent'),
+        panel.grid.minor = element_blank()) 
+
+
+
+```
+
+
+
+
+# Introduction
+
+Since the beginning of the Landsat missions, the remote sensing community has been interested in developing universal algorithms for extracting water quality information from remotely sensed images [@Lots of old papers]. While there has been significant success in the oceanic community towards universal algorithms for chlorophyll, sediment, and doc [cites], there is no inland water equivalent. Much of this discrepancy comes from the increased optical complexity of inland waters, which prevents the use of a more universal algorithm, but progress on inland waters is further impeded by  the lack of a shared dataset of overpasses and *in situ* concentration information. Here we create and share the largest such overpass dataset ever assembled. We also outline and share our approach to bringing three publicly available, free datasets to generate a high-graded analysis-ready dataset for remote sensors of water quality. While a specific universal algorithm may be an unattainable goal, we anticipate that this dataset will move us towards more universal approaches based on shared and equal access to overpass information. 
+
+
+### Potential for transformative research with remote sensing of water quality
+
+Despite the long-recognized potential, until recently, the general hydrology and limnology communities have not integrated data from remote sensing of inland waters into our research approach [Topp]. Instead, these communities have focused much of our research on Eulerian sampling schemes with sensors or people repeatedly sampling the same points in a river or lake [DoyleEnsign]. This research approach has generated a wealth of information on temporal variability in inland waters, but there has been less work looking at spatial variability in rivers, lakes, and estuaries. Remote estimates of water quality in these ecosystems would allow for rapid assessment of potential algae blooms, detection of high-sediment waters, and analysis of spatio-temporal variability [cites]. 
+
+### Historic barriers
+
+Serious citation of Topp, maybe none of this at all? 
+
+### Modern solutions
+
+With the profusion of publicly available *in situ* water quality datasets and the relatively easily-accessible satellite mission archive 
+
+# Methods
+
+## LANDSAT
+
+```{r landsat table}
+#Check clouds dataset to get the pers satellite scene count
+# clouds <- read_feather('2_rsdata/out/clouds.feather') %>%
+#   mutate(sat=str_split_fixed(LANDSAT_ID,'_',2)[,1])
+# 
+# table(clouds$sat)
+
+
+landsat <- tibble(Satellite = c('5','7','8'),
+                  Years = c('1984-2012','1999-2018','2013-2018'),
+                  `Available images` = rev(c('58,585','188,781','192,688')))
+                  
+knitr::kable(landsat)
+```
+
+
+## WQP Parameters
+
+```{r}
+
+
+
+```
+
+## Rivers, Lakes, and Estuaries/Deltas
+
+## Water Quality Portal 
+
+### data pull and parameters therein
+
+### Data harmonization approach and link to code output
+
+## LAGOSNE
+
+### Describe Lagos daasets
+
+### In Situ data unification
+
+## Joining landsat and water quality portal
+
+### Google Earth Engine
+
+### How we selected sites (pekel occurence)
+
+### Diagram of joining procedures and counts of observations dropped
+
+## Data quality flagging
+
+### Not sure what to put here or if we should have this section
+
+
+# Results
+
+For LAGOSNE data see [here](https://lagoslakes.org/the-lagos-database/)
+
+## Dataset description
+
+```{r , echo=FALSE, fig.cap="Dataset generation", out.width = '100%'}
+knitr::include_graphics("/Users/mrross/Dropbox/UNC-PostDocAll/aquasat/9_report/src/Watersat_Drop_flow.png")
+
+```
+
+
+### Full harmonized water quality portal and LAGOSNE dataset
+
+
+```{r}
+wqp.all <- read_feather('1_wqdata/out/wqp_lagos_unity.feather')
+
+
+full.inv <- read_feather('1_wqdata/out/wqp_inventory.feather') %>%
+  select(SiteID = MonitoringLocationIdentifier,type=ResolvedMonitoringLocationTypeName) %>%
+  distinct() %>%
+  mutate(type = ifelse(grepl('Lake',type),'Lake',type))
+
+lagos.locus <- lagos$locus %>%
+  distinct(lagoslakeid,.keep_all = T)
+
+
+
+
+wqp.inv <- wqp.all %>%
+  select(SiteID,date_unity,tss,doc,chl_a,secchi)  %>%
+  left_join(full.inv,by=c('SiteID')) %>%
+  #Make sure all lagos sites have the lake id tag
+  mutate(type = ifelse(is.na(type),'Lake',type)) %>%
+  filter(type != 'Facility')
+
+
+
+count.kable <- function(df){
+  df %>% 
+  gather(key=Parameter,value=value,-SiteID,-date_unity,-type) %>%
+  filter(!is.na(value)) %>%
+  group_by(Parameter,type) %>%
+  summarize(count=n()) %>% 
+  arrange(type,Parameter) %>%
+  spread(key=Parameter,value=count) %>%
+  ungroup() %>%
+  add_row(type='Total',
+          chl_a=sum(.$chl_a),
+          doc=sum(.$doc),
+          secchi=sum(.$secchi),
+          tss=sum(.$tss)) %>%
+  kable(.,format.args = list(big.mark = ","))
+}
+
+
+
+count.kable(wqp.inv)
+
+
+
+```
+
+
+### Landsat visible sites including lagos
+
+```{r}
+load('3_rswqjoin/data/out/sr_insitu.RData')
+
+
+sr.type <- sr.clean %>%
+  left_join(full.inv,by='SiteID') %>%
+  mutate(type=ifelse(is.na(type),'Lake',type)) %>%
+  filter(type != 'Facility') %>%
+  ungroup()
+
+```
+
+
+
+
+
+## Map
+
+```{r,fig.width=8,fig.height=10}
+
+# Get a total number of counts by site and lat long.
+# We round lat long to prevent plotting 80,000 points 
+# But the counts are still representative of the data distribution
+counts.by.type <- sr.type %>%
+  mutate(roundlat=round(lat,1),
+         roundlong=round(long,1)) %>%
+  select(SiteID,roundlat,roundlong,chl_a,tss,doc,secchi,type) %>%
+  gather(key=parameter,value=value,-SiteID,-roundlat,-roundlong,-type) %>%
+  filter(!is.na(value)) %>%
+  group_by(type,parameter,roundlat,roundlong) %>%
+  summarize(overpasses = n()) %>%
+  ungroup() 
+
+
+#Get total counts
+total.counts <- sr.type %>%
+  mutate(roundlat=round(lat,1),
+         roundlong=round(long,1)) %>%
+  group_by(type,roundlat,roundlong) %>%
+  summarize(overpasses = n()) %>%
+  ungroup() %>%
+  mutate(parameter='total') %>%
+  select(names(counts.by.type))
+
+#Combine datasets for plotting with a single ggplot call
+all.counts <- rbind(counts.by.type,total.counts) %>%
+  #ORder the data how I want it
+  mutate(parameter=factor(parameter,levels=c('secchi','chl_a','tss','doc','total'))) %>%
+  arrange(desc(overpasses))
+
+#Recast us_states to epsg 2163 and remove states that make plotting harder
+usa <- us_states() %>%
+  st_transform(.,2163) %>%
+  filter(!state_name %in% c('Alaska','Hawaii','Puerto Rico'))
+
+#Convert the all.count dataset to an sf object
+total.sf <- st_as_sf(all.counts,coords=c('roundlong','roundlat'),crs=4326) %>%
+  st_transform(2163)
+
+#Subset the total dataset to only the usa. This intuitive data[subset,] is 
+#one of my favorite spatial R things!
+total.sf.usa <- total.sf[usa,] 
+
+
+ggplot() + 
+  geom_sf(data=usa,fill='gray10') + 
+  geom_sf(data=total.sf.usa %>%
+            sample_frac(1),aes(color=log10(overpasses))) + 
+  facet_wrap(~parameter,ncol=2) + 
+  theme(legend.position = c(.8,.2)) + 
+  theme(panel.grid.major = element_line(color='transparent'),
+        panel.grid.minor = element_blank(),
+        panel.background = element_blank(), 
+        axis.line = element_line(colour = "black")) + 
+  scale_color_gradient2(low='blue',mid='gray90',high='red',midpoint=log10(50),
+                        breaks=c(0,1,2,3),labels=c('1','10','100','1,000'),
+                        name='Overpasses')
+
+```
+
+### Distribution of observations per site
+
+```{r,fig.height=6,fig.width=8}
+
+
+type.cols <- c('#a6cee3','#33a02c','#1f78b4')
+
+sr.counts <- sr.type %>%
+  select(tss,secchi,chl_a,doc,SiteID,date_unity,type,lat,long) %>% 
+  gather(key=parameter,value=value,-SiteID,-date_unity,-type,-lat,-long) %>%
+  filter(!is.na(value)) %>%
+  mutate(type=factor(type,levels=c('Stream','Estuary','Lake'))) %>%
+  group_by(SiteID,parameter,type) %>%
+  summarize(count=n()) %>%
+  ungroup() %>%
+  filter(count != 0)
+
+
+#Optional table output
+count.kable(sr.type %>%
+  select(SiteID,date_unity,type,tss,doc,chl_a,secchi))
+
+
+```
+
+```{r}
+
+ggplot(sr.counts,aes(x=count,fill=type)) +
+  geom_histogram() + 
+  facet_wrap(~parameter,scales='free_y') +
+  scale_x_log10(breaks=c(1,10,100,1000)) + 
+  xlab('Number of observations at site') +
+  ylab('Number of sites with X observations') + 
+  scale_fill_manual(name='',values=type.cols)+ 
+  theme_few(base_size=14) + 
+  theme(legend.position=c(.85,.8)) 
+
+```
+
+
+### Obervations over time
+
+```{r}
+
+parameter.cols <- c('gray40','#2e8b57','#e8a766','#583a1c')
+matchup.yearly.counts <- sr.type %>%
+  mutate(year = year(date_unity)) %>%
+  select(SiteID,year,chl_a,tss,doc,secchi,type) %>%
+  gather(key=parameter,value=value,-SiteID,-year,-type)  %>%
+  filter(!is.na(value)) %>%
+  group_by(parameter,year) %>%
+  summarize(count=n()) %>%
+  mutate(datasource='Landsat Matchups')
+
+wqp.yearly.counts <- wqp.inv %>%
+  mutate(year = year(date_unity)) %>%
+  select(SiteID,year,chl_a,tss,doc,secchi,type) %>%
+  gather(key=parameter,value=value,-SiteID,-year,-type)  %>%
+  filter(!is.na(value)) %>%
+  group_by(parameter,year) %>%
+  summarize(count=n()) %>%
+  filter(year < 2019 & year > 1984) %>%
+  mutate(datasource='LAGOSNE + WQP') 
+  
+yearly.counts.all <- rbind(matchup.yearly.counts,wqp.yearly.counts)
+
+yearly.counts.all %>%
+  ungroup() %>%
+    mutate(parameter=factor(parameter,levels=c('secchi','chl_a','tss','doc'))) %>%
+  ggplot(., aes(x=year,y=count,fill=parameter)) + 
+           geom_bar(position='stack',stat='identity') + 
+  scale_fill_manual(values=parameter.cols,name='') + 
+  theme(legend.position=c(0.65,0.7)) + 
+  facet_wrap(~datasource)
+```
+
+
+
+## In Situ Distribution of data
+
+```{r,fig.height=5,fig.width=5}
+hist.data.prep <- function(x){
+  out <- x  %>%
+  select(SiteID,date_unity,tss,chl_a,secchi,doc) %>%
+  gather(key=parameter,value=value,-SiteID,-date_unity) %>%
+  filter(!is.na(value)) %>%
+  filter( value > 0.01 & value < 30000) 
+}
+  
+matchup.hist <- hist.data.prep(sr.type) %>%
+  mutate(Dataset='Matchup Data')
+insitu.hist <- hist.data.prep(wqp.all) %>%
+  mutate(Dataset='LAGOSNE + WQP')
+
+
+ggplot(rbind(matchup.hist,insitu.hist),aes(value,fill=Dataset)) + 
+  facet_wrap(~parameter,scales='free') +
+  scale_x_log10(breaks=trans_breaks("log10", function(x) 10^x),
+              labels = trans_format("log10", math_format(10^.x))) +
+  scale_y_log10(breaks=trans_breaks("log10", function(x) 10^x),
+              labels = trans_format("log10", math_format(10^.x))) + 
+  geom_histogram(color='black',bins=50) + 
+  scale_fill_manual(values=c('gray40','red3'),name='') + 
+  theme(legend.position = 'top',legend.direction = 'horizontal')
+
+```
+
+
+
+## Spectral library
+
+
+### All parameters no type breakdown
+
+```{r, fig.width=10,fig.height=8}
+sr.long.median <-  sr.type %>%
+  mutate(ndvi=(nir-red)/(nir+red)) %>%
+  filter(ndvi < 0.6) %>%
+  filter(swir2 < 600) %>%
+  filter(clouds < 30) %>%
+  filter(pixelCount > 6) %>%
+  #For the library plots lets only keep sameday matchups
+  select(SiteID,date_unity,lat,long,date,type,blue,green,red,nir,swir1,swir2,tss,chl_a,doc,secchi) %>%
+  gather(key=band,value=refl,-SiteID,-date,-date_unity,-type,-tss,-chl_a,-doc,-secchi,-lat,-long) %>%
+  mutate(band=factor(band,levels=c('blue','green','red','nir','swir1','swir2'))) %>%
+  mutate(type=factor(type,levels=c('Stream','Estuary','Lake'))) %>%
+  filter(refl > 0 )
+
+
+sr.long.same <- sr.long.median %>%
+  filter(date==as.Date(date_unity)) %>%
+  filter(tss > 0) %>%
+  mutate(tss.bin=cut(tss,breaks=c(0,25,max(tss)),
+                     labels=c('< 25 mg/L','> 25 mg/L'))) %>%
+  gather(key=parameter,value=value,-SiteID,-date_unity,-date,-band,-refl,-type,-tss.bin,-lat,-long) %>%
+  group_by(parameter) %>%
+  filter(value > 0) %>%
+  filter(log10(value) > (mean(log10(value),na.rm=T)-sd(log10(value),na.rm=T)*2),
+         log10(value) < (mean(log10(value),na.rm=T)+sd(log10(value),na.rm=T)*2)) %>%
+  mutate(quintiles=cut(log(value),
+                       quantile(log(value),seq(0,1,by=0.1)),
+                       labels=c('0-10%','20%','30%','40%','50%',
+                                '60%','70%','80%','90%','90-100%'))) %>%
+  ungroup() %>%
+  filter(!is.na(quintiles)) %>%
+  mutate(quintiles=factor(quintiles,levels=c('0-10%','20%','30%','40%','50%',
+                                '60%','70%','80%','90%','90-100%')))
+
+quantile.colors <- c(RColorBrewer::brewer.pal(9,'GnBu'),'#3d399a')
+
+
+
+
+sr.long.same %>%
+  ungroup() %>%
+  ggplot(.,aes(x=band,y=refl,fill=quintiles)) +
+  ylim(0,1500) +
+  geom_boxplot(outlier.shape=NA,position='dodge') +
+  facet_wrap(~parameter) + 
+  scale_fill_manual(values=quantile.colors,name='') + 
+  theme(legend.position = c(.25,0.91),legend.direction = 'horizontal') 
+
+```
+
+## What can we do with this data? 
+
+```{r}
+big.rivers <- st_read('ne_10m_rivers_lake_centerlines/ne_10m_rivers_lake_centerlines.shp') %>%
+  st_transform(2163) 
+
+
+usa <- us_states() %>%
+  st_transform(2163)
+
+usa.rivers <- big.rivers[usa,] %>%
+  st_buffer(1000)
+
+
+sr.same.sf <- sr.type  %>%
+  mutate(ndvi=(nir-red)/(nir+red)) %>%
+  mutate(timediff=date_unity-time) %>%
+  filter(ndvi < 0.6) %>%
+  filter(swir2 < 600) %>%
+  filter(clouds < 30) %>%
+  filter(pixelCount > 6) %>%
+  filter(type=='Stream') %>%
+  filter(tss > 0) %>%
+  st_as_sf(.,coords=c('long','lat'),crs=4326) %>%
+  st_transform(2163)  %>%
+  filter_at(.vars=c('red','blue','green','swir2','nir'),all_vars(. < 1500 & . > 0)) %>%
+  mutate(hue=rgb2hsv(r=red,b=blue,g=green,maxColorValue = 1500)[1,],
+         brightness=rgb2hsv(r=red,b=blue,g=green,maxColorValue = 1500)[3,])
+
+
+
+
+big.river.join <- st_join(sr.same.sf,usa.rivers) %>%
+  filter(!is.na(name_en)) %>%
+  mutate(name=as.character(name_en)) %>%
+  group_by(name) %>%
+  mutate(count=n()) %>%
+  filter(count > 20)
+
+
+mymod <- function(x){
+  mod <- lm(log10(tss) ~ log10(hue)*log10(nir)+log10(brightness),data=x)
+}
+
+
+library(broom)
+library(Metrics)
+
+big.river.mods <- big.river.join %>%
+  as.data.frame() %>%
+  as_tibble() %>%
+  select(name,SiteID,blue,date_unity,green,nir,red,swir1,swir2,tss,hue,brightness,clouds) %>%
+  group_by(name) %>%
+  nest() %>%
+  mutate(mods=map(data,mymod)) %>%
+  mutate(pred = map2(mods,data,predict)) %>%
+  unnest(data,pred)  %>%
+  mutate(pred=10^pred) %>%
+  group_by(name) %>%
+  summarize(rmse=rmse(tss,pred),
+            count=n(),
+            mdae=mae(tss,pred),
+            mape=mape(tss,pred)) %>%
+  arrange(mdae)
+  #mutate(glance=map(mods,glance)) %>%
+  #unnest(glance) %>%
+  #arrange(desc(rmse))
+
+
+
+print(big.river.mods[1:10,])
+```
+
+
+## Mississipip Basin Example
+```{r}
+miss <- big.river.join %>%
+  filter(name == 'Mississippi') %>%
+  as.data.frame(.) %>%
+  as_tibble(.) %>%
+  filter(hue > 0.05) %>%
+  filter(tss > 2)
+
+ggplot(miss,aes(x=brightness,y=tss,color=log10(nir))) +
+  geom_point() +
+  scale_x_log10() +
+  scale_y_log10()  
+
+```
+
+
+
+
+## Dominant signals
+
+# Supplementary stuff
+
+### Spectral medians captured at sample sites
+
+```{r}
+
+band.cols <- c('blue2','green3','red','red3','gray50','black')
+
+sr.long.median <-  sr.type %>%
+  select(SiteID,date_unity,date,type,blue,green,red,nir,swir1,swir2,tss,chl_a,doc,secchi) %>%
+  gather(key=band,value=refl,-SiteID,-date,-date_unity,-type,-tss,-chl_a,-doc,-secchi) %>%
+  mutate(band=factor(band,levels=c('blue','green','red','nir','swir1','swir2'))) %>%
+  mutate(type=factor(type,levels=c('Stream','Estuary','Lake'))) %>%
+  filter(refl > 0 )
+
+
+sr.long.median %>%
+  ggplot(.,aes(refl,color=band)) + 
+  geom_line(stat='density',size=0.9) +
+  facet_wrap(~type,nrow=3) + 
+  scale_x_log10()+ 
+  scale_color_manual(values=band.cols,name='')   
+
+```
+
+
+
+### Spectral variation captured by our circles 
+```{r,fig.width=7}
+sr.long.sd <- sr.type %>%
+  mutate(blue_cv = blue_sd/blue,
+         green_cv= green_sd/green,
+         red_cv=red_sd/red,
+         nir_cv=nir_sd/nir,
+         swir1_cv=swir1_sd/swir1,
+         swir2_cv=swir2_sd/swir2) %>%
+  #For the library plots lets only keep sameday matchups
+  select(SiteID,date_unity,type,blue_cv,green_cv,red_cv,nir_cv,swir1_cv,swir2_cv) %>%
+  gather(key=band,value=cv,-SiteID,-date_unity,-type) %>%
+  mutate(band=factor(band,levels=c('blue_cv','green_cv','red_cv','nir_cv','swir1_cv','swir2_cv'))) %>%
+  mutate(type=factor(type,levels=c('Stream','Estuary','Lake'))) 
+
+
+
+sr.long.sd %>%
+  ggplot(.,aes(cv,color=band)) + 
+  geom_line(stat='density',size=0.9) + 
+  facet_wrap(~type,nrow=3) + 
+  scale_x_log10(breaks=c(0.01,0.1,1,10)) + 
+  scale_color_manual(values=band.cols,name='')   
+
+
+
+
+```
+
+
+### Lots of PCA analyses
+
+```{r}
+
+
+no.zero.sameday <- sr.type %>%
+  filter(date==as.Date(date_unity)) %>%
+  filter_at(vars(c('red','blue','green','nir','swir1','swir2')),all_vars(. > 0)) %>%
+  mutate(ndvi=(nir-red)/(nir+red)) %>%
+  filter(ndvi < 0.6) %>%
+  filter(swir2 < 400) %>%
+  filter(clouds < 30) %>%
+  filter(pixelCount > 6)
+
+
+pca1 <- no.zero.sameday %>%
+  mutate(rg=red/green,
+         rb=red/blue,
+         nr=nir/red) %>%
+  mutate_at(.vars=vars(c('red','blue','green','nir','swir1')),funs(round(log10(.),2))) %>%
+  select(rg,rb,nr,red,blue,green,nir,swir1,ndvi) %>%
+  prcomp(.,scale=T) 
+
+clusters <- as_tibble(pca1$x) %>%
+  select(PC1,PC2,PC3,PC4) %>%
+  kmeans(.,4)
+
+summary(pca1)
+no.zero.clusters <-  no.zero.sameday %>%
+  mutate(cluster=as.character(clusters$cluster)) 
+
+simultaneous.wide <- no.zero.clusters %>%
+  filter_at(vars(c('secchi','chl_a','tss','doc')),all_vars(. > 0))
+
+simultaneous.sf <- simultaneous.wide %>%
+  st_as_sf(.,coords=c('long','lat'),crs=4326) %>%
+  st_transform(2163)
+
+simultaneous.sf <- simultaneous.sf[usa,]
+
+
+no.zero.clusters %>%
+  select(SiteID,date_unity,cluster,tss,chl_a,secchi,doc) %>%
+  gather(key=parameter,value=value,-SiteID,-date_unity,-cluster) %>%  ggplot(.,aes(cluster,value)) +
+  geom_boxplot(outlier.shape=NA) + 
+  facet_wrap(~parameter)+ 
+  ylim(0,50)
+
+
+
+
+no.zero.clusters %>%
+  group_by(cluster) %>%
+  summarize(chl_a=median(chl_a,na.rm=T),
+            doc=median(doc,na.rm=T),
+            tss=median(tss,na.rm=T),
+            secchi=median(secchi,na.rm=T)) 
+
+```
+
+
+### Clusters mapped onto tss doc plot. 
+```{r}
+ggplot() +
+  geom_point(data=simultaneous.wide,aes(x=tss,y=doc,color=cluster),shape=1) + 
+  scale_x_log10() + 
+  scale_y_log10()
+
+
+```
+
+
+### Breakdown of other parameters with low and high tss
+
+LOW TSS vs High TSS actually not that different, but this alone is a  results
+```{r}
+
+
+sr.breakdown <- sr.long.same %>%
+  filter(!is.na(tss.bin)) 
+ 
+
+sr.breakdown %>%
+  filter(parameter != 'tss') %>%
+  filter(band != 'swir2') %>%
+  ungroup() %>%
+  ggplot(.,aes(x=band,y=refl,fill=quintiles)) +
+  ylim(0,1300) +
+  geom_boxplot(outlier.shape=NA,position='dodge') +
+  facet_grid(tss.bin~parameter) + 
+  scale_fill_manual(values=quantile.colors,name='') + 
+  theme(legend.position = c(.25,0.91),legend.direction = 'horizontal') +
+  guides(fill=F)
+
+```
+
+

@@ -89,6 +89,9 @@ lagosne_get('1.087.1')
 
 #Once that data has been downloaded you can simply read it into R
 lagos <- lagosne_load("1.087.1")
+
+nutr <- lagos$epi_nutr
+
 ```
 
 
@@ -100,7 +103,7 @@ We'll read in the wide water quality portal data so we know exactly how to resha
 ```{r}
 wqp.wide <- read_feather('1_wqdata/out/wqp_unity_wide.feather')
 
-names(wqp.wide)
+
 ```
 
 
@@ -182,6 +185,8 @@ lagos.unity <- rbind(secchi.unity,chl.doc.unity) %>%
 wqp.lagos <- rbind(wqp.wide,lagos.unity) 
 
 write_feather(wqp.lagos,path='1_wqdata/out/wqp_lagos_unity.feather')
+
+wqp.lagos <- read_feather('1_wqdata/out/wqp_lagos_unity.feather')
 
 ```
 

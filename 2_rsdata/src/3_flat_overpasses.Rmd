@@ -20,6 +20,8 @@ library(lubridate)
 
 opts_knit$set(root.dir='../..')
 
+
+
 ```
 
 
@@ -41,10 +43,11 @@ unq.inv <- read_feather('2_rsdata/tmp/unique_site_inventory.feather') %>%
 
 #Grab back source column (lagos or wqp)
 wrs.source.inv <- unq.inv %>%
-    #Remove the lagos tag in the id (this kept lagos and wqp separate for the gee pull) 
+  #Remove the lagos tag in the id (this kept lagos and wqp separate for the gee pull) 
   inner_join(wrs.inv,by=c('SiteID')) %>%
   mutate(SiteID=gsub('lagos-','',SiteID)) %>%
-  distinct(SiteID,source,PATH,ROW,.keep_all=T)
+  distinct(SiteID,source,PATH,ROW,lat,long)
+
 
 #Read in the full water quality portal lagos data
 wqp.lagos <- read_feather('1_wqdata/out/wqp_lagos_unity.feather')
@@ -54,7 +57,6 @@ site.candidates <- wqp.lagos %>%
   inner_join(wrs.source.inv,by=c('SiteID','source')) %>%
   #add a date column
   mutate(date=as.Date(date_unity)) 
-
 
 
 ```
@@ -93,8 +95,10 @@ On dates where in situ measurements were made both the day of an overpass and th
 ```{r}
 #Same date join
 wqp.pull.same <- inner_join(site.candidates,clouds,by=c('PATH','ROW','date')) %>% 
+  group_by(SiteID,date) %>%
+  mutate(timediff=date_unity-time) %>%
+  filter(timediff == min(timediff)) %>%
   ungroup()
-
 
 
 #Shoulder the data by 1 day and make sure that sites where sequential samples occur only 
@@ -103,21 +107,27 @@ wqp.pull.plus1 <- site.candidates %>%
   mutate(date = date + 1) %>%
   anti_join(wqp.pull.same, by=c('SiteID','date')) %>%
   inner_join(clouds,by=c('PATH','ROW','date')) %>%
-  ungroup()
+  group_by(SiteID,date) %>%
+  mutate(timediff=date_unity-time) %>%
+  filter(timediff == min(timediff)) %>%
+  ungroup()  
 
 #Shoulder the data by -1 day
 wqp.pull.minus1 <- site.candidates %>%
   mutate(date=date-1) %>%
   anti_join(wqp.pull.same, by=c('SiteID','date')) %>%
   inner_join(clouds,by=c('PATH','ROW','date')) %>%
-  ungroup()
+  group_by(SiteID,date) %>%
+  mutate(timediff=date_unity-time) %>%
+  filter(timediff == min(timediff)) %>%
+  ungroup()  
+
 
 
 #Bind all this data together
 wqp.pull <- bind_rows(wqp.pull.same,wqp.pull.plus1,wqp.pull.minus1)
 
 write_feather(wqp.pull,path='2_rsdata/out/wide_pull.feather')
-
 
 drive_upload('2_rsdata/out/wide_pull.feather', 'watersat/2_rsdata/out/')
 

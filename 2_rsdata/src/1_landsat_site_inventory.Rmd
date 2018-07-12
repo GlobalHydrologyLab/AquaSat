@@ -202,6 +202,8 @@ water.60 <- water.inv %>%
   select(-`.geo`,-coords,-`system:index`)
 
 
+
+
 write_feather(water.60,'2_rsdata/out/unique_site_visible_inv.feather')
 
 #Upload to team drive
