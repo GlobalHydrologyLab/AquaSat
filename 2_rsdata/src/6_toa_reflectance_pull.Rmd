@@ -36,14 +36,17 @@ if(length(list.files('2_rsdata/out/split_wide')) < 546){
   }
 }
 
-filesDownR <- drive_ls("watersat/2_rsdata/out/toa_matchups/") %>% 
-  select(name)
+
 
 ```
 
 #Open a python bash script to interact with Google Earth Engine using the package reticulate.
 
 ```{r Google Earth Engine Pull}
+
+filesDownR <- drive_ls("watersat/2_rsdata/out/toa_matchups/") %>% 
+  select(name)
+
 #Set .RProfile to set the default python for reticulate
 Sys.setenv(RETICULATE_PYTHON = '/usr/local/bin/python2')
 

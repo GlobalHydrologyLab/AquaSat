@@ -25,7 +25,7 @@ opts_knit$set(root.dir='../..')
 
 
 
-```{r, eval=F}
+```{r}
 #I like foreach here for theupdated output. This could easily be a simple for loop. No parellel. While loops are scary with parellel. 
 library(foreach)
 
@@ -69,6 +69,8 @@ data.splitter <- function(wqp.nest,dir='2_rsdata/out/split_wide/'){
   }
 }
 
+
+
 data.splitter(wqp.nest,dir='2_rsdata/out/split_wide/')
 
 
@@ -83,6 +85,7 @@ split.names= list.files('2_rsdata/out/split_wide')
 for(i in 1:length(split.files)) {
   drive_upload(split.files[i], paste0('watersat/2_rsdata/out/split_wide/',split.names[i]))
 }
+
 
 ```
 

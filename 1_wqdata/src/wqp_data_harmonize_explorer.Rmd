@@ -609,11 +609,12 @@ unit.disharmony(chl.a.filtered,chl.lookup)
 The final step. Convert all convertable units to mg/l!
 
 ```{r}
-chl.a.harmonized <- chl.filtered %>%
+chl.a.harmonized <- chl.a.filtered %>%
   inner_join(chl.lookup,by='units') %>%
   mutate(harmonized_parameter = 'chl.a',
          harmonized_value=value*conversion,
          harmonized_unit='ug/L')
+
 
 ```
 

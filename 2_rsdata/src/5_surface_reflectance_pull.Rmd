@@ -29,6 +29,8 @@ splits <- drive_ls('watersat/2_rsdata/out/split_wide/')
 
 ##546 is the number of split_wide files as of 04/11/18, this may need to be changed if the wqp/lagos data changes.
 
+
+
 if(length(list.files('2_rsdata/out/split_wide')) < 546){
   for(i in 1:nrow(splits)) {
     path = paste0(getwd(),'/2_rsdata/out/split_wide/', splits$name[i])

@@ -1,0 +1,248 @@
+---
+title: "Landsat Linker"
+author: "Matthew Ross"
+date: "3/5/2018"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(googledrive)
+library(feather)
+library(lubridate)
+library(randomForest)
+
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir='~/Dropbox/UNC-PostDocAll/aquasat')
+
+
+```
+
+
+
+## Download overpasses from Google Drive
+
+### SR
+
+```{r, eval=F}
+
+#Read in the sr matchup folder
+folder <- drive_ls('WQP_SR_MatchUps')
+
+
+#Loop over ids in that folder and download them.
+if(length(list.files('3_rswqjoin/data/in/SR_Matchups')) < 550){
+  for(i in 1:nrow(folder)) {
+    path=paste0('3_rswqjoin/data/in/SR_Matchups/',folder$name[i])
+    drive_download(as_id(folder$id[i]),
+                   path=path)
+  }
+}
+
+
+```
+
+### TOA
+
+```{r, eval=F}
+
+#Read in the sr matchup folder
+folder <- drive_ls('WQP_TOA_MatchUps')
+
+
+#Loop over ids in that folder and download them.
+if(length(list.files('3_rswqjoin/data/in/TOA_Matchups')) < 550){
+  for(i in 1:nrow(folder)) {
+    path=paste0('3_rswqjoin/data/in/TOA_Matchups/',folder$name[i])
+    drive_download(as_id(folder$id[i]),
+                   path=path)
+  }
+}
+
+
+```
+
+
+## Read in overpass data, stitch and back join to wqp pull 
+```{r, eval=F}
+#Read in reflectance matchup
+
+refl <- map_df(list.files('3_rswqjoin/data/in/SR_Matchups',full.names=T),read_csv) %>%
+  select(-`system:index`,-lsDate,-.geo) %>%
+  na.omit()
+
+
+#Read in concentration data
+conc <- read_feather('2_rsdata/out/WidePull.feather') %>%
+  mutate(sat=as.numeric(sat))
+
+#Read in inventory
+inv <- read_feather('1_wqdata/out/wqp_inventory.feather') %>%
+  rename(SiteID=MonitoringLocationIdentifier) %>%
+  select(Type=ResolvedMonitoringLocationTypeName,SiteID,lat=LatitudeMeasure,lon=LongitudeMeasure) %>%
+  filter(SiteID %in% refl$SiteID) %>%
+  distinct(SiteID,Type,lat,lon)
+
+
+#Join reflectance and inventory and keep only same day
+match <- conc %>%
+  filter(Date == SampDate) %>%
+  inner_join(refl, by=c('SiteID','Date','PATH','ROW','sat')) 
+
+  
+
+write_feather(match,path='3_rswqjoin/data/out/SR_Sameday_Match.feather')
+
+```
+
+
+# Some playing
+```{r}
+match <- read_feather('3_rswqjoin/data/out/SR_Sameday_Match.feather')
+
+names(match)
+match %>% 
+  filter(Swir1 < 500) %>%
+  nrow(.)
+  filter(pwater > 0.99) %>%
+  mutate(swir.nir=Swir1/Green) %>%
+  ggplot(.,aes(x=Swir1)) + 
+  geom_density() + 
+  scale_x_log10()
+
+
+
+match %>%
+  filter(!is.na(tss)) %>%
+  mutate(ndvi=((Nir-Red)/(Nir+Red))) %>%
+  filter(ndvi>0.02) %>%
+  filter(ndvi < 1) %>%
+  ggplot(.,aes(x=ndvi)) + 
+  geom_density() 
+
+
+wqp.la <- match %>%
+   filter(PATH %in% c(23,22)) %>%
+   filter(ROW %in% c(39,38))
+
+
+
+tss.la <- wqp.la %>%
+  filter(!is.na(tss)) %>%
+  filter(clouds < 10,
+         max>80) %>%
+  filter(pixelCount > 9) %>%
+  filter(Swir1 < 300,
+         Swir2 < 300) %>%
+  mutate(RG=Red/Green) %>%
+  mutate(NR=Nir/Red) %>%
+  filter(NR < 1.5)
+
+hist(tss.la$NR)
+set.seed(4)
+tss.train <- tss.la %>%
+  sample_frac(0.6)
+
+tss.val <- tss.la %>%
+  anti_join(tss.train,by=c('SiteID','Date','tss')) %>%
+  filter(tss < 300)
+
+tss.mod <- lm(log(tss) ~ Swir1+Nir*Red+Red*Green,data=tss.train)
+
+
+summary(tss.mod)
+
+tss.val$pred <- exp(predict(tss.mod,tss.val)) 
+
+
+
+
+ggplot(tss.val,aes(x=tss,y=pred,color=sat)) + 
+  geom_point() 
+  
+
+
+rmse(tss.val$tss,tss.val$pred)
+mape(tss.val$tss,tss.val$pred)
+cbind(tss.val$pred,tss.val$tss)
+
+```
+
+
+
+## Random Forest Prediction
+```{r}
+library(randomForest)
+
+names(match)
+same <- match %>%
+  mutate(index = 1:n()) %>%
+  #filter(SampDate-Date == 0) %>%
+  filter(clouds < 20) %>%
+  filter(pixelCount > 9) %>%
+  filter(tss > 0) %>%
+  filter(Red > 0) %>%
+  filter(Nir > 0) %>%
+  filter(Green > 0) %>%
+  filter(Blue > 0 & Blue < 10000) %>%
+  mutate(tss.bin = cut(tss,breaks=c(0.1,1,10,100,1000,10000),
+                      labels=c(0,1,10,100,1000)))%>%
+  filter(!is.na(tss.bin)) %>%
+  select(tss.bin,Red,Nir,Green,Blue,Swir1,Swir2,sat,clouds,index) 
+
+wavelengths <- tibble(key=c('Red','Nir','Green','Blue','Swir1','Swir2'),
+                      wave=c(700,900,550,460,1100,1300))
+tss.diff <- same %>%
+  gather(key=key,value=value,-clouds,-sat,-tss.bin,-index) %>%
+  left_join(wavelengths,by='key') %>%
+  arrange(index,wave)
+
+
+head(tss.diff)
+tss.diff %>%
+ggplot(.,aes(x=wave,y=value,group=index)) + 
+  geom_line() + 
+  facet_wrap(~tss.bin) + 
+  scale_y_log10()
+
+
+train <- same %>%
+  sample_frac(0.7) 
+
+val <- same %>%
+  filter(!index %in% train$index) %>%
+  select(-index)
+
+rand <- randomForest(tss.bin ~ ., data=train %>%
+                       select(-index), replace=F, ntree=50,importance=T,nperm=2)
+
+val$pred <- predict(rand,val)
+
+good <- val %>%
+  filter(pred == tss.bin)
+
+
+bad <- val %>%
+  filter(pred != tss.bin)
+
+head(bad)
+nrow(good)/nrow(val)
+
+
+
+
+
+same.lm <- lm(log10(tss) ~ log10(Green)*log10(Red)*log10(Nir)+clouds,data=same)
+
+summary(same.lm)
+
+ggplot(same,aes(x=(chl),y=Red/Green)) + geom_point() + 
+  scale_x_log10() + 
+  scale_y_log10() + 
+  ylim()
+
+
+```
+
