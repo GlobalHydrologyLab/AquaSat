@@ -29,13 +29,13 @@ library(scales)
 
 knitr::opts_chunk$set(echo = FALSE)
 knitr::opts_knit$set(root.dir='../..')
+
 lagos <- lagosne_load("1.087.1")
 
 theme_set(theme_bw(base_size=12))
 theme_update(
           panel.grid.major = element_line(color='transparent'),
         panel.grid.minor = element_blank()) 
-
 
 
 ```
@@ -122,7 +122,7 @@ For LAGOSNE data see [here](https://lagoslakes.org/the-lagos-database/)
 ## Dataset description
 
 ```{r , echo=FALSE, fig.cap="Dataset generation", out.width = '100%'}
-knitr::include_graphics("/Users/mrross/Dropbox/UNC-PostDocAll/aquasat/9_report/src/Watersat_Drop_flow.png")
+knitr::include_graphics("9_report/src/Watersat_Drop_flow.png")
 
 ```
 
@@ -200,7 +200,7 @@ sr.type <- sr.clean %>%
 
 ## Map
 
-```{r,fig.width=8,fig.height=10}
+```{r eval=F,fig.width=8,fig.height=10}
 
 # Get a total number of counts by site and lat long.
 # We round lat long to prevent plotting 80,000 points 
@@ -376,7 +376,7 @@ ggplot(rbind(matchup.hist,insitu.hist),aes(value,fill=Dataset)) +
 
 ### All parameters no type breakdown
 
-```{r, fig.width=10,fig.height=8}
+```{r, fig.width=8,fig.height=6}
 sr.long.median <-  sr.type %>%
   mutate(ndvi=(nir-red)/(nir+red)) %>%
   filter(ndvi < 0.6) %>%
@@ -390,46 +390,268 @@ sr.long.median <-  sr.type %>%
   mutate(type=factor(type,levels=c('Stream','Estuary','Lake'))) %>%
   filter(refl > 0 )
 
+q.cut.percents = c(0,.3,.6,.8,.9,.95,1)
 
 sr.long.same <- sr.long.median %>%
-  filter(date==as.Date(date_unity)) %>%
-  filter(tss > 0) %>%
-  mutate(tss.bin=cut(tss,breaks=c(0,25,max(tss)),
-                     labels=c('< 25 mg/L','> 25 mg/L'))) %>%
-  gather(key=parameter,value=value,-SiteID,-date_unity,-date,-band,-refl,-type,-tss.bin,-lat,-long) %>%
+  mutate(tss.bin=cut(tss,
+                     breaks=c(min(tss,na.rm=T),20,100,max(tss,na.rm=T)),
+                     labels=c('< 20 mg/L','20-100 mg/L','>100 mg/L'))) %>%
+  mutate(tss.keep=tss) %>%
+  gather(key=parameter,value=value,-SiteID,-date_unity,
+         -date,-band,-refl,-type,-tss.bin,-lat,-long,-tss.keep) %>%
   group_by(parameter) %>%
   filter(value > 0) %>%
-  filter(log10(value) > (mean(log10(value),na.rm=T)-sd(log10(value),na.rm=T)*2),
-         log10(value) < (mean(log10(value),na.rm=T)+sd(log10(value),na.rm=T)*2)) %>%
+  filter(log10(value) > (mean(log10(value),na.rm=T)-
+                           sd(log10(value),na.rm=T)*2),
+         log10(value) < (mean(log10(value),na.rm=T)+
+                           sd(log10(value),na.rm=T)*2)) %>%
   mutate(quintiles=cut(log(value),
-                       quantile(log(value),seq(0,1,by=0.1)),
-                       labels=c('0-10%','20%','30%','40%','50%',
-                                '60%','70%','80%','90%','90-100%'))) %>%
+                       quantile(log(value),q.cut.percents),
+                       labels=c('0-30%','30-60%','60-80%','80-90%','90-95%','>95%'))) %>%
+  mutate(quintile.cut.value = cut(log(value),q.cut.percents)) %>%
   ungroup() %>%
   filter(!is.na(quintiles)) %>%
-  mutate(quintiles=factor(quintiles,levels=c('0-10%','20%','30%','40%','50%',
-                                '60%','70%','80%','90%','90-100%')))
+  mutate(quintiles=factor(quintiles,levels=c('0-30%','30-60%','60-80%','80-90%','90-95%','>95%')))
 
-quantile.colors <- c(RColorBrewer::brewer.pal(9,'GnBu'),'#3d399a')
+quantile.colors <- RColorBrewer::brewer.pal(length(unique(sr.long.same$quintiles)),'GnBu')
 
-
-
-
-sr.long.same %>%
-  ungroup() %>%
+png(filename='9_report/figures/quantilebins.png',width=8,height=6,units='in',res=250)
+  sr.long.same %>%
+  group_by(parameter) %>%
   ggplot(.,aes(x=band,y=refl,fill=quintiles)) +
   ylim(0,1500) +
   geom_boxplot(outlier.shape=NA,position='dodge') +
   facet_wrap(~parameter) + 
   scale_fill_manual(values=quantile.colors,name='') + 
-  theme(legend.position = c(.25,0.91),legend.direction = 'horizontal') 
+  theme(legend.position=c(0.25,0.91),legend.direction = 'horizontal')
+dev.off()
+```
+
+
+
+### Breakdown of other parameters with low and high tss
+LOW TSS vs High TSS actually not that different, but this alone is a  results
+```{r}
+
+
+sr.breakdown <- sr.long.same %>%
+  filter(!is.na(tss.bin)) 
+
+png(filename='9_report/figures/tssbins.png',width=8,height=10,units='in',res=250)
+sr.breakdown %>%
+  filter(parameter != 'tss') %>%
+  group_by(band,parameter,tss.bin,quintiles) %>%
+  summarize(refl=median(refl,na.rm=T),
+            count=n()) %>%
+  ungroup() %>%
+  filter(count > 20) %>%
+  ggplot(.,aes(x=band,y=refl,group=tss.bin,color=tss.bin)) +
+  ylim(0,1300) +
+  geom_line()+
+  facet_grid(quintiles~parameter) + 
+  theme(legend.position = 'top',legend.direction = 'horizontal') 
+dev.off()
+
 
 ```
 
-## What can we do with this data? 
+### Simpler breakdown
 
 ```{r}
-big.rivers <- st_read('ne_10m_rivers_lake_centerlines/ne_10m_rivers_lake_centerlines.shp') %>%
+sr.bin.wide <- sr.breakdown %>%
+  spread(key=band,value=refl) %>%
+  filter(tss.keep > 10^-2, tss.keep < 10^3.5)
+
+
+wide.tss <- sr.bin.wide %>%
+  spread(key=parameter,value=value)
+
+
+green.mod <- function(df) {
+  mod <- lm(log10(value)~log10(green),data=df)
+}
+
+sed.mod <- function(df) {
+  mod <- lm(log10(value) ~ log10(tss.keep),data=df)
+}
+
+green.sed.mod <- function(df) {
+  mod <- lm(log10(value) ~ log10(green) * log10(tss.keep),data=df)
+}
+
+
+sr.bin.green <- sr.bin.wide %>%
+  group_by(parameter) %>%
+  nest() %>%
+  mutate(greenmods = map(data,green.mod)) %>%
+  mutate(sedmods = map(data,sed.mod)) %>%
+  mutate(green.sed.mod=map(data,green.sed.mod)) %>%
+  mutate(sed.pred = map2(sedmods,data,predict)) %>%
+  mutate(tidy.mod= map(green.sed.mod,glance)) 
+
+unnest(sr.bin.green,tidy.mod)
+
+library(ggpmisc)
+formula <- y ~ x
+png(filename='9_report/figures/green_param.png',width=4,height=8,res=250,units='in')
+ggplot(sr.bin.wide, aes(x=green,y=value)) +
+  geom_hex() + 
+  scale_x_log10() + 
+  scale_y_log10() + 
+  facet_wrap(~parameter,ncol=1,scales='free_y') + 
+  stat_smooth(method='lm',se=F,formula=formula) +
+  stat_poly_eq(aes(label = paste(..rr.label.., sep = "~~~")), 
+               label.x.npc = "left", label.y.npc = 0.9,
+               formula = formula, parse = TRUE, size = 3)
+dev.off()
+
+```
+
+
+```{r}
+png(filename='9_report/figures/tss_param.png',width=5,height=6,res=250,units='in')
+ggplot(sr.bin.wide %>%
+         filter(parameter != 'tss'),aes(x=tss.keep,y=value)) + 
+  geom_hex(bins=30) + 
+  stat_smooth(method='lm') + 
+  facet_wrap(~parameter,scales='free_y',nrow=3) + 
+  scale_y_log10() + 
+  scale_x_log10() + 
+  xlab('TSS (mg/L)') + 
+  ylab('Concentration') + 
+  stat_poly_eq(aes(label = paste(..rr.label.., sep = "~~~")), 
+               label.x.npc = "left", label.y.npc = 0.9,
+               formula = formula, parse = TRUE, size = 3)
+dev.off()
+```
+
+
+```{r}
+detss <- sr.bin.green %>%
+  unnest(data,sed.pred)  %>%
+  mutate(decor.val = value-10^sed.pred)
+
+plot <- sr.breakdown %>%
+         filter(tss.keep > .01,
+                tss.keep < 5000,
+                !band %in% c('swir1','swir2'))
+?scale_colour_gradient2_tableau
+names(sr.breakdown)
+png(filename='9_report/figures/tss_param.png',width=4,height=8,res=250,units='in')
+ggplot(sr.breakdown %>%
+         filter(tss.keep > .01,
+                tss.keep < 5000,
+                !band %in% c('swir1','swir2')),
+       aes(x=refl,y=value,color=log10(tss.keep))) +
+  geom_point(shape=1) + 
+  scale_y_log10() + 
+  scale_x_log10(limits=c(50,5000)) + 
+  facet_grid(parameter ~ band)+ 
+  scale_color_gradient2_tableau(palette = "Red-Blue", space = "rgb",
+  na.value = "grey50", guide = "colourbar",name='Log TSS')
+
+dev.off()
+
+ggthemes_data$tableau$diverging
+
+
+```
+
+
+### Ecoregion 
+```{r}
+
+ecoreg <- st_read('9_report/in/us_eco_l3/us_eco_l3.shp') %>%
+  st_transform(2163)
+
+
+same.sf <- st_as_sf(sr.long.same %>% 
+                         distinct(SiteID,long,lat),
+                       coords=c('long','lat'),crs=4326) %>%
+  st_transform(2163)
+
+eco.sf <- st_join(same.sf,ecoreg) %>%
+  filter(!is.na(NA_L1NAME)) %>%
+  as.data.frame() %>%
+  as_tibble()
+
+sr.long.sf <- left_join(sr.long.same,eco.sf,by=c('SiteID')) %>%
+  filter(!is.na(NA_L1NAME)) %>%
+  mutate(l1=factor(NA_L1NAME,levels=c('NORTH AMERICAN DESERTS','SOUTHERN SEMI-ARID HIGHLANDS','MEDITERRANEAN CALIFORNIA','GREAT PLAINS','TEMPERATE SIERRAS','EASTERN TEMPERATE FORESTS','MARINE WEST COAST FOREST','NORTHERN FORESTS','NORTHWESTERN FORESTED MOUNTAINS','TROPICAL WET FORESTS')))
+
+
+png(filename='9_report/figures/ecoregion_conc.png',width=9,height=7,units='in',res=250)
+sr.long.sf %>%
+  ggplot(aes(x=l1,y=value)) + 
+  facet_wrap(~parameter,scales='free_y') + 
+  geom_boxplot() + 
+  theme(axis.text.x = element_text(angle = 30,hjust=1,size=7)) + 
+  scale_y_log10()+
+  ylab('Ecoregion Level 1 Name')
+dev.off()
+```
+
+
+
+## Simpler differentiation plots
+
+```{r}
+
+
+
+
+```
+
+
+
+
+
+## What can we do with this data? 
+
+
+```{r}
+sr.sf.wide <- spread(sr.long.sf,key=band,value=refl) 
+
+tss.wide <- sr.sf.wide %>%
+  filter(parameter == 'tss') %>%
+  filter_at(.vars=c('red','blue','green','swir2','nir'),all_vars(. < 1500 & . > 0)) %>%
+  mutate(hue=rgb2hsv(r=red,b=blue,g=green,maxColorValue = 1500)[1,],
+         brightness=rgb2hsv(r=red,b=blue,g=green,maxColorValue = 1500)[3,]) %>%
+  rename(tss=value) %>%
+  mutate(l1 = droplevels(l1))  %>%
+  filter(hue > 0)
+
+
+mymod <- function(x){
+  mod <- lm(log10(tss) ~ log10(hue)*log10(nir)+log10(brightness),data=x)
+}
+
+summary(tss.wide)
+library(broom)
+library(Metrics)
+
+eco.mods <- tss.wide %>%
+  group_by(l1,type) %>%
+  nest() %>%
+  mutate(mods=map(data,mymod)) %>%
+  mutate(pred = map2(mods,data,predict)) %>%
+  unnest(data,pred)  %>%
+  mutate(pred=10^pred) %>%
+  group_by(l1,type) %>%
+  summarize(rmse=rmse(tss,pred),
+            count=n(),
+            mdae=mae(tss,pred),
+            mape=mape(tss,pred),
+            median=median(tss)) %>%
+  arrange(mdae) %>%
+  filter(count > 20)
+
+(eco.mods)
+```
+
+
+```{r}
+big.rivers <- st_read('9_report/in/ne_10m_rivers_lake_centerlines/ne_10m_rivers_lake_centerlines.shp') %>%
   st_transform(2163) 
 
 
@@ -520,6 +742,8 @@ ggplot(miss,aes(x=brightness,y=tss,color=log10(nir))) +
 
 
 ## Dominant signals
+
+
 
 # Supplementary stuff
 
@@ -649,29 +873,36 @@ ggplot() +
 
 ```
 
-
-### Breakdown of other parameters with low and high tss
-
-LOW TSS vs High TSS actually not that different, but this alone is a  results
-```{r}
-
-
-sr.breakdown <- sr.long.same %>%
-  filter(!is.na(tss.bin)) 
- 
-
-sr.breakdown %>%
-  filter(parameter != 'tss') %>%
-  filter(band != 'swir2') %>%
-  ungroup() %>%
+```{r eval=F, fig.width=8,fig.height=6}
+library(ggpubr)
+width.boxplotter <- function(param) {
+  sr.long.same %>%
+  filter(parameter == param) %>%
+  group_by(parameter) %>%
   ggplot(.,aes(x=band,y=refl,fill=quintiles)) +
-  ylim(0,1300) +
-  geom_boxplot(outlier.shape=NA,position='dodge') +
-  facet_grid(tss.bin~parameter) + 
+  ylim(0,1500) +
+  geom_boxplot(outlier.shape=NA,position='dodge',varwidth=T) +
+  facet_wrap(~parameter) + 
+  scale_fill_manual(values=quantile.colors,name='',guide=F)
+}
+png(filename='9_report/figures/quantilebins_byobs.png',width=8,height=6,units='in',res=250)
+
+chl_a.g <- width.boxplotter('chl_a') +
   scale_fill_manual(values=quantile.colors,name='') + 
-  theme(legend.position = c(.25,0.91),legend.direction = 'horizontal') +
-  guides(fill=F)
+  theme(legend.position = c(.25,0.91),legend.direction = 'horizontal') 
+
+doc.g <- width.boxplotter('doc')
+
+
+secchi.g <- width.boxplotter('secchi')
+tss.g <- width.boxplotter('tss')
+
+ggarrange(chl_a.g + rremove('xlab'),doc.g,secchi.g,tss.g,
+         ncol=2,nrow=2)
+
+dev.off()
+
+
 
 ```
-
 
