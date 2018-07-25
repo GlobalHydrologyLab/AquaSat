@@ -9,17 +9,12 @@
 
 # prepare a data.frame that maps state names to the FIPS codes used by WQP
 get_wqp_state_codes <- function() {
-  states_xml <- xml2::read_xml('https://www.waterqualitydata.us/Codes/statecode?countrycode=US')
-  states_list <- xml2::as_list(states_xml)
-  states_df <- bind_rows(lapply(states_list[names(states_list)=='Code'], function(code) {
-    data_frame(
-      value = attr(code, 'value'),
-      name = attr(code, 'desc'),
-      providers = attr(code, 'providers'))
-  }))
-  if(nrow(states_df) < 1){stop('No State FIPS codes downloaded,
-                               which is critical for later steps, check 
-                               that get_wqp_state_codes works')}
+  states_df <- dataRetrieval::stateCd %>%
+    filter(STATE < 60) %>%
+    mutate(
+      value=paste0('US:', STATE),
+      name=STATE_NAME) %>%
+    select(value, name)
   return(states_df)
 }
 
