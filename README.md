@@ -1,6 +1,9 @@
 # watersat
 Monitoring water quality from space!
 
+##  PYTHON INFORMATION GOES HERE ##
+* list the python packages that need to be installed, etc.
+
 ## using `scipiper`
 
 The `scipiper` package is an extremely young work in progress, intended to support projects for our USGS data science team and a limited number of collaborators. (Specifically, the code is public but we're not planning to provide any support for projects we're not directly involved in.) APA would really like to try it here if everybody is game. Install scipiper from GitHub:
