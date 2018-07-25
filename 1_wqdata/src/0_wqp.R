@@ -247,7 +247,7 @@ create_wqp_pull_makefile <- function(makefile, task_plan) {
   create_task_makefile(
     makefile=makefile, task_plan=task_plan,
     include='remake.yml',
-    packages=c('dplyr', 'dataRetrieval', 'feather', 'scipiper','doMC','foreach'),
+    packages=c('dplyr', 'dataRetrieval', 'feather', 'scipiper', 'foreach'),
     file_extensions=c('ind','feather'))
 }
 
@@ -365,7 +365,7 @@ create_wqp_merge_makefile <- function(makefile, task_plan, pull_makefile) {
   create_task_makefile(
     makefile=makefile, task_plan=task_plan,
     include=pull_makefile, # include the pull_makefile (which includes remake.yml) so we know how to build the raw data files if needed
-    packages=c('tidyverse', 'feather', 'scipiper','foreach','doMC'),
+    packages=c('tidyverse', 'feather', 'scipiper','foreach'),
     file_extensions=c('ind','feather'))
 }
 

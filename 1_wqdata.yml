@@ -8,7 +8,6 @@ packages:
   - scipiper
   - yaml
   - xml2
-  - doMC
   - foreach
   
 file_extensions:
