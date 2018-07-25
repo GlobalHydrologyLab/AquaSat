@@ -28,8 +28,7 @@ targets:
   1_wqdata:
     depends:
       - confirm_gd_config
-      - lib/cfg/gd_config.yml
-      - 1_wqdata/log/tasks_1_wqp_merge.ind
+      - 1_wqdata/out/wqp_lagos_unity.feather.ind
 
   confirm_gd_config:
     command: check_gd_config()
@@ -242,8 +241,6 @@ targets:
       output_file=target_name)
 
   # side effects of 1_wqdata/src/4_wqp_lagos_merge.Rmd:
-  1_wqdata/out/wqp_lagos_unity.feather.ind:
-    depends: 1_wqdata/doc/3_wqp_merge_widen.html
-    command: c()
   1_wqdata/out/wqp_lagos_unity.feather:
-    command: gd_get('1_wqdata/out/wqp_lagos_unity.feather.ind')
+    depends: 1_wqdata/doc/4_wqp_lagos_merge.html
+    command: gd_get(I('1_wqdata/out/wqp_lagos_unity.feather.ind'))

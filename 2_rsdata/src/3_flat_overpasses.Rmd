@@ -15,7 +15,6 @@ library(feather)
 library(googledrive)
 library(tidyverse)
 library(sf)
-library(LAGOSNE)
 library(lubridate)
 
 opts_knit$set(root.dir='../..')
@@ -31,11 +30,11 @@ opts_knit$set(root.dir='../..')
 #Read in wrs inventory with path row
 
 #This is the landsat visible path row data
-wrs.inv <- read_feather('2_rsdata/out/site_inventory_path_row.feather') %>%
+wrs.inv <- read_feather(sc_retrieve('2_rsdata/out/site_inventory_path_row.feather.ind')) %>%
   arrange(SiteID)
 
 #This is the inventory of wrs data with source attached
-unq.inv <- read_feather('2_rsdata/tmp/unique_site_inventory.feather') %>%
+unq.inv <- read_feather(sc_retrieve('2_rsdata/out/unique_site_inventory.feather.ind')) %>%
   arrange(SiteID) %>%
   filter(!is.na(source)) %>%
   select(-lat,-long)
@@ -50,7 +49,7 @@ wrs.source.inv <- unq.inv %>%
 
 
 #Read in the full water quality portal lagos data
-wqp.lagos <- read_feather('1_wqdata/out/wqp_lagos_unity.feather')
+wqp.lagos <- read_feather(sc_retrieve('1_wqdata/out/wqp_lagos_unity.feather.ind'))
 
 
 site.candidates <- wqp.lagos %>%
@@ -67,7 +66,7 @@ site.candidates <- wqp.lagos %>%
 ```{r}
 
 #Load in cloudy dataset which is called dat. 
-cloud.raw <- read_feather('2_rsdata/out/clouds.feather')
+cloud.raw <- read_feather(sc_retrieve('2_rsdata/out/clouds.feather.ind'))
 
 #Subset to only WRS path rows in the inventory data. 
 clouds <- cloud.raw %>%
@@ -127,10 +126,10 @@ wqp.pull.minus1 <- site.candidates %>%
 #Bind all this data together
 wqp.pull <- bind_rows(wqp.pull.same,wqp.pull.plus1,wqp.pull.minus1)
 
-write_feather(wqp.pull,path='2_rsdata/out/wide_pull.feather')
-
-drive_upload('2_rsdata/out/wide_pull.feather', 'watersat/2_rsdata/out/')
-
+# write and push the file to Drive
+data_file <- '2_rsdata/out/wide_pull.feather'
+write_feather(wqp.pull,path=data_file)
+gd_put(scipiper::as_ind_file(data_file), data_file)
 ```
 
 

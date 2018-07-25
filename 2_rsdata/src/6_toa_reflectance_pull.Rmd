@@ -19,27 +19,6 @@ opts_knit$set(root.dir='../..')
 
 ```
 
-#Retrieve existing data to avoid duplicating reflectance pulls
-
-```{r Get Existing}
-
-##Download in-situ sites and dates
-splits <- drive_ls('watersat/2_rsdata/out/split_wide/')
-
-##546 is the number of split_wide files as of 04/11/18, this may need to be changed if the wqp/lagos data changes.
-
-if(length(list.files('2_rsdata/out/split_wide')) < 546){
-  for(i in 1:nrow(splits)) {
-    path = paste0(getwd(),'/2_rsdata/out/split_wide/', splits$name[i])
-    drive_download(as_id(splits$id[i]),
-                   path=path, overwrite = TRUE)
-  }
-}
-
-
-
-```
-
 #Open a python bash script to interact with Google Earth Engine using the package reticulate.
 
 ```{r Google Earth Engine Pull}
@@ -60,7 +39,7 @@ import feather
 ee.Initialize()
 
 #Source necessary functions.
-execfile('2_rsdata/src/5a_6a_GEE_pull_functions.py')
+execfile('2_rsdata/src/GEE_pull_functions.py')
 
 #Load in Pekel water occurance Layer and Landsat Collections.
 
@@ -97,7 +76,7 @@ water = water.updateMask(water)
 dist = 120
 
 #Identify folder with in-situ data broken up into 5000 observation chunks by path/row and
-ULdir = '2_rsdata/out/split_wide/'
+ULdir = '2_rsdata/tmp/split_wide/'
 
 #Generate file lists for both files to be sent and files already processed in google earth engine
 filesDown = r.filesDownR['name']

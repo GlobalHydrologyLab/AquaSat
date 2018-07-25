@@ -15,9 +15,6 @@ library(feather)
 library(googledrive)
 library(tidyverse)
 library(sf)
-library(LAGOSNE)
-library(maps)
-
 library(USAboundaries)
 
 #Reset working directory to the top level
@@ -27,7 +24,7 @@ opts_knit$set(root.dir='../..')
 ## Load in site data and convert to an sf object
 ```{r}
 #Load in wqp data
-winv <- read_feather('2_rsdata/out/unique_site_visible_inv.feather')
+winv <- read_feather(sc_retrieve('2_rsdata/out/unique_site_visible_inv.feather.ind'))
 
 #Convert the data into sf object
 inv.sf <- st_as_sf(winv,coords=c('long','lat'),crs=4326) %>%
@@ -100,11 +97,12 @@ inv.wrs <- sfc_as_cols(inv.wrs.sf,names=c('long','lat')) %>%
   as.tibble() %>%
   dplyr::select(-geometry,-PR_ID) 
 
-write_feather(inv.wrs,path='2_rsdata/out/site_inventory_path_row.feather')
-
+#Save data
+data_file <- '2_rsdata/out/site_inventory_path_row.feather'
+write_feather(inv.wrs,path=data_file)
 
 #Upload to team drive
-drive_upload('2_rsdata/out/site_inventory_path_row.feather', 'watersat/2_rsdata/out/')
+gd_put(scipiper::as_ind_file(data_file), data_file)
 ```
 
 

@@ -74,7 +74,7 @@ md = '-01-01'
 years=numpy.arange(1984,2019,1)
 
 #Source function to limit number of tasks sent up to earth engine.
-execfile('2_rsdata/src/5a_6a_GEE_pull_functions.py')
+execfile('2_rsdata/src/GEE_pull_functions.py')
 
 #Loop over years such that we download a single csv for each year. 
 for year in years:
@@ -136,12 +136,13 @@ for(i in 1:nrow(folder)) {
 #Read in data. 
 clouds <- map_df(list.files('2_rsdata/tmp/yearly_clouds',full.names = T),read_csv) %>%
   mutate(Date = ymd(str_split_fixed(`system:index`,'_',5)[,5])) 
+
+data_file <- '2_rsdata/out/clouds.feather'
 #Write out cloud data as a feather
-write_feather(clouds,'2_rsdata/out/clouds.feather')
+write_feather(clouds, data_file)
 
 #Upload data to team drive
-drive_upload('2_rsdata/out/clouds.feather', 'watersat/2_rsdata/out/')
-
+gd_put(scipiper::as_ind_file(data_file), data_file)
 
 ```
 

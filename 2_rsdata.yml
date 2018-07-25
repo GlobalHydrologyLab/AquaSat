@@ -1,0 +1,109 @@
+target_default: 2_rsdata
+
+include: 1_wqdata.yml
+
+packages:
+  - tidyverse
+  - feather
+  - scipiper
+  - yaml
+  - reticulate
+  - lubridate
+  - USAboundaries
+  - sf
+  - LAGOSNE
+  - foreach
+
+file_extensions:
+  - feather
+  - ind
+
+sources:
+  - lib/src/render_rmd.R
+  - lib/src/check_gee_config.R
+
+targets:
+  
+  2_rsdata:
+    depends:
+      - confirm_gee_config 
+
+  confirm_gee_config:
+    command: check_gee_config()
+
+  # main effect of 2_rsdata/src/0_cloud_scenes.Rmd
+  2_rsdata/doc/0_cloud_scenes.html:
+    depends:
+      - confirm_gee_config
+      - GEE_pull_functions.py
+    command: render_rmd(
+      input='2_rsdata/src/0_cloud_scenes.Rmd',
+      output_file=target_name)
+  # side effect of 2_rsdata/src/0_cloud_scenes.Rmd
+  2_rsdata/out/clouds.feather:
+    depends: 2_rsdata/doc/0_cloud_scenes.html
+    command: gd_get(I('2_rsdata/out/clouds.feather.ind'))
+  
+  # main effect of 2_rsdata/doc/1_landsat_site_inventory.Rmd
+  2_rsdata/doc/1_landsat_site_inventory.html:
+    depends:
+      - confirm_gee_config
+      - 1_wqdata/out/wqp_inventory.feather.ind
+      - GEE_pull_functions.py
+    command: render_rmd(
+      input='2_rsdata/src/1_landsat_site_inventory.Rmd',
+      output_file=target_name)
+  # side effect of 2_rsdata/doc/1_landsat_site_inventory.Rmd
+  2_rsdata/out/unique_site_visible_inv.feather:
+    depends: 2_rsdata/doc/1_landsat_site_inventory.html
+    command: gd_get(I('2_rsdata/out/unique_site_visible_inv.feather.ind'))
+  2_rsdata/out/unique_site_inventory.feather:
+    depends: 2_rsdata/doc/1_landsat_site_inventory.html
+    command: gd_get(I('2_rsdata/out/unique_site_inventory.feather.ind'))
+
+  # main effect of 2_rsdata/src/2_wqp_overlaps.Rmd
+  2_rsdata/doc/2_wqp_overlaps.html:
+    depends: 2_rsdata/doc/1_landsat_site_inventory.html
+    command: render_rmd(
+      input='2_rsdata/src/2_wqp_overlaps.Rmd',
+      output_file=target_name)
+  # side effect of 2_rsdata/src/2_wqp_overlaps.Rmd
+  2_rsdata/out/site_inventory_path_row.feather:
+    depends: 2_rsdata/doc/2_wqp_overlaps.html
+    command: gd_get(I('2_rsdata/out/site_inventory_path_row.feather.ind'))
+  
+  # main effect of 2_rsdata/src/3_flat_overpasses.Rmd
+  2_rsdata/doc/3_flat_overpasses.html:
+    depends:
+      - 1_wqdata/doc/4_wqp_lagos_merge.html
+      - 2_rsdata/doc/0_cloud_scenes.html
+      - 2_rsdata/doc/1_landsat_site_inventory.html
+      - 2_rsdata/doc/2_wqp_overlaps.html
+    command: render_rmd(
+      input='2_rsdata/src/3_flat_overpasses.Rmd',
+      output_file=target_name)
+  # side effect of 2_rsdata/src/3_flat_overpasses.Rmd
+  2_rsdata/out/wide_pull.feather:
+    depends: 2_rsdata/doc/3_flat_overpasses.html
+    command: gd_get(I('2_rsdata/out/wide_pull.feather.ind'))
+  
+  # main effect of 2_rsdata/src/4_overpass_split.Rmd
+  2_rsdata/doc/4_overpass_split.html:
+    depends:
+      - 2_rsdata/doc/3_flat_overpasses.html
+    command: render_rmd(
+      input='2_rsdata/src/4_overpass_split.Rmd',
+      output_file=target_name)
+  # side effect of 2_rsdata/src/4_overpass_split.Rmd:
+  # hundreds of files named watersat/2_rsdata/tmp/split_wide/path_row_*_*.feather
+  
+  # main effect of 2_rsdata/src/5_surface_reflectance_pull.Rmd
+  2_rsdata/doc/5_surface_reflectance_pull.html:
+    depends:
+      - confirm_gee_config
+      - 2_rsdata/doc/4_overpass_split.html
+    command: render_rmd(
+      input='2_rsdata/src/5_surface_reflectance_pull.Rmd',
+      output_file=target_name)
+  # side effect of 2_rsdata/src/5_surface_reflectance_pull.Rmd:
+  
