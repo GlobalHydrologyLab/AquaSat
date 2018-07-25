@@ -1,0 +1,112 @@
+---
+title: "WQP Overlaps"
+author: "Matthew Ross"
+date: "1/3/2018"
+output: html_document
+---
+
+# Join WQP inventory data to the landsat wrs tiles. 
+
+In order to avoid sending up extraneous data to the WQP portal, we check for the PATH and ROW of each site that is near landsat-detectable water (from step "1_landsat_site_inventory.Rmd"). Eventually this data will be joined to the actuall concentration data in 3_flat_overpasses.Rmd
+
+```{r setup}
+library(knitr)
+library(feather)
+library(googledrive)
+library(tidyverse)
+library(sf)
+library(LAGOSNE)
+library(maps)
+
+library(USAboundaries)
+
+#Reset working directory to the top level
+opts_knit$set(root.dir='../..')
+```
+
+## Load in site data and convert to an sf object
+```{r}
+#Load in wqp data
+winv <- read_feather('2_rsdata/out/unique_site_visible_inv.feather')
+
+#Convert the data into sf object
+inv.sf <- st_as_sf(winv,coords=c('long','lat'),crs=4326) %>%
+  st_transform(.,2163)
+
+```
+
+
+```{r}
+
+#Read in usa data
+usa = us_states() %>%
+  st_transform(.,2163)
+
+
+#Download and and read in WRS spatial data
+download.file('https://landsat.usgs.gov/sites/default/files/documents/wrs2_asc_desc.zip', destfile = paste0(getwd(),'/2_rsdata/in/wrs2_asc_desc.zip'), method = 'curl')
+
+unzip('2_rsdata/in/wrs2_asc_desc.zip', exdir = '2_rsdata/in/')
+
+wrs <- st_read('2_rsdata/in/wrs2_asc_desc/wrs2_asc_desc.shp') %>%
+  st_transform(.,2163)
+
+
+#Negative buffer on the wrs tiles in usa by 1 km
+wrs.usa <- wrs %>%
+  st_buffer(.,0) %>%
+  st_intersection(.,usa) %>%
+  group_by(PATH,ROW) %>%
+  st_buffer(.,-1000) %>%
+  na.omit(.) %>%
+  ungroup(.) 
+
+
+#The above operation clips the wrs tiles to the shape of the usa, which we don't want. So let's keep full tiles
+wrs.all.usa <- wrs %>%
+  filter(PR %in% wrs.usa$PR) %>%
+  select(PR_ID,PATH,ROW) %>%
+  st_buffer(.,-1000) %>%
+  mutate(area.km2=st_area(.)/(1000*1000)) %>%
+  arrange(desc(area.km2)) %>%
+  #Most of the tile areas are less than 32000 km2
+  #But there are 3 with huge areas that don't have any data in them
+  #Lets drop those %>% 
+  mutate(pr=paste(PATH,ROW,sep='-')) %>%
+  filter(!pr %in% c('23-153','133-91','24-153')) %>%
+  select(-pr)
+
+
+
+```
+
+#Join inventory to wrs tiles
+```{r}
+#Use st join to join inventory to wrs path rows
+inv.wrs.sf <- st_join(inv.sf,wrs.all.usa) %>%
+  st_transform(.,4326)
+
+#Convert this to a tibble
+sfc_as_cols <- function(x, names = c("x","y")) {
+  stopifnot(inherits(x,"sf") && inherits(sf::st_geometry(x),"sfc_POINT"))
+  ret <- do.call(rbind,sf::st_geometry(x))
+  ret <- tibble::as_tibble(ret)
+  stopifnot(length(names) == ncol(ret))
+  ret <- setNames(ret,names)
+  dplyr::bind_cols(x,ret)
+}
+
+inv.wrs <- sfc_as_cols(inv.wrs.sf,names=c('long','lat')) %>%
+  as.tibble() %>%
+  dplyr::select(-geometry,-PR_ID) 
+
+write_feather(inv.wrs,path='2_rsdata/out/site_inventory_path_row.feather')
+
+
+#Upload to team drive
+drive_upload('2_rsdata/out/site_inventory_path_row.feather', 'watersat/2_rsdata/out/')
+```
+
+
+
+
