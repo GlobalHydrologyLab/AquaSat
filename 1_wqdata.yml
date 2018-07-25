@@ -17,7 +17,8 @@ file_extensions:
   
 sources:
   - lib/src/check_gd_config.R
-  - 1_wqdata/src/wqp.R
+  - lib/src/render_rmd.R
+  - 1_wqdata/src/0_wqp.R
 
 targets:
 
@@ -133,3 +134,18 @@ targets:
   # This approach means we will see warnings until the all_xx.feather.ind files are all
   # git committed
 
+  1_wqdata/doc/1_wqp_data_harmonize_explorer.html:
+    depends: 1_wqdata/log/tasks_1_wqp_merge.ind
+    command: render_rmd(
+      rmd_file='1_wqdata/src/1_wqp_data_harmonize_explorer.Rmd',
+      html_file=target_name)
+    
+  #1_wqdata/tmp/harmonized/secchi_harmony.feather:
+  #  depends: 1_wqdata/doc/1_wqp_data_harmonize_explorer.html
+  
+  #1_wqdata/tmp/harmonized/chl.a_harmony.feather
+  #1_wqdata/tmp/harmonized/tss1_harmony.feather
+  #1_wqdata/tmp/harmonized/tss2_harmony.feather
+  #1_wqdata/tmp/harmonized/doc_harmony.feather
+  #1_wqdata/tmp/harmonized/tis_harmony.feather
+  #1_wqdata/tmp/harmonized/sand_harmony.feather
