@@ -247,7 +247,7 @@ create_wqp_pull_makefile <- function(makefile, task_plan) {
   create_task_makefile(
     makefile=makefile, task_plan=task_plan,
     include='remake.yml',
-    packages=c('dplyr', 'dataRetrieval', 'feather', 'scipiper','doMC','foreach'),
+    packages=c('dplyr', 'dataRetrieval', 'feather', 'scipiper', 'doParallel', 'foreach'),
     file_extensions=c('ind','feather'))
 }
 
@@ -365,7 +365,7 @@ create_wqp_merge_makefile <- function(makefile, task_plan, pull_makefile) {
   create_task_makefile(
     makefile=makefile, task_plan=task_plan,
     include=pull_makefile, # include the pull_makefile (which includes remake.yml) so we know how to build the raw data files if needed
-    packages=c('tidyverse', 'feather', 'scipiper','foreach','doMC'),
+    packages=c('tidyverse', 'feather', 'scipiper', 'doParallel', 'foreach'),
     file_extensions=c('ind','feather'))
 }
 
@@ -387,14 +387,13 @@ combine_feathers <- function(data_file, ...) {
   #Use foreach and DoMC to make this operation parallel for computers 
   #with more than 3 cores
   
-  cores <- detectCores()-2
-  if(cores < 1){cores <- 1}
-  registerDoMC(cores=cores)
+  cores <- max(1, detectCores()-1)
+  cl <- makeCluster(cores)
+  doParallel::registerDoParallel(cl)
   combo <- foreach(i=1:length(feathers),.combine=rbind) %dopar% {
-    library(feather)
     feather::read_feather(feathers[i],columns=unified.cols)
   }
-  
+  stopCluster(cl)
   
   # write the data file
   feather::write_feather(combo, path=data_file)
