@@ -1,133 +1,17 @@
-target_default: 1_wqdata
+target_default: everything
 
 packages:
   - dplyr
-  - dataRetrieval
-  - feather
-  - LAGOSNE
   - scipiper
-  - yaml
-  - xml2
-  - doMC
-  - foreach
   
 file_extensions:
   - feather
   - ind
   
-sources:
-  - 1_wqdata/src/wqp.R
+includes:
+  - 1_wqdata.yml
 
 targets:
-
-  1_wqdata:
+  everything:
     depends:
-      - lib/cfg/gd_config.yml
-      - 1_wqdata/log/tasks_1_wqp_merge.ind
-
-  lib/cfg/gd_config.yml:
-    command: gd_config(config_file=target_name, folder=I("0B-c5tErcTY2fTU1pTTBOR2RPdVk"))
-  
-  #### shared config info ####
-  
-  wq_dates:
-    command: yaml.load_file("1_wqdata/cfg/wq_dates.yml")
-  
-  #### WQP ####
-  
-  # -- prepare for data pull --
-  
-  # load wqp-specific config info
-  wqp_states:
-    command: yaml.load_file("1_wqdata/cfg/wqp_states.yml")
-  wqp_codes:
-    command: yaml.load_file("1_wqdata/cfg/wqp_codes.yml")
-  wqp_state_codes:
-    command: get_wqp_state_codes()
-  wqp_pull:
-    command: yaml.load_file("1_wqdata/cfg/wqp_pull.yml")
-  
-  # prepare destination folders for intermediate and final output.
-  # tmp=temporary folder for holding files to only be created on 1 computer.
-  # out=folder to hold .ind and data files corresponding to shared cache or everybody's local build.
-  # log=folder for the few indicator files that don't correspond to a data file.
-  1_wqdata/tmp/wqp:
-    command: dir.create(target_name, recursive=I(TRUE), showWarnings=I(FALSE))
-  1_wqdata/out/wqp:
-    command: dir.create(target_name, recursive=I(TRUE), showWarnings=I(FALSE))
-  1_wqdata/log:
-    command: dir.create(target_name, recursive=I(TRUE), showWarnings=I(FALSE))
-  wqp_pull_folders:
-    command: list(
-      tmp='1_wqdata/tmp/wqp',
-      out='1_wqdata/out/wqp',
-      log='1_wqdata/log')
-      
-  # -- get inventory of observations available to download --
-  
-  # get an inventory of WQP sites and sample counts. for this and all
-  # shared-cache targets (and those that depend on any shared-cache targets),
-  # the heavy lifting is done by the .ind recipe, which writes the data (.feather)
-  # file, posts the file to google drive, and writes the .feather.ind file.
-  # (the local data creation and drive posting could be separated into two
-  # remake targets, but let's risk having to redo the inventory for the sake of
-  # keeping this remake file a touch simpler and practicing the two-target option
-  # for gd_put/gd_get)
-  1_wqdata/out/wqp_inventory.feather.ind:
-    command: inventory_wqp(
-      ind_file=target_name,
-      wqp_state_codes=wqp_state_codes,
-      wqp_states=wqp_states,
-      wqp_codes=wqp_codes)
-  # the only job of the data target is to pull data from the shared cache
-  1_wqdata/out/wqp_inventory.feather:
-    command: gd_get('1_wqdata/out/wqp_inventory.feather.ind')
-  # use the inventory. because this is an object, everybody will end up
-  # pulling wqp_inventory.feather and building this object locally, if only
-  # to know whether 1_wqdata/log/tasks_1_wqp.ind is up to date
-  wqp_pull_partitions:
-    command: partition_inventory(
-      inventory_ind='1_wqdata/out/wqp_inventory.feather.ind', 
-      wqp_pull=wqp_pull,
-      wqp_state_codes=wqp_state_codes,
-      wqp_codes=wqp_codes)
-
-  # -- pull the data --
-
-  # prepare a remake-style plan for running each state as a separate
-  # remake target in a separate remake file (tasks_1_wqp.yml)
-  wqp_pull_plan:
-    command: plan_wqp_pull(partitions=wqp_pull_partitions, folders=wqp_pull_folders)
-  tasks_1_wqp.yml:
-    command: create_wqp_pull_makefile(makefile=target_name, task_plan=wqp_pull_plan)
-
-  # run the data pulls
-  1_wqdata/log/tasks_1_wqp.ind:
-    command: loop_tasks(
-      task_plan=wqp_pull_plan, task_makefile='tasks_1_wqp.yml',
-      num_tries=I(30), sleep_on_error=I(20))
-
-  # --combine the data --
-
-  # prepare a remake-style plan for combining and munging the data for each constituent
-  wqp_merge_plan:
-    command: plan_wqp_merge(partitions=wqp_pull_partitions, pull_plan=wqp_pull_plan, folders=wqp_pull_folders)
-  tasks_1_wqp_merge.yml:
-    command: create_wqp_merge_makefile(makefile=target_name, task_plan=wqp_merge_plan, pull_makefile='tasks_1_wqp.yml')
-
-  # combine the raw data files
-  #task_names=I('cdom'), step_names=I('munge'),
-  1_wqdata/log/tasks_1_wqp_merge.ind:
-    command: loop_tasks(
-      task_plan=wqp_merge_plan, task_makefile='tasks_1_wqp_merge.yml',
-      num_tries=I(1), sleep_on_error=I(1))
-
-##DOWN HERE WILL BE THE MUNGING CALLS TO OUR LONG RMD FILE##
-
-  # rules to access the files created in tasks_1_wqp_munge.yml. We implicitly depend
-  # on the constituent-specific indicator file because this file will be created in
-  # the process of creating the job indicator file (on which we explicitly depend), and
-  # it must exist by the time we try to call the command for gd_get to succeed.
-  # This approach means we will see warnings until the all_xx.feather.ind files are all
-  # git committed
-
+      - 1_wqdata
