@@ -22,6 +22,7 @@
 tasks_*.yml
 .RDataTmp
 lib/cfg/gd_config.yml
+lib/cfg/gee_config.yml
 .html
 
 # Allow

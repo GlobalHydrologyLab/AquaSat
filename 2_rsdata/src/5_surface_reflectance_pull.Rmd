@@ -21,24 +21,8 @@ opts_knit$set(root.dir='../..')
 
 #Retrieve existing data to avoid duplicating reflectance pulls
 
-Download the split wqp/lagos data to send up to GGE.  This is easier in R than python. Also create a list of existing reflectance csv's to filter whats been pulled down from gge already.
+Create a list of existing reflectance csv's to filter whats been pulled down from GEE already.
 ```{r Get Existing}
-
-#Download in-situ sites and dates
-splits <- drive_ls('watersat/2_rsdata/out/split_wide/')
-
-##546 is the number of split_wide files as of 04/11/18, this may need to be changed if the wqp/lagos data changes.
-
-
-
-if(length(list.files('2_rsdata/out/split_wide')) < 546){
-  for(i in 1:nrow(splits)) {
-    path = paste0(getwd(),'/2_rsdata/out/split_wide/', splits$name[i])
-    drive_download(as_id(splits$id[i]),
-                   path=path, overwrite = TRUE)
-  }
-}
-
 #Retrieve existing reflectance data to avoid duplicates
 filesDownR <- drive_ls("watersat/2_rsdata/out/sr_matchups/") %>% 
   select(name)
@@ -47,11 +31,17 @@ filesDownR <- drive_ls("watersat/2_rsdata/out/sr_matchups/") %>%
 
 #Open a python bash script to interact with Google Earth Engine using the package reticulate.
 
-*Reticulate uses the default python path for the local machine.  This python needs to be authorized with google earth engine and have the necessary packages installed. To change the Python called by reticulate, change the default located in your .Rprofile.  This can be done using the 'Sys.setenv()' command at the top of the chunk. For more information on Reticulate go to https://github.com/rstudio/reticulate* 
+*Reticulate uses the default python path for the local machine.  This python needs to be authorized with google earth engine and have the necessary packages installed. To change the Python called by reticulate, change the default located in your .Rprofile.  This is done here using the 'Sys.setenv()' command at the top of the chunk. For more information on Reticulate go to https://github.com/rstudio/reticulate* 
+
+*To configure your own computer to work with GEE, create a file call 'lib/cfg/gee_config.yml' with one line that looks like:*
+
+<font face="Arial">RETICULATE_PYTHON: /usr/local/bin/python2</font>
+
 
 ```{r Google Earth Engine Pull}
 #Set .RProfile to set the default python for reticulate
-Sys.setenv(RETICULATE_PYTHON = '/usr/local/bin/python2')
+reticulate_python <- yaml::yaml.load_file('lib/cfg/gee_config.yml')$RETICULATE_PYTHON
+Sys.setenv(RETICULATE_PYTHON = reticulate_python)
 
 
 ##repl_python basically starts a python bash window within your R chunk.  This can be used to actually interact with earth engine.
@@ -64,7 +54,7 @@ import feather
 ee.Initialize()
 
 #Source necessary functions.
-execfile('2_rsdata/src/5a_6a_GEE_pull_functions.py')
+execfile('2_rsdata/src/GEE_pull_functions.py')
 
 #Load in Pekel water occurance Layer and Landsat Collections.
 
@@ -101,7 +91,7 @@ water = water.updateMask(water)
 dist = 120
 
 ## Identify folder with in-situ data broken up into 5000 observation chunks by path/row
-ULdir = '2_rsdata/out/split_wide/'
+ULdir = '2_rsdata/tmp/split_wide/'
 
 #Generate file lists for both files to be sent and files already processed in google earth engine
 filesDown = r.filesDownR['name']

@@ -32,9 +32,7 @@ Uniqueness is defined by a unique combination of site name and lat and long.
 ```{r}
 
 #Read in inventory and exclude nutrient data (not a goal of this project just yet)
-inv <- read_feather('1_wqdata/out/wqp_inventory.feather') %>%
-  filter(!Constituent %in% c('tn','p','nitrate')) %>%
-  filter(!StateCode %in% c('72','66')) %>% #No puerto rico or guam
+inv <- read_feather(sc_retrieve('1_wqdata/out/wqp_inventory.feather.ind')) %>%
   distinct(MonitoringLocationIdentifier,LatitudeMeasure,LongitudeMeasure) %>% #Keep only unique site lat and long. 
   filter(!is.na(LatitudeMeasure)) %>% #Exclude sites with missing geospatial data
   filter(!is.na(LongitudeMeasure)) %>%
@@ -51,11 +49,10 @@ lagos.sites <- lagosne_load("1.087.1")$locus %>%
 lagos.wqp <- bind_rows(lagos.sites,inv) %>%
   arrange(lat,long)
 
-#Save this data. 
-write_feather(lagos.wqp,'2_rsdata/tmp/unique_site_inventory.feather')
-
-
-
+#Save this data and push to drive
+data_file <- '2_rsdata/out/unique_site_inventory.feather'
+write_feather(lagos.wqp, data_file)
+gd_put(scipiper::as_ind_file(data_file), data_file)
 ```
 
 
@@ -83,7 +80,7 @@ import time
 pekel = ee.Image('JRC/GSW1_0/GlobalSurfaceWater')
 
 #Point to the inventory feather
-file = '2_rsdata/tmp/unique_site_inventory.feather'
+file = '2_rsdata/out/unique_site_inventory.feather'
 
 #Read in our inventory feather
 inv = f.read_dataframe(file)
@@ -127,7 +124,7 @@ def waterfunc(buf):
   return out
 
 #Source function to limit number of tasks sent up to earth engine.
-execfile('2_rsdata/src/5a_6a_GEE_pull_functions.py')
+execfile('2_rsdata/src/GEE_pull_functions.py')
       
 #Loop over the index stored in split
 for x in range(0,len(splitStart)):
@@ -201,13 +198,12 @@ water.60 <- water.inv %>%
         lat = as.numeric(str_split_fixed(coords,',',2)[,2])) %>%
   select(-`.geo`,-coords,-`system:index`)
 
-
-
-
-write_feather(water.60,'2_rsdata/out/unique_site_visible_inv.feather')
+# write the file
+data_file <- '2_rsdata/out/unique_site_visible_inv.feather'
+write_feather(water.60,data_file)
 
 #Upload to team drive
-drive_upload('2_rsdata/out/unique_site_visible_inv.feather', 'watersat/2_rsdata/out/')
+gd_put(scipiper::as_ind_file(data_file), data_file)
 
 ```
 

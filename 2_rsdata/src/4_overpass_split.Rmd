@@ -15,8 +15,8 @@ library(feather)
 library(googledrive)
 library(tidyverse)
 library(sf)
-library(LAGOSNE)
 library(lubridate)
+library(foreach)
 
 opts_knit$set(root.dir='../..')
 
@@ -27,10 +27,9 @@ opts_knit$set(root.dir='../..')
 
 ```{r}
 #I like foreach here for theupdated output. This could easily be a simple for loop. No parellel. While loops are scary with parellel. 
-library(foreach)
 
 #Read in data
-wqp.pull <- read_feather('2_rsdata/out/wide_pull.feather') %>%
+wqp.pull <- read_feather(sc_retrieve('2_rsdata/out/wide_pull.feather.ind')) %>%
   arrange(lat,long)
 
 #Nest data per site
@@ -42,7 +41,7 @@ wqp.nest <- wqp.pull %>%
 
 
 #Define a function to split data into sub 5000 sized chunks
-data.splitter <- function(wqp.nest,dir='2_rsdata/out/split_wide/'){
+data.splitter <- function(wqp.nest,dir='2_rsdata/tmp/split_wide/'){
   pr.index <- unique(wqp.nest$pr)
   #Forloop and while loop to split data into 5000 or less feathers (which is a data requirement of GEE.)
   foreach(i = 1:length(pr.index)) %do%{
@@ -69,23 +68,7 @@ data.splitter <- function(wqp.nest,dir='2_rsdata/out/split_wide/'){
   }
 }
 
-
-
-data.splitter(wqp.nest,dir='2_rsdata/out/split_wide/')
-
-
+data.splitter(wqp.nest,dir='2_rsdata/tmp/split_wide/')
 ```
 
-
-```{r}
-# Move files from local to google drive
-split.files <- list.files('2_rsdata/out/split_wide',full.names=T)
-split.names= list.files('2_rsdata/out/split_wide')
-
-for(i in 1:length(split.files)) {
-  drive_upload(split.files[i], paste0('watersat/2_rsdata/out/split_wide/',split.names[i]))
-}
-
-
-```
-
+You should expect `r length(dir('2_rsdata/tmp/split_wide/'))` files in split_wide. These will be needed on GEE for the next step.
