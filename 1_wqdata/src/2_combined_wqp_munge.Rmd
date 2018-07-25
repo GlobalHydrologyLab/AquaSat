@@ -20,7 +20,6 @@ library(lubridate)
 library(parallel)
 library(foreach)
 
-library(multidplyr)
 knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_knit$set(root.dir='../..')
 ```

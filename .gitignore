@@ -19,8 +19,11 @@
 *.shx
 *.xml
 *.zip
-# Allow
-!*/out/placeholder.txt
 tasks_*.yml
 .RDataTmp
 lib/cfg/gd_config.yml
+.html
+
+# Allow
+!*/out/placeholder.txt
+!docs/*.html
