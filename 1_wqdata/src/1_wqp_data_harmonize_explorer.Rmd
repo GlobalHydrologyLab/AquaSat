@@ -125,7 +125,7 @@ So to harmonize secchi depth measurements we simpy drop all units that are not u
 
 ```{r secchi all parameters}
 #Read in the raw data from '1_wqdata/out'
-secchi <- read_feather('1_wqdata/tmp/wqp/all_raw_secchi.feather') %>%
+secchi <- read_feather('1_wqdata/out/wqp/all_raw_secchi.feather') %>%
   wqp.renamer() 
 #Summarize by characteristic name and unit code and print
 unit.kable(secchi)

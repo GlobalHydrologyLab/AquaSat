@@ -10,6 +10,9 @@ packages:
   - xml2
   - doParallel
   - foreach
+  - kableExtra
+  - pander
+  - GenKern
   
 file_extensions:
   - feather
@@ -135,10 +138,10 @@ targets:
   # git committed
 
   1_wqdata/doc/1_wqp_data_harmonize_explorer.html:
-    depends: 1_wqdata/log/tasks_1_wqp_merge.ind
+    #depends: 1_wqdata/log/tasks_1_wqp_merge.ind
     command: render_rmd(
-      rmd_file='1_wqdata/src/1_wqp_data_harmonize_explorer.Rmd',
-      html_file=target_name)
+      input='1_wqdata/src/1_wqp_data_harmonize_explorer.Rmd',
+      output_file=target_name)
     
   #1_wqdata/tmp/harmonized/secchi_harmony.feather:
   #  depends: 1_wqdata/doc/1_wqp_data_harmonize_explorer.html
