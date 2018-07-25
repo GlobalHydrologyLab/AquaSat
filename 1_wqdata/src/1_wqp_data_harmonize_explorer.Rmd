@@ -125,7 +125,7 @@ So to harmonize secchi depth measurements we simpy drop all units that are not u
 
 ```{r secchi all parameters}
 #Read in the raw data from '1_wqdata/out'
-secchi <- read_feather('1_wqdata/out/wqp/all_raw_secchi.feather') %>%
+secchi <- read_feather(sc_retrieve('1_wqdata/out/wqp/all_raw_secchi.feather.ind')) %>%
   wqp.renamer() 
 #Summarize by characteristic name and unit code and print
 unit.kable(secchi)
@@ -170,7 +170,7 @@ This [paper](https://water.usgs.gov/osw/pubs/WRIR00-4191.pdf) is really useful f
 
 ```{r}
 #Read in the raw data from '1_wqdata/out'
-tss <- read_feather('1_wqdata/out/wqp/all_raw_tss.feather') %>%
+tss <- read_feather(sc_retrieve('1_wqdata/out/wqp/all_raw_tss.feather.ind')) %>%
   wqp.renamer()
 
 #Summarize by characteristic name and unit code
@@ -339,7 +339,7 @@ First let's read in the data.
 ```{r doc read}
 
 #Summarize by characteristic name and unit code
-doc <- read_feather('1_wqdata/out/wqp/all_raw_doc.feather') %>%
+doc <- read_feather(sc_retrieve('1_wqdata/out/wqp/all_raw_doc.feather.ind')) %>%
   wqp.renamer() 
 
 ```
@@ -460,7 +460,7 @@ Chlorophyll concentration is a good proxy for algal biomass, but it may be the h
 
 ```{r Chlorophyll}
 #Read in the raw data from '1_wqdata/out'
-chl <- read_feather('1_wqdata/out/wqp/all_raw_chlorophyll.feather') %>%
+chl <- read_feather(sc_retrieve('1_wqdata/out/wqp/all_raw_chlorophyll.feather.ind')) %>%
   wqp.renamer() 
 ```
 
