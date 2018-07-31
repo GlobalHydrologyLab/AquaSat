@@ -28,7 +28,12 @@ targets:
   1_wqdata:
     depends:
       - confirm_gd_config
-      - 1_wqdata/out/wqp_lagos_unity.feather.ind
+      - 1_wqdata/doc/1_wqp_data_harmonize_explorer.html
+      - 1_wqdata/doc/2_combined_wqp_munge.html
+      - 1_wqdata/doc/3_wqp_merge_widen.html
+      - 1_wqdata/doc/4_wqp_lagos_merge.html
+      
+
 
   confirm_gd_config:
     command: check_gd_config()
@@ -159,10 +164,7 @@ targets:
   1_wqdata/tmp/harmonized/chl.a_harmony.feather:
     depends: 1_wqdata/doc/1_wqp_data_harmonize_explorer.html
     command: c()
-  1_wqdata/tmp/harmonized/tss1_harmony.feather:
-    depends: 1_wqdata/doc/1_wqp_data_harmonize_explorer.html
-    command: c()
-  1_wqdata/tmp/harmonized/tss2_harmony.feather:
+  1_wqdata/tmp/harmonized/tss_harmony.feather:
     depends: 1_wqdata/doc/1_wqp_data_harmonize_explorer.html
     command: c()
   1_wqdata/tmp/harmonized/doc_harmony.feather:
@@ -180,8 +182,7 @@ targets:
     depends:
       - 1_wqdata/tmp/harmonized/secchi_harmony.feather
       - 1_wqdata/tmp/harmonized/chl.a_harmony.feather
-      - 1_wqdata/tmp/harmonized/tss1_harmony.feather
-      - 1_wqdata/tmp/harmonized/tss2_harmony.feather
+      - 1_wqdata/tmp/harmonized/tss_harmony.feather
       - 1_wqdata/tmp/harmonized/doc_harmony.feather
       - 1_wqdata/tmp/harmonized/tis_harmony.feather
       - 1_wqdata/tmp/harmonized/sand_harmony.feather
@@ -196,10 +197,7 @@ targets:
   1_wqdata/out/unity/chl.a_unity.feather:
     depends: 1_wqdata/doc/2_combined_wqp_munge.html
     command: c()
-  1_wqdata/out/unity/tss1_unity.feather:
-    depends: 1_wqdata/doc/2_combined_wqp_munge.html
-    command: c()
-  1_wqdata/out/unity/tss2_unity.feather:
+  1_wqdata/out/unity/tss_unity.feather:
     depends: 1_wqdata/doc/2_combined_wqp_munge.html
     command: c()
   1_wqdata/out/unity/doc_unity.feather:
@@ -217,8 +215,7 @@ targets:
     depends:
       - 1_wqdata/out/unity/secchi_unity.feather
       - 1_wqdata/out/unity/chl.a_unity.feather
-      - 1_wqdata/out/unity/tss1_unity.feather
-      - 1_wqdata/out/unity/tss2_unity.feather
+      - 1_wqdata/out/unity/tss_unity.feather
       - 1_wqdata/out/unity/doc_unity.feather
       - 1_wqdata/out/unity/tis_unity.feather
       - 1_wqdata/out/unity/sand_unity.feather
