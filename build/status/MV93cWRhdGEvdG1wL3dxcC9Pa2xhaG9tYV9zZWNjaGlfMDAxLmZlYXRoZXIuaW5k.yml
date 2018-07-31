@@ -1,10 +1,10 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Oklahoma_secchi_001.feather.ind
 type: file
-hash: 0f82391e3d8bd3d3d9746b3ff5d47b22
-time: 2018-02-16 11:24:56 UTC
+hash: 3f92ac2df7b7eb74446db0311fb7f93b
+time: 2018-07-30 17:04:31 UTC
 depends:
-  partition_Oklahoma_secchi_001: dc432d605d2a3670e4120237dd2fe847
+  partition_Oklahoma_secchi_001: 9d7331e6a44cb0c20bf042859defa5d3
   wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
 fixed: fa3fa6955ba47a0a43a0f2212576feb7
 code:

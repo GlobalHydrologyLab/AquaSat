@@ -1,10 +1,10 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Minnesota_tss_002.feather.ind
 type: file
-hash: 09c8fe4cfe5a8ab8019324bc6ae90310
-time: 2018-02-16 09:45:18 UTC
+hash: 5649dd901bec02844c10930f5eb4db6d
+time: 2018-07-30 21:13:52 UTC
 depends:
-  partition_Minnesota_tss_002: 9df153d95d78784d22d25434e86b835e
+  partition_Minnesota_tss_002: f844ff69c4cc5ef270b2a23f7d7cdc73
   wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
 fixed: fbf6fed359b6c8dc83d391f02c43c49c
 code:

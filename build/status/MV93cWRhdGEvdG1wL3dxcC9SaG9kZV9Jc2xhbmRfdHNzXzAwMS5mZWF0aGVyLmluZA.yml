@@ -1,10 +1,10 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Rhode_Island_tss_001.feather.ind
 type: file
-hash: cd194f293d219a5becffadf820cbdffc
-time: 2018-02-16 11:53:43 UTC
+hash: 426c19884fe7ce567d6495a714e3ae96
+time: 2018-07-30 21:50:55 UTC
 depends:
-  partition_Rhode_Island_tss_001: c46af38421b1f5976bcc9845f3d4c1bb
+  partition_Rhode_Island_tss_001: fe1990a3d27f353fa399d344d803e996
   wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
 fixed: a5f1e194c03a8d1f12c912bf38a12d77
 code:

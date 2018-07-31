@@ -1,10 +1,10 @@
 version: 0.3.0
 name: 1_wqdata/out/wqp/Michigan_secchi_001.feather.ind
 type: file
-hash: 79236b32a77af17b8679ecac8765b367
-time: 2018-02-16 08:57:03 UTC
+hash: 6dfe14fa95b4f8115b1228a40e0d868f
+time: 2018-07-30 16:28:45 UTC
 depends:
-  1_wqdata/tmp/wqp/Michigan_secchi_001.feather.ind: 79236b32a77af17b8679ecac8765b367
+  1_wqdata/tmp/wqp/Michigan_secchi_001.feather.ind: 6dfe14fa95b4f8115b1228a40e0d868f
 fixed: b8fa9f9b2905434be2eb1b3193a0efc4
 code:
   functions: {}

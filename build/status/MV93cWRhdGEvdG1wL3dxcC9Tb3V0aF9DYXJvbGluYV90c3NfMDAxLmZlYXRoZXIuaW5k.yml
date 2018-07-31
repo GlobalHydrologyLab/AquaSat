@@ -1,10 +1,10 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/South_Carolina_tss_001.feather.ind
 type: file
-hash: d71e364a7531a5632565d56936f3a635
-time: 2018-02-16 11:59:07 UTC
+hash: 3697fc4a2e8dabbc5ef519614165b86b
+time: 2018-07-30 21:52:50 UTC
 depends:
-  partition_South_Carolina_tss_001: 5d7b255e48d5760db7e485a60c46562c
+  partition_South_Carolina_tss_001: 8ce771ee1eb3303f2717656e1880ef38
   wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
 fixed: c39e13ea49cca61570ddd30ce8fac9f0
 code:

@@ -1,8 +1,8 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Massachusetts_secchi_001.feather.ind
 type: file
-hash: 522f53ddaf425721fa5a78454ac6e619
-time: 2018-02-16 08:40:56 UTC
+hash: 11edd112069760a7b941f8f30f05dadb
+time: 2018-07-30 16:26:09 UTC
 depends:
   partition_Massachusetts_secchi_001: 25e04130da358ee6dd049fb8fb6bb917
   wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
