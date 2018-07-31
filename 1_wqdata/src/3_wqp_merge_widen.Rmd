@@ -77,7 +77,8 @@ wqp.wide <- unity %>%
   
 
 write_feather(wqp.wide,path='1_wqdata/out/wqp_unity_wide.feather')
-
+rm(list=ls())
+gc()
 
 ```
 

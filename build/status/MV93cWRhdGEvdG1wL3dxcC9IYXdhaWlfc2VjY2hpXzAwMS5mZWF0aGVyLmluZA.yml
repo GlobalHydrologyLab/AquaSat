@@ -1,8 +1,8 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Hawaii_secchi_001.feather.ind
 type: file
-hash: e673c0b4818916b607f7c0abbbff4534
-time: 2018-02-16 06:12:23 UTC
+hash: d4307f01b3f0b62c110edaffbc6c9865
+time: 2018-07-30 16:00:26 UTC
 depends:
   partition_Hawaii_secchi_001: c118316308c3c468fa0f44fefb4129ae
   wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db

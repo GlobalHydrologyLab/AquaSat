@@ -1,10 +1,10 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Missouri_tss_001.feather.ind
 type: file
-hash: 816500756968b0c9c2bb1ebd7f870f43
-time: 2018-02-16 10:00:26 UTC
+hash: daea73aca0cc57287f406f18429d48e1
+time: 2018-07-30 21:18:45 UTC
 depends:
-  partition_Missouri_tss_001: 843d4f952773de893c4d7cec517fa4db
+  partition_Missouri_tss_001: 0e051353401df5941d33f67b598aa628
   wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
 fixed: a3bfb3d69cca1258de1dcb60b13fd5a9
 code:

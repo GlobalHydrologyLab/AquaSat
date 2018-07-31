@@ -1,8 +1,8 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Wyoming_chlorophyll_001.feather.ind
 type: file
-hash: 1aaf23452c69c396a46a6a8a8b96edae
-time: 2018-02-16 14:15:34 UTC
+hash: d637ce548c1b1421d9de6a6fceb4ef0a
+time: 2018-07-27 22:37:37 UTC
 depends:
   partition_Wyoming_chlorophyll_001: 97d212b2b7628e1fcbeaa15479fe310c
   wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db

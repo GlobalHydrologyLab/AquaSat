@@ -1,10 +1,10 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Indiana_secchi_001.feather.ind
 type: file
-hash: c9accc584979b6f7e1013a236a6bf6f4
-time: 2018-02-16 06:33:02 UTC
+hash: a6c55bbc115466cd674431268d4afbe9
+time: 2018-07-30 16:08:36 UTC
 depends:
-  partition_Indiana_secchi_001: 10a005c3dc2471a97332097c51dd8f5a
+  partition_Indiana_secchi_001: e6bdbfc41e31aaf7baf52b7da446e12a
   wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
 fixed: caae7748a2f376e9c4421b9382be615a
 code:

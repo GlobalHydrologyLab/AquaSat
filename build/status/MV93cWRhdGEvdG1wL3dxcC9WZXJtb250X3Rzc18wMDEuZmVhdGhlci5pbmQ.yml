@@ -1,10 +1,10 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Vermont_tss_001.feather.ind
 type: file
-hash: d6b3ce1c8ffceeb19d7c6628d7fbbaf6
-time: 2018-02-16 12:41:38 UTC
+hash: 350efd9e376ea9eb6bec2036ebf62bb9
+time: 2018-07-30 22:05:08 UTC
 depends:
-  partition_Vermont_tss_001: 795dcf4d776e3eb7f36d767e9e5977ed
+  partition_Vermont_tss_001: 7e783606708e10b10440c09c05855cf9
   wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
 fixed: ad1c51717308753fd0c33eaf424cf15d
 code:

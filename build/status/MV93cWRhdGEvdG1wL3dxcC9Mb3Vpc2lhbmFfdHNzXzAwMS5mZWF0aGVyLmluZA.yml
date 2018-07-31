@@ -1,10 +1,10 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Louisiana_tss_001.feather.ind
 type: file
-hash: 71ec2b3c5c3ff3b415fa089bb3fc5519
-time: 2018-02-16 07:08:47 UTC
+hash: 80e96e421a1fb46e780c75f7907a3ddd
+time: 2018-07-30 20:43:06 UTC
 depends:
-  partition_Louisiana_tss_001: 00037a761da37e96fe986854711a1364
+  partition_Louisiana_tss_001: eabb71eebc9130a9bfa2c4bb79d9b114
   wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
 fixed: 78d8969819d15ffdac3ef7816501fe8e
 code:

@@ -1,8 +1,8 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/California_cdom_001.feather.ind
 type: file
-hash: e1d5af46ceced4dda27d608be9465a65
-time: 2018-02-16 03:29:22 UTC
+hash: 42fc1a03770349da5a4ad72af15ac76a
+time: 2018-07-27 18:37:50 UTC
 depends:
   partition_California_cdom_001: f74758f6a60c575d48e9c4a0c1bf991a
   wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db

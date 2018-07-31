@@ -1,8 +1,8 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Maine_tss_001.feather.ind
 type: file
-hash: 93952946009235d5b42f9fb78b0b0c88
-time: 2018-02-16 07:13:14 UTC
+hash: c3380c5b65ecac0318dc4a99c4d36cb5
+time: 2018-07-30 20:44:52 UTC
 depends:
   partition_Maine_tss_001: b765288c2a53440cf041ff3f83a5414d
   wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db

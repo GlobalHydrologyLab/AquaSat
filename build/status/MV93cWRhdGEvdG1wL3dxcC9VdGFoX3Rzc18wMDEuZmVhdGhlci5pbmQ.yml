@@ -1,10 +1,10 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Utah_tss_001.feather.ind
 type: file
-hash: 3ba33cecafec88498903166b9617384b
-time: 2018-02-16 12:32:28 UTC
+hash: 1e6e3ce6b61d62357024b22cac4f2c77
+time: 2018-07-30 22:03:12 UTC
 depends:
-  partition_Utah_tss_001: 4288e99bff2eff3372dd0f0e80a99834
+  partition_Utah_tss_001: 382f295e4ff2c3e049e074fbdf21fbae
   wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
 fixed: 5ed1444cd1cfa0dfaa634e86c6eed0f9
 code:

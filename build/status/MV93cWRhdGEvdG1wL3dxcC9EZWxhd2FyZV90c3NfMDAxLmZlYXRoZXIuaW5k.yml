@@ -1,10 +1,10 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Delaware_tss_001.feather.ind
 type: file
-hash: b2d51da4364f05c976e970c7b2884671
-time: 2018-02-16 04:03:30 UTC
+hash: d258809f16504bbd212a27b4bc44b233
+time: 2018-07-30 19:50:46 UTC
 depends:
-  partition_Delaware_tss_001: a5b3e04dfe9213a2d617cc7f296f8af7
+  partition_Delaware_tss_001: fe389f2bb9577d824a613c66d3f25dd9
   wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
 fixed: 1e3b9b3fb48369af8195c244197f498a
 code:

@@ -1,10 +1,10 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Massachusetts_tss_001.feather.ind
 type: file
-hash: d51b409d12681fa44c56d17b8d957a9c
-time: 2018-02-16 08:42:00 UTC
+hash: 3886a1de49fbac9abbe9fbd45fcf0c09
+time: 2018-07-30 21:01:06 UTC
 depends:
-  partition_Massachusetts_tss_001: a55dc0922b73cd9a7d2a9adf9a9c0d81
+  partition_Massachusetts_tss_001: 73bd15ce1cd3e9d4f14b31678fdf21f4
   wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
 fixed: e348870412ec66f4da5d7c58f63988f7
 code:

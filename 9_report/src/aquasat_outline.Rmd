@@ -32,7 +32,7 @@ library(ggpmisc)
 
 
 knitr::opts_chunk$set(echo = FALSE,warning=F)
-knitr::opts_knit$set(root.dir='../..')
+knitr::opts_knit$set(root.dir='~/Dropbox/UNC-PostDocAll/aquasat')
 
 lagos <- lagosne_load("1.087.1")
 
@@ -452,7 +452,7 @@ table(missing.matchups$type)
 sr.long.median <-  sr.type %>%
   mutate(ndvi=(nir-red)/(nir+red)) %>%
   filter(ndvi < 0.6) %>%
-  filter(swir2 < 600) %>%
+  filter(swir2 < 500) %>%
   filter(clouds < 40) %>%
   filter(pixelCount > 9) %>%
   #For the library plots lets only keep sameday matchups

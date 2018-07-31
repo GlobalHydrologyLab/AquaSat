@@ -35,7 +35,6 @@ targets:
   2_rsdata/doc/0_cloud_scenes.html:
     depends:
       - confirm_gee_config
-      - GEE_pull_functions.py
     command: render_rmd(
       input='2_rsdata/src/0_cloud_scenes.Rmd',
       output_file=target_name)
@@ -49,7 +48,6 @@ targets:
     depends:
       - confirm_gee_config
       - 1_wqdata/out/wqp_inventory.feather.ind
-      - GEE_pull_functions.py
     command: render_rmd(
       input='2_rsdata/src/1_landsat_site_inventory.Rmd',
       output_file=target_name)

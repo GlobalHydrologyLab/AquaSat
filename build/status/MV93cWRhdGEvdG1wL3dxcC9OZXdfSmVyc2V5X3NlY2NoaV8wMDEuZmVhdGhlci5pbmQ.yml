@@ -1,10 +1,10 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/New_Jersey_secchi_001.feather.ind
 type: file
-hash: 1d906f81403be8a41667ec7b87f71c9e
-time: 2018-02-16 10:35:15 UTC
+hash: 0f7ed5968766e070a7189f3f522d4c93
+time: 2018-07-30 16:52:35 UTC
 depends:
-  partition_New_Jersey_secchi_001: e23af92a2f64df0d386256d0ac1d31fb
+  partition_New_Jersey_secchi_001: d21535aab29d54e9c0bf044a0817b364
   wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
 fixed: 590f986d5d091974420e10e703b6f449
 code:

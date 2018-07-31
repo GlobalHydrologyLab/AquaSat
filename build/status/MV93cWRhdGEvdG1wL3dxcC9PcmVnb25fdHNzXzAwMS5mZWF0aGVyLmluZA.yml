@@ -1,10 +1,10 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Oregon_tss_001.feather.ind
 type: file
-hash: e1970147ae700a7db33f1b482e4aa1e6
-time: 2018-02-16 11:35:58 UTC
+hash: 5388849e76fb591563770e295645ffee
+time: 2018-07-30 21:46:31 UTC
 depends:
-  partition_Oregon_tss_001: c0ef98b86768dd5427112a28e3ec9caa
+  partition_Oregon_tss_001: f15a45a0e776b552aedd6e04f43b8ab0
   wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
 fixed: 9d4fa6f02402776c0cac59b2d93004a9
 code:

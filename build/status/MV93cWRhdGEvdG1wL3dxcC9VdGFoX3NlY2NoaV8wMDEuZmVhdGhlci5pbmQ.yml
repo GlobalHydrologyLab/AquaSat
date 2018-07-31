@@ -1,8 +1,8 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Utah_secchi_001.feather.ind
 type: file
-hash: 67bcb72a40231ec15a9ee923dc7d5d72
-time: 2018-02-16 12:29:07 UTC
+hash: f933e0171c5e7a297c4049dc9b9cf924
+time: 2018-07-30 17:19:52 UTC
 depends:
   partition_Utah_secchi_001: dc6fe67c841b764b1f14c7c151ff5dfa
   wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db

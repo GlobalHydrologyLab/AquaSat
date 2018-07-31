@@ -1,10 +1,10 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/South_Dakota_secchi_001.feather.ind
 type: file
-hash: ab155b779a4ac16d67136a7f38313650
-time: 2018-02-16 12:04:07 UTC
+hash: 2a0100f0aa77797f3fd4f8ac71a08d46
+time: 2018-07-30 17:13:23 UTC
 depends:
-  partition_South_Dakota_secchi_001: 1c0f3ad3f572e34998190342276597d8
+  partition_South_Dakota_secchi_001: 59588faae1b2cc5a4f5454d4c9fd3ed7
   wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
 fixed: 269c9e4e95b443496a32561d05e12c1a
 code:

@@ -24,6 +24,7 @@ library(pander)
 library(LAGOSNE)
 library(lubridate)
 library(GenKern) #For nearest function
+library(scipiper)
 knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_knit$set(root.dir='../..')
 
@@ -122,6 +123,11 @@ one method for measuring secchi disk depth (it's in the name after all),
 and there should always be units of depth (m, ft, inches, cm, etc...).
 So to harmonize secchi depth measurements we simpy drop all units that are not units of depth and convert all units to a single kind with a lookup table. 
 
+First let's make sure R is starting with a fresh memory clean because these datasets can get clogged. A call to gc() should clear any memory issues from previous scipiper work. 
+```{r}
+gc()
+```
+
 
 ```{r secchi all parameters}
 #Read in the raw data from '1_wqdata/out'
@@ -157,6 +163,7 @@ secchi.harmonized <- secchi %>%
          harmonized_value=value*conversion,
          harmonized_unit='meters')
 
+rm(secchi,secchi.lookup)
 ```
 
 
@@ -326,6 +333,8 @@ tss.tis.harmonized <- tss %>%
   #Change harmonized parameter to tis for parameter "fixed suspended solids"
   mutate(harmonized_parameter = ifelse(parameter == 'Fixed suspended solids','tis',harmonized_parameter))
 
+rm(tss,tss.depth,tss.filtered,tss.lookup,tss.p,non.sensical.tss.methods,depth.lookup)
+
 ```
 
 
@@ -412,7 +421,7 @@ doc.filtered <- doc.dissolved %>%
 print(paste('We dropped', round(nrow(doc.nonsense.methods)/nrow(doc)*100,2),'% of samples, because the method used did not make sense. These methods are:'))
 
   
-p(unique(non.sensical.tss.methods$analytical_method),wrap='',sep=' - ') 
+p(unique(doc.nonsense.methods$analytical_method),wrap='',sep=' - ') 
 ```
 
 ## DOC Units
@@ -449,6 +458,7 @@ doc.harmonized <- doc.filtered %>%
          harmonized_value=value*conversion,
          harmonized_unit='mg/L')
 
+rm(doc,doc.dissolved,doc.filtered,doc.lookup,doc.nonsense.methods)
 ```
 
 
@@ -574,7 +584,7 @@ chl.a.filtered <- chl.a.fraction %>%
 print(paste('We dropped', round(nrow(chl.a.nonsense.methods)/nrow(chl)*100,2),'% of samples, because the method used did not make sense. These methods are:'))
 
   
-p(unique(non.sensical.tss.methods$analytical_method),wrap='',sep=' - ') 
+p(unique(chl.a.nonsense.methods$analytical_method),wrap='',sep=' - ') 
 ```
 
 
@@ -615,7 +625,12 @@ chl.a.harmonized <- chl.a.filtered %>%
          harmonized_value=value*conversion,
          harmonized_unit='ug/L')
 
+rm(chl,chl.a,chl.a.filtered,chla.a.fraction,chl.a.nonsense.methods,chl.loookup)
+```
 
+Another call to gc() to clear memory again
+```{r}
+gc()
 ```
 
 
@@ -636,28 +651,12 @@ tss.harmonized <- tss.tis.harmonized %>%
   arrange(SiteID,date) %>%
   mutate(index=1:nrow(.))
 
-#Grab all the indexes where the siteid switches. This keeps Sites intact
-tss.group.diff <- tss.harmonized %>%
-  filter(SiteID != lag(SiteID,1)) 
 
-#Get the index with whole sites nearest to half of the tss sites
-split.index <- tss.group.diff[nearest(tss.group.diff$index,nrow(tss.harmonized)/2),'index'] %>%
-  as.numeric()
-split.index
-str(split.index)
-str(tss.harmonized$index)
-tss.harmonized.1 <- tss.harmonized %>%
-  filter(index < split.index) %>%
-  dplyr::select(-index) 
-
-tss.harmonized.2 <- tss.harmonized %>%
-  filter(index >= split.index) %>%
-  dplyr::select(-index)
 
 #Bind all the harmonized data together
-harmonized.datasets <- list(chl.a.harmonized,doc.harmonized,tis.harmonized,tss.harmonized.1,tss.harmonized.2,sand.harmonized,secchi.harmonized)
+harmonized.datasets <- list(chl.a.harmonized,doc.harmonized,tis.harmonized,tss.harmonized,sand.harmonized,secchi.harmonized)
 
-h.names <- c('chl.a','doc','tis','tss1','tss2','sand','secchi')
+h.names <- c('chl.a','doc','tis','tss','sand','secchi')
 
 #Remove extraneous columns
 extraneous <- function(df){

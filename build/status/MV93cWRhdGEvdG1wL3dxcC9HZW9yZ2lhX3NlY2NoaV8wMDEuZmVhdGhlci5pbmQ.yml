@@ -1,10 +1,10 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Georgia_secchi_001.feather.ind
 type: file
-hash: 3aa1cce68d9ea8e0e7e03ad0e1e7d74a
-time: 2018-02-16 06:03:40 UTC
+hash: 043944ed771a5b4b4015e11e9fdf546b
+time: 2018-07-30 15:58:34 UTC
 depends:
-  partition_Georgia_secchi_001: d29a0732ef50de99cceec0981f1ec9ff
+  partition_Georgia_secchi_001: cc2f302b1e4393bd1f80ea9e3a9c9ca9
   wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
 fixed: 6e3ede94a7b510e10ce3213962996892
 code:

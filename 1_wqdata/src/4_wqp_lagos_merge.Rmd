@@ -31,51 +31,7 @@ knitr::opts_knit$set(root.dir='../..')
 
 
 #single and multiple obs harmonization that will live inside the next function. 
-pluribus.unum <- function(dt,x,...){
-  #seperate out the data that has only 1 obs at unique site, datetime, and parameter combination. 
-  #This should be most data and will simply be kept. 
-  
-  dt.not.unique <- dt %>%
-    select_('SiteID','harmonized_parameter',...) %>%
-    filter(duplicated(.))
-  
-  dt.singles <- dt %>%
-    anti_join(dt.not.unique)
-  
-  #Okay lots of thos have the same exact information. 
-  #We can get rid of those kinds of duplicates with a simple distinct call
-  dt.distinct.okay <- dt %>%
-    inner_join(dt.not.unique) %>% 
-    filter(duplicated(.)) 
-
-  dt.distinct.not.okay <- dt %>%
-    inner_join(dt.not.unique) %>%
-    anti_join(dt.distinct.okay %>%
-                select_('SiteID','harmonized_parameter',...))
-
-  #What should we do with multiple data for the same site, time, and parameter? 
-  dt.multiples <- dt.distinct.not.okay %>%
-    inner_join(dt.not.unique) %>%
-    #The dots are so that the user can switch between datetime or date
-    group_by_('SiteID','harmonized_parameter',...) %>%
-    #Get the median and cv
-    mutate(count=n(),
-           median=median(harmonized_value),
-           cv=sd(harmonized_value)/mean(harmonized_value)) %>%
-    #Remove sites with cvs greater than 0.1
-    filter(count < x) %>%
-    filter(cv < 0.1) %>%
-    #Keep only a single observation with unique combinations
-    distinct_('SiteID','harmonized_parameter',.keep_all=T,...) %>%
-    mutate(harmonized_value = median) %>%
-    dplyr::select(-median,-cv,-count) %>%
-    ungroup()
-  
-  return(rbind(dt.singles,dt.distinct.okay,dt.multiples) %>%
-           #Last bit of paranoia to catch any NAs or doubles that sneak through
-           distinct_('SiteID','harmonized_parameter',...,.keep_all=T))
-}
-
+source('1_wqdata/src/merge_unity_functions.R')
 ```
 
 
@@ -187,6 +143,7 @@ wqp.lagos <- rbind(wqp.wide,lagos.unity)
 write_feather(wqp.lagos,path='1_wqdata/out/wqp_lagos_unity.feather')
 
 gd_put('1_wqdata/out/wqp_lagos_unity.feather.ind', local_source = '1_wqdata/out/wqp_lagos_unity.feather')
-
+rm(list=ls())
+gc()
 ```
 
