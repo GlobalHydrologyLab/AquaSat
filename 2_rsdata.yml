@@ -27,6 +27,12 @@ targets:
   2_rsdata:
     depends:
       - confirm_gee_config 
+      - 2_rsdata/doc/0_cloud_scenes.html
+      - 2_rsdata/doc/1_landsat_site_inventory.html
+      - 2_rsdata/doc/2_wqp_overlaps.html
+      - 2_rsdata/doc/3_flat_overpasses.html
+      - 2_rsdata/doc/4_overpass_split.html
+      - 2_rsdata/doc/5_surface_reflectance_pull.html
 
   confirm_gee_config:
     command: check_gee_config()
