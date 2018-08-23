@@ -1,0 +1,14 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp_inventory.feather.ind
+type: file
+hash: 56f98578f11270e53ab400a32cfd3fda
+time: 2018-08-03 17:00:05 UTC
+depends:
+  wqp_state_codes: 197d888c15b02a6166ef48771557c707
+  wqp_states: 80f3506d37fc77ef74d354c0e403a2e5
+  wqp_codes: 87443ed91817c6b6f43f5ac6ef66b838
+fixed: e8284433630daf5cf6f84752e28e9b57
+code:
+  functions:
+    inventory_wqp: cf66ecf96a35ac007c01d4aa7491ad4b
+

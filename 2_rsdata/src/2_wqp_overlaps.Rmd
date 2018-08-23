@@ -41,11 +41,11 @@ usa = us_states() %>%
 
 
 #Download and and read in WRS spatial data
-download.file('https://landsat.usgs.gov/sites/default/files/documents/wrs2_asc_desc.zip', destfile = paste0(getwd(),'/2_rsdata/in/wrs2_asc_desc.zip'), method = 'curl')
+download.file('https://landsat.usgs.gov/sites/default/files/documents/WRS2_descending.zip', destfile = paste0(getwd(),'/2_rsdata/in/WRS2_descending.zip'), method = 'curl')
 
-unzip('2_rsdata/in/wrs2_asc_desc.zip', exdir = '2_rsdata/in/')
+unzip('2_rsdata/in/WRS2_descending.zip', exdir = '2_rsdata/in/wrs')
 
-wrs <- st_read('2_rsdata/in/wrs2_asc_desc/wrs2_asc_desc.shp') %>%
+wrs <- st_read('2_rsdata/in/wrs/WRS2_descending.shp') %>%
   st_transform(.,2163)
 
 

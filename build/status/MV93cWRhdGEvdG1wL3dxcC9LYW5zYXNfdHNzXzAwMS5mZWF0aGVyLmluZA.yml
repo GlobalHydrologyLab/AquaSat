@@ -1,11 +1,11 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Kansas_tss_001.feather.ind
 type: file
-hash: 1b8116c3c9a1feb2ec9cf6cf5311faef
-time: 2018-07-30 20:39:06 UTC
+hash: d51653ffa10c6c798e0f67f788cd1cff
+time: 2018-08-09 21:32:01 UTC
 depends:
   partition_Kansas_tss_001: 87a6a1300098c7d778e49597bbb64c9b
-  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+  wq_dates: f4bcde398b53baed65cd74cd4be6f226
 fixed: 689909a6957020b030a558afb0e66d66
 code:
   functions:

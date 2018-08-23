@@ -1,11 +1,11 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Alaska_secchi_001.feather.ind
 type: file
-hash: 233132cded3ba36fe75bc48d75090972
-time: 2018-02-16 03:09:58 UTC
+hash: 8dbd42a689e01c271ba46593d899590f
+time: 2018-08-09 19:07:29 UTC
 depends:
-  partition_Alaska_secchi_001: 3b82599b803f68c2b9bb25bb40f65967
-  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+  partition_Alaska_secchi_001: bf6f32ba36f640e46912f521ef6f3293
+  wq_dates: f4bcde398b53baed65cd74cd4be6f226
 fixed: 6a533f013315fab8c946f689a3fbdee5
 code:
   functions:

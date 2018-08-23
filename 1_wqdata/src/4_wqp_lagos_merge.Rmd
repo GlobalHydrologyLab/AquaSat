@@ -2,9 +2,11 @@
 title: "4_wqp_lagos_merge"
 author: "Matthew Ross"
 date: "6/11/2018"
-output: html_document
+output:
+  html_document:
+    toc: true
 editor_options: 
-  chunk_output_type: inline
+  chunk_output_type: console
 ---
 
 
@@ -27,10 +29,11 @@ library(tidyr)
 knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_knit$set(root.dir='../..')
 
-#Slightly altered pluribus function
 
+```
 
-#single and multiple obs harmonization that will live inside the next function. 
+```{r}
+#Load pluribus function
 source('1_wqdata/src/merge_unity_functions.R')
 ```
 
@@ -84,17 +87,10 @@ secchi <- lagos$secchi %>%
 
 
 
-#Are there duplicate observations with the same date and time?
-secchi %>%
-  select('SiteID','harmonized_parameter','date_unity') %>%
-  filter(duplicated(.)) %>%
-  #yes there are lots. Dang.
-  slice(100:110) %>%
-  kable()
 
 
 #Thats okay, we have a function for that
-secchi.unity <- pluribus.unum(secchi,20,'date_unity')
+secchi.unity <- pluribus(secchi,20,'date_unity')
 
 ```
 
@@ -114,7 +110,7 @@ chl.doc <- lagos$epi_nutr %>%
   mutate(date_only=T) %>%
   select(names(secchi))
 
-chl.doc.unity <- pluribus.unum(chl.doc,20,'date_unity')
+chl.doc.unity <- pluribus(chl.doc,20,'date_unity')
 
 ```
 
@@ -143,7 +139,6 @@ wqp.lagos <- rbind(wqp.wide,lagos.unity)
 write_feather(wqp.lagos,path='1_wqdata/out/wqp_lagos_unity.feather')
 
 gd_put('1_wqdata/out/wqp_lagos_unity.feather.ind', local_source = '1_wqdata/out/wqp_lagos_unity.feather')
-rm(list=ls())
 gc()
 ```
 

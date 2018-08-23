@@ -1,11 +1,11 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Ohio_tss_001.feather.ind
 type: file
-hash: 556064168300a6ff1bc3eb60722fc1e6
-time: 2018-07-30 21:41:43 UTC
+hash: 28e8619e24d0084a80b2580b29253428
+time: 2018-08-04 02:38:26 UTC
 depends:
-  partition_Ohio_tss_001: 72a32cf8c85ed071faeaf461278421f9
-  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+  partition_Ohio_tss_001: 91ecf32b7641ce1b31e455a6e03b011f
+  wq_dates: f4bcde398b53baed65cd74cd4be6f226
 fixed: 553edba5aeee22e64e36c13fbac78c82
 code:
   functions:

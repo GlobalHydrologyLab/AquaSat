@@ -1,11 +1,11 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Alabama_secchi_001.feather.ind
 type: file
-hash: 95410c8e29e5100e803a9a3964d7300b
-time: 2018-02-16 03:01:59 UTC
+hash: a96de530ff929a4ace015d3baeae12c4
+time: 2018-08-09 18:58:03 UTC
 depends:
-  partition_Alabama_secchi_001: 3384d64bf6b9b9ee0ab0dd2ac343267d
-  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+  partition_Alabama_secchi_001: c583322b7d4e23ee1b927569ac05e09f
+  wq_dates: f4bcde398b53baed65cd74cd4be6f226
 fixed: bc5e15decabbf8a30588835e1e7dec15
 code:
   functions:

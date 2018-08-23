@@ -1,11 +1,11 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Rhode_Island_secchi_001.feather.ind
 type: file
-hash: a3828e091c0b22ae9850cc9c36f7f555
-time: 2018-07-30 17:09:30 UTC
+hash: 2a4a945c0b1a4c8ccd9f726db200e7fa
+time: 2018-08-04 07:06:48 UTC
 depends:
   partition_Rhode_Island_secchi_001: 4a477da9b74a0bd8b62984b76f0ac40c
-  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+  wq_dates: f4bcde398b53baed65cd74cd4be6f226
 fixed: 9b384ce201a2b7cc79ca565b9a4b334f
 code:
   functions:

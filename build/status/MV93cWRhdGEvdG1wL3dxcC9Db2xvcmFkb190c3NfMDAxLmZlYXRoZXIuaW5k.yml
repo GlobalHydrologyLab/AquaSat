@@ -1,11 +1,11 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Colorado_tss_001.feather.ind
 type: file
-hash: 7e9f1b654ac0b5e3593cf53f989c8070
-time: 2018-02-16 03:50:06 UTC
+hash: bfe66a0265751589d2d8b8a7d69f5234
+time: 2018-08-09 19:43:58 UTC
 depends:
-  partition_Colorado_tss_001: 8a506e83d765f0b09edea204ca0e788f
-  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+  partition_Colorado_tss_001: c3c8837944869915041a3fd789a2c650
+  wq_dates: f4bcde398b53baed65cd74cd4be6f226
 fixed: 74d184709b592a4ef18e29f49bce16d6
 code:
   functions:

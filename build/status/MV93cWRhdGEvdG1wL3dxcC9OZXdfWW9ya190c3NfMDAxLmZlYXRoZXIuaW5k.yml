@@ -1,11 +1,11 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/New_York_tss_001.feather.ind
 type: file
-hash: e197ffbdf1bc6e72a534f7945272c383
-time: 2018-07-30 21:34:37 UTC
+hash: 1929800d5d852de46614189b47ca411f
+time: 2018-08-04 02:13:47 UTC
 depends:
-  partition_New_York_tss_001: 9c88f38747f49194e297c5feed4eb4f5
-  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+  partition_New_York_tss_001: 4370fa76af287b752da2bff9c2eecff1
+  wq_dates: f4bcde398b53baed65cd74cd4be6f226
 fixed: e4d3e57835dc44accffbb69fb9ef4fc6
 code:
   functions:

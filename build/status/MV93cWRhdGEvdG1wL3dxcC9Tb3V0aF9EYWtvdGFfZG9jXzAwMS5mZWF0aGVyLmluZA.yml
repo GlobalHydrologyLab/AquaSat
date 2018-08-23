@@ -1,11 +1,11 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/South_Dakota_doc_001.feather.ind
 type: file
-hash: f032e2dd74e438e5324bb0bc2cf62f0d
-time: 2018-02-16 12:02:49 UTC
+hash: 46a1ac43370df4b6ea5f4992262cec44
+time: 2018-08-04 03:21:35 UTC
 depends:
-  partition_South_Dakota_doc_001: 2876305e2e2ce3d1804045116ca1f6db
-  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+  partition_South_Dakota_doc_001: 18bb87d77ddbdd220a220af02a64770a
+  wq_dates: f4bcde398b53baed65cd74cd4be6f226
 fixed: bc4e43741cd6aa25fcedaf4a20988c3f
 code:
   functions:

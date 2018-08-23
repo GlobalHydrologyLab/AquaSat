@@ -23,6 +23,9 @@ library(reticulate)
 library(googledrive)
 library(lubridate)
 library(feather)
+## HTTP 2 causes error force http1.1
+#httr::set_config(config(http_version = 1.1)) # set the HTTP version to 1.1 (none, 1.0, 1.1, 2)
+
 ```
 
 
@@ -32,14 +35,31 @@ The code below grabs cloud scores, WRS PATH and ROW, landsat ID and date informa
 
 We use the USGS surface reflectance product for this data pull. Information on this data can be found [here](https://landsat.usgs.gov/landsat-surface-reflectance).
 
+```{r reticulate_version}
+reticulate_python <- yaml::yaml.load_file('lib/cfg/gee_config.yml')$RETICULATE_PYTHON
+use_python(reticulate_python)
+```
 
-```{r Cloud Pull}
-#Set.RProfile to set the default python for reticulate
-Sys.setenv(RETICULATE_PYTHON = '/usr/local/bin/python2')
 
-#Start python bash
-repl_python()
+## Does the earth engine script need to be reran?
+```{r}
+folder <- drive_ls('clouds')
+should_be = year(Sys.Date())-1983
+do_it = !nrow(folder) == should_be
 
+
+
+if(nrow(folder) < should_be & nrow(folder) != 0){
+  for(i in 1:nrow(folder)) {
+  drive_rm(as_id(folder$id[i]))
+  }
+}
+
+
+```
+
+
+```{python,eval=do_it}
 #Import libraries
 import ee
 import time
@@ -86,7 +106,7 @@ for year in years:
   task0 = ee.batch.Export.table.toDrive(
        collection = Cloudiness,
        description = 'Cloudiness' + str(year),
-       folder = 'wqp_cloudiness',
+       folder = 'clouds',
        fileNamePrefix = str(year) ,
        fileFormat = 'CSV')
   
@@ -100,7 +120,6 @@ maximum_no_of_tasks(1,60)
 print('done')
 
 ## End the python bash.
-exit
 ```
 
 
@@ -110,7 +129,7 @@ Now that GEE has created and exported a summary of cloud scores for all landsat 
 
 ```{r}
 #List files
-folder <- drive_ls('wqp_cloudiness')
+folder <- drive_ls('clouds')
 
 #Download files locally.
 for(i in 1:nrow(folder)) {
@@ -133,8 +152,10 @@ for(i in 1:nrow(folder)) {
 
 
 ```{r}
+
 #Read in data. 
-clouds <- map_df(list.files('2_rsdata/tmp/yearly_clouds',full.names = T),read_csv) %>%
+clouds <- map_df(list.files('2_rsdata/tmp/yearly_clouds',
+                            full.names = T),read_csv) %>%
   mutate(Date = ymd(str_split_fixed(`system:index`,'_',5)[,5])) 
 
 data_file <- '2_rsdata/out/clouds.feather'

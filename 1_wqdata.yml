@@ -158,7 +158,7 @@ targets:
     depends:
       - 1_wqdata/log/tasks_1_wqp_merge.ind
     command: render_rmd(
-      inputs='1_wqdata/src/1_wqp_data_harmonize_explorer.Rmd',
+      input='1_wqdata/src/1_wqp_data_harmonize_explorer.Rmd',
       output_file=target_name)
 
   # side effects of 1_wqdata/src/1_wqp_data_harmonize_explorer.Rmd:
@@ -191,7 +191,7 @@ targets:
       - 1_wqdata/tmp/harmonized/tis_harmony.feather
       - 1_wqdata/tmp/harmonized/sand_harmony.feather
     command: render_rmd(
-      inputs='1_wqdata/src/2_combined_wqp_munge.Rmd',
+      input='1_wqdata/src/2_combined_wqp_munge.Rmd',
       output_file=target_name)
 
   # side effects of 1_wqdata/src/2_combined_wqp_munge.Rmd:
@@ -224,7 +224,7 @@ targets:
       - 1_wqdata/out/unity/tis_unity.feather
       - 1_wqdata/out/unity/sand_unity.feather
     command: render_rmd(
-      inputs='1_wqdata/src/3_wqp_merge_widen.Rmd',
+      input='1_wqdata/src/3_wqp_merge_widen.Rmd',
       output_file=target_name)
 
   # side effects of 1_wqdata/src/3_wqp_merge_widen.Rmd:
@@ -237,7 +237,7 @@ targets:
     depends:
       - 1_wqdata/out/wqp_unity_wide.feather
     command: render_rmd(
-      inputs='1_wqdata/src/4_wqp_lagos_merge.Rmd',
+      input='1_wqdata/src/4_wqp_lagos_merge.Rmd',
       output_file=target_name)
 
   # side effects of 1_wqdata/src/4_wqp_lagos_merge.Rmd:

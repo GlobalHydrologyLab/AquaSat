@@ -1,11 +1,11 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Pennsylvania_doc_001.feather.ind
 type: file
-hash: 882342af5aaf0282d20edc085701e2d1
-time: 2018-02-16 11:40:53 UTC
+hash: 5cedfd3301dd80a6a6e0174645bf1f09
+time: 2018-08-04 02:57:03 UTC
 depends:
-  partition_Pennsylvania_doc_001: e949693db19bf22e6268003c926147a1
-  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+  partition_Pennsylvania_doc_001: 51de129542b4bf74d82b3710f50d231b
+  wq_dates: f4bcde398b53baed65cd74cd4be6f226
 fixed: c76dcc87133210f4fbbe67e2f6601ca3
 code:
   functions:

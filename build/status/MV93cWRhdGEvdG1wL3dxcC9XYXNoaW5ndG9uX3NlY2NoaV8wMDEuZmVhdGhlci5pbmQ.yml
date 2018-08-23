@@ -1,11 +1,11 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Washington_secchi_001.feather.ind
 type: file
-hash: 103b0f8d01e71f1b9c48dcb0b5fc4d8e
-time: 2018-07-30 17:27:44 UTC
+hash: 1bc758b54423eb646f652e987b64c675
+time: 2018-08-04 11:47:30 UTC
 depends:
   partition_Washington_secchi_001: d47a3bb7a3e7f9071aa25a2903291f17
-  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+  wq_dates: f4bcde398b53baed65cd74cd4be6f226
 fixed: e567a4f82a01f1093c19b107d970541b
 code:
   functions:

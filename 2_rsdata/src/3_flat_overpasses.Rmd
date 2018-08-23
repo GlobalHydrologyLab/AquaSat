@@ -16,6 +16,8 @@ library(googledrive)
 library(tidyverse)
 library(sf)
 library(lubridate)
+library(scipiper)
+library(data.table)
 
 opts_knit$set(root.dir='../..')
 
@@ -93,11 +95,16 @@ On dates where in situ measurements were made both the day of an overpass and th
 
 ```{r}
 #Same date join
-wqp.pull.same <- inner_join(site.candidates,clouds,by=c('PATH','ROW','date')) %>% 
-  group_by(SiteID,date) %>%
-  mutate(timediff=date_unity-time) %>%
-  filter(timediff == min(timediff)) %>%
-  ungroup()
+#Crazy speed gains by using data.table instead of dplyr. This is a known issue when you have 
+# Lots and lots of groups, for some reason dplyr is much slower in these cases.  
+
+wqp.pull.same <- inner_join(site.candidates,clouds,by=c('PATH','ROW','date')) %>%
+  mutate(timediff=date_unity-time) %>% 
+  data.table::data.table(.) %>%
+  .[,.SD[timediff==min(timediff)],keyby=list(SiteID,date)]
+
+
+
 
 
 #Shoulder the data by 1 day and make sure that sites where sequential samples occur only 
@@ -106,20 +113,19 @@ wqp.pull.plus1 <- site.candidates %>%
   mutate(date = date + 1) %>%
   anti_join(wqp.pull.same, by=c('SiteID','date')) %>%
   inner_join(clouds,by=c('PATH','ROW','date')) %>%
-  group_by(SiteID,date) %>%
   mutate(timediff=date_unity-time) %>%
-  filter(timediff == min(timediff)) %>%
-  ungroup()  
+  data.table::data.table(.) %>%
+  .[,.SD[timediff==min(timediff)],keyby=list(SiteID,date)]
+
 
 #Shoulder the data by -1 day
 wqp.pull.minus1 <- site.candidates %>%
   mutate(date=date-1) %>%
   anti_join(wqp.pull.same, by=c('SiteID','date')) %>%
   inner_join(clouds,by=c('PATH','ROW','date')) %>%
-  group_by(SiteID,date) %>%
   mutate(timediff=date_unity-time) %>%
-  filter(timediff == min(timediff)) %>%
-  ungroup()  
+  data.table::data.table(.) %>%
+  .[,.SD[timediff==min(timediff)],keyby=list(SiteID,date)]
 
 
 

@@ -1,11 +1,11 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Wyoming_secchi_001.feather.ind
 type: file
-hash: e2b6194c23c61528f8a6c0003f2a3bb5
-time: 2018-07-30 17:34:24 UTC
+hash: 9dcf28af962066b07c38cf3e9fa157a8
+time: 2018-08-04 08:36:31 UTC
 depends:
   partition_Wyoming_secchi_001: 3ccde7b0ad6d4fa81a82f1ed9f2a503c
-  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+  wq_dates: f4bcde398b53baed65cd74cd4be6f226
 fixed: 0c25bec4545f908191bbc549bd2abfb1
 code:
   functions:

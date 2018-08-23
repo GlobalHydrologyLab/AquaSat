@@ -1,11 +1,11 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/South_Dakota_chlorophyll_001.feather.ind
 type: file
-hash: 532d992a817b9e14c63ee724c657ea9b
-time: 2018-02-16 12:00:59 UTC
+hash: 7c49813a4a4f87197d2e77823cd30a28
+time: 2018-08-04 03:20:11 UTC
 depends:
-  partition_South_Dakota_chlorophyll_001: 4f5e73c06f37a9984ac51c666c4bf4ff
-  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+  partition_South_Dakota_chlorophyll_001: b0870e7b194fdb366d6f282ff032d333
+  wq_dates: f4bcde398b53baed65cd74cd4be6f226
 fixed: bca98cc59febf74b25a81d3e62ef1ff3
 code:
   functions:

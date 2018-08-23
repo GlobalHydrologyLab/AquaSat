@@ -1,11 +1,11 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/New_Hampshire_doc_001.feather.ind
 type: file
-hash: 57463e8cf521cd6945071cdaa48dfd82
-time: 2018-02-16 10:26:46 UTC
+hash: 72ac3d2b02905f9e7631586a6a737b11
+time: 2018-08-04 06:43:16 UTC
 depends:
   partition_New_Hampshire_doc_001: d691e61ed076da62a1038ea2221c552c
-  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+  wq_dates: f4bcde398b53baed65cd74cd4be6f226
 fixed: edd8166353b2e50b75b5f6d9ca1251f2
 code:
   functions:

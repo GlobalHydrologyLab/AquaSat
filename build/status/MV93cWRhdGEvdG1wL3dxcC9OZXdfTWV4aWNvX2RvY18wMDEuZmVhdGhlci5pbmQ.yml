@@ -1,11 +1,11 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/New_Mexico_doc_001.feather.ind
 type: file
-hash: 0bedf7cf597506f5dc0515f8321569b2
-time: 2018-02-16 10:41:12 UTC
+hash: 725c6f544b7a2628635ed52d708c83b2
+time: 2018-08-04 02:01:25 UTC
 depends:
-  partition_New_Mexico_doc_001: ac501317bfeeb8466979bed1544ff49c
-  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+  partition_New_Mexico_doc_001: 8ea78ffdeb45c0872502f7fab59be4ca
+  wq_dates: f4bcde398b53baed65cd74cd4be6f226
 fixed: 3a27a2ae1894c24f67bb3896d6acb16b
 code:
   functions:

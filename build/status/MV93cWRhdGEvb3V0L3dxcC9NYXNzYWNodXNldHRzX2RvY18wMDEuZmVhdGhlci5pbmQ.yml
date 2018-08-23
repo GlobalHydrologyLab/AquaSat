@@ -1,10 +1,10 @@
 version: 0.3.0
 name: 1_wqdata/out/wqp/Massachusetts_doc_001.feather.ind
 type: file
-hash: 8842ba72ea5f90668eac152fb5fd8403
-time: 2018-02-16 08:40:12 UTC
+hash: b4b8a97671a020550e02d35fb7c26793
+time: 2018-08-09 22:07:37 UTC
 depends:
-  1_wqdata/tmp/wqp/Massachusetts_doc_001.feather.ind: 8842ba72ea5f90668eac152fb5fd8403
+  1_wqdata/tmp/wqp/Massachusetts_doc_001.feather.ind: b4b8a97671a020550e02d35fb7c26793
 fixed: d1791fbed637fb2becc26cdb945eb860
 code:
   functions: {}

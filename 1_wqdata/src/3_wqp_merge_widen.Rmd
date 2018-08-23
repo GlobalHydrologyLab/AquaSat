@@ -2,7 +2,11 @@
 title: "3_wqp_merge_widen"
 author: "Matthew Ross"
 date: "6/11/2018"
-output: html_document
+output:
+  html_document:
+    toc: true
+editor_options: 
+  chunk_output_type: console
 ---
 
 
@@ -77,8 +81,6 @@ wqp.wide <- unity %>%
   
 
 write_feather(wqp.wide,path='1_wqdata/out/wqp_unity_wide.feather')
-rm(list=ls())
 gc()
 
 ```
-

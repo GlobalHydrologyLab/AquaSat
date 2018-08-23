@@ -1,11 +1,11 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Alabama_doc_001.feather.ind
 type: file
-hash: 5e06976cad960a872f13a7d4436590eb
-time: 2018-02-16 02:59:49 UTC
+hash: b5666b056e42e9af0b7a1509c5c89a67
+time: 2018-08-09 18:56:04 UTC
 depends:
-  partition_Alabama_doc_001: ec444808ed35219138d073adfb250c1a
-  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+  partition_Alabama_doc_001: caae9724be0aa525e25098835aacbc46
+  wq_dates: f4bcde398b53baed65cd74cd4be6f226
 fixed: 1a81e79d88e19324463c8601c26a006f
 code:
   functions:

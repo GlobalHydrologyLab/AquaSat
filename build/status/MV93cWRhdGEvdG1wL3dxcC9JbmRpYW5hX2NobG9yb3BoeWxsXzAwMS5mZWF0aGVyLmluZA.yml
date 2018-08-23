@@ -1,11 +1,11 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Indiana_chlorophyll_001.feather.ind
 type: file
-hash: fab5109bec46c96954d18714670a9e2f
-time: 2018-02-16 06:28:29 UTC
+hash: 445f5a11d55b127c25583c065354ba56
+time: 2018-08-09 21:07:35 UTC
 depends:
-  partition_Indiana_chlorophyll_001: b8f245bdf8871a42bc0c12167bd7ab79
-  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+  partition_Indiana_chlorophyll_001: 9640cd55c5859620f659972fe3d87f14
+  wq_dates: f4bcde398b53baed65cd74cd4be6f226
 fixed: c17f190a7d7752381657deaeb3530f34
 code:
   functions:

@@ -1,11 +1,11 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Wyoming_doc_001.feather.ind
 type: file
-hash: 7d61ae9f59a1239191a1babb51e41c4e
-time: 2018-07-28 03:02:25 UTC
+hash: b3173508459a72c6cd068c6c0928acfa
+time: 2018-08-04 08:34:50 UTC
 depends:
   partition_Wyoming_doc_001: 25a3f93e0d036ab47e8e1aaf29c9c24d
-  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+  wq_dates: f4bcde398b53baed65cd74cd4be6f226
 fixed: a5c134cd78a00efd436d09f6d321eb52
 code:
   functions:

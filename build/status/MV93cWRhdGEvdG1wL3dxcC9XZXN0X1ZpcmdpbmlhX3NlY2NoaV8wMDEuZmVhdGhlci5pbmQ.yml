@@ -1,11 +1,11 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/West_Virginia_secchi_001.feather.ind
 type: file
-hash: ab83a9cf6cd1dfb1b644e0f3b0ab1802
-time: 2018-07-30 17:28:54 UTC
+hash: d4cbd3c28fa81d0696e09a1782832b9a
+time: 2018-08-04 10:38:18 UTC
 depends:
   partition_West_Virginia_secchi_001: 2d86addc4d998ab5e3ffa4902f7254a8
-  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+  wq_dates: f4bcde398b53baed65cd74cd4be6f226
 fixed: 6c617d17a0f9f8be8e1a7df0facb6802
 code:
   functions:

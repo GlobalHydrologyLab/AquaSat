@@ -1,11 +1,11 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Virginia_secchi_001.feather.ind
 type: file
-hash: b0dff642ffce2e5dea46f7a97bf17cc2
-time: 2018-07-30 17:25:56 UTC
+hash: e193392e804d7ed2fbe4061fb3b14785
+time: 2018-08-04 04:15:39 UTC
 depends:
-  partition_Virginia_secchi_001: bf78bc04d330ace71183c007ae102e74
-  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+  partition_Virginia_secchi_001: 8fbfb22e4b96fe2069bb1bae872cb2dc
+  wq_dates: f4bcde398b53baed65cd74cd4be6f226
 fixed: 06c9b48941724b1665e07490da6f122b
 code:
   functions:

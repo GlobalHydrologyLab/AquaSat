@@ -41,6 +41,16 @@ Once you've built some targets, you'll notice that files are appearing in an aut
 ## Install scipiper
 ```{r, eval=F}
 
+loop.seq <- c(seq(1,nrow(sites),by=300),nrow(sites))
+loop.seq
+
+
+
+for(i in 1:(length(loop.seq)-1)){
+  readWQPdata(siteid=sites$Site[seq(loop.seq[i],loop.seq[i+1],1)],
+              characteristicName=unnest(partition,Params)$CharacteristicNames) 
+  print(loop.seq[i])
+}
 #devtools::install_github('USGS-R/scipiper')
 
 library(scipiper)
@@ -110,6 +120,12 @@ scmake('tasks_1_wqp_merge.yml','remake.yml')
 #Merge the data. 
 scipiper::scmake('1_wqdata/log/tasks_1_wqp_merge.ind')
 
+```
+
+##This is helpful too
+
+```{r}
+scipiper::scdel(dir(c('1_wqdata/tmp/wqp','1_wqdata/out/wqp'), pattern='.*\\.ind$', full.names=TRUE),'tasks_1_wqp.yml')
 ```
 
 
