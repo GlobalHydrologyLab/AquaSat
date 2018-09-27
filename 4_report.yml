@@ -1,0 +1,49 @@
+target_default: 3_rswqjoin
+
+include: 2_rsdata.yml
+
+packages:
+  - tidyverse
+  - feather
+  - scipiper
+  - yaml
+  - reticulate
+  - lubridate
+  - USAboundaries
+  - sf
+  - LAGOSNE
+  - foreach
+
+file_extensions:
+  - feather
+  - ind
+
+sources:
+  - lib/src/render_rmd.R
+  - lib/src/check_gee_config.R
+
+targets:
+  
+  2_rsdata:
+    depends:
+      - confirm_gee_config 
+      - 4_report/doc/1_sr_wq_rs_join.html
+      - 3_wq_rs_join/doc/2_toa_wq_rs_join.html
+
+  confirm_gee_config:
+    command: check_gee_config()
+
+  # main effect of 2_rsdata/src/0_cloud_scenes.Rmd
+  3_wq_rs_join/doc/1_sr_wq_rs_join.html
+    depends:
+      - 2_rsdata/doc/5_surface_reflectance_pull.html
+    command: render_rmd(
+      input='3_wq_rs_join/doc/1_sr_wq_rs_join',
+      output_file=target_name)
+  # side effect of 2_rsdata/src/0_cloud_scenes.Rmd
+  3_wq_rs_join/data/out/sr_wq_rs_join.RData:
+    depends: 3_wq_rs_join/doc/1_sr_wq_rs_join.html
+    command: gd_get(I('3_wq_rs_join/data/out/sr_wq_rs_join.RData'))
+ 
+ 
+ #IF ABOVE IS CORRECT ADD TOA HERE

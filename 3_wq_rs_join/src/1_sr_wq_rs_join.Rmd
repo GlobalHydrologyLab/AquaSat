@@ -22,11 +22,13 @@ knitr::opts_knit$set(root.dir='../..')
 ## Summary data
 
 ```{r download}
+#Search the google drive folder for the surface reflectance for all sr matchup files
 sr_match <- drive_ls('sr_matchups')
 
+#Create a vector with the destination path for each download
 down.paths <- paste0('3_rswqjoin/data/in/sr/',sr_match$name)
 
-
+#This needs to be changed. Alison can we scipiper this? 
 if(length(list.files('3_rswqjoin/data/in/sr') <= length(down.paths))){
   print('All files downloaded')
 }else{
@@ -61,8 +63,15 @@ sr.clean <- sr %>%
     by=c('SiteID','date','sat','date_unity','path','row')) 
 
 
+#Setup save path
+data_file <- '3_wq_rs_join/data/out/sr_wq_rs_join.RData'
 
-save(sr.clean,file='3_rswqjoin/data/out/sr_insitu.RData')
+#Save it locally as a .RData file
+save(sr.clean,file=data_file)
+
+
+#Upload data to team drive
+gd_put(scipiper::as_ind_file(data_file), data_file)
 
 ```
 

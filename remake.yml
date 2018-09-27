@@ -9,7 +9,7 @@ file_extensions:
   - ind
   
 include:
-  - 2_rsdata.yml
+  - 4_report.yml
 
 targets:
   everything:
