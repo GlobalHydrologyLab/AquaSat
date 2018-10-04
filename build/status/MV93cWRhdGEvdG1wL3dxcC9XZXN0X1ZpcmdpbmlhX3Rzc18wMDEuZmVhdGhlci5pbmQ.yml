@@ -1,11 +1,11 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/West_Virginia_tss_001.feather.ind
 type: file
-hash: fd88809318e57ff1d6c36cb6756d9aca
-time: 2018-07-30 22:21:44 UTC
+hash: f04584ba9a3a1930c63036578a5b57da
+time: 2018-08-04 10:39:53 UTC
 depends:
-  partition_West_Virginia_tss_001: 5d233959eb3369699b68d622fa4eaa67
-  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+  partition_West_Virginia_tss_001: 6a30c176cc37739cbcf3f5455ffdf390
+  wq_dates: f4bcde398b53baed65cd74cd4be6f226
 fixed: 2ae955443557697d6951e047c7e80b21
 code:
   functions:

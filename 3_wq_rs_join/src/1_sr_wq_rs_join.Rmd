@@ -1,0 +1,80 @@
+---
+title: "1_rswq_summary"
+author: "Matthew Ross"
+date: "6/18/2018"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+
+# A unified water quality portal and landsat dataset
+
+```{r setup}
+library(googledrive)
+library(tidyverse)
+library(feather)
+
+knitr::opts_knit$set(root.dir='../..')
+
+```
+
+## Summary data
+
+```{r download}
+#Search the google drive folder for the surface reflectance for all sr matchup files
+sr_match <- drive_ls('sr_matchups')
+
+#Create a vector with the destination path for each download
+down.paths <- paste0('3_rswqjoin/data/in/sr/',sr_match$name)
+
+#This needs to be changed. Alison can we scipiper this? 
+if(length(list.files('3_rswqjoin/data/in/sr') <= length(down.paths))){
+  print('All files downloaded')
+}else{
+  print('Downloading all files')
+  for(i in 1:nrow(sr_match)){
+    drive_download(as_id(sr_match$id[i]),path=down.paths[i],overwrite = T)
+  }
+}
+
+#The long string of letters is readr's sweet way of compressing Column types
+#I'm forcing them here because the first file happens to be all NAs 
+# so all columns get coerced to character
+sr <- map_df(down.paths,read_csv,col_types='icnnDTnnnnninnnnninnnnc')
+
+```
+
+
+
+### full data
+
+```{r}
+
+#Read in the in situ data
+wide.pull <- read_feather('2_rsdata/out/wide_pull.feather') 
+
+#Join reflectance to in situ with some very minor pixelCount and cloudiness filters
+sr.clean <- sr %>%
+  filter(!is.na(green))  %>%
+  inner_join(wide.pull %>%
+    rename(path=PATH) %>%
+    rename(row=ROW),
+    by=c('SiteID','date','sat','date_unity','path','row')) 
+
+
+#Setup save path
+data_file <- '3_wq_rs_join/data/out/sr_wq_rs_join.RData'
+
+#Save it locally as a .RData file
+save(sr.clean,file=data_file)
+
+
+#Upload data to team drive
+gd_put(scipiper::as_ind_file(data_file), data_file)
+
+```
+
+
+
+

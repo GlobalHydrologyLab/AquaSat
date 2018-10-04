@@ -1,11 +1,11 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Kansas_secchi_001.feather.ind
 type: file
-hash: d7951a03dc9dbb26bcd73cb7e9c517da
-time: 2018-07-30 16:13:28 UTC
+hash: baf2df44e023fa1c9239439b1fccbafa
+time: 2018-08-09 21:29:48 UTC
 depends:
   partition_Kansas_secchi_001: 0c953fbfba1c25df0cba1758109d4237
-  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+  wq_dates: f4bcde398b53baed65cd74cd4be6f226
 fixed: b7c71be48ccc53c3118818147680ef93
 code:
   functions:

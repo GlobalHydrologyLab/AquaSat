@@ -83,12 +83,16 @@ targets:
   # remake targets, but let's risk having to redo the inventory for the sake of
   # keeping this remake file a touch simpler and practicing the two-target option
   # for gd_put/gd_get)
-  1_wqdata/out/wqp_inventory.feather.ind:
+  1_wqdata/tmp/wqp_inventory.feather.ind:
     command: inventory_wqp(
       ind_file=target_name,
       wqp_state_codes=wqp_state_codes,
       wqp_states=wqp_states,
       wqp_codes=wqp_codes)
+  1_wqdata/out/wqp_inventory.feather.ind:
+    command:  gd_put(
+      target_name, 
+      '1_wqdata/tmp/wqp_inventory.feather.ind')
   # the only job of the data target is to pull data from the shared cache
   1_wqdata/out/wqp_inventory.feather:
     command: gd_get('1_wqdata/out/wqp_inventory.feather.ind')
@@ -210,7 +214,7 @@ targets:
     depends: 1_wqdata/doc/2_combined_wqp_munge.html
     command: c()
   
-  # main effect of 1_wqdata/doc/3_wqp_merge_widen.Rmd:
+  # main effect of 1_wqdata/src/3_wqp_merge_widen.Rmd:
   1_wqdata/doc/3_wqp_merge_widen.html:
     depends:
       - 1_wqdata/out/unity/secchi_unity.feather
@@ -232,7 +236,6 @@ targets:
   1_wqdata/doc/4_wqp_lagos_merge.html:
     depends:
       - 1_wqdata/out/wqp_unity_wide.feather
-      #- 1_wqdata/src/pluribus_unum.R
     command: render_rmd(
       input='1_wqdata/src/4_wqp_lagos_merge.Rmd',
       output_file=target_name)

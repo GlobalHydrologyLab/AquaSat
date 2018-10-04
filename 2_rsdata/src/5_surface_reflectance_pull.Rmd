@@ -6,7 +6,7 @@ editor_options:
 ---
 #Pull surface reflectance values associated with in situ samples.
 
-This script takes the shouldered, filtered in situ water quality dataset pulled from the Water Quality Portal/LAGOS and extracts associated Landsat surface reflectance values from Google Earth Engine.  The pulled reflectance values are the median pixel value of pixels with 80% water occurence (according to Pekel) within 120m of the provided lat/long of the in situ sample identified in the water quality dataset.  The standard deviation of the water pixel reflectance is included to enable quality control filtering.
+This script takes the shouldered, filtered in situ water quality dataset pulled from the Water Quality Portal/LAGOS and extracts associated Landsat surface reflectance values from Google Earth Engine.  The pulled reflectance values are the median pixel value of pixels with 80% water occurence (according to Pekel) within 200m of the provided lat/long of the in situ sample identified in the water quality dataset.  The standard deviation of the water pixel reflectance is included to enable quality control filtering.
 
 ```{r setup, include=FALSE}
 library(tidyverse)
@@ -24,7 +24,8 @@ opts_knit$set(root.dir='../..')
 Create a list of existing reflectance csv's to filter whats been pulled down from GEE already.
 ```{r Get Existing}
 #Retrieve existing reflectance data to avoid duplicates
-filesDownR <- drive_ls("watersat/2_rsdata/out/sr_matchups/") %>% 
+#Need to add a fix for if these have been partially downloaded and moved...?
+filesDownR <- drive_ls("WQP_SR_MatchUps") %>% 
   select(name)
 
 ```
@@ -37,15 +38,14 @@ filesDownR <- drive_ls("watersat/2_rsdata/out/sr_matchups/") %>%
 
 <font face="Arial">RETICULATE_PYTHON: /usr/local/bin/python2</font>
 
-
-```{r Google Earth Engine Pull}
-#Set .RProfile to set the default python for reticulate
+```{r reticulate_version}
 reticulate_python <- yaml::yaml.load_file('lib/cfg/gee_config.yml')$RETICULATE_PYTHON
-Sys.setenv(RETICULATE_PYTHON = reticulate_python)
+use_python(reticulate_python)
+```
 
 
-##repl_python basically starts a python bash window within your R chunk.  This can be used to actually interact with earth engine.
-repl_python()
+```{python}
+
 
 import time
 import ee
@@ -88,7 +88,7 @@ water = pekel.select('occurrence').gt(threshold)
 water = water.updateMask(water)
 
 #Set buffer distance of pixels to include in median and standard deviation #calculation.  Distance is in meters from supplied sample point.  
-dist = 120
+dist = 200
 
 ## Identify folder with in-situ data broken up into 5000 observation chunks by path/row
 ULdir = '2_rsdata/tmp/split_wide/'

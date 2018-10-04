@@ -60,14 +60,40 @@ gd_put(scipiper::as_ind_file(data_file), data_file)
 
 Most of the data living in the Water Quality Portal is on streams, lakes, and/or estuaries that are too small to be visible as water bodies from Landsat satellites, which have a resolution of ~30m. In this project we only want to keep sites that are consistently close to areas classified as water. Luckily there is a really nice paper and dataset from Jean Francois Pekel and others, where they looked at the entire history of Landsat 5-8 and classified how often any given pixel was classified as water. Data from [this paper](https://www.nature.com/articles/nature20584) is available in GEE and we use it to only keep sites that are close to water bodies visible from landsat. 
 
-The code below checks all sites for water pixels within 200m of the lat long of sites in the WQP. It takes 5 minutes or so to run with 400000 sites
+The code below checks all sites for water pixels within 200m of the lat long of sites in the WQP. It takes 20 minutes or so to run with ~ 400000 sites
 
+```{r reticulate_version}
+reticulate_python <- yaml::yaml.load_file('lib/cfg/gee_config.yml')$RETICULATE_PYTHON
+use_python(reticulate_python)
+```
+
+
+## Does the earth engine script need to be reran?
 ```{r}
-#Set.RProfile to set the default python for reticulate
-Sys.setenv(RETICULATE_PYTHON = '/usr/local/bin/python2')
+#Point to the temp folder where site matchup data goes
+folder <- drive_ls('tempSiteWater')
 
-#Start python bash
-repl_python()
+#Check how many 5000 file chunks there will be. 
+should_be <-
+  read_feather('2_rsdata/out/unique_site_inventory.feather') %>% 
+  nrow(.)/5000  
+
+should_be <- ceiling(should_be)
+do_it = !nrow(folder) == should_be
+
+
+
+if(nrow(folder) < should_be & nrow(folder) != 0){
+  for(i in 1:nrow(folder)) {
+  drive_rm(as_id(folder$id[i]))
+  }
+}
+
+
+```
+
+```{python,eval=do_it}
+
 
 #Import Libraries
 import ee
@@ -149,14 +175,13 @@ maximum_no_of_tasks(1,60)
 print('done')
 
 ## End the python bash.
-exit
 ```
 
 
 
 ## Local download
 
-```{r , eval=F}
+```{r}
 #Download data from python output stored in local googledrive folder called tempSiteWater
 folder <- drive_ls('tempSiteWater')
 

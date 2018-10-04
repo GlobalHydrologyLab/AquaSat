@@ -1,8 +1,13 @@
 # watersat
 Monitoring water quality from space!
 
-##  PYTHON INFORMATION GOES HERE ##
-* list the python packages that need to be installed, etc.
+# Python Instructions
+
+For this pipeline to work you will need to have a Google Earth Engine configured python installation ready to go. Explaining exactly how to do this is beyond the scope of this package but Google provides detailed installation instructions [here](https://developers.google.com/earth-engine/python_install). In addition to configuring Google Earth Engine you will need to install (probably best to do so in the following order):
+
+* [pandas](https://pandas.pydata.org/pandas-docs/stable/install.html)
+* [feather](https://pypi.org/project/feather-format/)
+
 
 ## using `scipiper`
 

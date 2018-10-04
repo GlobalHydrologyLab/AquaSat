@@ -66,7 +66,8 @@ file.df.all <- tibble(path=harmonized.files,names=file.names)
 for(i in 1:nrow(file.df.all)) {
   df <- read_feather(file.df.all$path[i])
   out <- date.time.splitter(df)
-write_feather(out,path=paste0('1_wqdata/out/unity/',
+  
+  write_feather(out,path=paste0('1_wqdata/out/unity/',
                               file.df.all$names[i],'_unity.feather'))
 
 rm(out,df)
@@ -74,4 +75,6 @@ gc()
 }
 
 ```
+
+
 

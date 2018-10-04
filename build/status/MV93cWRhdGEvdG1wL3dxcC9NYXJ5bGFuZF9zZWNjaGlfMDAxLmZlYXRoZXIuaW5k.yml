@@ -1,11 +1,11 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Maryland_secchi_001.feather.ind
 type: file
-hash: 567ffdfa3cba2fd9c768f89fca7cf06a
-time: 2018-07-30 16:24:27 UTC
+hash: d0a842447a7ad5b2d90b8666671f2d7d
+time: 2018-08-09 22:01:00 UTC
 depends:
   partition_Maryland_secchi_001: a0cb0dd2b7a3a3c7a21638f1b969abde
-  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+  wq_dates: f4bcde398b53baed65cd74cd4be6f226
 fixed: 56ef3e8443ae956407471ad427213949
 code:
   functions:

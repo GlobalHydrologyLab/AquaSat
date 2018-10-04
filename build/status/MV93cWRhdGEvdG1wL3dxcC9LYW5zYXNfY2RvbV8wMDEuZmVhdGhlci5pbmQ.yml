@@ -1,11 +1,11 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Kansas_cdom_001.feather.ind
 type: file
-hash: f49c90ef659c520af617233790593a1b
-time: 2018-07-27 18:42:11 UTC
+hash: 6e499cdce1a8f6492b7867e7ba06bb0f
+time: 2018-08-09 21:25:23 UTC
 depends:
-  partition_Kansas_cdom_001: a6a64756e3fd1450edad4cd9a8b82014
-  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+  partition_Kansas_cdom_001: 997446b4b02992a5818b4ed336517851
+  wq_dates: f4bcde398b53baed65cd74cd4be6f226
 fixed: f1d841300601fca9dbddbfbe1470cb15
 code:
   functions:

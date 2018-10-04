@@ -1,11 +1,11 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Vermont_doc_001.feather.ind
 type: file
-hash: 2267072860dbe98da0d36f038666a157
-time: 2018-02-16 12:39:12 UTC
+hash: d8122bd25d6274a8f5198967bfb1e4ab
+time: 2018-08-04 04:00:05 UTC
 depends:
-  partition_Vermont_doc_001: 3cf5b5ca1bed2f39a6af1bb7b346677b
-  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+  partition_Vermont_doc_001: 769d1e89bf4289593bbedff9f8030282
+  wq_dates: f4bcde398b53baed65cd74cd4be6f226
 fixed: 5a312574443ff2b7774c2e03997eb5a3
 code:
   functions:

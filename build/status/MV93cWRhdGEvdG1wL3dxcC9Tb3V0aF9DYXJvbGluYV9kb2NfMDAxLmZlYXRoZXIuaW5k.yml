@@ -1,11 +1,11 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/South_Carolina_doc_001.feather.ind
 type: file
-hash: 863d817d4e09b33601526129c25226ad
-time: 2018-02-16 11:56:31 UTC
+hash: a2efc1700791b9d1cab6ef7c8904c4aa
+time: 2018-08-04 07:11:35 UTC
 depends:
-  partition_South_Carolina_doc_001: a26e3efb657d926b1b446d0532e2128d
-  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+  partition_South_Carolina_doc_001: a90f112b60e95557a13a896c9d7c2c40
+  wq_dates: f4bcde398b53baed65cd74cd4be6f226
 fixed: f59a2c2ad3d95d2cee3b376b990616db
 code:
   functions:

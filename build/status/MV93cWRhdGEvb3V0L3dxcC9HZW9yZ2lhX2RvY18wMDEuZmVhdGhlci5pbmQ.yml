@@ -1,10 +1,10 @@
 version: 0.3.0
 name: 1_wqdata/out/wqp/Georgia_doc_001.feather.ind
 type: file
-hash: 0c2c58619d0422e61089761191baba60
-time: 2018-02-16 06:02:38 UTC
+hash: 1a9b9cbb59f1b9cf425bc148e36bded2
+time: 2018-08-09 20:44:07 UTC
 depends:
-  1_wqdata/tmp/wqp/Georgia_doc_001.feather.ind: 0c2c58619d0422e61089761191baba60
+  1_wqdata/tmp/wqp/Georgia_doc_001.feather.ind: 1a9b9cbb59f1b9cf425bc148e36bded2
 fixed: c363d6a1008d30a4d788e037c561355a
 code:
   functions: {}

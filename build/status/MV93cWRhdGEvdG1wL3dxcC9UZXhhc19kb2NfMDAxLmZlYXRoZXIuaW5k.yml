@@ -1,11 +1,11 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Texas_doc_001.feather.ind
 type: file
-hash: 55dd76a34ca0c96198b1e35ac8c75d33
-time: 2018-02-16 12:18:23 UTC
+hash: 296d43a65fa07773a46bfdeca48952c3
+time: 2018-08-04 03:39:28 UTC
 depends:
-  partition_Texas_doc_001: 942b379e5752353be9deaa1eda221e00
-  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+  partition_Texas_doc_001: e29149df70a8c8c09d1a8196f2c4bf3b
+  wq_dates: f4bcde398b53baed65cd74cd4be6f226
 fixed: fb79676aeeab64078abba6c0b2ae795e
 code:
   functions:

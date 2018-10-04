@@ -1,11 +1,11 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Utah_doc_001.feather.ind
 type: file
-hash: ef2310307156117637b35a954a9e1e1d
-time: 2018-02-16 12:26:54 UTC
+hash: c33c2a6bd3bf6e587eda0985e2cfd7cf
+time: 2018-08-04 03:48:45 UTC
 depends:
-  partition_Utah_doc_001: 79f2a525a3a0a23763b27992eb9f8c4e
-  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+  partition_Utah_doc_001: 5a8aaa74a86513d5d071838595bc621e
+  wq_dates: f4bcde398b53baed65cd74cd4be6f226
 fixed: d1157b784bfb34c3554affd5ed06fd6d
 code:
   functions:

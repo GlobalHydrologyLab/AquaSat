@@ -1,11 +1,11 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/District_of_Columbia_doc_001.feather.ind
 type: file
-hash: ef80e3ba74505c272c317e2d302c84c6
-time: 2018-02-16 04:06:16 UTC
+hash: 72232865a3fa8700151b402452ed432c
+time: 2018-08-04 08:50:49 UTC
 depends:
-  partition_District_of_Columbia_doc_001: e4249fe31a052ccb1efdd6c5531c911d
-  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+  partition_District_of_Columbia_doc_001: 9dfd4593786ae7930f275b77377547f7
+  wq_dates: f4bcde398b53baed65cd74cd4be6f226
 fixed: e19d5e2f4c884f3d6fedd0f2378d6ef9
 code:
   functions:

@@ -83,8 +83,7 @@ inventory_wqp <- function(ind_file, wqp_state_codes, wqp_states, wqp_codes) {
   # write the data file and the indicator file
   data_file <- as_data_file(ind_file)
   feather::write_feather(wqp_info, path=data_file)
-  gd_put(ind_file, data_file) # sc_indicate(ind_file, data_file=data_file)
-  
+  sc_indicate(ind_file, data_file=data_file)
   invisible()
 }
 
@@ -119,7 +118,8 @@ partition_inventory <- function(inventory_ind, wqp_pull, wqp_state_codes, wqp_co
         filter(StateCode==statecode, Constituent == constituent) %>%
         group_by(Site) %>%
         summarize(NumObs=sum(resultCount)) %>%
-        arrange(desc(NumObs))
+        arrange(desc(NumObs)) %>%
+        filter(!is.na(Site))
       
       # split the full pull (combine atomic groups) into right-sized partitions
       # by an old but fairly effective paritioning heuristic: pick the number of
@@ -140,6 +140,7 @@ partition_inventory <- function(inventory_ind, wqp_pull, wqp_state_codes, wqp_co
       state <- wqp_state_codes %>%
         filter(value==sprintf('US:%s', statecode)) %>%
         pull(name)
+      
       atomic_groups %>%
         mutate(
           State=state,

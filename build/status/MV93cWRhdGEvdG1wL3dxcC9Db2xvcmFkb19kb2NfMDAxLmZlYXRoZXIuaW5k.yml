@@ -1,11 +1,11 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Colorado_doc_001.feather.ind
 type: file
-hash: 6cb1ac277965f1a2644536a37bafd243
-time: 2018-02-16 03:46:27 UTC
+hash: 258606e4ddf1634b429023663d1de186
+time: 2018-08-09 19:40:34 UTC
 depends:
-  partition_Colorado_doc_001: 4350142ec549a2cb8ad54a45c8c8f91a
-  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+  partition_Colorado_doc_001: cfe547a8ab22055a133207a09b8198ea
+  wq_dates: f4bcde398b53baed65cd74cd4be6f226
 fixed: 6dba5609fc8aab57acad71f26a8a712e
 code:
   functions:

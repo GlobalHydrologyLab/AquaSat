@@ -1,11 +1,11 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Wisconsin_secchi_001.feather.ind
 type: file
-hash: 4540a517d12eb9b7c8d48487cce62d78
-time: 2018-07-30 17:32:31 UTC
+hash: a67b972354c23a3107054aac9b9cdd44
+time: 2018-08-04 10:49:14 UTC
 depends:
-  partition_Wisconsin_secchi_001: 519279513f7fdebeb2e2c36e7e18f997
-  wq_dates: eb7e5d0ef034fdbac6d9e70fdf2e99db
+  partition_Wisconsin_secchi_001: eac28759f17314ea22404396eb724d88
+  wq_dates: f4bcde398b53baed65cd74cd4be6f226
 fixed: b30ac7564316b294772416fe7dc18b49
 code:
   functions:
