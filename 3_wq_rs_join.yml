@@ -5,14 +5,8 @@ include: 2_rsdata.yml
 packages:
   - tidyverse
   - feather
+  - googledrive
   - scipiper
-  - yaml
-  - reticulate
-  - lubridate
-  - USAboundaries
-  - sf
-  - LAGOSNE
-  - foreach
 
 file_extensions:
   - feather
@@ -24,14 +18,10 @@ sources:
 
 targets:
   
-  2_rsdata:
+  3_wq_rs_join:
     depends:
-      - confirm_gee_config 
       - 3_wq_rs_join/doc/1_sr_wq_rs_join.html
       - 3_wq_rs_join/doc/2_toa_wq_rs_join.html
-
-  confirm_gee_config:
-    command: check_gee_config()
 
   # main effect of 2_rsdata/src/0_cloud_scenes.Rmd
   3_wq_rs_join/doc/1_sr_wq_rs_join.html
@@ -41,9 +31,9 @@ targets:
       input='3_wq_rs_join/doc/1_sr_wq_rs_join',
       output_file=target_name)
   # side effect of 2_rsdata/src/0_cloud_scenes.Rmd
-  3_wq_rs_join/data/out/sr_wq_rs_join.RData:
+  3_wq_rs_join/data/out/sr_wq_rs_join.csv:
     depends: 3_wq_rs_join/doc/1_sr_wq_rs_join.html
-    command: gd_get(I('3_wq_rs_join/data/out/sr_wq_rs_join.RData'))
+    command: gd_get(I('3_wq_rs_join/data/out/sr_wq_rs_join.csv.ind'))
  
  
  #IF ABOVE IS CORRECT ADD TOA HERE

@@ -28,15 +28,10 @@ sr_match <- drive_ls('sr_matchups')
 #Create a vector with the destination path for each download
 down.paths <- paste0('3_rswqjoin/data/in/sr/',sr_match$name)
 
-#This needs to be changed. Alison can we scipiper this? 
-if(length(list.files('3_rswqjoin/data/in/sr') <= length(down.paths))){
-  print('All files downloaded')
-}else{
-  print('Downloading all files')
-  for(i in 1:nrow(sr_match)){
+#Download the files from google drive
+for(i in 1:nrow(sr_match)){
     drive_download(as_id(sr_match$id[i]),path=down.paths[i],overwrite = T)
   }
-}
 
 #The long string of letters is readr's sweet way of compressing Column types
 #I'm forcing them here because the first file happens to be all NAs 
@@ -64,11 +59,10 @@ sr.clean <- sr %>%
 
 
 #Setup save path
-data_file <- '3_wq_rs_join/data/out/sr_wq_rs_join.RData'
+data_file <- '3_wq_rs_join/data/out/sr_wq_rs_join.csv'
 
 #Save it locally as a .RData file
-save(sr.clean,file=data_file)
-
+write_csv(sr.clean,path=data_file)
 
 #Upload data to team drive
 gd_put(scipiper::as_ind_file(data_file), data_file)
