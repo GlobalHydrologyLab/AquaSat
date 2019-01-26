@@ -1,5 +1,5 @@
 ---
-title: "WQP Parameter and Method exploration"
+title: "WQP Parameter and Method Harmonization"
 output:
   html_document:
     toc: true
@@ -96,7 +96,7 @@ d %>%
 
 analytical.kable <- function(d){
   d %>%
-    group_by(sample_method) %>%
+    group_by(analytical_method) %>%
     summarize(count=n()) %>% 
     arrange(desc(count)) %>%
     kable(.,'html',caption='All analytical methods and their count') %>%
@@ -335,6 +335,22 @@ tss.tis.harmonized <- tss %>%
 
 rm(tss,tss.depth,tss.filtered,tss.lookup,tss.p,non.sensical.tss.methods,depth.lookup)
 
+```
+
+## TSS SSC empirical check
+```{r}
+
+names(tss.tis.harmonized)
+ssc.tss <- tss.tis.harmonized %>%
+  filter(parameter %in% c('Total suspended solids','Suspended Sediment Concentration (SSC)')) %>%
+  select(date,date_time,SiteID,parameter,harmonized_value) %>%
+  distinct(date_time,SiteID,.keep_all=T) %>%
+  spread(key=parameter,value=harmonized_value) %>% 
+  rename(tss=`Total suspended solids`,ssc=`Suspended Sediment Concentration (SSC)`) 
+
+ssc.tss %>%
+  filter(!is.na(ssc)) %>%
+  summary(.)
 ```
 
 
@@ -625,6 +641,7 @@ chl.a.harmonized <- chl.a.filtered %>%
          harmonized_value=value*conversion,
          harmonized_unit='ug/L')
 
+
 rm(chl,chl.a,chl.a.filtered,chla.a.fraction,chl.a.nonsense.methods,chl.loookup)
 ```
 
@@ -657,18 +674,54 @@ tss.harmonized <- tss.tis.harmonized %>%
 harmonized.datasets <- list(chl.a.harmonized,doc.harmonized,tis.harmonized,tss.harmonized,sand.harmonized,secchi.harmonized)
 
 h.names <- c('chl.a','doc','tis','tss','sand','secchi')
+```
 
+# Check for observations at a ridiculous depth
+```{r}
+#Before exporting the harmonized data we can do one more quality check
+singular.harmony <- map_dfr(harmonized.datasets,rbind)
+
+has.depth <- singular.harmony %>%
+  filter(!is.na(sample_depth)) 
+
+print(paste('We would lose',100*round(1-(nrow(has.depth)/nrow(singular.harmony)),3),'% of samples if we kept only observations that have sample depth recorded'))
+
+
+depth.lookup <- tibble(sample_depth_unit=c('cm','feet','ft','in','m','meters','None'),
+                       depth_conversion=c(1/100,.3048,.3048,0.0254,1,1,NA)) 
+
+shallow.depth <- has.depth %>%
+  left_join(depth.lookup,by='sample_depth_unit') %>%
+  mutate(harmonized_depth = abs(sample_depth)*depth_conversion) %>% #some depth is recorded as a negative value
+  
+  filter(harmonized_depth < 100)
+
+
+summary(shallow.depth$harmonized_depth)
+print(paste('We lose',round((nrow(has.depth)-nrow(shallow.depth))/nrow(singular.harmony)*100,3),' % of samples by restricting data to less than 100m'))
+
+
+hist(log10(shallow.depth$harmonized_depth))
+
+
+```
+
+
+```{r}
 #Remove extraneous columns
 extraneous <- function(df){
   df <- df %>%
     mutate(index = 1:nrow(.)) %>%
     filter(!is.na(harmonized_value)) %>%
     ungroup() %>%
+    left_join(depth.lookup,by='sample_depth_unit') %>%
+    mutate(harmonized_depth = abs(sample_depth)*depth_conversion) %>%
+    filter(harmonized_depth < 100 | is.na(harmonized_depth)) %>%
     #Remove extraneous columns
-    dplyr::select(-parameter,-units,-org,-org_id,-sample_method,
-                  -analytical_method,-particle_size,-media,-sample_depth,
-                  -sample_depth_unit,-fraction,-status,-conversion) 
-
+    dplyr::select(-units,-org,-org_id,-sample_method,
+                  -sample_depth,-sample_depth_unit,
+                  -particle_size,-media,-fraction,
+                  -status,-conversion) 
 }
 
 

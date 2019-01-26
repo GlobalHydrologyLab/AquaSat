@@ -1,0 +1,315 @@
+---
+title: "AquaSat Supplementary Information"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output:
+  pdf_document:
+    fig_caption: yes
+    toc: no
+    keep_tex: true
+  word_document:
+    toc: yes
+    toc_depth: '3'
+editor_options:
+  chunk_output_type: console
+bibliography: library.bib
+csl:  american-geophysical-union.csl
+---
+
+
+```{r setup, include=F, warnings='hide'}
+library(feather)
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+library(pander)
+library(LAGOSNE)
+library(lubridate)
+library(parallel)
+library(foreach)
+library(ggthemes)
+library(sf)
+library(USAboundaries)
+library(scales)
+library(broom)
+library(ggpmisc)
+library(curl)
+library(rticles)
+library(data.table)
+#devtools::install_github('benmarwick/wordcountaddin')
+#library('wordcountaddin')
+
+knitr::opts_chunk$set(echo = FALSE,warning=F,cache=T)
+knitr::opts_knit$set(root.dir='../..')
+#lagosne_get('1.087.1')
+lagos <- lagosne_load("1.087.1")
+
+theme_set(theme_bw(base_size=14))
+theme_update(
+          panel.grid.major = element_line(color='transparent'),
+        panel.grid.minor = element_blank()) 
+
+#Function to paste unique names
+paste.unique <- function(x){
+  paste(c(unique(x)),sep='; ',collapse='; ')
+}
+
+count.kable <- function(df){
+  df %>% 
+  gather(key=Parameter,value=value,-SiteID,-date_unity,-type) %>%
+  filter(!is.na(value)) %>%
+  group_by(Parameter,type) %>%
+  summarize(count=n()) %>% 
+  arrange(type,Parameter) %>%
+  spread(key=Parameter,value=count) %>%
+  ungroup() %>%
+  add_row(type='Total',
+          chl_a=sum(.$chl_a),
+          doc=sum(.$doc),
+          secchi=sum(.$secchi),
+          tss=sum(.$tss)) %>%
+  kable(.,format.args = list(big.mark = ","))
+}
+
+#Functino to turn geometry into lat longs for stat_hex
+sfc_as_cols <- function(x, names = c("x","y")) {
+  stopifnot(inherits(x,"sf") && inherits(sf::st_geometry(x),"sfc_POINT"))
+  ret <- do.call(rbind,sf::st_geometry(x))
+  ret <- tibble::as_tibble(ret)
+  stopifnot(length(names) == ncol(ret))
+  ret <- setNames(ret,names)
+  dplyr::bind_cols(x,ret)
+}
+#Make a function to prepare datasets for plotting. Limit datasets to a range of greater than 10^-4
+hist.data.prep <- function(x){
+  out <- x  %>%
+  select(SiteID,date_unity,type,tss,chl_a,secchi,doc) %>%
+  gather(key=parameter,value=value,-SiteID,-date_unity,-type) %>%
+  filter(!is.na(value)) %>%
+  filter(value > 0.0001) %>%
+  left_join(param.units,by='parameter')
+}
+
+
+```
+
+
+
+# Tables
+
+
+
+```{r landsat,fig.pos='h'}
+ 
+sat.used <- tibble(Bands=c('Blue','Green','Red',
+                           'Near Infrared (nir)','Shortwave Infrared 1(swir1)',
+                           'Shortwave Infrared 2 (swir2)','Panchromatic',
+                           'Thermal*','Cirrus*','Thermal (TIRS) 1*',
+                           'Thermal (TIRS) 2*'),
+                   `L5 Wavelengths` = c('0.45-0.52','0.52-0.60','0.63-0.69',
+                                        '0.77-0.90','1.55-1.75','2.09-2.35',NA,
+                                        '10.4-12.5',NA,NA,NA),
+                   `L7 Wavelengths` = c('0.45-0.52','0.52-0.60','0.63-0.69',
+                                        '0.77-0.90','1.55-1.75','2.09-2.35',
+                                        '0.52-0.9','10.4-12.5',NA,NA,NA),
+                   `L8 Wavelengths` = c('0.452-0.512','0.533-0.590','0.636-0.673',
+                                        '0.851-0.879','1.566-1.651',
+                                        '2.107-2.294','0.503-0.676',NA,
+                                        '1.363-1.384','10.60-11.19',
+                                        '11.50,12.51'),
+                   `Resolution (m)` = c(30,30,30,30,30,30,15,30,30,30,30))
+                   
+
+sat.used %>% 
+  kable(.,'latex',align='l',caption='Summary of landsat wavelengths and resolution. Bands with an asterisk* indicate that they were not used in this project. Note that panchromatic 
+        band is only available for top of atmosphere data, not surface reflectance') %>%
+  kable_styling(latex_options ='basic',full_width = T) %>% 
+  row_spec(0,bold=T) %>%
+  column_spec(0,width='5cm')
+
+```
+
+
+
+```{r paramters,fig.pos='h'}
+#Load in the parameters that were queried in the WQP
+params <- yaml::yaml.load_file('1_wqdata/cfg/wqp_codes.yml')$characteristicName
+
+
+
+#Convert listed parameters into a data frame
+param.df <- do.call('cbind',params)  %>%
+  as_data_frame() %>% 
+  gather() %>%
+  distinct(key,value) %>%
+  group_by(key) %>%
+  summarize(`WQP characteristicNames`=paste.unique(value)) %>%
+  rename(parameter=key)
+
+options(knitr.table.format='latex')
+param.df %>% 
+  kable(.,align='l',caption='Table shows the charactersticNames used in our WQP data download.') %>%
+  kable_styling(latex_options ='striped') %>% 
+  row_spec(0,bold=T) %>%
+  column_spec(1,width='2cm') %>%
+  column_spec(2,width='13cm')
+
+
+```
+
+
+```{r data read in,fig.pos='h'}
+wqp.all <- read_feather('1_wqdata/out/wqp_lagos_unity.feather')
+
+
+
+full.inv <- read_feather('1_wqdata/out/wqp_inventory.feather') %>%
+  select(SiteID = MonitoringLocationIdentifier,type=ResolvedMonitoringLocationTypeName) %>%
+  distinct() %>%
+  mutate(type = ifelse(grepl('Lake',type),'Lake',type))
+
+lagos.locus <- lagos$locus %>%
+  distinct(lagoslakeid,.keep_all = T)
+
+
+
+
+wqp.inv <- wqp.all %>%
+  select(SiteID,date_unity,tss,doc,chl_a,secchi)  %>%
+  left_join(full.inv,by=c('SiteID')) %>%
+  #Make sure all lagos sites have the lake id tag
+  mutate(type = ifelse(is.na(type),'Lake',type)) %>%
+  filter(type != 'Facility')
+
+
+### Landsat visible sites including lagos
+
+sr.type <- fread('3_wq_rs_join/data/out/sr_wq_rs_join.csv') %>%
+  mutate(date_unity = ymd_hms(date_unity),
+         time=ymd_hms(date_unity),
+         date=ymd(date))
+
+
+
+```
+
+
+\pagebreak
+
+
+# Supplemental Figures
+
+
+
+```{r distribution, fig.cap="\\label{fig:distribution} Shows the distribution of observations at a given site. Most sites only have a single overpass observation, but there are thousands of these sites", fig.height=3.5,fig.width=7,fig.pos='H'}
+
+#Set colors by type
+type.cols <- c('#cc763d','#33a02c','#1f78b4')
+
+#get site counts 
+sr.counts <- sr.type %>%
+  select(tss,secchi,chl_a,doc,SiteID,date_unity,type,lat,long) %>% 
+  gather(key=parameter,value=value,-SiteID,-date_unity,-type,-lat,-long) %>%
+  filter(!is.na(value)) %>%
+  mutate(type=factor(type,levels=c('Stream','Estuary','Lake'))) %>%
+  group_by(SiteID,parameter,type) %>%
+  summarize(count=n()) %>%
+  ungroup() %>%
+  filter(count != 0)
+
+#Plot
+ggplot(sr.counts,aes(x=count,fill=type)) +
+  geom_histogram(bins=25) + 
+  facet_wrap(~parameter,scales='free_y') +
+  scale_x_log10(breaks=c(1,10,100,1000)) + 
+  xlab('Number of observations at site') +
+  ylab('Number of sites with X observations') + 
+  scale_fill_manual(name='',values=type.cols)+ 
+  theme_few(base_size=14) + 
+  theme(legend.position=c(.85,.8)) 
+
+```
+
+```{r time, fig.cap = "\\label{fig:time} Shows the number of observations per year per parameter type. Note the different y axes, highlighting roughly an order of magnitude less matchup data than incoming data. The matchup data shows increased data availability when two satellites are in orbit. ", fig.width=7,fig.height=3.5}
+
+#Choose colors for each parameter
+parameter.cols <- c('gray40','#2e8b57','#e8a766','#583a1c')
+
+#Get yearly counts for each parameter for overpasses
+matchup.yearly.counts <- sr.type %>%
+  mutate(year = year(date_unity)) %>%
+  select(SiteID,year,chl_a,tss,doc,secchi,type) %>%
+  gather(key=parameter,value=value,-SiteID,-year,-type)  %>%
+  filter(!is.na(value)) %>%
+  group_by(parameter,year) %>%
+  summarize(count=n()) %>%
+  mutate(datasource='Landsat matchups')
+
+
+
+#Same for full in situ dataset
+wqp.yearly.counts <- wqp.inv %>%
+  mutate(year = year(date_unity)) %>%
+  select(SiteID,year,chl_a,tss,doc,secchi,type) %>%
+  gather(key=parameter,value=value,-SiteID,-year,-type)  %>%
+  filter(!is.na(value)) %>%
+  group_by(parameter,year) %>%
+  summarize(count=n()) %>%
+  filter(year < 2019 & year > 1983) %>%
+  mutate(datasource='LAGOS-NE + WQP') 
+
+
+candidate.yearly.counts <- wqp.inv %>%
+  filter(SiteID %in% sr.type$SiteID) %>%
+  mutate(year = year(date_unity)) %>%
+  select(SiteID,year,chl_a,tss,doc,secchi,type) %>%
+  gather(key=parameter,value=value,-SiteID,-year,-type)  %>%
+  filter(!is.na(value)) %>%
+  group_by(parameter,year) %>%
+  summarize(count=n()) %>%
+  filter(year < 2019 & year > 1983) %>%
+  mutate(datasource='LAGOS-NE + WQP') 
+
+
+#Bind datasets together
+yearly.counts.all <- rbind(matchup.yearly.counts,wqp.yearly.counts)
+
+candidate.counts.all <- rbind(candidate.yearly.counts,matchup.yearly.counts)
+
+ratio.counts <- candidate.counts.all %>%
+  select(year,datasource,parameter,count) %>%
+  spread(key=datasource,value=count) %>%
+  mutate(ratio = `LAGOS-NE + WQP`/`Landsat matchups`)
+# 
+# ggplot(ratio.counts,aes(x=year,y=ratio, color=parameter)) + 
+#   geom_point() + 
+#   ylim(0,20) + 
+#   ylab('Observations needed for 1 matchup')
+
+
+paper.names <- tibble(parameter = c('chl_a','doc','secchi','tss'),
+                      param_units = c('Chl_a',
+                                      'DOC',
+                                      'SDD',
+                                      'TSS'))
+
+
+#Plot side by side
+yearly.counts.all %>%
+  ungroup() %>%
+  left_join(paper.names,by='parameter') %>%
+    mutate(parameter=factor(param_units,levels=c('SDD','Chl_a','TSS','DOC'))) %>%
+  ggplot(., aes(x=year,y=count,fill=parameter)) + 
+           geom_bar(position='stack',stat='identity') + 
+  scale_fill_manual(values=parameter.cols,name='') + 
+  theme(legend.position=c(0.65,0.7),
+        axis.text.y=element_text(angle=90,hjust=0.5)) + 
+  facet_wrap(~datasource,scales='free_y') + 
+  ylab('Count') + 
+  xlab('Year') +
+  scale_y_continuous(labels=scales::comma)
+
+
+```
+
+
+

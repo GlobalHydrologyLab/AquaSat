@@ -1,7 +1,5 @@
 ---
 title: "WQP Overlaps"
-author: "Matthew Ross"
-date: "1/3/2018"
 output: html_document
 ---
 

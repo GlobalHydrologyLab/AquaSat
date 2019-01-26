@@ -21,19 +21,33 @@ targets:
   3_wq_rs_join:
     depends:
       - 3_wq_rs_join/doc/1_sr_wq_rs_join.html
-      - 3_wq_rs_join/doc/2_toa_wq_rs_join.html
+       #Delete this line and uncomment next line to run TOA
+      #- 3_wq_rs_join/doc/2_toa_wq_rs_join.html
 
-  # main effect of 2_rsdata/src/0_cloud_scenes.Rmd
-  3_wq_rs_join/doc/1_sr_wq_rs_join.html
+  # main effect of 3_wq_rs_join/src/1_sr_wq_rs_join.Rmd
+  3_wq_rs_join/doc/1_sr_wq_rs_join.html:
     depends:
-      - 2_rsdata/doc/5_surface_reflectance_pull.html
+    - 2_rsdata/doc/5_surface_reflectance_pull.html
+    
     command: render_rmd(
-      input='3_wq_rs_join/doc/1_sr_wq_rs_join',
+      input='3_wq_rs_join/src/1_sr_wq_rs_join.Rmd',
       output_file=target_name)
-  # side effect of 2_rsdata/src/0_cloud_scenes.Rmd
+  # side effect of 3_wq_rs_join/src/1_sr_wq_rs_join.Rmd
+  3_wq_rs_join/data/out/sr_wq_rs_join.csv:
+    depends: 3_wq_rs_join/doc/1_sr_wq_rs_join.html
+    command: gd_get(I('3_wq_rs_join/data/out/sr_wq_rs_join.csv.ind'))
+ 
+   # main effect of 3_wq_rs_join/src/2_toa_wq_rs_join.Rmd
+  3_wq_rs_join/doc/2_toa_wq_rs_join.html:
+    depends:
+    - 2_rsdata/doc/6_toa_reflectance_pull.html
+    
+    command: render_rmd(
+      input='3_wq_rs_join/src/2_toa_wq_rs_join.Rmd',
+      output_file=target_name)
+  # side effect of 3_wq_rs_join/src/1_sr_wq_rs_join.Rmd
   3_wq_rs_join/data/out/sr_wq_rs_join.csv:
     depends: 3_wq_rs_join/doc/1_sr_wq_rs_join.html
     command: gd_get(I('3_wq_rs_join/data/out/sr_wq_rs_join.csv.ind'))
  
  
- #IF ABOVE IS CORRECT ADD TOA HERE

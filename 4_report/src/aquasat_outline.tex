@@ -82,7 +82,7 @@
   \postauthor{\par}
       \predate{\centering\large\emph}
   \postdate{\par}
-    \date{20 September, 2018}
+    \date{October 22, 2018}
 
 \usepackage{booktabs}
 \usepackage{longtable}
@@ -110,108 +110,123 @@
 \section{Introduction}\label{introduction}}
 
 The production of and easy access to water quality data is a vital first
-step towards both understanding the natural and anthropogenic drivers of
-water quality variation and for using this knowledge to protect and
-manage inland water quality (Srebotnjak et al., 2012). Collecting such
-valuable data has historically been expensive, time-consuming, and
-difficult to maintain useable and open datasets. However in many
-developed nations, over the last 10-20 years many of these data access
-problems have been actively addressed leading to the publication and
-maintenance of large open-access data repositories on water quality
-(Read et al., 2017; Soranno et al., 2017). However, these datasets are
-still limited to the relatively time-intensive process of field
-sampling, which limits the number of water-bodies that can be observed
-and the spatial variation in water quality captured within a single
-waterbody. Furthermore, many nations may not have access to such robust
-historic water quality sampling data. One way to augment these
-\emph{in-situ} sampling efforts and to provide water quality informatino
-in places with no data, is through using satellite remote sensing
-detection of water quality parameters.
+step towards understanding natural and anthropogenic drivers of aquatic
+ecosystem degradation and for using this knowledge to protect and manage
+inland waters (Srebotnjak et al., 2012). Collecting such valuable data
+has historically been expensive and time-consuming, and it has often
+proved difficult to maintain useable and open datasets. In many
+developed nations, however, over the last 10-20 years many of these data
+access problems have been actively addressed, leading to the publication
+and maintenance of large open-access data repositories of water quality
+measurements (Ballantine \& Davies-Colley, 2014; Lack, 2000; Read et
+al., 2017; Soranno et al., 2017). Although they contain millions of
+individual measurements, these datasets remain limited to the relatively
+time-intensive process of field sampling, which limits the number of
+water-bodies that can be observed and the spatial variation in water
+quality captured within a single waterbody. Furthermore, access to such
+robust historic water quality sampling data remains limited to a few
+economically developed countries. With satellite remote sensing
+detection of water quality, we can augment these \emph{in-situ} sampling
+efforts and provide water quality information in places with little or
+no data.
 
 Since the beginning of the Landsat missions, limnologists,
 oceanographers, and hydrologists have been interested in developing
 universal algorithms for extracting water quality information from
 remotely sensed images (Clarke et al., 1970; Holyer, 1978; Klemas et
 al., 1973; Maul \& Gordon, 1975; Ritchie et al., 1976). Since these
-early efforts there has been almost fifty years of work with the basic
+early efforts, there has been almost fifty years of work with the basic
 goal of using spectral information to predict water quality parameters
 like total suspended solids (TSS), Chlorophyll a (Chl\_a), colored
-dissolved organic matter, and secchi disk depth (SDD). However, progress
-towards universal algorithms and unified approaches has been slow
-(Blondeau-Patissier et al., 2014; Bukata, 2013; Gholizadeh et al.,
+dissolved organic matter (CDOM), and Secchi disk depth (SDD). However,
+progress towards universal algorithms and unified approaches has been
+slow (Blondeau-Patissier et al., 2014; Bukata, 2013; Gholizadeh et al.,
 2016), with most papers published focusing on developing predictive
-methods as opposed to using predictions to interrogate process that
-control water quality dynamics {[}Topp2018{]}. Much of this slow
-evolution in methods and approaches comes from the inherent optical
-complexity of inland waters, where spectral signatures are the result of
-a complex mixture of inorganic sediment, organic sediment, algae,
-dissolved organic matter, and other constituents. Compared to oceanic
-remote sensing of water quality which benefits from robust, shared
-datasets of \emph{in-situ} data paired with satellite overpass
-reflectance (Blondeau-Patissier et al., 2014; Bukata, 2013), progress on
-inland water algorithms is further impeded by the lack of a shared
-overpass dataset.
+methods as opposed to using predictions to interrogate processes that
+control water quality dynamics (Topp et al., 2018). Furthermore, most of
+the datasets used in these prior studies are inherently local in scale,
+often sampling a single waterbody on a single day corresponding to a
+satellite overpass (Topp et al., 2018). These limited datasets have
+contributed to the slow evolution in methods and approaches along with
+the inherent optical complexity of inland waters, where spectral
+signatures reflect a mixture of inorganic sediment, organic sediment,
+algae, dissolved organic matter, and other constituents. Compared to
+oceanic remote sensing of water quality which benefits from robust, open
+datasets paired with satellite overpass reflectance (Blondeau-Patissier
+et al., 2014; Bukata, 2013), progress on inland water algorithms is
+impeded by this lack of an open, merged satellite reflectance and
+\emph{in-situ} water quality dataset. Such a dataset would facilitate
+more unified approaches to water quality remote sensing, ideally
+simplifying algorithm development to the point where remote estimates of
+water quality are integrated into our approaches for understanding
+inland water quality dynamics and their controls.
 
-Such data could go a long way towards, if not the holy-grail of
-universal predictive algorithms, at least towards more unified
-approaches tested on a universal dataset. Here, we create and share the
-largest such overpass dataset ever assembled for inland waters by using
-Google Earth Engine (Gorelick et al., 2017) Landsat archive data from
-1984-2018 with data from the Water Quality Portal (Read et al., 2017)
-and phase one of the ``lake multi-scaled geospatial and temporal
-database (LAGOS-NE)''(Soranno et al., 2017) for the conterminous USA and
-Alaska. Joining these datasets provides us with an unprecedented
+Here, we create and share a merged dataset, AquaSat, of water quality
+measurements and same-day satellite reflectance (which we call
+``overpasses''). This is the largest such overpass dataset ever
+assembled for inland waters. We use the Landsat TM/ETM+/OLI archive from
+1984-2018 using the using the Google Earth Engine platform (Gorelick et
+al., 2017) in combination with data from the Water Quality Portal (Read
+et al., 2017) and phase one of the \emph{LAke multi-scaled GeOSpatial
+and temporal database}, with data only in the Northeastern United States
+(LAGOS-NE)(Soranno et al., 2017). The WQP data covers the conterminous
+USA and Alaska. Joining these datasets provides us with an unprecedented
 resource to model, predict, and understand the long-term and large-scale
 dynamics of variation in four key water clarity constituents: TSS, SDD,
 Chl\_a, and dissolved organic carbon (DOC). We also outline and share
 our approach, code, and intermediate data for bringing these three free
 datasets together; generating a high-graded analysis-ready dataset for
-remote sensors of water quality.
+remote sensors of water quality. We hope that publishing the code will
+encourage developing similar matchup datasets for public water quality
+datasets like in New Zealand (Ballantine \& Davies-Colley, 2014) or
+Europe(Lack, 2000).
 
-\#Methods
+\hypertarget{methods}{%
+\section{Methods}\label{methods}}
 
 \hypertarget{parameter-description}{%
 \subsection{Parameter description}\label{parameter-description}}
 
-For this project we chose to work with the four most common water
-quality parameters used in remote sensing of water quality
-{[}Topp2018{]}. All four of these parameters provide useful and
-complimentary information on the water quality status of a waterbody and
-are also optically active, making them observable from space. Total
-Suspended Solids (TSS) is a measure of the mass of solids, both organic
-and inorganic, in a watercolumn. TSS scatters light such that generally
-more TSS means more light reflected back to the atmosphere and satellite
-sensor (Ritchie et al., 1976). Knowing TSS concentrations can provide
-insight into light conditions (Julian et al., 2008), erosion conditions
-{[}Syvitski2011{]}, and the hydrologic status of waterbody, where high
-TSS generally means high flow state (Williams, 1989). Dissolved Organic
-Carbon (DOC) is the broad description for the total amount of organic
-Carbon that is dissolved in water, and can provide insight into light
-conditions (Vähätalo et al., 2005), heterotrophic energy availability
-(Robbins et al., 2017), and terrestrial organic matter processing
-(Williamson et al., 2008). While DOC does not inherently alter the
-optical properties of water, it is generally strongly correlated with
-Colored Dissolved Organic Matter (CDOM), which is optically active,
-generally a brown color (Griffin et al., 2011). For this project, we
-downloaded both DOC and CDOM data. Chlorophyll a is photosynthetically
-active pigment contained in all phytoplankton, which helps give algal
-blooms their green color. Chlorophyll a concentrations can be used to
-detect algae blooms (Kutser, 2004), estimate primary productivity
-(Antoine et al., 1996), and understand algae dynamics (Richardson,
-1996). Finally, we gathered data on secchi disk depth, which is a method
-for estimating water clarity that dates back to 1864 (Secchi, 1864). The
-secchi disk is a 30 cm diameter disk divided into four quadrants painted
-altertanitively white and black. To measure water clarity, this disk is
-lowered into a waterbody, and the depth at which the disk is no longer
-visible is called the secchi disk depth. Deeper depths mean clearer
-water. Secchi disk depth is an easy measurement to make that integrates
-the optical properties of all water constituents and can provide
-information on the trophic status of waterbodies (Carlson, 1977), the
-algae status of a waterbody (Lorenzen, 1980), and many other uses. These
-four parameters capture key ecological and physical factors that control
-water quality and have a robust literature demonstrating the ability to
-remotely sense each constituent {[}Topp2018{]}, making them ideal for
-our dataset construction efforts.
+For this project we chose to focus on the four most common water quality
+parameters used in remote sensing of water quality: TSS, SDD, Chl\_a,
+and DOC {[}Topp et al., 2018{]}. All four of these parameters provide
+useful and complimentary information on the water quality status of a
+waterbody and are also optically active, making them observable from
+space. TSS is a measure of the mass of solids, both organic and
+inorganic, in a water column. Waters with higher TSS generally scatter
+more sunlight at all visible and near-infrared wavelengths (Ritchie et
+al., 1976). Knowing TSS concentrations can provide insight into light
+conditions (Julian et al., 2008), erosion conditions {[}Syvitski2011{]},
+and the hydrologic status of waterbodies, where high TSS generally means
+high flow velocities {[}Williams (1989);Pavelsky2009{]}. DOC is the
+broad description for the total amount of organic Carbon that is
+dissolved in water, and can provide insight into light conditions
+(Vähätalo et al., 2005), heterotrophic energy availability (Robbins et
+al., 2017), and terrestrial organic matter processing (Williamson et
+al., 2008). While DOC does not inherently alter the optical properties
+of water, it is generally strongly correlated with CDOM, which is
+optically active, generally a brown or yellow color (Bricaud et al.,
+1981; Griffin et al., 2011). Though this correlation between CDOM and
+DOC can breakdown in places with low DOC concentratnio (Griffin et al.,
+2018). For this project, we included both DOC and CDOM data. Chlorophyll
+a is a photosynthetically active pigment contained in all phytoplankton,
+which helps give algal blooms their green color. Chlorophyll a
+concentrations can be used to detect algae blooms (Kutser, 2004),
+estimate primary productivity (Antoine et al., 1996), and understand
+algae dynamics (Richardson, 1996). Finally, we gathered data on Secchi
+disk depth, a long-standing method for estimating water clarity (Secchi,
+1864). The Secchi disk is a 30 cm diameter disk divided into four
+quadrants painted alternately white and black. To measure water clarity,
+the disk is lowered into a waterbody; the depth at which the disk is no
+longer visible is the Secchi disk depth. Deeper depths mean clearer
+water. Secchi disk depth is a simple measurement that integrates the
+optical properties of all water constituents and can provide information
+on the trophic status of waterbodies (Carlson, 1977) or the algae status
+of a waterbody (Lorenzen, 1980). These four parameters capture key
+ecological and physical factors that control water quality, and
+capabilities to remotely sense each of them have been demonstrated in
+many studies (Topp et al., 2018), making them ideal for our dataset
+construction efforts.
 
 \hypertarget{data-source-description}{%
 \subsection{Data source description}\label{data-source-description}}
@@ -219,417 +234,356 @@ our dataset construction efforts.
 Combining \emph{in-situ} data with Landsat reflectance information first
 requires a large repository of water quality samples, which increases
 the likelihood that a given sample happened to be taken on the same day
-as a Landsat overpass. For this paper, we focused on two databases of
-water quality. The first, the Water Quality Portal (WQP) has tens of
-millions of water observations in all types of inland surface waters,
-but there is no entity that harmonizes and cleans the data for quality
-(Read et al., 2017). The second dataset we used, LAGOS, currently only
-covers lakes in the northeastern United States, with plans to expand and
-cover lakes across the entire USA (Soranno et al., 2017). While LAGOS
-has less data than the WQP, a group of dedicated researchers has spent
-years combing through the data and ensuring data quality, making it a
-more analysis-ready dataset (Soranno et al., 2017). These similar but
-contrasting datasets, one with more quantity (WQP) and the other with
-more quality assurances (LAGOS), ensures that our dataset covers the
-broadest possible number of waterbodies with the option of limiting
-analyses to only the highest quality subset.
+as a Landsat overpass. For this paper, we focused on the two largest
+databases of water quality in the United States. The first, the Water
+Quality Portal has tens of millions of water observations in all types
+of inland surface waters. The WQP data is gathered by a range of
+national and state agencies (USGS, EPA, state water quality programs).
+While there is no entity that harmonizes and cleans the data across
+systems and data providers (Read et al., 2017), subsets of the data have
+been used in many previous publications (Booth et al., 2011; Sprague \&
+Lorenz, 2009; Sprague et al., 2017). The second dataset, LAGOS-NE,
+currently only covers lakes in the northeastern United States (Soranno
+et al., 2017). While LAGOS-NE has less data than the WQP, with more than
+a million total observations, a group of dedicated researchers has spent
+years ensuring data quality, making it a more analysis-ready dataset
+(Soranno et al., 2017). These similar but contrasting datasets, one with
+more quantity (WQP) and the other with more quality assurances
+(LAGOS-NE), ensures that our dataset covers the largest possible number
+of waterbodies, while retaining a high quality subset of the data.
 
 \hypertarget{water-quality-portal}{%
 \subsubsection{Water Quality Portal}\label{water-quality-portal}}
 
 The WQP is the largest dataset of water observations ever assembled with
-more than 290 million observations at 2.7 millions sites mostly in the
-USA, with data dating back more than a century (Read et al., 2017). The
-WQP continuously gathers water quality information from more than 450
+more than 290 million observations at 2.7 million sites dating back more
+than a century, mostly in the USA (Read et al., 2017). The WQP
+continuously gathers water quality information from more than 450
 organizations including academic, government, NGO, tribal, and state
 datasets (Read et al., 2017). These datastreams are gathered and
 distributed in a standardized format, making analysis across different
-collection methods more readily available. Yet, the diversity of data
-sources and variation in meta-data quality brings about some significant
-challenges to directly using the WQP as a analysis-ready dataset
-(Sprague et al., 2017). Instead end-users of the data must carefully
-harmonize data across sampling methods, analytic approaches, and units.
-The nature of harmonizing such large, distributed data generates a
-necessary trade-off between a deep, time-consuming exploration of data
-interoperability and a more shallow less time-consuming but potentially
-more error-prone data quality check.
+collection methods more readily available. As with many large datasets,
+however, the diversity of data sources and variation in meta-data
+quality results in some significant challenges to directly using the WQP
+as an analysis-ready dataset (Sprague et al., 2017). Instead, end-users
+must carefully harmonize data across sampling methods, analytic
+approaches, and units. The nature of harmonizing such large, distributed
+data generates a necessary trade-off between a deep, time-consuming
+exploration of data interoperability and a shallower less time-consuming
+but potentially more error-prone data quality check.
 
 \hypertarget{lagos-ne}{%
 \subsubsection{LAGOS-NE}\label{lagos-ne}}
 
-The LAGOS project was, in part, meant as a direct way to address some of
-the problems inherent to the WQP, with the explicit goal of building a
-publically available high-quality dataset for continental-scale lake
-analyses (Soranno et al., 2017). In addition to pairing \emph{in-situ}
-lake data with physical lake characteristics and local geologic setting,
-LAGOS researchers standardized key water quality measurements across the
-87 water quality datasets that they gathered (Soranno et al., 2017).
-Because LAGOS harmonized data from many different sources, they chose to
-identify all data for a single lake with the lake centroid. So, if two
-different organizations were measuring secchi disk depth at the north
-and south end of a lake, the LAGOS dataset would combine all these
-measurements into a single lake centroid estimate. This lake centroid
-approach is differnt from the data in the Water Quality Portal and
-should be kept in mind throughout this paper. In it's current form, the
-LAGOS dataset covers only lakes in the northeast and midwest, two
-lake-rich regions of the USA. LAGOS provides an end-member dataset of
-the highest quality for matching \emph{in-situ} data to Landsat
-overpasses.
+The LAGOS project (which generated the dataset LAGOS-NE) was, in part,
+meant as a direct way to address some of the problems inherent to the
+WQP, with the explicit goal of building a publically available
+high-quality dataset for continental-scale lake analyses (Soranno et
+al., 2017, 2015). In addition to pairing \emph{in-situ} lake data with
+physical lake characteristics and local geologic setting, LAGOS
+researchers standardized key water quality measurements across the 87
+water quality datasets that they gathered (Soranno et al., 2017, 2015).
+Because LAGOS researchers harmonized data from many different sources,
+they chose to identify all data for a single lake with the lake
+centroid. If two different organizations were measuring Secchi disk
+depth at the north and south end of a lake, the LAGOS dataset would
+combine all of these measurements into a single time series,
+geographically located at the lake centroid, for same day observations
+the deepest observation would have been kept (Soranno et al., 2015).
+This approach is different from that used by the Water Quality Portal,
+which often includes multiple sites per water body and simiultaneous
+observations. In its current form, the LAGOS-NE dataset covers only
+lakes in the northeast and midwest, two lake-rich regions of the USA.
+LAGOS-NE provides an end-member dataset of the highest quality for
+matching \emph{in-situ} data to Landsat overpasses.
 
 \hypertarget{landsat}{%
 \subsubsection{Landsat}\label{landsat}}
 
 For this project, we join these two \emph{in-situ} datasets with the
-Landsat data archive for Landsat missions 5, 7, and 8. The Landsat
-missions started in July 1972, as the Earth Resources Observation
-Satellite with an explicit mission to provide solutions for some of
-earth's pressing issues associated with industry and environmental
-change (Loveland \& Dwyer, 2012). For this project we are only using the
-three most recent Landsat mission datasets: Landsat 5 with coverage from
-1984-2012 and over 192745 available images; Landsat 7 which is still
-collecting data after launching in July of 1999 with 191366 images; and
-finally Landsat 8 which launched in November, 2013 still adding to its
-collection of 61790 images. The total usable images will be much less
-than the total images because of cloud cover, which varies greatly by
-region. Furthermore, on May 31, 2003, the Landsat 7 scan line corrector
-failed, causing the Landsat 7 images after this date to have striped
-data gaps (Storey et al., 2005). For our purposes, we kept all Landsat 7
-data after this date, but did no gap-filling, such that if a site were
-entirely situated in a gap, it would report no Landsat 7 data.
-Generally, these satellites complete a full imaging of the globe every
-sixteen days, except for the most polar regions (Loveland \& Dwyer,
-2012; Wulder et al., 2016), meaning that for most of the USA, a given
-spot will be imaged at least every sixteen days, and-when two missions
-are running at the same time- every eight days. All three satellites use
-different imagers to collect spectral information in the visible and
-infrared wavelengths at 30 meter resolution pixels.
+Landsat data archive for Landsat missions 5 (Thematic Mapper), 7
+(Enhanced Thematic Mapper +), and 8 (Operational Land Imager). . The
+Landsat missions started in July 1972, as the Earth Resources
+Observation Satellite with an explicit mission to provide solutions for
+some of earth's pressing issues associated with industry and
+environmental change (Loveland \& Dwyer, 2012). For this project we are
+only using the three most recent Landsat mission datasets: Landsat 5
+with coverage from 1984-2012 and over 192745 available images; Landsat 7
+which is still collecting data after launching in July of 1999 with
+191366 images; and finally Landsat 8 which launched in November, 2013
+still adding to its collection of 61790 images. The total usable images
+will be much less than the total images because of cloud cover, which
+varies greatly by region. Furthermore, on May 31, 2003, the Landsat 7
+scan line corrector failed, causing the Landsat 7 images after this date
+to have striped data gaps (Storey et al., 2005). We included all Landsat
+7 data before and after this date, but did not fill gaps associated with
+the scan line error. The orbit repeat period of all three satellites is
+sixteen days, though at high latitudes overlapping images result in
+shorter revisit times (Loveland \& Dwyer, 2012; Wulder et al., 2016). In
+most of the USA, a given spot will be imaged at least once every sixteen
+days, and during periods of mission overlap, images are available on
+average at least every eight days.
+
+Landsat 5 and 7 have onboard imagers that collects seven bands of
+imagery centered on three visible wavelengths (blue, green, and red) and
+four infrared (near infrared, shortwave infrared 1, shortwave infrared
+2, and thermal band). Landsat 8 has the same bands with slightly
+different wavelengths and improved spectral accuracy (Barsi et al.,
+2014) plus a few extra bands that we did not include in this work.
+Landsat 7 and 8 have panchromatic bands at 15m resolution, while Landsat
+5 does not. For our matchup data, the bands we used, their wavelengths,
+and resolution are in SI table 1.
 
 \hypertarget{data-integration}{%
 \subsection{Data integration}\label{data-integration}}
 
-For this project, we wanted to emphasize not only the possibilities that
-come with open data, but also the importance of reproducible science and
-code. In this case uniting these three distinct datasets requires a
+The goal of uniting the WQP, LAGOS-NE and Landsat datasets requires a
 combination of computational approaches and an architecture that allows
-for a single workflow to pull data from LAGOS, the WQP, and the Landsat
-archive. Despite such disparate data sources, an ideal overarching
-approach allows us to break the various data pulls, munging, and joining
-into seperate pieces that can be updated only as needed. Here we chose
-to use a ``MAKE'' like environment (Feldman, 1979) that only executes
-sections of code that have been altered or when data sources are out of
-date. Though this project uses three different tools R, Python, and
-Google Earth Engine, all of these various languages are called directly
-from R and RMarkdown files. This reliance on R makes remake
-\url{https://github.com/richfitz/remake} an excellent choice to keep
-track of changes to the complex commands required to compile this
-dataset. Remake provides an R specific MAKE-like environment that can
-check if code has been updated and then update all downstream data. We
-hope that these efforts will make recreating or altering our specific
-approach easier. At a high level, all of this architecture is meant to
-do something fairly simple captured by figure \ref{fig:fig1}, joining
-\emph{in-situ} data to Landsat reflectance.
+for a single workflow to download data from all three portals. An ideal
+overarching approach allows us to break the various data downloads,
+quality assurance checks, and joining data into separate pieces that can
+be updated only as needed. In developing this approach, we emphasize not
+only the possibilities that come with open data, but also the importance
+of reproducible science and code. Here we chose to use a ``MAKE'' like
+environment (Feldman, 1979) that only executes sections of code that
+have been altered or when data sources are out of date. Though this
+project uses three different tools (R, Python, and Google Earth Engine),
+each tool is called directly from R and RMarkdown files. This reliance
+on R makes remake \url{https://github.com/richfitz/remake} an excellent
+choice to keep track of changes to the complex commands required to
+compile AquaSat. Remake provides an R-specific, MAKE-like environment
+that can check if code has been updated and then update all downstream
+data. We anticipate that these efforts will make recreating or altering
+our specific approach easier for future researchers who may want to use
+our code in different ways. The detailed process of data integration is
+captured in Figure \ref{fig:fig1}.
 
 \begin{figure}
 \includegraphics[width=0.8\linewidth]{C:/Users/mrvr/Dropbox/UNC-PostDocAll/aquasat/4_report/src/Watersat_Drop_flow} \caption{Overview of data sources, steps taken to join data, and total observation counts}\label{fig:fig1}
 \end{figure}
 
-\hypertarget{in-situ-data-pull-and-quality-control.}{%
-\subsubsection{\texorpdfstring{\emph{In situ} data pull and quality
-control.}{In situ data pull and quality control.}}\label{in-situ-data-pull-and-quality-control.}}
+\hypertarget{in-situ-data-download-and-quality-control.}{%
+\subsubsection{\texorpdfstring{\emph{In situ} data download and quality
+control.}{In situ data download and quality control.}}\label{in-situ-data-download-and-quality-control.}}
 
-In this paper we focused on gathering water quality measurements that
-capture the dominant controls on water clarity, these include:
-Chlorophyll a (Chl\_a), dissolved organic carbon (DOC), and total
-suspended solids (TSS). Together these three constituents combine with
-other optically active solutes and solids to control total water clarity
-which is captured by secchi disk depth measurements, the fourth and
-final parameter we pulled for these analyses. For the WQP we used the
-\href{https://github.com/USGS-R/dataRetrieval}{dataRetrieval} package.
-DataRetrieval, a package maintained and supported by the USGS, allows
-for programattically downloading data from the WQP. The WQP contains
-hundreds of possible paramater types (called ``characteristicName'' in
-the WQP), and we carefully selected those that best represented our
-target parameters based on our own expertise and previously published
-research using the same data sources(Butman et al., 2016; Stets \&
-Striegl, 2012). The characteristicName's that we pulled are shown in
-table \ref{tab:table1}. For all parameters, we pulled data for all US
-states. The WQP classifies water body types in many possible categories
-and we pulled data for the four following water body types: Lake,
-Reservoir, Impoundment; Stream; Estuary; Facility. Finally, we only
-gathered data that was reported to have been sampled in ``Water'' as a
-sample media (no sediment or benthic samples).
+To begin the development of the AquaSat database, we developed an
+automated method to retrieve our four water quality parameters from the
+WQP and LAGOS sites. For the WQP we used the
+\href{https://github.com/USGS-R/dataRetrieval}{dataRetrieval} R package.
+DataRetrieval, maintained and supported by the USGS, which allows for
+systematically downloading data from the WQP. The WQP contains hundreds
+of parameter types (under the field ``characteristicName'' in the WQP),
+and we carefully selected those that best represented our target
+parameters based on our own expertise and previously published research
+using the same data sources (Butman et al., 2016; Stets \& Striegl,
+2012)(SI Table 2). For all parameters, we downloaded data for all US
+states except Hawaii. The WQP classifies water body types in many
+possible categories and we downloaded data for the four following water
+body types: Lake, Reservoir, Impoundment; Stream; Estuary; Facility,
+where facility can indicate wastewater treatment facilities, including
+lakes and ponds. Finally, we restricted our queries to data sampled in
+water as a sample media, excluding sediment and benthic samples.
 
 Working with the LAGOS-NE data (version 1.087.1) required many less
 decisions to combine parameters since LAGOS researchers have already
 harmonized and combined parameters into simple categories that reflect
-our general parameter codes(Soranno et al., 2017). LAGOS includes lake
-data for: DOC, Chlorophyll a, and secchi disk depth, but no data on TSS.
-As with the WQP the dataset can be simply loaded using an R package
-(`LAGOS-NE')(Soranno et al., 2017). This clean dataset requires very
-little data cleaning and was essentially preserved as a direct product
-from the LAGOS-NE dataset, in sharp contrast to the much more intensive
-data cleaning required to use the WQP data.
-
-\rowcolors{2}{gray!6}{white}
-\begin{table}
-
-\caption{\label{tab:table1}Table shows the characterstic names used in our water quality portal data pull.}
-\centering
-\begin{tabular}[t]{>{\raggedright\arraybackslash}p{2cm}|>{\raggedright\arraybackslash}p{13cm}}
-\hiderowcolors
-\hline
-\textbf{Parameter} & \textbf{WQP Names}\\
-\hline
-\showrowcolors
-cdom & Colored dissolved organic matter (CDOM)\\
-\hline
-chlorophyll & Chlorophyll; Chlorophyll A; Chlorophyll a; Chlorophyll a (probe relative fluorescence); Chlorophyll a (probe); Chlorophyll a - Periphyton (attached); Chlorophyll a - Phytoplankton (suspended); Chlorophyll a, corrected for pheophytin; Chlorophyll a, free of pheophytin; Chlorophyll a, uncorrected for pheophytin; Chlorophyll b; Chlorophyll c; Chlorophyll/Pheophytin ratio\\
-\hline
-doc & Organic carbon; Total carbon; Hydrophilic fraction of organic carbon; Non-purgeable Organic Carbon (NPOC)\\
-\hline
-secchi & Depth, Secchi disk depth; Depth, Secchi disk depth (choice list); Secchi Reading Condition (choice list); Secchi depth; Water transparency, Secchi disc\\
-\hline
-tss & Total suspended solids; Suspended sediment concentration (SSC); Suspended Sediment Concentration (SSC); Total Suspended Particulate Matter; Fixed suspended solids\\
-\hline
-\end{tabular}
-\end{table}
-\rowcolors{2}{white}{white}
+our general parameter codes(Soranno et al., 2017, 2015). LAGOS-NE
+includes measurements of: DOC, Chl\_a, and SDD, but no data on TSS. As
+with the WQP the dataset can be simply loaded using an R package
+(`LAGOS-NE')(Soranno et al., 2017).
 
 Turning data from the WQP into an analysis-ready dataset similar to
 LAGOS-NE requires a chain of decisions that is extensively documented in
 the supplemental \href{link}{website}. We have attempted to make these
-decisions both clear and justifiable, with the end goal of having
-parameters meet several criteria. First, all observations were verified
-to ahve analytical methods that matched their parameter name, if this
-were not the case samples were dropped. For example, if an observation
-was supposed to report TSS, and the analytical method was ``Nitrogen in
-Water,'' then that sample would be dropped. For TSS in particular, we
-assumed that the characteristicName Suspended Sediment Concentration
-reflected essentially the same data despite some methodoligical
-differences in the data as shown
-\href{https://water.usgs.gov/osw/pubs/WRIR00-4191.pdf}{here}. Second,
-all parameters were checked to make sure that the characteristicName
-that was queried, matched the actual parameter of interest that was
-downloaded. For example, if we queried ``Dissolved Organic Carbon''
-data, but the parameter name in the data was ``Total Organic Carbon''
-then we would drop those samples. Third, we harmonized the data across
-units such that TSS and DOC data are in mg/L, Chl\_a data is in
-\(\mu g/L\), and secchi disk depth is in meters. If units were
-nonsensical (secchi in mg/L), then we would drop those observations.
-Finally, we forced both the LAGOS-NE and the WQP data to have only one
-observation per datetime X site combination. We did this by either
-removing true duplicates (where the value was the same for multiple
-observations), averaging multiple observations to a single observation
-if the coefficient of variation was less than 0.1, and throwing out
-observations with too many simultaneous observations (5 per date time
-combination) or too much variation with no metadata explaining the
-repeat observations. We used a similar procedure for the data that did
-not have timestamps and only had date information, these data without
-timestamps were set to observations at noon for matching to Landsat
-dates. In general, we assume that these simultaneous observations are
-either reporting errors, represent field sampling campaigns with
-genuinely simultaneous observations, or reflect simultaneous sampling at
-different depths. Figure \ref{fig:fig1} captures how these data cleaning
-procedures cut out observations and sites.
+decisions both clear and justifiable, with the end goal of producing a
+high-quality dataset. Figure \ref{fig:fig1} presents these data quality
+assurance procedures and shows how they reduce the number of
+observatiosn at each step. The following are the most important
+decisions:
 
-While our data quality control included many checks to ensure data
-quality, we also consciously avoided some other data quality assurance
-steps because including them would have thrown out the majority of the
-WQP data. For example, some samples included sampling depth information,
-which is particularly important when matching water quality data to
-reflectance information, but so few samples included depth information,
-that we elected to simply keep all the data, assuming that the majority
-of the data was collected near the surface (see supplement for
-justification of this assumption). Some of these decisions included: not
-filtering data based on sampling method, not including temperature data
-as a filter for DOC and Chl\_a samples, and including data that had
-unlabeled sample fraction metadata. We know that some of these decisions
-may not match the requirements of other research, so we have included
-code and data that would allow future researchers to choose different
-data quality criteria and recreate a similar, more strict dataset.
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  All observations were verified to have analytical methods that matched
+  their parameter name; when this was not the case, samples were
+  dropped. For example, if an observation was supposed to report TSS,
+  but the analytical method was listed as ``Nitrogen in Water,'' then
+  that sample would be dropped. For TSS in particular, we assumed that
+  the characteristicName Suspended Sediment Concentration reflected
+  essentially the same data despite some methodoligical differences in
+  the data as shown
+  \href{https://water.usgs.gov/osw/pubs/WRIR00-4191.pdf}{here}.
+\item
+  We harmonized the data across units such that TSS and DOC data are in
+  mg/L, Chl\_a data is in \(\mu\)g/L, and Secchi disk depth is in
+  meters. We removed all observations with nonsensical units (e.g.~SDD
+  in mg/L).
+\item
+  We ensured that both LAGOS-NE and WQP data to have only one
+  observation per site at a particular date and/or time. We converted
+  true duplicates where the date, time, and observation value were the
+  same for multiple observations to a single value. When the site and
+  date were the same, but the parameter values were different, we
+  averaged multiple observations to a single observation if the
+  coefficient of variation was less than 0.1, and removed observations
+  with too many simultaneous observations (5 per date time combination)
+  or too much variation with no metadata explaining the repeat
+  observations. We assume that these simultaneous observations are
+  either reporting errors, represent field sampling campaigns with
+  genuinely simultaneous observations, or reflect simultaneous sampling
+  at different depths.
+\end{enumerate}
+
+While other decisions could have been included to make all observations
+fully consistent, we avoided choices that removed the majority of the
+WQP data. For example, while some samples included sampling depth
+information, which is useful when matching water quality data to
+reflectance information, most samples did not. As a result, we elected
+to simply keep all the data, assuming that the majority of the data was
+collected near the surface (see supplement for justification of this
+assumption). Some additional decisions that resulted in retaining data
+included: not filtering data based on sampling method, not including
+temperature data as a filter for DOC and Chl\_a samples, and including
+data that had unlabeled sample fraction metadata. While these decisions
+may preclude some types of analysis, our free and open code allows
+future researchers to choose different data quality criteria and
+recreate a stricter dataset to match other criteria.
 
 \hypertarget{joining-in-situ-data-to-landsat}{%
 \subsubsection{\texorpdfstring{Joining \emph{in-situ} data to
 Landsat}{Joining in-situ data to Landsat}}\label{joining-in-situ-data-to-landsat}}
 
-Because of the 30 m resolution of Landsat, our ability to detect
-waterbodies is limited to waterbodies that are wider than at least 60 m
-on all sides to ensure that the spectral information captures only
-purely water pixels. In essence, this means that our ``Stream'' data is
-really limited to relatively large rivers wider than 60 m, though we use
-the terms stream and river interchangeably. Similarly, Estuaries and
-Lakes are mostly limited to sites that where the waterbody is wider than
-60 m.
-
-Both the WQP and LAGOS-NE datasets come with site information that
-includes latitude and longitude. Joining the \emph{in-situ} data to
-Landsat requires using this location data to select sites, gather
-spatially averaged reflectance, and match water quality data
-observations to simultaneous overpasses. For the location data, we
-encounter an interesting difference in philosophy, where the WQP records
-locations at the site of the observation and LAGOS-NE records location
-as the center of the lake under observation. This means that if data is
-both in the WQP portal and in LAGOS-NE, then we will potentially have
-different reflectance information for the same water quality
-observation. In the WQP data, where sampling sites are often along the
-shores of lakes and banks of rivers, the exact sampling location may be
-more likely to include ``spoiled'' pixels that contain some spectral
-information of the pure water body and the adjacent land. Keeping sites
-pinned to the reported sampling location does allow for more spatial
-variation in waterbody water quality, which could reflect genuine
-spatial variation in water quality in larger waterbodies (Griffin et
-al., 2011). In the LAGOS-NE dataset, using lake centroid spectral
-information essentially eliminates the risk of pixel contamination for
-most large lakes, but makes the implicit assumption that water quality
-does not vary too much across the water body. We kept both of these data
-sources, so that data users can choose which data source best suits
-their needs.
+Both the WQP and LAGOS-NE datasets include sample latitude and
+longitude. Joining the in-situ data to Landsat requires using this
+location data to select sites, gather spatially averaged reflectance,
+and match water quality observations to temporally proximal overpasses.
+Because LAGOS-NE uses lake centroids for location, while the WQP uses
+observation points, when data is both in the WQP portal and in LAGOS-NE,
+then we will potentially have different reflectance information for the
+same water quality observation. In the WQP data, where sampling sites
+are often along the shores of lakes and banks of rivers, the exact
+sampling location may be more likely to include mixed pixels that
+contain some spectral information of the pure water body and the
+adjacent land. Keeping sites pinned to the reported sampling location
+does allow for more spatial variation in waterbody water quality, which
+could reflect genuine spatial variation in water quality in larger
+waterbodies (Griffin et al., 2011). In the LAGOS-NE dataset, using lake
+centroid spectral information essentially eliminates the risk of pixel
+contamination for most large lakes, but makes the implicit assumption
+that water quality does not vary too much across the water body. We kept
+both of these data sources, so that data users can choose which data
+source best suits their needs.
 
 The first step in linking these datasets is finding out which water
 bodies are likely to be Landsat visible, where the 30m resolution pixels
-of Landsat detect an unspoiled (entirely water) pixel. We elected to
-only keep sites that are not only classified as water some of the time,
-but are generally classified as water throughout the Landsat archive
-record, using an 80\% threshold on the Pekel occurrence layer (Pekel et
-al., 2016). Pekel and others (2016) used the Landsat archive to generate
-a global map of how often a given pixel was classified as water from
-1985-2015. For our purposes we only kept sites that were within 200
-meters of at least one pixel with a water occurence of at least 60\%.
-All such sites were kept in the dataset and were sptially joined to an
-inventory of landsat overpass path and row, where each site was then
-affiliated with a specific landsat tile.
+of Landsat detect a uniform (entirely water) pixel. Because of the 30 m
+resolution of Landsat, we generally detect waterbodies \textgreater{} 60
+m on all sides to ensure that the spectral information captures only
+purely water pixels. In essence, this means that our ``Stream'' data is
+limited to rivers wider than 60 m, though we use the terms stream and
+river interchangeably. Similarly, estuaries and lakes are mostly limited
+to sites where the waterbody is wider than 60 m.
 
-We then generated a dataset that included information on the exact date
-and time that any of the three Landsat missions imaged a given tile.
-This data was then joined to the \emph{in-situ} observation data by
-date. If multiple observations were taken on the same day, we kept only
-the observation that was closest in time to the landsat overpass. In
-order to maximize the size of the dataset, we also shouldered the
-\emph{in-situ} data by one day, allowing for data to be collected
-\(\pm\) one day of an overpass. This one-day shouldering is relatively
-conservative for previous work in lakes (Olmanson et al., 2011; Torbick
-et al., 2013) and rivers (Griffin et al., 2011), but is likely too
-permissive for estuaries and rivers with rapidly changing discharge,
-where water clarity characteristics vary on sub-hour intervals (Rode et
-al., 2016). The timing difference between overpasses and \emph{in-situ}
-collection is preserved in the final dataset and users can specify
-minimum overpass timing if they choose to be more strict.
+We elected to only keep sites that are usually classified as water in
+the Landsat archive, using the water occurrence layer developed by Pekel
+et al. (2016). Sites were preserved if they were within 200 meters of at
+least one pixel with a water occurrence of at least 60\%, a permissive
+threshold that ensured the largest possible number of candidate sites.
+All such sites were kept in the dataset and were spatially joined to an
+inventory of Landsat WRS-2 paths and rows, where each site was
+affiliated with a specific Landsat tile.
+
+We generated a dataset including the dates and times that each tile was
+observed by any of the three Landsat missions. We joined this dataset to
+the \emph{in-situ} database by date. In cases with multiple
+\emph{in-situ} observations of the same water body on the same day, we
+kept only the observation closest in time to the Landsat overpass. In
+order to maximize the size of the dataset, we retained all
+\emph{in-situ} data that fell within \(\pm\) day of a Landsat overpass.
+This one-day shouldering is relatively conservative compared to some
+previous work in lakes (Olmanson et al., 2011; Torbick et al., 2013) and
+rivers (Griffin et al., 2011), but may result in mismatches between
+reflectance and water quality parameter values for estuaries and rivers
+with rapidly changing discharge, where water quality values can very on
+sub-hourly intervals (Rode et al., 2016). The timing difference between
+overpasses and \emph{in-situ} collection is preserved in the final
+dataset and users can specify minimum overpass timing if they choose to
+be more strict.
 
 With this trimmed down dataset of Landsat-visible sites matched to
 Landsat overpass times, we used Google Earth Engine to pair
-\emph{in-situ} observations with Landsat reflectance values. Landsat 5
-and 7 have onboard imagers that collects seven bands of imagery centered
-on three visible wavelengths (blue, green, and red) and four infrared
-(near infrared, shortwave infrared 1, shortwave infrared 2, and thermal
-band). Landsat 8 has the same bands with slightly different wavelengths
-and improved spectral accuracy (Barsi et al., 2014) plus a few extra
-bands that we did not include in this work. Landsat 7 and 8 have
-panchromatic bands at 15m resolution, while landsat 5 does not. For our
-matchup data, the bands we used their wavelengths and resolution are in
-table \ref{tab:landsat}.
-
-\rowcolors{2}{gray!6}{white}
-\begin{table}
-
-\caption{\label{tab:landsat}Landsat spectral summary}
-\centering
-\begin{tabu} to \linewidth {>{\raggedright}X>{\raggedright}X>{\raggedright}X>{\raggedright}X>{\raggedright}X}
-\hiderowcolors
-\hline
-\textbf{Bands} & \textbf{L5 Wavelengths} & \textbf{L7 Wavelengths} & \textbf{L8 Wavelengths} & \textbf{Resolution (m)}\\
-\hline
-\showrowcolors
-Blue & 0.45-0.52 & 0.45-0.52 & 0.452-0.512 & 30\\
-\hline
-Green & 0.52-0.60 & 0.52-0.60 & 0.533-0.590 & 30\\
-\hline
-Red & 0.63-0.69 & 0.63-0.69 & 0.636-0.673 & 30\\
-\hline
-Near Infrared (nir) & 0.77-0.90 & 0.77-0.90 & 0.851-0.879 & 30\\
-\hline
-Shortwave Infrared 1(swir1) & 1.55-1.75 & 1.55-1.75 & 1.566-1.651 & 30\\
-\hline
-Shortwave Infrared 2 (swir2) & 2.09-2.35 & 2.09-2.35 & 2.107-2.294 & 30\\
-\hline
-Panchromatic & NA & 0.52-0.9 & 0.503-0.676 & 15\\
-\hline
-\end{tabu}
-\end{table}
-\rowcolors{2}{white}{white}
-
-At each site, we generated a 200 m buffer around the site. Within this
-buffered zone, we throw out any pixel that is not classified as water at
-least 80\% of the time in the landsat archive (Pekel et al., 2016). We
-elected to initially only filter sites down to an initial threshold of
-60\% in order to include as many sites as possible in the candidate site
-pool. At the stage where we are direclty linking reflectance to
-\emph{in-situ} concentration, we elected to set a more strict threshold
-in order to minimize the likelihood of getting partial or spoiled
-pixels. All of the Landsat data comes with quality assessment bands that
-indicate if individual pixels are likely taken of land, water, clouds,
-aerosols, etc\ldots{} We used these bands to throw out any pixels that
-were classified as cloud and cloud shadows, but we elected to keep all
-data classified as land, ice, or water, since very high sediment
-concentrations can lead to classification as water or ice (Xiao
-citation?). In addition to these steps, we also created a 30 m buffer
-around the TIGER road
+\emph{in-situ} observations with median Landsat reflectance values in a
+200 m buffer around each site. To ensure the highest quality reflectance
+data, we took several quality assurance steps. First, within the
+buffered zone we throw out any pixel that is not classified as water at
+least 80\% of the time in the Landsat archive (Pekel et al., 2016),
+which reduces the likelihood of using mixed pixels. Second, Landsat data
+includes quality assessment bands for detection of water, clouds,
+aerosols, and other similar conditions. We used these bands to remove
+all pixels classified as cloud and cloud shadows, but we elected to keep
+all data classified as land, ice, or water, since very high sediment
+concentrations can lead to classification as land or ice (Xiao
+citation?). Third, because many of the samples in the WQP are taken from
+or near bridges that are smaller than 30m in width, we also created a 30
+m buffer around the TIGER road
 \href{https://www.census.gov/geo/maps-data/data/tiger.html}{dataset}
-from the US Census office, all pixels that were within 30m of any
-transport artery (road, traintracks, etc\ldots{}) was removed. Once
-these extra steps were taken for removing pixels that would likely spoil
-the reflectance signal coming from the water, we took a spatial median
-of all remaining pixels in the buffer zone for all bands. This spatial
-median includes a median of the quality assessment band, which can be
-used to indicate if the median assessment value was water or some other
-class like land or ice. This step leaves us with a ``wide'' (Wickham,
-2014) dataset with the \emph{in-situ} observation values in columns
-arranged with reflectance values from landsat for the same site X date
-combination.
+from the US Census office. This step ensures that pixels within 30 m of
+any transport artery (road, traintracks, etc\ldots{}) were removed, and
+won't create mixed water/road pixels. After these quality assurance
+steps were taken, we calculated a spatial median of reflectance in each
+band from all remaining pixels in the buffer zone. These spatial medians
+include a median of the quality assessment band, which can be used to
+indicate if the median assessment value was water or some other class
+like land or ice. These steps produce a ``wide'' (Wickham, 2014) dataset
+matching \emph{in-situ} observation and Landsat reflectance values for
+all site and date combinations.
 
 One of the most critical components of inland water remote sensing is
 the atmospheric correction, where radiance at the satellite sensor is
 corrected to radiance from the land surface (Brando \& Dekker, 2003;
-Caselles \& Lóópez Garc Ĺ A, 1989). Atmospheric correction, when
-properly applied can correct for aersol interference, sun glint, and
+CASELLES \& LÓPEZ GARCÍA, 1989). Atmospheric correction, when properly
+applied, can reduce the impact of aerosol interference, sun glint, and
 other processes that might alter the radiance leaving waterbodies,
 giving a much cleaner signal of the optical qualities of water (Gordon,
 1997). There are many options for atmospheric correction algorithms, but
-Google Earth Engine only houses the USGS Surface Reflectance archive
-which uses a version of the 6S radiative transfer model called LEDAPS
+Google Earth Engine only includes the USGS Surface Reflectance archive
+which uses a version of the 6S radiative transfer model called
+\emph{Landsat Ecosystem Disturbance Adaptive Processing System} (LEDAPS)
 for Landsat 5 and 7 (Ju et al., 2012). For Landsat 8 the algorithm is
-called LaSRC that uses the ultra blue band to correct for aersols
-(Doxani et al., 2018). Because the Google Earth Engine archive only
-houses this one atmospheric correction approach, we pull both the USGS
-surface reflectance and the uncorrected top-of-atmosphere reflectance.
-Ideally this allows end users to use their best judgement for which
-product is best suited to their needs. At the end of this long chain of
-decisions, and operations, we are left with a matchup of dataset of
-nearly 600,000 matchups between \emph{in-situ} data and Landsat
-reflectance. As far as we know this is the largest such dataset for
-inland water quality and some of it's summary features are described
-below.
+called \emph{Landsat 8 Surface Reflectance Code} (LaSRC) that uses the
+ultra blue band to correct for aerosols (Doxani et al., 2018). Because
+users may want to apply other atmospheric correction schemes, we include
+both the USGS surface reflectance and the uncorrected top-of-atmosphere
+reflectance.
 
 \begin{center}\rule{0.5\linewidth}{\linethickness}\end{center}
 
 \hypertarget{results}{%
 \section{Results}\label{results}}
 
-As figure \ref{fig:fig1} shows, matching data to landsat overpasses
-generally reduced the total available data for a given paramter by 6-25
-times, with the biggest dropoff in TSS observations and the most
-retained with secchi disk depth. This intuitively makes sense, as most
-TSS observations are made in streams which aren't Landsat visible, while
-secchi observations are mostly in lakes, which are visible. As a result
-of this steep dropoff we elected to drop CDOM from the pipeline because
-there were only 2761 CDOM results in the entire WQP before any data
-cleaning. The remaining data is well distributed across the parts of the
-USA with many lakes and rivers in the Upper Midwest, Northeast, and
-Florida, with notable data concentrations near the Chesepeake Bay and
-along the U.S. East Coast in major estuarine environments (Fig
-\ref{fig:map}). The western United States has notably less data
-available, which likely reflects both much lower concentrations of lakes
-and rivers, and potentially a bias in the completeness of the WQP
-towards certain states.
+\begin{verbatim}
+##  [1] "SiteID"     "date_unity" "date_only"  "chl_a"      "doc"       
+##  [6] "p_sand"     "secchi"     "tis"        "tss"        "source"
+\end{verbatim}
+
+After the quality assurance steps there are almost 600,000 matchups with
+near simultaneous Landsat overpasses and \emph{in-situ} data collection.
+As figure \ref{fig:fig1} shows, matching in situ data to Landsat
+overpasses generally reduced the total available data for a given
+parameter by 6-25 times, with the biggest dropoff in TSS observations
+and the smallest in SDD. This pattern stems from the fact that most TSS
+observations are made in streams that are too small to be visible to
+Landsat, while SDD observations are mostly in lakes, which are visible.
+Given this dropoff, we elected to drop CDOM from the work because there
+were only 2761 CDOM results in the entire WQP. The remaining data are
+well distributed across the parts of the USA with many lakes and rivers,
+including the Upper Midwest, Northeast, and Florida, with notable data
+concentrations near the Chesapeake Bay and along the U.S. East Coast in
+major estuarine environments (Fig \ref{fig:map}). The western United
+States has notably less data available, which likely reflects: lower
+concentrations of lakes and rivers in these states, the lack of LAGOS-NE
+data for these states, and, potentially, a bias in the completeness of
+the WQP towards certain states.
 
 \begin{figure}
 \centering
@@ -639,54 +593,31 @@ conterminous USA. The data is split by observation type, where total
 represents an overpass for any of the four primary parameters}
 \end{figure}
 
-\begin{figure}
-\centering
-\includegraphics{aquasat_outline_files/figure-latex/distribution-1.pdf}
-\caption{\label{fig:distribution} Shows the distribution of observations
-at a given site. Most sites only have a single overpass observation, but
-there are thousands of these sites}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics{aquasat_outline_files/figure-latex/time-1.pdf}
-\caption{\label{fig:time} Shows the number of observations per year per
-parameter type. Note the different y axes, highlighting roughly an order
-of magnitude less matchup data than incoming data.}
-\end{figure}
-
-The spatial distribution of data shown in figure \ref{fig:map}
-highlights how lakes dominate the matchup dataset contributing 76.5\% of
-the data to the entire dataset, most of that coming from the secchi
-data. Beyond the general trends of what regions are best represented in
-the data, it is useful to know the number of observations at a given
-site. Figure \ref{fig:distribution} shows the breakdown of overpasses at
-a given site and it highlights an important caveat to this dataset. The
-vast majority of sites have less than ten matchups, making it unlikely
-that one can rely on a single site to build, test, and validate a model
-that uses reflectance to predict water quality parameters. However,
-there are thousands of sites with at least one observation and if these
-sites are close, share the same waterbody or drainage basin, one may be
-able to borrow information across sites to have enough data for
-modelling/prediction applications. Algthough the majority of sites have
-only one overpass, there are several hundred for each parameter that
-have at least 50 overpasses, which presents exciting opportunities for
-site-specific remote water quality predictions.
+As suggested by the spatial distribution of data shown in figure
+\ref{fig:map} lakes dominate the dataset. They contribute 71\% of the
+data to the entire dataset, mostly in the form of SDD observations. Half
+of all the data come from sites with one or two matchups, with less than
+10\% of sites having at least 25 observations. Given this limitation,
+regional, reflectance-based water quality models may be the most
+efficient way to use the database, where information from multiple sites
+can be leveraged to increase the matchup count. Still, there are
+hundreds of sites for each parameter that have at least 50 matchups,
+which presents exciting opportunities for site-specific remote water
+quality predictions as well.
 
 The timing of observations in our matchup dataset generally reflect the
-availability of data in the WQP and LAGOS-NE and the launching or
-retirement of Landsat missions (Fig \ref{fig:time}). The data shown here
-lines up well with data reported in the original WQP data paper (Read et
-al., 2017). As with fig \ref{fig:distribution}, there is consistently
-relatively low amounts of DOC data available throughout the observation
-record with much more TSS, Chl\_a, and secchi depth information,
-especially in the years from 1999-2012. There is increasing data
-available from the start in LAGOS-NE and the WQP through
-\textasciitilde{} 2010, with a decline in data thereafter. This decline
-may reflect a lag between agencies collecting data and submitting final
-datasets to the WQP. The matchup data reflects \emph{in-situ} data
-availability while also showing peaks in overpasses when at least two
-Landsat satellites are in orbit (late 1990s and post-2013).
+availability of data in the WQP and LAGOS-NE and the launch or
+retirement of Landsat missions (SI Figure 2), and lines up well with the
+original WQP data (Read et al., 2017). Figure (SI Fig. 2) also shows
+that DOC is the rarest observation in both AquaSat and the
+\emph{in-situ} data. TSS data mostly comes from small, streams not
+visible by Landsat which explains the large dropoff in TSS observations
+from \emph{in-situ} datasets to the Aquasat matchups. Chl\_a, and SDD
+are well-preserved in AquaSat, because most of these observations were
+in Landsat-visible lakes. There is increasing data available in the
+\emph{in-situ} datasets from 1984-2012. The more recent decline in data
+availability may reflect a lag between agencies collecting data and
+submitting final datasets to the \emph{in-situ} databases.
 
 \begin{figure}
 \centering
@@ -698,74 +629,33 @@ blue.}
 \end{figure}
 
 The data we captured in the matchup dataset generally reflects the
-distribution of \emph{in-situ} data quite well (fig \ref{fig:captured}).
-This is especially true for chlorophyll a and secchi disk depth, where
-the overpass distribution shapes are nearly identical to the
-\emph{in-situ} distributions, with just fewer observations. In both DOC
-and TSS data, the matchup data misses the long tails of these
-distributions (the highest TSS data and the highest and lowest DOC
-data). If we examine which sites are missing in the overpass dataset, we
-see that almost all of them are small streams, reflecting higher
-variation in TSS and DOC in small streams that gets muted as small
-stream signals mix to form larger river, more muted signals
-({\textbf{???}}). For all parameters the observations captured span
-several orders of magnitude and capture environmentally meaningful
-variation in water clarity and quality. Across all parameters the data
-is approximately log-normally distributed, with the majority of the data
-occupying a relatively narrow range for each parameter (fig
-\ref{fig:captured}). This distribution shape, means that the bottom 5
-and the top 95th percentiles capture more variation in concentration
-than data in the 5-95\% quantiles, reflecting a dataset that does
-capture large variation, but where the majority of observations are
-restricted to narrow bands. However, these narrow ranges of parameter
-values reflect the general distributions in the full WQP and LAGOS-NE
-datasets, meaning our data can reasonably be expected to reflect the
-overwhelming majority of environmental variation in water quality
-parameter concentration.
+distribution of in-situ data quite well (fig \ref{fig:captured}). This
+is especially true for Chl\_a and SDD, where the overpass distribution
+shapes are nearly identical to the \emph{in-situ} distributions, just
+with fewer observations. The matchup data misses the largest values for
+both DOC and TSS, which occur almost entirely in small streams, not
+visible to Landsat. Across parameters, the matchup data spans several
+orders of magnitude and captures environmentally meaningful variation in
+water quality. For each parameter, the data is approximately
+log-normally distributed, with the majority of the data occupying a
+relatively narrow range, within \textasciitilde{}1-2 orders of magnitude
+of the median (fig \ref{fig:captured}).
 
-Based on decades of previous research {[}Topp2018{]}, we know that the
-concentration of our four primary parameters should control, to some
-degreee, the reflectance from a waterbody that reaches the Landsat
+Based on decades of previous research (Topp et al., 2018), we know that
+the concentration of our four primary parameters should control, to some
+degree, the reflectance from a waterbody that reaches the Landsat
 sensor. While exploring these relationships at individual sites or
-regions is beyond the scope of this paper, we can interrogate the
-dataset to make some initial statements about how variation in each
-water quality consitituent maps to variation in reflectance in each
-band. To explore these relationships, we divide the data into the six
-quantiles shown in (fig \ref{fig:captured}) for each water quality
-parameter. We then plot a boxplot of the spectral response within each
-data quantile for each spectral band as shown in figure
-\ref{fig:variation}. This plot shows how increasing concentrations of
-Chlorophyll a, DOC, and TSS or increasing secchi disk depth control
-spectral variation across our three waterbody types (Estuary, Stream,
-and Lake) and averaged for the entire USA. Despite using such a
-heterogeneous dataset, figure \ref{fig:variation} shows clear systematic
-variation in spectral response for each parameter as concentration
-increases.
-
-Previous work on remote sensing of Chlorophyll a has frequently shown
-that the green band frequently is most predictive of Chlorophyll a
-concentrations along with the red and NIR bands for exceptionally high
-concentrations {[}Topp2018{]}. Our dataset confirms this result, by
-showing the largest spectral distinction between chlorophyll quantiles
-in the green, red, and NIR bands respectively, with increasing
-reflectance with increasing concentration (fig \ref{fig:captured}.
-Secchi disk depth and TSS show even stronger responses in the green,
-red, and NIR bands, which is also consistent with previous research. TSS
-has the notably strongest response, potentially indicating it is one of
-the easiest parameters to predict with remote sensing data
-{[}Topp2018{]}. In contrast to these three parameters which all have a
-single directional response (increasing concentration = increasing
-reflectance), the DOC response is more mixed. With increasing
-concentrations of DOC, the spectral response is actually muted which is
-consistent with the general phenomena of CDOM absorbing light and
-reducing reflectance, especially in the gren and red bands
-{[}Topp2018{]}. While previous researchers have frequently used the
-shortwave infrared bands for remote sensing of water quality, our data
-indicates that such data may only be useul at the very highest sediment
-and DOC concentrations. These consistent and sensible responses for each
-quantile provide some evidence that our dataset will provide a hitherto
-unavailable playground for the development, deployment, and distribution
-of remote sening of water quality algorithms.
+regions is beyond the scope of this paper, we interrogate the dataset to
+examine how variation in each water quality constituent maps to
+variation in reflectance in each spectral band. To explore these
+relationships, we divide the data into the six quantiles shown in figure
+5 for each water quality parameter (figure \ref{fig:captured})
+Increasing concentrations of Chl\_a, DOC, and TSS or increasing SDD
+control spectral variation across our three waterbody types (Estuary,
+Stream, and Lake) and averaged for the entire USA. Despite using such a
+heterogeneous dataset, figure \{\ref{fig:captured}\} shows clear
+systematic variation in spectral response for each parameter as
+concentration or SDD increases.
 
 \hypertarget{discussion}{%
 \section{Discussion}\label{discussion}}
@@ -774,91 +664,66 @@ of remote sening of water quality algorithms.
 \centering
 \includegraphics{aquasat_outline_files/figure-latex/variation-1.pdf}
 \caption{\label{fig:captured} Shows spectral response for each data
-quantile for each Landsat band. For chl\_a, doc, and tss, concentration
-increases moving from left to right for higher quantiles. For secchi
-disk dept quantiles mean increasing clarity or increasing depth.}
+quantile for each Landsat band. For Chl\_a, DOC, and TSS, concentration
+increases moving from left to right for higher quantiles. For SDD
+quantiles indicate increasing clarity or increasing depth.}
 \end{figure}
 
-Our matchup data generally captures the distribution of \emph{in-situ}
-data and spectral responses at a course level show consistent and
-predictable relationships between concentration and spectral response.
-However, this data comes with plenty of caveats and limitations. First
-and foremost, the Water Quality Portal and LAGOS-NE have inherent
-spatial biases in terms of which water bodies were sampled, which
-agencies fully report their data, and the completeness of records.
-Investigating these shortcomings is beyond the scope of this paper, but
-end-users should be aware of these inherent pitfalls. Furthermore, our
-efforts to harmonize and unify the data in the Water Quality Portal were
-primarily with the explicit goal of including as much data as could be
-reasonably included. For example, we kept all data that did not have
-sampling depth information. This means we cannot gurantee that
-\emph{in-situ} concentrations represent surface water quality which is
-reflected in Landsat imagery, rather than deeper waters which would not
-be captured by satellite imagery. This is a single example of the many
-inclusive decisions we made when trimming and harmonizing the WQP data
-(Supplement Link). Such inclusivity ensured a dataset that preferenced
-quantity over quality gurantees, despite our best efforts to also ensure
-data quality. The LAGOS-NE dataset provides a nice foil to our WQP
-data-cleaning approach, because the LAGOS-NE dataset has been much more
-intensively and carefully harmonized for analysis (Soranno et al.,
-2017). Our inclusive approach did not stop at the harmonizing step, we
-also elected to keep all data that had positive values. This means we
-did not do any quality analysis based on ``sensible'' data values. For
-example, there are some secchi disk depth samples that report a secchi
-disk depth of \textgreater{} 100s of meters. Such values are highly
-unlikely, but we elected to keep them so that end-users can set their
-own ``sensibility'' thresholds based on expert knowledge for their
-systems. The quality controls we considered in the WQP differs sharply
-from our approach with the LAGOS-NE data and the Landsat data. For both
-of these data sources, we essentially took the datasets as intact and
-analysis-ready with little direct manipulation. This is particularly
-important for the Landsat data which we only linked to a single
-atmospheric correction for each satellite (LEDAPS for Landsat 5 and 7,
-and LaSRC for Landsat 8) or linked to uncorrected top-of-atmosphere
-reflectance. There are many papers and review papers, exclusively
-devoted to the correct atmospheric correction to use when attempting to
-predict water quality concentrations from remote imagery {[}Topp2018{]},
-so our data represents a dramatic simplification of this rich research
-on atmospheric corrections. As with our WQP data quality choices, we
-chose to be inclusive with the Landsat data, by including data that the
-Landsat quality assessment bands declared to be ice and/or land, not
-simply keeping pixels that are only declared water. This approach allows
-us to keep data for the highest TSS concentrations, which can falsely be
-declared as ice or land, but it also increases the likelihood that our
-spatial medians may be a spoiled pixel that really contains ice or land.
-In addition to the data quality checks we chose to do and not do, we
-also made the explicit choice to pair imagery with \emph{in-situ}
-observations within one day of a satellite overpass. There is ample
-research suggesting this assumption works for lakes (Torbick et al.,
-2013,@Olmanson2011) (Simon can you add more refs here) and for some
-river conditions (Griffin et al., 2011). However, in rapidly changing
-river conditions and for estuarine environments our one-day window is
-likely too permissive and should be interrogated by end-users. To enable
-this kind of \emph{post-hoc} quality check, we have included the time
-difference between overpass and water quality sampling in the dataset.
-Because this project included a series of essentially user-specific
-choices, we are publishing all code, supplemental data, and adjacent
-analyses. We hope that publishing the source code for this project will
-allow users to define their own rules for data quality assurance, data
-inclusivity, and any changes they wish to make. Ideally, for an
-experienced R user, re-working these decisiosn will not be incredibly
-time-insenstive and one can generate datasets that are complimentary to
-our own. To our knowledge and despite the limitations, tradeoffs, and
-caveats inherent this dataset, it is still the largest single record of
-matchups between \emph{in-situ} observations and remote imagery ever
-assembled. We anticipate that such a large dataset, covering most of the
-USA, can be used in research at the local, regional, and global scale to
-ultimately model and predict water quality from satellite observations.
-We hope that by publishing this data, we will further enable the current
-transition in the field from developing methods to a field where those
-methods are used to interrogate patterns in water quality, drivers of
-change, and spatial variability of key water quality parameters
-{[}Topp2018{]}. We also have the aim of publishing our data and code
-architecture to encourage others to explore remote sensing of different
-water quality parameters (like phosphorous or total organic carbon),
-additional sites (including coastal environments or other countries),
-and even adding new observations paired with public satellites (like
-Sentinel 2) or private satellites (like DigitalGlobe or PLANET).
+We built AquaSat to move towards a more continental and global approach
+to remote sensing of water quality, but the dataset comes with caveats
+and limitations. First and foremost, the Water Quality Portal and
+LAGOS-NE have inherent spatial biases in terms of which water bodies
+were sampled, which agencies fully report their data, and the
+completeness of records. Second, our efforts to harmonize and unify the
+data in the Water Quality Portal were primarily with the explicit goal
+of including as much data as could be reasonably included. Such
+inclusivity ensured a dataset that emphasized quantity over quality
+guarantees, despite our best efforts to also ensure data quality. The
+LAGOS-NE dataset, which was much more extensively assured for quality,
+provides a nice foil to our approach (Soranno et al., 2017, 2015). Our
+inclusive approach did not stop at the harmonizing step, we also elected
+to keep all data that had positive values. This means we did not do any
+quality analysis based on ``sensible'' data values, unlike the LAGOS
+approach (Soranno et al., 2015). For example, there are some secchi disk
+depth samples that report a secchi disk depth of \textgreater{} 100s of
+meters. Such values are highly unlikely, but we elected to keep them so
+that end-users can set their own ``sensibility'' thresholds based on
+expert knowledge for their systems. The quality controls we took for the
+WQP data stand in sharp contrast to our approach with the Landsat
+archive.
+
+To our knowledge, the AquaSat dataset is the largest matchup dataset
+ever assembled for inland waters. It captures a broad range of variation
+in the four main remotely sensible water quality parameters across
+thousands of waterbodies, and we anticipate it will unlock many avenues
+for remote water quality work. By publishing this data, we hope to
+contribute to the current transition in the field from developing
+methods to a field where those methods are used to interrogate patterns
+in water quality, drivers of change, and spatial variability of key
+water quality parameters (Topp et al., 2018). For example, with an open
+dataset predictive algorithm and methods comparisons can be conducted on
+a shared resource, discouraging repetitive development of the same
+appraoch on different data (Bukata, 2013). We also built the dataset to
+provide an easy way for researchers who typically don't use remote
+sensing as one of their tools to begin to use it as integral aspect of
+water quality research. Because the matchup data covers the United
+States, this work could range from building local water quality
+algorithms for detecting algae blooms in a single lake, to building
+predictions of TSS in all the major rivers of the USA.
+
+This approach of using public \emph{in-situ} data paired with public
+satellite data, can be vastly expanded to any place that has
+measurements of water quality. By publishing our code, we encourage
+using the overall approach and/or code archicture to expand this kind of
+matchup work to other countries with similar datasets, moving towards
+truly global remote sensing of inland water quality. Additionally, there
+is ample previous work showing that remote sensing of water quality can
+be expanded to include constituents that not optically active but are
+correlated with TSS or DOC, like mercury (Fichot et al., 2016; Telmer et
+al., 2006) or phosphorus (Kutser et al., 1995). Finally, this work can
+be adjusted to include other satellites with publically available color
+imagery (like Sentinel 2) or even private satellites with higher
+temporal and spatial resolution (like DigitalGlobe or PLANET).
 
 \begin{center}\rule{0.5\linewidth}{\linethickness}\end{center}
 
@@ -873,6 +738,12 @@ production: 2. Estimation at global scale from satellite (Coastal Zone
 Color Scanner) chlorophyll. \emph{Global Biogeochemical Cycles},
 \emph{10}(1), 57--69. \url{https://doi.org/10.1029/95GB02832}
 
+\leavevmode\hypertarget{ref-Ballantine2014}{}%
+Ballantine, D. J., \& Davies-Colley, R. J. (2014). Water quality trends
+in New Zealand rivers: 1989--2009. \emph{Environmental Monitoring and
+Assessment}, \emph{186}(3), 1939--1950.
+\url{https://doi.org/10.1007/s10661-013-3508-5}
+
 \leavevmode\hypertarget{ref-Blondeau-Patissier2014}{}%
 Blondeau-Patissier, D., Gower, J. F., Dekker, A. G., Phinn, S. R., \&
 Brando, V. E. (2014). A review of ocean color remote sensing methods and
@@ -881,11 +752,24 @@ phytoplankton blooms in coastal and open oceans. \emph{Progress in
 Oceanography}, \emph{123}, 23--144.
 \url{https://doi.org/10.1016/j.pocean.2013.12.008}
 
+\leavevmode\hypertarget{ref-Booth2011}{}%
+Booth, N. L., Everman, E. J., Kuo, I.-L., Sprague, L., \& Murphy, L.
+(2011). A Web-Based Decision Support System for Assessing Regional
+Water-Quality Conditions and Management Actions1. \emph{JAWRA Journal of
+the American Water Resources Association}, \emph{47}(5), 1136--1150.
+\url{https://doi.org/10.1111/j.1752-1688.2011.00573.x}
+
 \leavevmode\hypertarget{ref-Brando2003}{}%
 Brando, V., \& Dekker, A. (2003). Satellite hyperspectral remote sensing
 for estimating estuarine and coastal water quality. \emph{IEEE
 Transactions on Geoscience and Remote Sensing}, \emph{41}(6),
 1378--1387. \url{https://doi.org/10.1109/TGRS.2003.812907}
+
+\leavevmode\hypertarget{ref-Bricaud1981}{}%
+Bricaud, A., Morel, A., \& Prieur, L. (1981). Absorption by dissolved
+organic matter of the sea (yellow substance) in the UV and visible
+domains. \emph{Limnology and Oceanography}, \emph{26}(1), 43--53.
+\url{https://doi.org/10.4319/lo.1981.26.1.0043}
 
 \leavevmode\hypertarget{ref-Bukata2013}{}%
 Bukata, R. P. (2013). Retrospection and introspection on remote sensing
@@ -905,7 +789,7 @@ and Oceanography}, \emph{22}(2), 361--369.
 \url{https://doi.org/10.4319/lo.1977.22.2.0361}
 
 \leavevmode\hypertarget{ref-Caselles1989}{}%
-Caselles, V., \& Lóópez Garc Ĺ A, M. J. (1989). An alternative simple
+CASELLES, V., \& LÓPEZ GARCÍA, M. J. (1989). An alternative simple
 approach to estimate atmospheric correction in multitemporal studies.
 \emph{International Journal of Remote Sensing}, \emph{10}(6),
 1127--1134. \url{https://doi.org/10.1080/01431168908903951}
@@ -926,6 +810,13 @@ Exercise. \emph{Remote Sensing}, \emph{10}(3), 352.
 Feldman, S. I. (1979). Make --- a program for maintaining computer
 programs. \emph{Software: Practice and Experience}, \emph{9}(4),
 255--265. \url{https://doi.org/10.1002/spe.4380090402}
+
+\leavevmode\hypertarget{ref-Fichot2016}{}%
+Fichot, C. G., Downing, B. D., Bergamaschi, B. A., Windham-Myers, L.,
+Marvin-Dipasquale, M., Thompson, D. R., \& Gierach, M. M. (2016).
+High-Resolution Remote Sensing of Water Quality in the San Francisco
+Bay-Delta Estuary. \emph{Environmental Science and Technology},
+\emph{50}(2), 573--583. \url{https://doi.org/10.1021/acs.est.5b03518}
 
 \leavevmode\hypertarget{ref-Gholizadeh2016}{}%
 Gholizadeh, M., Melesse, A., \& Reddi, L. (2016). A Comprehensive Review
@@ -951,6 +842,12 @@ and interannual variability of dissolved organic matter in the Kolyma
 River, East Siberia, observed using satellite imagery. \emph{Journal of
 Geophysical Research: Biogeosciences}, \emph{116}(3), 1--12.
 \url{https://doi.org/10.1029/2010JG001634}
+
+\leavevmode\hypertarget{ref-Griffin2018}{}%
+Griffin, C. G., Finlay, J. C., Brezonik, P. L., Olmanson, L., \&
+Hozalski, R. M. (2018). Limitations on using CDOM as a proxy for DOC in
+temperate lakes. \emph{Water Research}, \emph{144}, 719--727.
+\url{https://doi.org/10.1016/J.WATRES.2018.08.007}
 
 \leavevmode\hypertarget{ref-Holyer1978}{}%
 Holyer, R. J. (1978). Toward universal multispectral suspended sediment
@@ -979,6 +876,19 @@ Kutser, T. (2004). Quantitative detection of chlorophyll in
 cyanobacterial blooms by satellite remote sensing. \emph{Limnology and
 Oceanography}, \emph{49}(6), 2179--2189.
 \url{https://doi.org/10.4319/lo.2004.49.6.2179}
+
+\leavevmode\hypertarget{ref-Kutser1995}{}%
+Kutser, T., Arst, H., Miller, T., Käärmann, L., \& Milius, A. (1995).
+Telespectrometrical estimation of water transparency, chlorophyll-a and
+total phosphorus concentration of Lake Peipsi. \emph{International
+Journal of Remote Sensing}, \emph{16}(16), 1--2.
+\url{https://doi.org/10.1080/01431169508954609}
+
+\leavevmode\hypertarget{ref-Lack2000}{}%
+Lack, T. (2000). Eurowaternet- A Freshwater Monitoring and Reporting
+Network for All European Countries. In \emph{Transboundary water
+resources in the balkans} (pp. 185--191). Dordrecht: Springer
+Netherlands. \url{https://doi.org/10.1007/978-94-011-4367-7_19}
 
 \leavevmode\hypertarget{ref-Lorenzen1980}{}%
 Lorenzen, M. W. (1980). Use of chlorophyll-Secchi disk relationships.
@@ -1045,12 +955,25 @@ pontificia pirocorvetta l'Immacolata concezione per determinare la
 trasparenza del mare; Memoria del P. A. Secchi. \emph{Il Nuovo Cimento},
 \emph{20}(1), 205--238. \url{https://doi.org/10.1007/BF02726911}
 
+\leavevmode\hypertarget{ref-Soranno2015}{}%
+Soranno, P. A., Bissell, E. G., Cheruvelil, K. S., Christel, S. T.,
+Collins, S. M., Fergus, C. E., et al. (2015). Building a multi-scaled
+geospatial temporal ecology database from disparate data sources:
+fostering open science and data reuse. \emph{GigaScience}, \emph{4}(1),
+28. \url{https://doi.org/10.1186/s13742-015-0067-4}
+
 \leavevmode\hypertarget{ref-Soranno2017}{}%
 Soranno, P. A., Bacon, L. C., Beauchene, M., Bednar, K. E., Bissell, E.
 G., Boudreau, C. K., et al. (2017). LAGOS-NE: A multi-scaled geospatial
 and temporal database of lake ecological context and water quality for
 thousands of US lakes. \emph{GigaScience}, \emph{6}(12), 1--22.
 \url{https://doi.org/10.1093/gigascience/gix101}
+
+\leavevmode\hypertarget{ref-Sprague2009}{}%
+Sprague, L. A., \& Lorenz, D. L. (2009). Regional nutrient trends in
+streams and rivers of the United States, 1993-2003. \emph{Environmental
+Science and Technology}, \emph{43}(10), 3430--3435.
+\url{https://doi.org/10.1021/es803664x}
 
 \leavevmode\hypertarget{ref-Sprague2017}{}%
 Sprague, L. A., Oelsner, G. P., \& Argue, D. M. (2017). Challenges with
@@ -1075,6 +998,13 @@ scan line corrector-off gap filled product development. \emph{PECORA 16
 Conference Proceedings, Sioux Falls, South Dakota}, 23--27. Retrieved
 from
 \href{http://www.asprs.org/a/publications/proceedings/pecora16/Storey\%7B/_\%7DJ.pdf}{http://www.asprs.org/a/publications/proceedings/pecora16/Storey\{\textbackslash{}\_\}J.pdf}
+
+\leavevmode\hypertarget{ref-Telmer2006}{}%
+Telmer, K., Costa, M., Simões Angélica, R., Araujo, E. S., \& Maurice,
+Y. (2006). The source and fate of sediment and mercury in the Tapajós
+River, Pará, Brazilian Amazon: Ground- and space-based evidence.
+\emph{Journal of Environmental Management}, \emph{81}(2), 101--113.
+\url{https://doi.org/10.1016/j.jenvman.2005.09.027}
 
 \leavevmode\hypertarget{ref-Torbick2013}{}%
 Torbick, N., Hession, S., Hagen, S., Wiangwang, N., Becker, B., \& Qi,

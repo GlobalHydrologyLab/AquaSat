@@ -51,6 +51,7 @@ lagos <- lagosne_load("1.087.1")
 
 nutr <- lagos$epi_nutr
 
+
 ```
 
 
@@ -61,7 +62,6 @@ We'll read in the wide water quality portal data so we know exactly how to resha
 
 ```{r}
 wqp.wide <- read_feather('1_wqdata/out/wqp_unity_wide.feather')
-
 
 ```
 

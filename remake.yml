@@ -9,9 +9,9 @@ file_extensions:
   - ind
   
 include:
-  - 4_report.yml
+  - 3_wq_rs_join.yml
 
 targets:
   everything:
     depends:
-      - 1_wqdata
+      - 1_wqdata.yml

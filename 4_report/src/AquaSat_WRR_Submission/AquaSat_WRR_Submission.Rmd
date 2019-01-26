@@ -1,0 +1,301 @@
+---
+# Choose from this list of Journals:
+# JGR: Atmospheres, JGR: Biogeosciences, JGR: Earth Surface, 
+# JGR: Oceans, JGR: Planets, JGR: Solid Earth, JGR: Space Physics, 
+# Global Biogeochemical Cycles, Geophysical Research Letters, 
+# Paleoceanography and Paleoclimatology, Radio Science, Reviews of Geophysics, 
+# Tectonics, Space Weather, Water Resources Research, Geochemistry, Geophysics, 
+# Geosystems, Journal of Advances in Modeling Earth Systems (JAMES),
+# Earth's Future, Earth and Space Science, Geohealth
+journal: "Water Resources Research"
+# Use draft to submit a paper
+options: "draft,linenumbers"
+# A title should be specific, informative, and brief. Use
+# abbreviations only if they are defined in the abstract. Titles that
+# start with general keywords then specific terms are optimized in
+# searches
+title: "AquaSat: a dataset to enable remote sensing of water quality for inland waters"
+# First name or initial followed by last name
+# Authors are individuals who have significantly contributed to the
+# research and preparation of the article. Group authors are allowed, if
+# each author in the group is separately identified in an appendix.
+# Additional author notes should be indicated with
+authors:
+  - name: Matthew R.V. Ross
+    affil: 1
+  - name: Simon N. Topp
+    affil: 2
+  - name: Alison P. Appling
+    affil: 3
+  - name: Xiao Yang
+    affil: 2
+  - name: Catherine Kuhn
+    affil: 4
+  - name: David Butman
+    affil: 4
+  - name: Marc Simard
+    affil: 5
+  - name: Tamlin Pavelsky
+    affil: 2
+affiliations:
+  - number: 1
+    name: "Department of Ecosystem Science and Sustainability, Colorado State University, "
+  - number: 2
+    name: "Department of Geological Sciences, University of North Carolina"
+  - number: 3
+    name: "United States Geological Survey"
+  - number: 4
+    name: "School of Environmental and Forest Sciences, University of Washington"
+  - number: 5
+    name: "NASA Jet Propulsion Laboratory"
+# More than one corresponding author is allowed in this LaTeX file and for
+# publication; but only one corresponding author is allowed in our editorial system.
+corresponding_author:
+  - name: Matthew R.V. Ross
+    email: matt.ross@colostate.edu
+keypoints:  
+  - "We present an open dataset that matches Landsat imagery to *in-situ* water quality measurements"
+  - "The dataset, AquaSat, is the largest such dataset ever assembled with more than 500k matchups"
+  - "We also publish all code to encourage improving and expanding AquaSat"
+abstract: |
+  Satellite predictions of inland water quality . 
+output: 
+    rticles::agu_article
+bibliography: agutest.bib
+header-includes: 
+      - \usepackage{soulutf8}  # For UTF8 chars in TrackChanges
+---
+
+```{r setup, include=F, warnings=F,message=F}
+library(feather)
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+library(pander)
+library(LAGOSNE)
+library(lubridate)
+library(parallel)
+library(foreach)
+library(ggthemes)
+library(sf)
+library(USAboundaries)
+library(scales)
+library(broom)
+library(ggpmisc)
+library(curl)
+library(rticles)
+library(data.table)
+#devtools::install_github('benmarwick/wordcountaddin')
+#library('wordcountaddin')
+
+knitr::opts_chunk$set(echo = FALSE,warning=F,cache=T)
+knitr::opts_knit$set(root.dir='../..')
+#lagosne_get('1.087.1')
+lagos <- lagosne_load("1.087.1")
+
+theme_set(theme_bw(base_size=14))
+theme_update(
+          panel.grid.major = element_line(color='transparent'),
+        panel.grid.minor = element_blank()) 
+
+#Function to paste unique names
+paste.unique <- function(x){
+  paste(c(unique(x)),sep='; ',collapse='; ')
+}
+
+count.kable <- function(df){
+  df %>% 
+  gather(key=Parameter,value=value,-SiteID,-date_unity,-type) %>%
+  filter(!is.na(value)) %>%
+  group_by(Parameter,type) %>%
+  summarize(count=n()) %>% 
+  arrange(type,Parameter) %>%
+  spread(key=Parameter,value=count) %>%
+  ungroup() %>%
+  add_row(type='Total',
+          chl_a=sum(.$chl_a),
+          doc=sum(.$doc),
+          secchi=sum(.$secchi),
+          tss=sum(.$tss)) %>%
+  kable(.,format.args = list(big.mark = ","))
+}
+
+#Functino to turn geometry into lat longs for stat_hex
+sfc_as_cols <- function(x, names = c("x","y")) {
+  stopifnot(inherits(x,"sf") && inherits(sf::st_geometry(x),"sfc_POINT"))
+  ret <- do.call(rbind,sf::st_geometry(x))
+  ret <- tibble::as_tibble(ret)
+  stopifnot(length(names) == ncol(ret))
+  ret <- setNames(ret,names)
+  dplyr::bind_cols(x,ret)
+}
+#Make a function to prepare datasets for plotting. Limit datasets to a range of greater than 10^-4
+hist.data.prep <- function(x){
+  out <- x  %>%
+  select(SiteID,date_unity,type,tss,chl_a,secchi,doc) %>%
+  gather(key=parameter,value=value,-SiteID,-date_unity,-type) %>%
+  filter(!is.na(value)) %>%
+  filter(value > 0.0001) %>%
+  left_join(param.units,by='parameter')
+}
+
+
+```
+
+Suggested section heads
+
+# Introduction
+
+Production of and easy access to water quality data is a vital first step towards understanding natural and anthropogenic drivers of aquatic ecosystem change [@Srebotnjak2012]. Collecting such valuable data has historically been expensive and time-consuming, and it has often proved difficult to maintain analysis-ready and open datasets. In many developed nations, however, data access and interoperability has been actively addressed over the last 10-20 years, leading to the publication and maintenance of large open-access data repositories of water quality measurements [@Read2017;@Soranno2017;@Lack2000;@Ballantine2014], but over a limited number of water bodies. Furthermore, access to robust historic water quality sampling data remains limited to a few economically developed countries [@Sheffield2018].
+
+With satellite remote sensing, we can augment in-situ sampling efforts and provide water quality information in places with little or no data. Since the beginning of the Landsat missions, limnologists, oceanographers, and hydrologists have been interested in developing universal algorithms for extracting water quality information from remotely sensed images [@Holyer1978;@Ritchie1976;@Maul1975;@Klemas1973;@Clarke1970]. From these early efforts, fifty years of work has used spectral information to predict water quality parameters like total suspended solids (TSS), Chlorophyll *a* (here abbreviated as: Chl_a), colored dissolved organic matter (CDOM), and Secchi disk depth (SDD). However, progress towards universal algorithms and unified approaches has been slow [@Bukata2013;@Blondeau-Patissier2014;@Gholizadeh2016;@Palmer2015], with most papers published focusing on developing predictive methods in local contexts as opposed to using predictions to interrogate processes that control water quality dynamics (Topp et al., 2019). This lack of progress contrasts sharply with ocean remote sensing, which benefits from robust, open datasets geared towards pairing both in-situ and radiometric observations with satellite data, enabling rapid development of more universally accepted algorithms and approaches [@Blondeau-Patissier2014;@Bukata2013]. Ocean remote sensing also benefits from dedicated satellites geared specifically to ocean applications such as remote retrieval of Chl_a, but the spatial resolution of these sensors is too coarse to resolve most inland waterbodies. As such, inland water remote sensing has been limited to satellites built for terrestrial remote sensing (Palmer et al., 2015). Methods development for inland waters is further challenged by the inherent optical complexity of inland waters, where spectral signatures reflect a mixture of inorganic suspended sediment, organic suspended sediment, algae, dissolved organic matter, and other constituents.  This work has been slowed by the lack of a centralized, public remote sensing datasets paired with in-situ measurements of water quality (Palmer et al., 2015). 
+# Materials and Methods
+
+Here is text on Materials and Methods.
+
+Do not use bulleted lists; enumerated lists are okay. Use #. for list for a cleaner LaTeX output.
+
+#. First element
+
+#. Second element
+
+## A descriptive heading about methods
+
+Please use ONLY \\citet and \\citep for reference citations.
+DO NOT use other cite commands (e.g., \\cite, \\citeyear, \\nocite, \\citealp, etc.).
+Example \\citet and \\citep:
+  ...as shown by \citet{Levitus2012}, \citet{Nuncio2011} and \citet{Raphael2004}
+  ...as shown by \citep{Levitus2012}, \citep{Nuncio2011}, \citep{Raphael2004}.
+  ...has been shown \citep[e.g.,][]{Levitus2012, Nuncio2011, Raphael2004}.
+
+# Data
+
+Or section title might be a descriptive heading about data
+
+As of 2018 we recommend use of the TrackChanges package to mark revisions. The trackchanges package adds five new LaTeX commands:
+
+\\note[editor]{The note}
+
+\\annote[editor]{Text to annotate}{The note}
+
+\\add[editor]{Text to add}
+
+\\remove[editor]{Text to remove}
+
+\\change[editor]{Text to remove}{Text to add}
+
+complete documentation is here: http://trackchanges.sourceforge.net/
+
+# Results
+
+Or section title might be a descriptive heading about the results
+
+Enter Figures and Tables near as possible to where they are first mentioned:
+DO NOT USE \\psfrag or \\subfigure commands.
+DO NOT USE \\newcommand, \\renewcommand, or \\def, etc.
+
+```{r}
+plot(pressure)
+```
+
+Example table
+
+\begin{table}
+ \caption{Time of the Transition Between Phase 1 and Phase 2$^{a}$}
+ \centering
+ \begin{tabular}{l c}
+ \hline
+  Run  & Time (min)  \\
+ \hline
+   $l1$  & 260   \\
+   $l2$  & 300   \\
+   $l3$  & 340   \\
+   $h1$  & 270   \\
+   $h2$  & 250   \\
+   $h3$  & 380   \\
+   $r1$  & 370   \\
+   $r2$  & 390   \\
+ \hline
+ \multicolumn{2}{l}{$^{a}$Footnote text here.}
+ \end{tabular}
+ \end{table}
+
+AGU prefers the use of {sidewaystable} over {landscapetable} as it causes fewer problems.
+
+```{r, fig.env = "sidewaysfigure"}
+plot(pressure)
+```
+
+\begin{sidewaystable}
+\caption{Caption here}
+\label{tab:signif_gap_clos}
+\begin{tabular}{ccc}
+one&two&three\\
+four&five&six
+\end{tabular}
+\end{sidewaystable}
+
+If using numbered lines, please surround equations with \\begin{linenomath\*}... \\end{linenomath\*}
+
+\begin{linenomath*}
+\begin{equation}
+y|{f} \sim g(m, \sigma)
+\end{equation}
+\end{linenomath*}
+
+# Conclusions
+
+\appendix
+\section{Here is a sample appendix}
+
+Optional Appendix goes here
+
+Optional Glossary, Notation or Acronym section goes here:
+
+Glossary is only allowed in Reviews of Geophysics
+
+\begin{glossary}
+\term{Term}
+ Term Definition here
+\term{Term}
+ Term Definition here
+\term{Term}
+ Term Definition here
+\end{glossary}
+
+
+\begin{acronyms}
+\acro{Acronym}
+ Definition here
+\acro{EMOS}
+ Ensemble model output statistics
+\acro{ECMWF}
+ Centre for Medium-Range Weather Forecasts
+\end{acronyms}
+
+\begin{notation}
+\notation{$a+b$} Notation Definition here
+\notation{$e=mc^2$}
+Equation in German-born physicist Albert Einstein's theory of special
+relativity that showed that the increased relativistic mass ($m$) of a
+body comes from the energy of motion of the body—that is, its kinetic
+energy ($E$)—divided by the speed of light squared ($c^2$).
+\end{notation}
+
+
+\acknowledgments
+The acknowledgments must list:
+A statement that indicates to the reader where the data
+supporting the conclusions can be obtained (for example, in the
+references, tables, supporting information, and other databases).
+
+All funding sources related to this work from all authors
+
+Any real or perceived financial conflicts of interests for any author
+
+Other affiliations for any author that may be perceived as having a conflict of 
+interest with respect to the results of this paper.
+
+It is also the appropriate place to thank colleagues and other contributors.
+
+AGU does not normally allow dedications. 
