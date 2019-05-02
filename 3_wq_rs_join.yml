@@ -21,8 +21,7 @@ targets:
   3_wq_rs_join:
     depends:
       - 3_wq_rs_join/doc/1_sr_wq_rs_join.html
-       #Delete this line and uncomment next line to run TOA
-      #- 3_wq_rs_join/doc/2_toa_wq_rs_join.html
+      - 3_wq_rs_join/doc/2_toa_wq_rs_join.html
 
   # main effect of 3_wq_rs_join/src/1_sr_wq_rs_join.Rmd
   3_wq_rs_join/doc/1_sr_wq_rs_join.html:
@@ -46,8 +45,8 @@ targets:
       input='3_wq_rs_join/src/2_toa_wq_rs_join.Rmd',
       output_file=target_name)
   # side effect of 3_wq_rs_join/src/1_sr_wq_rs_join.Rmd
-  3_wq_rs_join/data/out/sr_wq_rs_join.csv:
-    depends: 3_wq_rs_join/doc/1_sr_wq_rs_join.html
-    command: gd_get(I('3_wq_rs_join/data/out/sr_wq_rs_join.csv.ind'))
+  3_wq_rs_join/data/out/toa_wq_rs_join.csv:
+    depends: 3_wq_rs_join/doc/2_toa_wq_rs_join.html
+    command: gd_get(I('3_wq_rs_join/data/out/toa_wq_rs_join.csv.ind'))
  
  

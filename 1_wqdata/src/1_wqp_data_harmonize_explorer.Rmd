@@ -131,7 +131,7 @@ gc()
 
 ```{r secchi all parameters}
 #Read in the raw data from '1_wqdata/out'
-secchi <- read_feather(sc_retrieve('1_wqdata/out/wqp/all_raw_secchi.feather.ind')) %>%
+secchi <- read_feather('1_wqdata/out/wqp/all_raw_secchi.feather') %>%
   wqp.renamer() 
 #Summarize by characteristic name and unit code and print
 unit.kable(secchi)
@@ -177,7 +177,7 @@ This [paper](https://water.usgs.gov/osw/pubs/WRIR00-4191.pdf) is really useful f
 
 ```{r}
 #Read in the raw data from '1_wqdata/out'
-tss <- read_feather(sc_retrieve('1_wqdata/out/wqp/all_raw_tss.feather.ind')) %>%
+tss <- read_feather('1_wqdata/out/wqp/all_raw_tss.feather') %>%
   wqp.renamer()
 
 #Summarize by characteristic name and unit code
@@ -333,7 +333,7 @@ tss.tis.harmonized <- tss %>%
   #Change harmonized parameter to tis for parameter "fixed suspended solids"
   mutate(harmonized_parameter = ifelse(parameter == 'Fixed suspended solids','tis',harmonized_parameter))
 
-rm(tss,tss.depth,tss.filtered,tss.lookup,tss.p,non.sensical.tss.methods,depth.lookup)
+#rm(tss,tss.depth,tss.filtered,tss.lookup,tss.p,non.sensical.tss.methods,depth.lookup)
 
 ```
 
@@ -364,8 +364,8 @@ First let's read in the data.
 ```{r doc read}
 
 #Summarize by characteristic name and unit code
-doc <- read_feather(sc_retrieve('1_wqdata/out/wqp/all_raw_doc.feather.ind')) %>%
-  wqp.renamer() 
+doc <- read_feather('1_wqdata/out/wqp/all_raw_doc.feather.ind') %>%
+  wqp.renamer(.) 
 
 ```
 
@@ -734,8 +734,10 @@ for(i in 1:length(harmonized.datasets)){
                             h.names[i],'_harmony.feather'))
 }
 
-
-
+# tss.cleaned <- tss.harmonized %>%
+#   extraneous(.)
+# write_feather(tss.cleaned,path=paste0('1_wqdata/tmp/harmonized/',
+#                             'tss','_harmony.feather'))
 
 
 ```

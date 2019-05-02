@@ -38,7 +38,7 @@ library(data.table)
 #devtools::install_github('benmarwick/wordcountaddin')
 #library('wordcountaddin')
 
-knitr::opts_chunk$set(echo = FALSE,warning=F,cache=T)
+knitr::opts_chunk$set(echo = FALSE,warning=F,cache=F)
 knitr::opts_knit$set(root.dir='../..')
 #lagosne_get('1.087.1')
 lagos <- lagosne_load("1.087.1")
@@ -187,6 +187,7 @@ sr.type <- fread('3_wq_rs_join/data/out/sr_wq_rs_join.csv') %>%
   mutate(date_unity = ymd_hms(date_unity),
          time=ymd_hms(date_unity),
          date=ymd(date))
+
 
 
 
