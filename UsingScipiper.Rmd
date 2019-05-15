@@ -72,7 +72,6 @@ So let's build the inventory!
 
 This can take up to 30 minutes to run.
 
-NOTE: I'd like to add some tidying here to demonstrate what the inventory looks like and to explain why we are using feather. 
 
 ```{r, eval=F}
 #Repull an inventory of sites. Dangerous so it is commented out
