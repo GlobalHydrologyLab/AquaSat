@@ -1,13 +1,13 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Texas_secchi_001.feather.ind
 type: file
-hash: 4a18ee12601ca8e658a067e33861a6ad
-time: 2018-08-04 03:40:46 UTC
+hash: 833771c33061449083bcfaf05f487f91
+time: 2019-05-05 19:13:22 UTC
 depends:
-  partition_Texas_secchi_001: 344396d9d3db43dab860f68522a5899b
-  wq_dates: f4bcde398b53baed65cd74cd4be6f226
+  partition_Texas_secchi_001: f5331e5d4b157efc8635f5c7e124bc70
+  wq_dates: 15780afca857867605ab32d0b8a9c0f3
 fixed: 28968084e786734d0fcd79d9fe215275
 code:
   functions:
-    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+    get_wqp_data: 446f3aa5fcf3d10d2b2512c284f000c6
 

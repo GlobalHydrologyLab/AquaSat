@@ -1,13 +1,13 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Delaware_secchi_001.feather.ind
 type: file
-hash: 05158c92e5aab6e38b2a36a329a15d24
-time: 2018-08-04 08:41:51 UTC
+hash: 9226d32fdde1d35af0461bd1bb31a259
+time: 2019-05-03 19:27:29 UTC
 depends:
-  partition_Delaware_secchi_001: d3f46080f75aca8436e298f565fb7b33
-  wq_dates: f4bcde398b53baed65cd74cd4be6f226
+  partition_Delaware_secchi_001: b13dfebf9b46f9e30c06bec0bd3a9b32
+  wq_dates: 15780afca857867605ab32d0b8a9c0f3
 fixed: 47e9c366df9b542a3b352c7ce50ed82a
 code:
   functions:
-    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+    get_wqp_data: 446f3aa5fcf3d10d2b2512c284f000c6
 

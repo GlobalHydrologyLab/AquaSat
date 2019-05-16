@@ -1,13 +1,13 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Kansas_chlorophyll_001.feather.ind
 type: file
-hash: 3291148198eaad506160424254a6dd77
-time: 2018-08-09 21:27:02 UTC
+hash: 6a9a578d3ac27e6f491e453aef2e5d5a
+time: 2019-05-04 07:30:52 UTC
 depends:
-  partition_Kansas_chlorophyll_001: 6f3b99d71d1e14d17567a27e3f29250c
-  wq_dates: f4bcde398b53baed65cd74cd4be6f226
+  partition_Kansas_chlorophyll_001: f056c78d619b04c873467d429e51db4f
+  wq_dates: 15780afca857867605ab32d0b8a9c0f3
 fixed: 33531fced7939c0f843f4f495ec69401
 code:
   functions:
-    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+    get_wqp_data: 446f3aa5fcf3d10d2b2512c284f000c6
 

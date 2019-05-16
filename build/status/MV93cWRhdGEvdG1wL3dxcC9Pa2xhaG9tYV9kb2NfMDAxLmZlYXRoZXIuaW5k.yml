@@ -1,13 +1,13 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Oklahoma_doc_001.feather.ind
 type: file
-hash: 1ab032b89bae6d36cbdf7f5af8345eab
-time: 2018-08-04 02:40:42 UTC
+hash: 8f4564fbcd9464f1a2f29a277422f1e7
+time: 2019-05-06 10:33:55 UTC
 depends:
-  partition_Oklahoma_doc_001: d2748392cf510c3535717a839e7e82ea
-  wq_dates: f4bcde398b53baed65cd74cd4be6f226
+  partition_Oklahoma_doc_001: ab4ac488f849bca9ee8a03a6d7122032
+  wq_dates: 15780afca857867605ab32d0b8a9c0f3
 fixed: f9e8eb137948e332072290c5fa6f67d5
 code:
   functions:
-    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+    get_wqp_data: 446f3aa5fcf3d10d2b2512c284f000c6
 

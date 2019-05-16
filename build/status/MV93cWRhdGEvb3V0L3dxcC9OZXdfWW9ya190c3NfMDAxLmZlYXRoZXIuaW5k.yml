@@ -1,10 +1,10 @@
 version: 0.3.0
 name: 1_wqdata/out/wqp/New_York_tss_001.feather.ind
 type: file
-hash: c453cb2df9b11a7cf134826895d8679a
-time: 2018-08-10 03:33:32 UTC
+hash: 13272be314491c942131d198b28ffecb
+time: 2019-05-05 06:51:24 UTC
 depends:
-  1_wqdata/tmp/wqp/New_York_tss_001.feather.ind: c453cb2df9b11a7cf134826895d8679a
+  1_wqdata/tmp/wqp/New_York_tss_001.feather.ind: 13272be314491c942131d198b28ffecb
 fixed: 95ccac9b0136feef30a472803371df5c
 code:
   functions: {}

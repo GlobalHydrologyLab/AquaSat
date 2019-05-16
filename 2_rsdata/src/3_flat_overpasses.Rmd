@@ -32,11 +32,12 @@ opts_knit$set(root.dir='../..')
 #Read in wrs inventory with path row
 
 #This is the landsat visible path row data
-wrs.inv <- read_feather(sc_retrieve('2_rsdata/out/site_inventory_path_row.feather.ind')) %>%
+wrs.inv <- read_feather('2_rsdata/out/site_inventory_path_row.feather') %>%
   arrange(SiteID)
 
+
 #This is the inventory of wrs data with source attached
-unq.inv <- read_feather(sc_retrieve('2_rsdata/out/unique_site_inventory.feather.ind')) %>%
+unq.inv <- read_feather('2_rsdata/out/unique_site_inventory.feather') %>%
   arrange(SiteID) %>%
   filter(!is.na(source)) %>%
   select(-lat,-long)
@@ -51,14 +52,14 @@ wrs.source.inv <- unq.inv %>%
 
 
 #Read in the full water quality portal lagos data
-wqp.lagos <- read_feather(sc_retrieve('1_wqdata/out/wqp_lagos_unity.feather.ind'))
-
+wqp.lagos <- read_feather('1_wqdata/out/wqp_lagos_unity.feather')
 
 site.candidates <- wqp.lagos %>%
   inner_join(wrs.source.inv,by=c('SiteID','source')) %>%
   #add a date column
   mutate(date=as.Date(date_unity)) 
 
+rm(unq.inv,wqp.lagos,wrs.inv,wrs.source.inv)
 
 ```
 
@@ -68,7 +69,7 @@ site.candidates <- wqp.lagos %>%
 ```{r}
 
 #Load in cloudy dataset which is called dat. 
-cloud.raw <- read_feather(sc_retrieve('2_rsdata/out/clouds.feather.ind'))
+cloud.raw <- read_feather('2_rsdata/out/clouds.feather')
 
 #Subset to only WRS path rows in the inventory data. 
 clouds <- cloud.raw %>%
@@ -81,7 +82,7 @@ clouds <- cloud.raw %>%
 #Convert sat into a numeric
 clouds$sat <- as.numeric(str_split_fixed(clouds$sat,'0',2)[,2])
 
-
+rm(cloud.raw)
 ```
 
 

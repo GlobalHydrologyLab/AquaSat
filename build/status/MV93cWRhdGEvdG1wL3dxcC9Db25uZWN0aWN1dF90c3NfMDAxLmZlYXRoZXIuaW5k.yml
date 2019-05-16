@@ -1,13 +1,13 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Connecticut_tss_001.feather.ind
 type: file
-hash: d094bcee9496f4198f92c18236f43299
-time: 2018-08-09 19:48:41 UTC
+hash: 0eb5e067e201dde59557ff086ff65969
+time: 2019-05-06 02:04:58 UTC
 depends:
-  partition_Connecticut_tss_001: 6c634389a3f91b1044ecd64135731637
-  wq_dates: f4bcde398b53baed65cd74cd4be6f226
+  partition_Connecticut_tss_001: 6178c16771239b32c76d34034723d27c
+  wq_dates: 15780afca857867605ab32d0b8a9c0f3
 fixed: 32209d4e1bce5bdc85d09c5cb0b55b77
 code:
   functions:
-    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+    get_wqp_data: 446f3aa5fcf3d10d2b2512c284f000c6
 

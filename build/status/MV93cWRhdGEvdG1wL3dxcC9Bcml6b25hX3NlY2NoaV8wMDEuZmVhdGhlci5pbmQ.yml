@@ -1,13 +1,13 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Arizona_secchi_001.feather.ind
 type: file
-hash: d4b938c9be4ef2407a216c1ca51edfb3
-time: 2018-08-09 19:13:40 UTC
+hash: 33a9a89d92631fa27bbace3a1d92a0ea
+time: 2019-05-06 01:51:45 UTC
 depends:
-  partition_Arizona_secchi_001: bc7e7f66127ee26f14b530196f6f60d6
-  wq_dates: f4bcde398b53baed65cd74cd4be6f226
+  partition_Arizona_secchi_001: 9a2cbed69cb14268c78c2e92ec880700
+  wq_dates: 15780afca857867605ab32d0b8a9c0f3
 fixed: f47907a7001aa47c2559e226e8577262
 code:
   functions:
-    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+    get_wqp_data: 446f3aa5fcf3d10d2b2512c284f000c6
 

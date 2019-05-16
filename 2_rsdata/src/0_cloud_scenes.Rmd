@@ -5,7 +5,7 @@ output:
     toc: true
     toc_depth: 3
 editor_options: 
-  chunk_output_type: inline
+  chunk_output_type: console
 ---
 
 
@@ -23,7 +23,6 @@ library(lubridate)
 library(feather)
 ## HTTP 2 causes error force http1.1
 #httr::set_config(config(http_version = 1.1)) # set the HTTP version to 1.1 (none, 1.0, 1.1, 2)
-
 ```
 
 
@@ -89,13 +88,18 @@ lsCollection= ee.ImageCollection(l5.merge(l7).merge(l8)).filterBounds(usa)
 md = '-01-01'
 
 #Get data for years of Landsat 5-8 operation. 
-years=numpy.arange(1984,2019,1)
+years=numpy.arange(1984,2020,1)
+
+
+
 
 #Source function to limit number of tasks sent up to earth engine.
-execfile('2_rsdata/src/GEE_pull_functions.py')
+exec(open("2_rsdata/src/GEE_pull_functions.py").read())    
+
 
 #Loop over years such that we download a single csv for each year. 
 for year in years:
+  print(year)
   #Filter landsat stack to the year in the loop (starting with 1984)
   lsFiltered = lsCollection.filterDate(str(year) + md, str(year + 1) + md)
   #Get the properties from all the scenes for that year. 
@@ -128,7 +132,7 @@ Now that GEE has created and exported a summary of cloud scores for all landsat 
 ```{r}
 #List files
 folder <- drive_ls('clouds')
-
+folder
 #Download files locally.
 for(i in 1:nrow(folder)) {
   path=paste0('2_rsdata/tmp/yearly_clouds/',folder$name[i])
@@ -161,7 +165,7 @@ data_file <- '2_rsdata/out/clouds.feather'
 write_feather(clouds, data_file)
 
 #Upload data to team drive
-gd_put(scipiper::as_ind_file(data_file), data_file)
+scipiper::gd_put(scipiper::as_ind_file(data_file), data_file)
 
 ```
 

@@ -1,13 +1,13 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Oregon_doc_001.feather.ind
 type: file
-hash: a06321e8bc43b4bae61d8f3ef0ad0abf
-time: 2018-08-04 02:48:37 UTC
+hash: 3a0100ed01e699c666e85e0e1af4887e
+time: 2019-05-05 13:41:21 UTC
 depends:
-  partition_Oregon_doc_001: 8937205a5401185450e55a50bb81b2da
-  wq_dates: f4bcde398b53baed65cd74cd4be6f226
+  partition_Oregon_doc_001: a05fd0ef3e8dae36b10cf39e76e178cb
+  wq_dates: 15780afca857867605ab32d0b8a9c0f3
 fixed: f56764402c295390790cc89505e279da
 code:
   functions:
-    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+    get_wqp_data: 446f3aa5fcf3d10d2b2512c284f000c6
 

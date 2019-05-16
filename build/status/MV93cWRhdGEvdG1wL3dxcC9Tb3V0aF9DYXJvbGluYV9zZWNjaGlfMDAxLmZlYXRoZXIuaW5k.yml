@@ -1,13 +1,13 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/South_Carolina_secchi_001.feather.ind
 type: file
-hash: 6b89cfbe7356ca03d686d3fbc35daec3
-time: 2018-08-04 07:13:07 UTC
+hash: 75c707828585d703cd6aeee9c922f995
+time: 2019-05-05 17:12:55 UTC
 depends:
-  partition_South_Carolina_secchi_001: c38b9453b3637acd7f18e13739137d83
-  wq_dates: f4bcde398b53baed65cd74cd4be6f226
+  partition_South_Carolina_secchi_001: 65a199ffd8f6e891c3e6e606144248d1
+  wq_dates: 15780afca857867605ab32d0b8a9c0f3
 fixed: cd8c462c0ca094f2c02de548c574af8c
 code:
   functions:
-    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+    get_wqp_data: 446f3aa5fcf3d10d2b2512c284f000c6
 

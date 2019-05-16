@@ -1,13 +1,13 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/California_tss_001.feather.ind
 type: file
-hash: 0039746c6ca7d4ca7f0842f0483b8a22
-time: 2018-08-09 19:37:12 UTC
+hash: a5353551f7b1f4bd720dee32237ab5f0
+time: 2019-05-03 17:12:54 UTC
 depends:
-  partition_California_tss_001: 58f85616d495c72538ac177815ab3880
-  wq_dates: f4bcde398b53baed65cd74cd4be6f226
+  partition_California_tss_001: d3f51ac7a4751686828dc361942cfd5d
+  wq_dates: 15780afca857867605ab32d0b8a9c0f3
 fixed: 32d2ffd3cb55d4b22b6d025168036606
 code:
   functions:
-    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+    get_wqp_data: 446f3aa5fcf3d10d2b2512c284f000c6
 

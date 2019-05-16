@@ -153,10 +153,10 @@ partition_inventory <- function(inventory_ind, wqp_pull, wqp_state_codes, wqp_co
   
   # prepare nested collections of other possible arguments to include in the readWQPdata calls
   parameter_codes <- bind_rows(lapply(unique(partitions$Constituent), function(constituent) {
-    data_frame(Constituent=constituent, CharacteristicNames=wqp_codes$characteristicName[[constituent]]) %>%
+    tibble(Constituent=constituent, CharacteristicNames=wqp_codes$characteristicName[[constituent]]) %>%
       tidyr::nest(-Constituent, .key='Params')
   }))
-  site_types <- data_frame(SiteType=wqp_codes$siteType)
+  site_types <- tibble(SiteType=wqp_codes$siteType)
   pull_tasks_df <- partitions %>%
     dplyr::group_by(PullTask, NumPulls, State, StateCode, Constituent) %>%
     tidyr::nest(Site, NumObs, .key="Sites") %>%
@@ -279,12 +279,12 @@ get_wqp_data <- function(ind_file, partition, wq_dates) {
   
   # make wqp_dat a tibble, converting either from data.frame (the usual case) or
   # NULL (if there are no results)
-  wqp_dat <- as_data_frame(wqp_dat)
+  wqp_dat <- as_tibble(wqp_dat)
   
   # write the data and indicator file. do this even if there were 0 results
   # because remake expects this function to always create the target file
   data_file <- as_data_file(ind_file)
-  feather::write_feather(as_data_frame(wqp_dat), path=data_file)
+  feather::write_feather(as_tibble(wqp_dat), path=data_file)
   sc_indicate(ind_file, data_file=data_file)
   
   invisible()
@@ -383,7 +383,7 @@ combine_feathers <- function(data_file, ...) {
   #Use foreach and DoMC to make this operation parallel for computers 
   #with more than 3 cores
   
-  cores <- max(1, detectCores()-1)
+  cores <- max(1, detectCores()-4)
   cl <- makeCluster(cores)
   doParallel::registerDoParallel(cl)
   combo <- foreach(i=1:length(feathers),.combine=rbind) %dopar% {
@@ -393,6 +393,8 @@ combine_feathers <- function(data_file, ...) {
   
   # write the data file
   feather::write_feather(combo, path=data_file)
+  rm(combo)
+  gc()
 }
 
 

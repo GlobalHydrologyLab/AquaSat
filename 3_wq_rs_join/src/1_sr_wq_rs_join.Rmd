@@ -21,49 +21,13 @@ knitr::opts_knit$set(root.dir='../..')
 
 ## Summary data
 
-## Check if files have been downloaded recently
-
-```{r}
-#Search the google drive folder for the surface reflectance 
-# for all sr matchup files
-sr_match <- drive_ls('sr_matchups')
-
-
-present <- length(list.files('3_wq_rs_join/data/in/sr'))
-
-times <- file.info(list.files('3_wq_rs_join/data/in/sr',full.names=T))
-
-date.avg <- as.Date(times$ctime) %>% mean(.)
-date.sd <- as.Date(times$ctime) %>% sd(.)
-
-redownload = ifelse(date.avg == Sys.Date() & 
-                present==length(sr_match) &
-                date.sd == 0,
-              TRUE,
-              FALSE)
-
-#Create a vector with the destination path for each download
-down.paths <- paste0('3_wq_rs_join/data/in/sr/',sr_match$name)
-
-```
-
-
-```{r download, eval=redownload}
-
-
-#Download the files from google drive
-for(i in 1:nrow(sr_match)){
-    drive_download(as_id(sr_match$id[i]),path=down.paths[i],overwrite = T)
-  }
-
-```
-
 
 ```{r stitch}
 #Stitch all data together
 #The long string of letters is readr's sweet way of compressing Column types
 #I'm forcing them here because the first file happens to be all NAs 
 # so all columns get coerced to character
+down.paths <- list.files('2_rsdata/out/sr_matchups',full.names = T)
 sr <- map_df(down.paths,read_csv,col_types='icnnDTnnnnninnnnninnnnc')
 
 ```
@@ -115,7 +79,7 @@ write_csv(sr.type,path=data_file)
 
 ```
 
-```{r, eval=redownload}
+```{r}
 #Upload data to team drive
 gd_put(scipiper::as_ind_file(data_file), data_file)
 

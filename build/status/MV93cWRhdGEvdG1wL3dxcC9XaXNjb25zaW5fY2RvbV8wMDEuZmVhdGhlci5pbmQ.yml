@@ -1,13 +1,13 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Wisconsin_cdom_001.feather.ind
 type: file
-hash: be7059ba1244d2c1f60c888871a7a100
-time: 2018-08-04 10:40:35 UTC
+hash: 88862605592fe5bf02acd3965342db64
+time: 2019-05-06 00:04:02 UTC
 depends:
   partition_Wisconsin_cdom_001: c530fdf954c3484bb52484afa0c44663
-  wq_dates: f4bcde398b53baed65cd74cd4be6f226
+  wq_dates: 15780afca857867605ab32d0b8a9c0f3
 fixed: 59c6ed82fd38a0621d50a8fef822c27f
 code:
   functions:
-    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+    get_wqp_data: 446f3aa5fcf3d10d2b2512c284f000c6
 

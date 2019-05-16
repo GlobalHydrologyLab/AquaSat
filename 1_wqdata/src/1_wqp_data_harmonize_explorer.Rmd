@@ -68,7 +68,7 @@ unit.kable <- function(d){
     group_by(units) %>%
     summarize(count=n()) %>%
     arrange(desc(count)) %>%
-    kable(.,'html',caption='All secchi parameter and unit combinations') %>%
+    kable(.,'html',caption='All  parameter and unit combinations') %>%
     kable_styling() %>%
     scroll_box(width='500px',height='400px')
 }
@@ -333,8 +333,8 @@ tss.tis.harmonized <- tss %>%
   #Change harmonized parameter to tis for parameter "fixed suspended solids"
   mutate(harmonized_parameter = ifelse(parameter == 'Fixed suspended solids','tis',harmonized_parameter))
 
-#rm(tss,tss.depth,tss.filtered,tss.lookup,tss.p,non.sensical.tss.methods,depth.lookup)
-
+rm(tss,tss.depth,tss.filtered,tss.lookup,tss.p,non.sensical.tss.methods,depth.lookup)
+gc()
 ```
 
 ## TSS SSC empirical check
@@ -356,7 +356,7 @@ ssc.tss %>%
 
 # DOC
 
-Dissolved organic carbon (DOC) is a complex series of parameters, methods, and unit combinations. We will not be examining particulate organic carbon, total organic carbon, or even colored dissolved organic matter (mostly because there is so few samples in the WQP with cdom).
+Dissolved organic carbon (DOC) is a complex series of parameters, methods, and unit combinations. We will not be examining particulate organic carbon, or total organic carbon.
 
 
 First let's read in the data. 
@@ -364,7 +364,7 @@ First let's read in the data.
 ```{r doc read}
 
 #Summarize by characteristic name and unit code
-doc <- read_feather('1_wqdata/out/wqp/all_raw_doc.feather.ind') %>%
+doc <- read_feather('1_wqdata/out/wqp/all_raw_doc.feather') %>%
   wqp.renamer(.) 
 
 ```
@@ -486,7 +486,7 @@ Chlorophyll concentration is a good proxy for algal biomass, but it may be the h
 
 ```{r Chlorophyll}
 #Read in the raw data from '1_wqdata/out'
-chl <- read_feather(sc_retrieve('1_wqdata/out/wqp/all_raw_chlorophyll.feather.ind')) %>%
+chl <- read_feather('1_wqdata/out/wqp/all_raw_chlorophyll.feather') %>%
   wqp.renamer() 
 ```
 
@@ -651,6 +651,67 @@ gc()
 ```
 
 
+# CDOM 
+
+
+```{r cdom read}
+
+#Summarize by characteristic name and unit code
+cdom <- read_feather('1_wqdata/out/wqp/all_raw_cdom.feather') %>%
+  wqp.renamer(.) 
+
+```
+
+
+### CDOM sample fraction and sample methods
+
+The water quality portal has a single call for CDOM: `'Colored dissolved organic matter (CDOM)'`. Fortunately this name includes some key metrics, the parameter is the
+dissolved fraction of the carbon pool and the colored portion. Still, we
+need to do some filtering based on analytical method. 
+
+
+## CDOM methods
+
+Here, we'll explore method, and unit combinations and trim the data down a lot to keep only the most useful data. 
+
+### CDOM sample methods
+
+As with TSS we are not going to filter our CDOM data by sample method but the table of sample methods are provided here. 
+
+```{r cdom sample methods}
+sample.kable(cdom)
+```
+
+
+### DOC analytical method
+
+There are lots of methods possible for measuring CDOM, with either in-situ probes
+or with fluoremters in the lab. Unfortunately the vast majority of CDOM data
+has an "NA" for analytical method so we won't filter by it. 
+
+```{r cdom analytical}
+analytical.kable(cdom)
+```
+
+
+
+## CDOM Units
+
+
+Unlike all other parameters, CDOM does not have a single, overwhelmingly, dominant
+way of recording CDOM concentration. ONe common unit is the Relative Fluorescence Unit 
+(RFU), which gives an estimate of CDOM, but does not necessarily map onto another
+unit (ug/L). Distressingly, almost a third of the data has no units (None). At 
+best we would be able to keep only  `r cdom %>% filter(units == 'RFU') %>% nrow(.) ` samples of CDOM measurements, which given the reductive fraction of overpasses, would
+leave less than 100 measurements of CDOM and satellite coverage. This can be revisited 
+in the future, but such little quantities of data do not match the goals of this project.
+
+```{r cdom units}
+unit.kable(cdom)
+```
+
+
+
 # Bind and save the harmonized data
 
 At the end of all this harmonization we want a data frame with parameter columns that hold the final harmonized values, along with a date, lat, long, and siteid. But first we need to do some more quality control on the full, harmonized dataset. This additional data munging can be found in the script `2_combined_wqp_munge.Rmd`
@@ -701,7 +762,6 @@ summary(shallow.depth$harmonized_depth)
 print(paste('We lose',round((nrow(has.depth)-nrow(shallow.depth))/nrow(singular.harmony)*100,3),' % of samples by restricting data to less than 100m'))
 
 
-hist(log10(shallow.depth$harmonized_depth))
 
 
 ```

@@ -1,13 +1,13 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/North_Dakota_secchi_001.feather.ind
 type: file
-hash: d1deabe1da3cf2d34a37af9f151b46a9
-time: 2018-08-04 02:29:18 UTC
+hash: a08d5b599a600b7ed1101870649e6748
+time: 2019-05-05 09:03:14 UTC
 depends:
-  partition_North_Dakota_secchi_001: 85493755130b6a412e2baf2a45cbc9d2
-  wq_dates: f4bcde398b53baed65cd74cd4be6f226
+  partition_North_Dakota_secchi_001: 0be7b4a206090f9dc0a22102e279326a
+  wq_dates: 15780afca857867605ab32d0b8a9c0f3
 fixed: 2f4f54d92513069df0728055cc3964b5
 code:
   functions:
-    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+    get_wqp_data: 446f3aa5fcf3d10d2b2512c284f000c6
 

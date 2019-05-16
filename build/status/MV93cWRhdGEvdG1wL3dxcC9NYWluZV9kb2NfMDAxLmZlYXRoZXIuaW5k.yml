@@ -1,13 +1,13 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Maine_doc_001.feather.ind
 type: file
-hash: df2ee29a569168f871b912a75ac1c92f
-time: 2018-08-09 21:44:35 UTC
+hash: efc119aa5b47f94d5b86a3447dcd8283
+time: 2019-05-04 10:17:54 UTC
 depends:
-  partition_Maine_doc_001: 66afbb7b18f97d47ff1367498d96046c
-  wq_dates: f4bcde398b53baed65cd74cd4be6f226
+  partition_Maine_doc_001: 6f2c4b3e5cebb55809bd699c15975c85
+  wq_dates: 15780afca857867605ab32d0b8a9c0f3
 fixed: d7fd20d250850811ca8d7c7a3b0fc5a4
 code:
   functions:
-    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+    get_wqp_data: 446f3aa5fcf3d10d2b2512c284f000c6
 

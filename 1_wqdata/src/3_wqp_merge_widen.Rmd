@@ -24,6 +24,7 @@ library(pander)
 library(LAGOSNE)
 library(lubridate)
 library(tidyr)
+library(purrr)
 
 knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_knit$set(root.dir='../..')
@@ -35,7 +36,7 @@ knitr::opts_knit$set(root.dir='../..')
 #Get all the unified files
 #Read them in with a map_df read_csv
 unity.raw <- map_df(list.files('1_wqdata/out/unity',full.names=T),read_feather)
-#write_csv(unity.raw,'1_wqdata/out/unity/wqp_long_with_methods.csv')
+write_csv(unity.raw,'1_wqdata/out/unity/wqp_long_with_methods.csv')
 
 ```
 

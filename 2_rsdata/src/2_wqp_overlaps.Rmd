@@ -22,11 +22,10 @@ opts_knit$set(root.dir='../..')
 ## Load in site data and convert to an sf object
 ```{r}
 #Load in wqp data
-winv <- read_feather(sc_retrieve('2_rsdata/out/unique_site_visible_inv.feather.ind'))
+winv <- read_feather('2_rsdata/out/unique_site_visible_inv.feather')
 
 #Convert the data into sf object
-inv.sf <- st_as_sf(winv,coords=c('long','lat'),crs=4326) %>%
-  st_transform(.,2163)
+inv.sf <- st_as_sf(winv,coords=c('long','lat'),crs=4326) 
 
 ```
 
@@ -35,7 +34,7 @@ inv.sf <- st_as_sf(winv,coords=c('long','lat'),crs=4326) %>%
 
 #Read in usa data
 usa = us_states() %>%
-  st_transform(.,2163)
+  st_transform(.,4326)
 
 
 #Download and and read in WRS spatial data
@@ -44,23 +43,26 @@ download.file('https://landsat.usgs.gov/sites/default/files/documents/WRS2_desce
 unzip('2_rsdata/in/WRS2_descending.zip', exdir = '2_rsdata/in/wrs')
 
 wrs <- st_read('2_rsdata/in/wrs/WRS2_descending.shp') %>%
-  st_transform(.,2163)
+  st_transform(.,4326)
 
 
 #Negative buffer on the wrs tiles in usa by 1 km
 wrs.usa <- wrs %>%
+  st_transform(2163) %>%
   st_buffer(.,0) %>%
-  st_intersection(.,usa) %>%
+  st_intersection(.,usa %>% st_transform(2163)) %>%
   group_by(PATH,ROW) %>%
   st_buffer(.,-1000) %>%
   na.omit(.) %>%
-  ungroup(.) 
+  ungroup(.) %>%
+  st_transform(4326)
 
 
 #The above operation clips the wrs tiles to the shape of the usa, which we don't want. So let's keep full tiles
 wrs.all.usa <- wrs %>%
   filter(PR %in% wrs.usa$PR) %>%
   select(PR_ID,PATH,ROW) %>%
+  st_transform(2163) %>%
   st_buffer(.,-1000) %>%
   mutate(area.km2=st_area(.)/(1000*1000)) %>%
   arrange(desc(area.km2)) %>%
@@ -69,7 +71,8 @@ wrs.all.usa <- wrs %>%
   #Lets drop those %>% 
   mutate(pr=paste(PATH,ROW,sep='-')) %>%
   filter(!pr %in% c('23-153','133-91','24-153')) %>%
-  select(-pr)
+  select(-pr) %>%
+  st_transform(4326)
 
 
 
@@ -78,8 +81,7 @@ wrs.all.usa <- wrs %>%
 #Join inventory to wrs tiles
 ```{r}
 #Use st join to join inventory to wrs path rows
-inv.wrs.sf <- st_join(inv.sf,wrs.all.usa) %>%
-  st_transform(.,4326)
+inv.wrs.sf <- st_join(inv.sf,wrs.all.usa) 
 
 #Convert this to a tibble
 sfc_as_cols <- function(x, names = c("x","y")) {
@@ -92,7 +94,7 @@ sfc_as_cols <- function(x, names = c("x","y")) {
 }
 
 inv.wrs <- sfc_as_cols(inv.wrs.sf,names=c('long','lat')) %>%
-  as.tibble() %>%
+  as_tibble() %>%
   dplyr::select(-geometry,-PR_ID) 
 
 #Save data
@@ -100,7 +102,7 @@ data_file <- '2_rsdata/out/site_inventory_path_row.feather'
 write_feather(inv.wrs,path=data_file)
 
 #Upload to team drive
-gd_put(scipiper::as_ind_file(data_file), data_file)
+scipiper::gd_put(scipiper::as_ind_file(data_file), data_file)
 ```
 
 

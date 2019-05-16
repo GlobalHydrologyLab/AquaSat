@@ -1,13 +1,13 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Oklahoma_tss_001.feather.ind
 type: file
-hash: 9bc60362d6daa90b6de782338bbadaad
-time: 2018-08-04 02:43:53 UTC
+hash: f2963fafd05c8cf050c65b2c5a8a4a50
+time: 2019-05-05 12:00:00 UTC
 depends:
-  partition_Oklahoma_tss_001: 471a07d6097ce278647cadb4b614d769
-  wq_dates: f4bcde398b53baed65cd74cd4be6f226
+  partition_Oklahoma_tss_001: 40935445bb1794f76d91cd1cfce45e0f
+  wq_dates: 15780afca857867605ab32d0b8a9c0f3
 fixed: a7378f09317506f007ebc0ecde9b7b86
 code:
   functions:
-    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+    get_wqp_data: 446f3aa5fcf3d10d2b2512c284f000c6
 
