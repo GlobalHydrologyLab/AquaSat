@@ -1,13 +1,13 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Nevada_tss_001.feather.ind
 type: file
-hash: b5ec52d80411b032df5bc4e29c06d398
-time: 2018-08-04 06:40:44 UTC
+hash: 3d352bfa6b7da7f5a05c342654cacb66
+time: 2019-05-06 08:29:06 UTC
 depends:
-  partition_Nevada_tss_001: 4e5c916ac2c2bb683b39395f9021d16a
-  wq_dates: f4bcde398b53baed65cd74cd4be6f226
+  partition_Nevada_tss_001: 4ec5a7ea1407b9a7b85f4dcb9cf471df
+  wq_dates: 15780afca857867605ab32d0b8a9c0f3
 fixed: 5d7fd299adb811556fa10193b44782ba
 code:
   functions:
-    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+    get_wqp_data: 446f3aa5fcf3d10d2b2512c284f000c6
 

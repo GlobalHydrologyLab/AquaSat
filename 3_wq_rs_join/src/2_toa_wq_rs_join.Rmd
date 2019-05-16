@@ -1,0 +1,125 @@
+---
+title: "2_toa_wq_rs_join"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+
+# A unified water quality portal and landsat dataset
+
+```{r setup}
+
+library(googledrive)
+library(tidyverse)
+library(feather)
+library(scipiper)
+
+knitr::opts_knit$set(root.dir='../..')
+
+```
+
+## Summary data
+
+## Check if files have been downloaded recently
+
+```{r}
+#Search the google drive folder for the surface reflectance 
+# for all sr matchup files
+toa_match <- drive_ls('toa_matchups')
+
+
+present <- length(list.files('3_wq_rs_join/data/in/toa'))
+
+times <- file.info(list.files('3_wq_rs_join/data/in/toa',full.names=T))
+
+date.avg <- as.Date(times$ctime) %>% mean(.)
+date.sd <- as.Date(times$ctime) %>% sd(.)
+
+redownload = ifelse(date.avg == Sys.Date() & 
+                present==length(toa_match) &
+                date.sd == 0,
+              TRUE,
+              FALSE)
+
+#Create a vector with the destination path for each download
+down.paths <- paste0('3_wq_rs_join/data/in/toa/',toa_match$name)
+
+```
+
+
+```{r download, eval=redownload}
+
+
+#Download the files from google drive
+for(i in 1:nrow(toa_match)){
+    drive_download(as_id(toa_match$id[i]),path=down.paths[i],overwrite = T)
+  }
+
+```
+
+
+```{r stitch}
+#Stitch all data together
+#The long string of letters is readr's sweet way of compressing Column types
+#I'm forcing them here because the first file happens to be all NAs 
+# so all columns get coerced to character
+toa <- map_df(down.paths,read_csv,col_types='icnnDTnnnnninnnnninnnnc')
+
+```
+
+
+### full data
+
+```{r}
+
+#Read in the in situ data
+wide.pull <- read_feather('2_rsdata/out/wide_pull.feather') 
+
+#visibility
+visible <- read_feather('2_rsdata/out/unique_site_visible_inv.feather') %>%
+  select(SiteID,pwater=med) %>%
+  mutate(SiteID=gsub('lagos-','',SiteID))
+
+
+#Join reflectance to in situ with some very minor pixelCount and cloudiness filters
+toa.clean <- toa %>%
+  filter_at(vars(blue,green,red,nir,swir1,swir2),any_vars(!is.na(.))) %>% #NAs are useless
+  inner_join(wide.pull %>%
+    rename(path=PATH) %>%
+    rename(row=ROW),
+    by=c('SiteID','date','sat','date_unity','path','row')) %>%
+  left_join(visible,by='SiteID')
+
+#Add type info to data frame
+full.inv.raw <- read_feather('1_wqdata/out/wqp_inventory.feather') 
+
+full.inv <- full.inv.raw %>%
+  select(SiteID = MonitoringLocationIdentifier,type=ResolvedMonitoringLocationTypeName) %>%
+  distinct() %>%
+  mutate(type = ifelse(grepl('Lake',type),'Lake',type))
+
+toa.type <- toa.clean %>%
+  left_join(full.inv,by='SiteID') %>%
+  mutate(type=ifelse(is.na(type),'Lake',type)) %>%
+  ungroup() %>%
+  mutate(timediff = difftime(date_unity,time,units='hours'))
+
+
+#Setup save path
+data_file <- '3_wq_rs_join/data/out/toa_wq_rs_join.csv'
+
+#Save it locally as a csv file
+write_csv(toa.type,path=data_file)
+
+
+```
+
+```{r, eval=redownload}
+#Upload data to team drive
+gd_put(scipiper::as_ind_file(data_file), data_file)
+
+```
+
+
+

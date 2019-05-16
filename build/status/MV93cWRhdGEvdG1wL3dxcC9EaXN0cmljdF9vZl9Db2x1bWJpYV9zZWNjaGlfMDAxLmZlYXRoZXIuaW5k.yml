@@ -1,13 +1,13 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/District_of_Columbia_secchi_001.feather.ind
 type: file
-hash: 00c1618da245c3caab51d854f1df7f93
-time: 2018-08-04 10:51:35 UTC
+hash: 14b3591aa481e82dd84d04ed23a38df8
+time: 2019-05-03 20:05:34 UTC
 depends:
-  partition_District_of_Columbia_secchi_001: 9660a1d3ee362d097659544b1c016534
-  wq_dates: f4bcde398b53baed65cd74cd4be6f226
+  partition_District_of_Columbia_secchi_001: 6df5ac64ae05b39be948049e1cad7c3a
+  wq_dates: 15780afca857867605ab32d0b8a9c0f3
 fixed: 2aaa5104bb13b78c14119b998fe149b3
 code:
   functions:
-    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+    get_wqp_data: 446f3aa5fcf3d10d2b2512c284f000c6
 

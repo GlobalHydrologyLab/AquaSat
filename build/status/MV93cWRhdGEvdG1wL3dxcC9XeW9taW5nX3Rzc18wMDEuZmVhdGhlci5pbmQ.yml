@@ -1,13 +1,13 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Wyoming_tss_001.feather.ind
 type: file
-hash: ba7a1e8ac5280246c18636f2694d58f7
-time: 2018-08-04 08:38:17 UTC
+hash: c82bb8df0534eeb55519e30f04e1679c
+time: 2019-05-06 01:44:04 UTC
 depends:
-  partition_Wyoming_tss_001: cda45479901e4d89bff7e826f89c5704
-  wq_dates: f4bcde398b53baed65cd74cd4be6f226
+  partition_Wyoming_tss_001: fdcef0e6a4ce68e8b193319d5d655b87
+  wq_dates: 15780afca857867605ab32d0b8a9c0f3
 fixed: e329c11a59b2b1e8135980fe9f3bc38d
 code:
   functions:
-    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+    get_wqp_data: 446f3aa5fcf3d10d2b2512c284f000c6
 

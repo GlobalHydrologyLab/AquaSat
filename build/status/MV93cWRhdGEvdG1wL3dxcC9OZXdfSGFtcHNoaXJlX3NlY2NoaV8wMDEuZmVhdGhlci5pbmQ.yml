@@ -1,13 +1,13 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/New_Hampshire_secchi_001.feather.ind
 type: file
-hash: 9ef19e14ebf10bd4410d76390a460a49
-time: 2018-08-04 06:44:26 UTC
+hash: 986497a310008632f31e986a94ea6cda
+time: 2019-05-06 08:49:49 UTC
 depends:
   partition_New_Hampshire_secchi_001: 9577e870b6179165128b2ab8959aefc5
-  wq_dates: f4bcde398b53baed65cd74cd4be6f226
+  wq_dates: 15780afca857867605ab32d0b8a9c0f3
 fixed: cd2b4354daa0810cf51feb2667acaac6
 code:
   functions:
-    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+    get_wqp_data: 446f3aa5fcf3d10d2b2512c284f000c6
 

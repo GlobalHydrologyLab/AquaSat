@@ -1,13 +1,13 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Arizona_doc_001.feather.ind
 type: file
-hash: bff41a6674f2e9e0a1e27a340503ee7f
-time: 2018-08-09 19:12:24 UTC
+hash: 21fd8dc659b2deb665c1df5d117280b8
+time: 2019-05-03 15:25:12 UTC
 depends:
-  partition_Arizona_doc_001: e2c13c2d15ac9758497784aa52ffc7c0
-  wq_dates: f4bcde398b53baed65cd74cd4be6f226
+  partition_Arizona_doc_001: 6a71bc22cb8c9e1d99b44c3490aa4094
+  wq_dates: 15780afca857867605ab32d0b8a9c0f3
 fixed: 676a90d733c6b3ee81a8f12771637aa4
 code:
   functions:
-    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+    get_wqp_data: 446f3aa5fcf3d10d2b2512c284f000c6
 

@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Nebraska_chlorophyll_001.feather.ind
+type: file
+hash: 47a019f0787b54c3e8d75aa3db3901c1
+time: 2019-05-04 22:50:11 UTC
+depends:
+  partition_Nebraska_chlorophyll_001: cc28aab1e65eecadb4eb3259a4e9924b
+  wq_dates: 15780afca857867605ab32d0b8a9c0f3
+fixed: a2c5153f68195946077e6defe7839068
+code:
+  functions:
+    get_wqp_data: 446f3aa5fcf3d10d2b2512c284f000c6
+

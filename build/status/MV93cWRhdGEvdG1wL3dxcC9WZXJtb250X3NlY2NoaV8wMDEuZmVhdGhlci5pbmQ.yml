@@ -1,13 +1,13 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Vermont_secchi_001.feather.ind
 type: file
-hash: 148ad8a6ce1e798911d374522da072ee
-time: 2018-08-04 04:02:21 UTC
+hash: b0475249595da668c0905821c0078de3
+time: 2019-05-05 20:48:46 UTC
 depends:
-  partition_Vermont_secchi_001: 420ec96f8639fbdd32388616e1a5982c
-  wq_dates: f4bcde398b53baed65cd74cd4be6f226
+  partition_Vermont_secchi_001: 9a8112c80f9a295133ee2de12e9fad5d
+  wq_dates: 15780afca857867605ab32d0b8a9c0f3
 fixed: baddd6dfded17abb4aeec3d2fba554f7
 code:
   functions:
-    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+    get_wqp_data: 446f3aa5fcf3d10d2b2512c284f000c6
 

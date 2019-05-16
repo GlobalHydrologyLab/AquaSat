@@ -1,13 +1,13 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Hawaii_tss_001.feather.ind
 type: file
-hash: e7adbf7f0d653cb84fdfa55a6e40a4ee
-time: 2018-08-09 20:52:28 UTC
+hash: 4dfde0a0734b50dfb43f718856011f27
+time: 2019-05-04 02:20:56 UTC
 depends:
-  partition_Hawaii_tss_001: 23a92f0e11e5b28a1fc84c58dd9db994
-  wq_dates: f4bcde398b53baed65cd74cd4be6f226
+  partition_Hawaii_tss_001: f3d86bc7af2be5b2ea5b0697c3f4d90a
+  wq_dates: 15780afca857867605ab32d0b8a9c0f3
 fixed: ccf37b7ca187736c791662f6dd1c53ac
 code:
   functions:
-    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+    get_wqp_data: 446f3aa5fcf3d10d2b2512c284f000c6
 

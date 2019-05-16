@@ -36,7 +36,7 @@ filesDownR <- drive_ls("WQP_SR_MatchUps") %>%
 
 *To configure your own computer to work with GEE, create a file call 'lib/cfg/gee_config.yml' with one line that looks like:*
 
-<font face="Arial">RETICULATE_PYTHON: /usr/local/bin/python2</font>
+
 
 ```{r reticulate_version}
 reticulate_python <- yaml::yaml.load_file('lib/cfg/gee_config.yml')$RETICULATE_PYTHON
@@ -54,7 +54,7 @@ import feather
 ee.Initialize()
 
 #Source necessary functions.
-execfile('2_rsdata/src/GEE_pull_functions.py')
+exec(open("2_rsdata/src/GEE_pull_functions.py").read())    
 
 #Load in Pekel water occurance Layer and Landsat Collections.
 

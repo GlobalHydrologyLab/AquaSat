@@ -1,13 +1,13 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/District_of_Columbia_tss_001.feather.ind
 type: file
-hash: de54bddf6b0d6108574e57db171d13ec
-time: 2018-08-04 08:53:52 UTC
+hash: 7bd7469d1a896d20636cec115206c646
+time: 2019-05-03 20:18:02 UTC
 depends:
-  partition_District_of_Columbia_tss_001: 062b0236a4ba88be61f921ccc5d12dde
-  wq_dates: f4bcde398b53baed65cd74cd4be6f226
+  partition_District_of_Columbia_tss_001: 30c8a642efb731b4b6d2a2a7137944bc
+  wq_dates: 15780afca857867605ab32d0b8a9c0f3
 fixed: 55f6b2bba072391fdaaf0697d68cd9db
 code:
   functions:
-    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+    get_wqp_data: 446f3aa5fcf3d10d2b2512c284f000c6
 

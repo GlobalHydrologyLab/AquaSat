@@ -1,13 +1,13 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Iowa_tss_001.feather.ind
 type: file
-hash: b0f518ca25547a91bc109f5e089742e0
-time: 2018-08-04 00:09:36 UTC
+hash: a3e81764f22b926b58356f18baed00a9
+time: 2019-05-04 07:05:41 UTC
 depends:
-  partition_Iowa_tss_001: 7633e9a6d5d7563d497891ddba83d26e
-  wq_dates: f4bcde398b53baed65cd74cd4be6f226
+  partition_Iowa_tss_001: 9472badfc66b1fcabbd3b552b2e9e773
+  wq_dates: 15780afca857867605ab32d0b8a9c0f3
 fixed: bdb138b652c9741b7752b4d99c1b6a84
 code:
   functions:
-    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+    get_wqp_data: 446f3aa5fcf3d10d2b2512c284f000c6
 

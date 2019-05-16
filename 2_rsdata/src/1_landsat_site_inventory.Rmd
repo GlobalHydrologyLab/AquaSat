@@ -19,6 +19,7 @@ library(googledrive)
 library(tidyverse)
 library(LAGOSNE)
 library(reticulate)
+library(sf)
 
 opts_knit$set(root.dir='../..')
 
@@ -30,29 +31,86 @@ opts_knit$set(root.dir='../..')
 Uniqueness is defined by a unique combination of site name and lat and long.
 
 ```{r}
-
 #Read in inventory and exclude nutrient data (not a goal of this project just yet)
-inv <- read_feather(sc_retrieve('1_wqdata/out/wqp_inventory.feather.ind')) %>%
-  distinct(MonitoringLocationIdentifier,LatitudeMeasure,LongitudeMeasure) %>% #Keep only unique site lat and long. 
-  filter(!is.na(LatitudeMeasure)) %>% #Exclude sites with missing geospatial data
-  filter(!is.na(LongitudeMeasure)) %>%
-  rename(SiteID=MonitoringLocationIdentifier,lat=LatitudeMeasure,long=LongitudeMeasure) %>%
+inv_simple <- read_feather('1_wqdata/out/wqp_inventory.feather') %>%
+  select(SiteID=MonitoringLocationIdentifier,lat=LatitudeMeasure,
+         long=LongitudeMeasure,orig_datum = HorizontalCoordinateReferenceSystemDatumName,
+         Constituent,obs_count=resultCount) %>% 
+  filter(!is.na(lat)) %>% #Exclude sites with missing geospatial data
+  filter(!is.na(long)) %>%
   mutate(source='WQP')
 
+write_feather(inv_simple,'1_wqdata/out/inv_simple.feather')
+#Make a table of all the projections
+table(inv_simple$orig_datum)
+  
+#Setup a datum table to transform different datums into WGS84 for GEE and to 
+#match LAGOS. Note that we make the somewhat reisky decision that others and unknowns
+# are mostly NAD83 (since > 60% of the data is originally in that projection)
+
+datum_epsg <- tibble(orig_datum=c('NAD27','NAD83','OTHER','Unknown','UNKWN','WGS84','WGS72'),
+                     epsg=c(4267,4269,4269,4269,4269,4326,4322))
+
+
+
+
+# Get distinct lat longs and sites
+inv_uniques <- inv_simple %>%
+  distinct(SiteID,lat,long,orig_datum)
+
+## project inventory using the above lookup table
+## Have to loop over each projection
+projected <- list() 
+
+for(i in 1:nrow(datum_epsg)){
+  #Select each datum iteratively
+  d1 <- datum_epsg[i,]
+  # Join inventory to that datum only and then feed it that CRS and then 
+  # transform to wgs84
+  inv_reproj <- inv_uniques %>%
+    filter(orig_datum == d1$orig_datum) %>%
+    inner_join(d1, by='orig_datum') %>%
+    st_as_sf(.,coords=c('long','lat'),crs=d1$epsg) %>%
+    st_transform(4326)
+  
+  projected[[i]] <- inv_reproj
+}
+
+# Note that we lose some sites in GUAM which is intentional
+# Add back in lat longs which are all WGS84 now
+inv_wgs84 <- do.call('rbind',projected) %>%
+  mutate(lat = st_coordinates(.)[,2],
+         long=st_coordinates(.)[,1]) %>%
+  as.data.frame(.) %>%
+  select(-geometry,-orig_datum) %>%
+  mutate(source='WQP')
+
+
+```
+
+## Merge WQP and LAGOS site info
+
+```{r merge}
 #Load in lagos data
 lagos.sites <- lagosne_load("1.087.1")$locus %>%
   select(SiteID = lagoslakeid,lat=nhd_lat,long=nhd_long) %>%
   mutate(SiteID = paste('lagos',SiteID,sep='-')) %>%
-  mutate(source='LAGOS')
+  mutate(source='LAGOS') %>%
+  mutate(epsg=4326) %>%
+  select(names(inv_wgs84))
+
+
 
 #Bind lagos and wqp data together
-lagos.wqp <- bind_rows(lagos.sites,inv) %>%
+lagos.wqp <- bind_rows(lagos.sites,inv_wgs84) %>%
   arrange(lat,long)
+
+
 
 #Save this data and push to drive
 data_file <- '2_rsdata/out/unique_site_inventory.feather'
 write_feather(lagos.wqp, data_file)
-gd_put(scipiper::as_ind_file(data_file), data_file)
+scipiper::gd_put(scipiper::as_ind_file(data_file), data_file)
 ```
 
 
@@ -118,8 +176,8 @@ obs = len(inv.index)
 #in a loop. 
 #List comprehension loop requires exact indecis to convert site lat long
 #into gee collections
-splitStart = range(0, obs, 5000)
-splitEnd=range(5000,obs + 5000 ,5000)
+splitStart = list(range(0, obs, 5000))
+splitEnd=list(range(5000,obs + 5000 ,5000))
 splitEnd[-1]=obs
 
 #Selct the occurence layer in the pekel mask, which is just the percentage of water occurence
@@ -150,8 +208,7 @@ def waterfunc(buf):
   return out
 
 #Source function to limit number of tasks sent up to earth engine.
-execfile('2_rsdata/src/GEE_pull_functions.py')
-      
+exec(open("2_rsdata/src/GEE_pull_functions.py").read())    
 #Loop over the index stored in split
 for x in range(0,len(splitStart)):
 #turn our inventory into a feature collection by assigning lat longs and a site id.
@@ -203,7 +260,7 @@ for(i in 1:nrow(folder)) {
 
 ## Read in data and save as a single file
 
-This produces a final water inventory if the max pekel occurence is greater than 60 (later steps can make this more strict).
+This produces a final water inventory if the max pekel occurence is greater than 80 (later steps can make this more strict).
 
 ```{r}
 #Get a list of those files
@@ -212,10 +269,10 @@ water.inv.files <- list.files('2_rsdata/tmp/water_visible_sites',full.names = T)
 #Use map_df to read them all in and stitch them together
 water.inv <- map_df(water.inv.files,read_csv)
 
-#Keep only sites with max pekel > 60 (this number is arbitrary and can be changed)
+#Keep only sites with max pekel > 80 (this number is arbitrary and can be changed)
 #Extract the coordinates from the .geo using str split
-pekel.max <- 60
-water.60 <- water.inv %>%
+pekel.max <- 80
+water.80 <- water.inv %>%
   filter(max > pekel.max) %>%
   mutate(coords = str_split_fixed(`.geo`,'\\[',2)[,2] %>%
            gsub(']}','',.),
@@ -225,10 +282,10 @@ water.60 <- water.inv %>%
 
 # write the file
 data_file <- '2_rsdata/out/unique_site_visible_inv.feather'
-write_feather(water.60,data_file)
+write_feather(water.80,data_file)
 
 #Upload to team drive
-gd_put(scipiper::as_ind_file(data_file), data_file)
+scipiper::gd_put(scipiper::as_ind_file(data_file), data_file)
 
 ```
 

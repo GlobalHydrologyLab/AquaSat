@@ -1,13 +1,13 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Nevada_secchi_001.feather.ind
 type: file
-hash: 8920e66e14ecf86bd2aa4af874bb3315
-time: 2018-08-04 06:39:36 UTC
+hash: 7b3fecbcf3f5d83f59b0d98216cedc98
+time: 2019-05-05 00:17:47 UTC
 depends:
-  partition_Nevada_secchi_001: 308680d3ce52a66f30daa420fa6a0a82
-  wq_dates: f4bcde398b53baed65cd74cd4be6f226
+  partition_Nevada_secchi_001: fad611201b9710a1e28d79760858c966
+  wq_dates: 15780afca857867605ab32d0b8a9c0f3
 fixed: 3da9c6e56f1e5bd2524aa9d617067ced
 code:
   functions:
-    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+    get_wqp_data: 446f3aa5fcf3d10d2b2512c284f000c6
 

@@ -1,13 +1,13 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/New_York_doc_001.feather.ind
 type: file
-hash: f72ed1d9ccf102845354a1307e852da4
-time: 2018-08-04 02:09:13 UTC
+hash: b2f52c1e3aff0c4e1ee4ff5e232ea4f9
+time: 2019-05-05 05:52:11 UTC
 depends:
-  partition_New_York_doc_001: 53b23bb1de8ff48e8b764ee561435c85
-  wq_dates: f4bcde398b53baed65cd74cd4be6f226
+  partition_New_York_doc_001: 92f378762d4f45ad3e4419885f31de24
+  wq_dates: 15780afca857867605ab32d0b8a9c0f3
 fixed: e4f2c2e1bdfccde3d47a152fcaf0475b
 code:
   functions:
-    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+    get_wqp_data: 446f3aa5fcf3d10d2b2512c284f000c6
 

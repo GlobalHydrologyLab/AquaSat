@@ -1,13 +1,13 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/North_Carolina_doc_001.feather.ind
 type: file
-hash: e5305a318ae8a543dd4e72bdb8f987da
-time: 2018-08-04 02:20:32 UTC
+hash: 37c49ecd1d73baef3335396636eec779
+time: 2019-05-05 07:30:07 UTC
 depends:
-  partition_North_Carolina_doc_001: 7d825cd1bb025473ef232584bf229513
-  wq_dates: f4bcde398b53baed65cd74cd4be6f226
+  partition_North_Carolina_doc_001: 9a9f2fdd8de8345a0d0816fafdbde125
+  wq_dates: 15780afca857867605ab32d0b8a9c0f3
 fixed: d19815fd096bacbd4d9655feceff8da1
 code:
   functions:
-    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+    get_wqp_data: 446f3aa5fcf3d10d2b2512c284f000c6
 

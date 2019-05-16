@@ -1,0 +1,3629 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6800 64-bit) (preloaded format=pdflatex 2018.9.18)  1 FEB 2019 10:14
+entering extended mode
+**./AquaSat_WRR_Submission.tex
+(AquaSat_WRR_Submission.tex
+LaTeX2e <2018-04-01> patch level 5
+(agujournal2018.cls
+Document Class: agujournal2018 08/23/2018
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\graphicx.sty"
+Package: graphicx 2017/06/01 v1.1a Enhanced LaTeX Graphics (DPC,SPQR)
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\keyval.sty"
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks14
+) ("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\graphics.sty"
+Package: graphics 2017/06/25 v1.2c Standard LaTeX Graphics (DPC,SPQR)
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\trig.sty"
+Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
+) ("C:\Program Files\MiKTeX 2.9\tex\latex\graphics-cfg\graphics.cfg"
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 99.
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics-def\pdftex.def"
+File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
+))
+\Gin@req@height=\dimen102
+\Gin@req@width=\dimen103
+) ("C:\Program Files\MiKTeX 2.9\tex\latex\xcolor\xcolor.sty"
+Package: xcolor 2016/05/11 v2.12 LaTeX color extensions (UK)
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics-cfg\color.cfg"
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: pdftex.def on input line 225.
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1348.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1352.
+Package xcolor Info: Model `RGB' extended on input line 1364.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1366.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1367.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1368.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1369.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1370.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
+) ("C:\Program Files\MiKTeX 2.9\tex\latex\url\url.sty"
+\Urlmuskip=\muskip10
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+) (trackchanges.sty
+Package: trackchanges 2009/04/22 v0.7.0 TrackChanges file 
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\ifthen.sty"
+Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
+) ("C:\Program Files\MiKTeX 2.9\tex\latex\tools\calc.sty"
+Package: calc 2017/05/25 v4.3 Infix arithmetic (KKT,FJ)
+\calc@Acount=\count80
+\calc@Bcount=\count81
+\calc@Adimen=\dimen104
+\calc@Bdimen=\dimen105
+\calc@Askip=\skip41
+\calc@Bskip=\skip42
+LaTeX Info: Redefining \setlength on input line 80.
+LaTeX Info: Redefining \addtolength on input line 81.
+\calc@Ccount=\count82
+\calc@Cskip=\skip43
+) ("C:\Program Files\MiKTeX 2.9\tex\latex\soul\soul.sty"
+Package: soul 2003/11/17 v2.4 letterspacing/underlining (mf)
+\SOUL@word=\toks15
+\SOUL@lasttoken=\toks16
+\SOUL@cmds=\toks17
+\SOUL@buffer=\toks18
+\SOUL@token=\toks19
+\SOUL@spaceskip=\skip44
+\SOUL@ttwidth=\dimen106
+\SOUL@uldp=\dimen107
+\SOUL@ulht=\dimen108
+) ("C:\Program Files\MiKTeX 2.9\tex\latex\morefloats\morefloats.sty"
+Package: morefloats 2015/07/22 v1.0h Raise limit of unprocessed floats (HMM)
+("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\kvoptions.sty"
+Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ltxcmds.sty"
+Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
+) ("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\kvsetkeys.sty"
+Package: kvsetkeys 2016/05/16 v1.17 Key value parser (HO)
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\infwarerr.sty"
+Package: infwarerr 2016/05/16 v1.4 Providing info/warning/error messages (HO)
+) ("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\etexcmds.sty"
+Package: etexcmds 2016/05/16 v1.6 Avoid name clashes with e-TeX commands (HO)
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ifluatex.sty"
+Package: ifluatex 2016/05/16 v1.4 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+)
+Package etexcmds Info: Could not find \expanded.
+(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
+(etexcmds)             that some package has redefined \expanded.
+(etexcmds)             In the latter case, load this package earlier.
+)))
+Package morefloats Info: Maximum number of possible floats asked for: 36
+(morefloats)             (i.e. 18 more floats).
+(morefloats)             LaTeX might run out of memory before this
+(morefloats)             (in which case it will notify you).
+)
+\c@userid=\count83
+\c@changenumber=\count84
+\c@storefootnote=\count85
+\c@numeditors=\count86
+\c@maxeditors=\count87
+) ("C:\Program Files\MiKTeX 2.9\tex\latex\lineno\lineno.sty"
+Package: lineno 2005/11/02 line numbers on paragraphs v4.41
+\linenopenalty=\count88
+\output=\toks20
+\linenoprevgraf=\count89
+\linenumbersep=\dimen109
+\linenumberwidth=\dimen110
+\c@linenumber=\count90
+\c@pagewiselinenumber=\count91
+\c@LN@truepage=\count92
+\c@internallinenumber=\count93
+\c@internallinenumbers=\count94
+\quotelinenumbersep=\dimen111
+\bframerule=\dimen112
+\bframesep=\dimen113
+\bframebox=\box26
+LaTeX Info: Redefining \\ on input line 3056.
+) ("C:\Program Files\MiKTeX 2.9\tex\latex\tools\indentfirst.sty"
+Package: indentfirst 1995/11/23 v1.03 Indent first paragraph (DPC)
+) ("C:\Program Files\MiKTeX 2.9\tex\latex\ms\ragged2e.sty"
+Package: ragged2e 2009/05/21 v2.1 ragged2e Package (MS)
+("C:\Program Files\MiKTeX 2.9\tex\latex\ms\everysel.sty"
+Package: everysel 2011/10/28 v1.2 EverySelectfont Package (MS)
+)
+\CenteringLeftskip=\skip45
+\RaggedLeftLeftskip=\skip46
+\RaggedRightLeftskip=\skip47
+\CenteringRightskip=\skip48
+\RaggedLeftRightskip=\skip49
+\RaggedRightRightskip=\skip50
+\CenteringParfillskip=\skip51
+\RaggedLeftParfillskip=\skip52
+\RaggedRightParfillskip=\skip53
+\JustifyingParfillskip=\skip54
+\CenteringParindent=\skip55
+\RaggedLeftParindent=\skip56
+\RaggedRightParindent=\skip57
+\JustifyingParindent=\skip58
+) ("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\rotating.sty"
+Package: rotating 2016/08/11 v2.16d rotated objects in LaTeX
+\c@r@tfl@t=\count95
+\rotFPtop=\skip59
+\rotFPbot=\skip60
+\rot@float@box=\box27
+\rot@mess@toks=\toks21
+) ("C:\Program Files\MiKTeX 2.9\tex\latex\ulem\ulem.sty"
+\UL@box=\box28
+\UL@hyphenbox=\box29
+\UL@skip=\skip61
+\UL@hook=\toks22
+\UL@height=\dimen114
+\UL@pe=\count96
+\UL@pixel=\dimen115
+\ULC@box=\box30
+Package: ulem 2012/05/18
+\ULdepth=\dimen116
+)
+\draftskip=\count97
+\c@section=\count98
+\c@subsection=\count99
+\c@subsubsection=\count100
+\c@paragraph=\count101
+\c@subparagraph=\count102
+\c@figure=\count103
+\c@table=\count104
+\abovecaptionskip=\skip62
+\belowcaptionskip=\skip63
+\c@appendnum=\count105
+\bibindent=\dimen117
+("C:\Program Files\MiKTeX 2.9\tex\latex\apacite\apacite.sty"
+Package: apacite 2013/07/21 v6.03 APA citation
+\c@BibCnt=\count106
+\bibleftmargin=\skip64
+\bibindent=\skip65
+\bibparsep=\skip66
+\bibitemsep=\skip67
+\biblabelsep=\skip68
+) ("C:\Program Files\MiKTeX 2.9\tex\latex\natbib\natbib.sty"
+Package: natbib 2010/09/13 8.31b (PWD, AO)
+\bibhang=\skip69
+\bibsep=\skip70
+LaTeX Info: Redefining \cite on input line 694.
+\c@NAT@ctr=\count107
+)
+LaTeX Info: Redefining \BBA on input line 1149.
+) ("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\soulutf8.sty"
+Package: soulutf8 2016/05/16 v1.1 Permit use of UTF-8 characters in soul (HO)
+) (AquaSat_WRR_Submission.aux)
+\openout1 = `AquaSat_WRR_Submission.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 69.
+LaTeX Font Info:    ... okay on input line 69.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 69.
+LaTeX Font Info:    ... okay on input line 69.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 69.
+LaTeX Font Info:    ... okay on input line 69.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 69.
+LaTeX Font Info:    ... okay on input line 69.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 69.
+LaTeX Font Info:    ... okay on input line 69.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 69.
+LaTeX Font Info:    ... okay on input line 69.
+("C:\Program Files\MiKTeX 2.9\tex\context\base\supp-pdf.mkii"
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count108
+\scratchdimen=\dimen118
+\scratchbox=\box31
+\nofMPsegments=\count109
+\nofMParguments=\count110
+\everyMPshowfont=\toks23
+\MPscratchCnt=\count111
+\MPscratchDim=\dimen119
+\MPnumerator=\count112
+\makeMPintoPDFobject=\count113
+\everyMPtoPDFconversion=\toks24
+) ("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\epstopdf-base.sty"
+Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
+("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\grfext.sty"
+Package: grfext 2016/05/16 v1.2 Manage graphics extensions (HO)
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\kvdefinekeys.sty"
+Package: kvdefinekeys 2016/05/16 v1.4 Define keys (HO)
+)) ("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\pdftexcmds.sty"
+Package: pdftexcmds 2018/09/10 v0.29 Utility functions of pdfTeX for LuaTeX (HO
+)
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ifpdf.sty"
+Package: ifpdf 2018/09/07 v3.3 Provides the ifpdf switch
+)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+)
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+38.
+Package grfext Info: Graphics extension search list:
+(grfext)             [.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPE
+G,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 456.
+)
+
+Package trackchanges Warning: TrackChanges is not compatable with the 
+(trackchanges)                'ulem' package.
+(trackchanges)                Use the 'soul' package instead.
+
+ABD: EverySelectfont initializing macros
+LaTeX Info: Redefining \selectfont on input line 69.
+\c@maskedRefs=\count114
+("C:\Program Files\MiKTeX 2.9\tex\latex\apacite\english.apc"
+File: english.apc 2013/07/21 v6.03 apacite language file
+LaTeX Info: Redefining \BPBI on input line 129.
+LaTeX Info: Redefining \BHBI on input line 130.
+)
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 122.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 122.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 131.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 131.
+LaTeX Font Info:    Try loading font information for OML+cmr on input line 163.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\omlcmr.fd"
+File: omlcmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <10> not available
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 163.
+
+Overfull \hbox (8.59906pt too wide) in paragraph at lines 163--165
+[]\OT1/cmr/m/n/10 AquaSat con-tains \OML/cmm/m/it/10 >\OT1/cmr/m/n/10 550,000 p
+aired ob-ser-va-tions of wa-ter qual-ity and Land-sat re- 
+ []
+
+
+Overfull \hbox (12.23775pt too wide) in paragraph at lines 165--167
+[]\OT1/cmr/m/n/10 Matchups cap-ture di-verse wa-ter-bod-ies across the USA for 
+1984-2018; we see clear 
+ []
+
+
+Overfull \hbox (6.87674pt too wide) in paragraph at lines 167--169
+[]\OT1/cmr/m/n/10 AquaSat and open source code de-vel-oped here will en-able be
+t-ter de-vel-op-ment of 
+ []
+
+[1{C:/Users/mrvr/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
+Overfull \hbox (15.32135pt too wide) in paragraph at lines 183--209
+\OT1/cmr/m/n/10 Satellite pre-dic-tions of in-land wa-ter qual-ity have the po-
+ten-tial to vastly ex-pand our abil- 
+ []
+
+
+Overfull \hbox (9.8768pt too wide) in paragraph at lines 183--209
+\OT1/cmr/m/n/10 ity to ob-serve and mon-i-tor the dy-nam-ics of large wa-ter bo
+d-ies. For al-most 50 years, we 
+ []
+
+
+Overfull \hbox (22.12675pt too wide) in paragraph at lines 183--209
+\OT1/cmr/m/n/10 have been able to re-motely sense key wa-ter qual-ity con-stitu
+ents like To-tal Sus-pended Sed- 
+ []
+
+
+Overfull \hbox (6.76573pt too wide) in paragraph at lines 183--209
+\OT1/cmr/m/n/10 i-ment (TSS), Dis-solved Or-ganic Car-bon (DOC), Chloro-phyll a
+, and Sec-chi Disk Depth 
+ []
+
+
+Overfull \hbox (14.40459pt too wide) in paragraph at lines 183--209
+\OT1/cmr/m/n/10 (SDD). Nonethe-less, re-mote sens-ing of wa-ter qual-ity is poo
+rly in-te-grated into in-land wa- 
+ []
+
+
+Overfull \hbox (0.34904pt too wide) in paragraph at lines 183--209
+\OT1/cmr/m/n/10 ter sci-ences, in part due to a lack of pub-licly avail-able tr
+ain-ing data and a per-cep-tion 
+ []
+
+
+Overfull \hbox (16.2101pt too wide) in paragraph at lines 183--209
+\OT1/cmr/m/n/10 that re-mote es-ti-mates are un-re-li-able. Re-mote sens-ing mo
+d-els of wa-ter qual-ity can be im- 
+ []
+
+
+Overfull \hbox (9.01576pt too wide) in paragraph at lines 183--209
+\OT1/cmr/m/n/10 proved by train-ing and val-i-da-tion on larger datasets of co-
+in-ci-dent field and satel-lite ob- 
+ []
+
+
+Overfull \hbox (3.73788pt too wide) in paragraph at lines 183--209
+\OT1/cmr/m/n/10 ser-va-tions, here called matchups. To fa-cil-i-tate model de-v
+el-op-ment and deeper in-te-gra- 
+ []
+
+
+Overfull \hbox (15.21007pt too wide) in paragraph at lines 183--209
+\OT1/cmr/m/n/10 tion of re-mote sens-ing into in-land wa-ter sci-ence, we have 
+built AquaSat, the largest such 
+ []
+
+
+Overfull \hbox (5.18237pt too wide) in paragraph at lines 183--209
+\OT1/cmr/m/n/10 matchup dataset ever as-sem-bled. AquaSat con-tains more than 5
+50,000 matchups, cov- 
+ []
+
+
+Overfull \hbox (28.6269pt too wide) in paragraph at lines 183--209
+\OT1/cmr/m/n/10 er-ing 1984-2018, of ground-based TSS, DOC, Chloro-phyll a, and
+ SDD mea-sure-ments paired 
+ []
+
+
+Overfull \hbox (23.54347pt too wide) in paragraph at lines 183--209
+\OT1/cmr/m/n/10 with spec-tral re-flectance from Land-sat 5, 7, and 8 col-lecte
+d within +/-1 day of each other. 
+ []
+
+
+Overfull \hbox (4.71017pt too wide) in paragraph at lines 183--209
+\OT1/cmr/m/n/10 To build AquaSat, we de-vel-oped open source tools in R and Pyt
+hon and ap-plied them 
+ []
+
+
+Overfull \hbox (4.07126pt too wide) in paragraph at lines 183--209
+\OT1/cmr/m/n/10 to ex-ist-ing pub-lic datasets cov-er-ing the con-tigu-ous Unit
+ed States, in-clud-ing the Wa-ter 
+ []
+
+
+Overfull \hbox (14.1686pt too wide) in paragraph at lines 183--209
+\OT1/cmr/m/n/10 Qual-ity Por-tal, LA-GOS, and the Land-sat archive. In ad-di-ti
+on to pub-lish-ing the dataset, 
+ []
+
+
+Overfull \hbox (5.09909pt too wide) in paragraph at lines 183--209
+\OT1/cmr/m/n/10 we are also pub-lish-ing our full code ar-chi-tec-ture to fa-ci
+l-i-tate ex-pand-ing and im-prov-ing 
+ []
+
+
+Overfull \hbox (1.4879pt too wide) in paragraph at lines 183--209
+\OT1/cmr/m/n/10 AquaSat. We an-tic-i-pate that this work will help make re-mote
+ sens-ing of in-land wa-ter 
+ []
+
+
+Overfull \hbox (14.23796pt too wide) in paragraph at lines 183--209
+\OT1/cmr/m/n/10 ac-ces-si-ble to more hy-drol-o-gists, ecol-o-gists, and lim-no
+l-o-gists while fa-cil-i-tat-ing novel data- 
+ []
+
+
+Overfull \hbox (15.3768pt too wide) in paragraph at lines 183--209
+\OT1/cmr/m/n/10 driven ap-proaches to mon-i-tor-ing and un-der-stand-ing crit-i
+-cal wa-ter re-sources at large spa- 
+ []
+
+
+LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <10.5> not available
+(Font)              size <10.95> substituted on input line 212.
+
+
+LaTeX Font Warning: Font shape `OT1/cmr/bx/n' in size <10.5> not available
+(Font)              size <10.95> substituted on input line 212.
+
+
+Overfull \hbox (14.34903pt too wide) in paragraph at lines 214--227
+[]\OT1/cmr/m/n/10 Production and ef-fec-tive dis-sem-i-na-tion of wa-ter qual-i
+ty data is a vi-tal first step to- 
+ []
+
+
+Overfull \hbox (21.15463pt too wide) in paragraph at lines 214--227
+\OT1/cmr/m/n/10 wards un-der-stand-ing nat-u-ral and an-thro-pogenic drivers of
+ aquatic ecosys-tem change (Sre- 
+ []
+
+
+Overfull \hbox (9.68245pt too wide) in paragraph at lines 214--227
+\OT1/cmr/m/n/10 bot-n-jak, Carr, de Sherbinin, & Rick-wood, 2012). Col-lect-ing
+ such valu-able data has his- 
+ []
+
+
+Overfull \hbox (7.8491pt too wide) in paragraph at lines 214--227
+\OT1/cmr/m/n/10 tor-i-cally been ex-pen-sive and time-consuming, and it has of-
+ten proved dif-fi-cult to main- 
+ []
+
+
+Overfull \hbox (12.7935pt too wide) in paragraph at lines 214--227
+\OT1/cmr/m/n/10 tain analysis-ready and open datasets. In many de-vel-oped na-t
+ions, how-ever, data ac-cess 
+ []
+
+
+Overfull \hbox (1.87679pt too wide) in paragraph at lines 214--227
+\OT1/cmr/m/n/10 and in-ter-op-er-abil-ity have been ac-tively ad-dressed over t
+he last 10-20 years, lead-ing to 
+ []
+
+
+Overfull \hbox (8.23793pt too wide) in paragraph at lines 214--227
+\OT1/cmr/m/n/10 the pub-li-ca-tion and main-te-nance of large open-access data 
+repos-i-to-ries of wa-ter qual-ity 
+ []
+
+
+Overfull \hbox (14.79355pt too wide) in paragraph at lines 214--227
+\OT1/cmr/m/n/10 mea-sure-ments (Bal-lan-tine & Davies-Colley, 2014; Lack, 2000;
+ Read et al.[], 2017; So-ranno 
+ []
+
+
+Overfull \hbox (7.62679pt too wide) in paragraph at lines 214--227
+\OT1/cmr/m/n/10 et al.[], 2017), but over a lim-ited num-ber of wa-ter bod-ies.
+ Fur-ther-more, ac-cess to ro-bust 
+ []
+
+
+Overfull \hbox (0.37685pt too wide) in paragraph at lines 214--227
+\OT1/cmr/m/n/10 his-toric wa-ter qual-ity sam-pling data re-mains lim-ited to a
+ few eco-nom-i-cally de-vel-oped 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[2]
+Overfull \hbox (0.31029pt too wide) in paragraph at lines 228--245
+[]\OT1/cmr/m/n/10 With satel-lite re-mote sens-ing, we can aug-ment \OT1/cmr/m/
+it/10 in-situ \OT1/cmr/m/n/10 sam-pling ef-forts and pro- 
+ []
+
+
+Overfull \hbox (1.09909pt too wide) in paragraph at lines 228--245
+\OT1/cmr/m/n/10 vide wa-ter qual-ity in-for-ma-tion in places with lit-tle or n
+o data. Since the be-gin-ning of 
+ []
+
+
+Overfull \hbox (1.15462pt too wide) in paragraph at lines 228--245
+\OT1/cmr/m/n/10 the Land-sat mis-sions, lim-nol-o-gists, oceanog-ra-phers, and 
+hy-drol-o-gists have been in-ter- 
+ []
+
+
+Overfull \hbox (3.54358pt too wide) in paragraph at lines 228--245
+\OT1/cmr/m/n/10 ested in de-vel-op-ing uni-ver-sal al-go-rithms for ex-tract-in
+g wa-ter qual-ity in-for-ma-tion from 
+ []
+
+
+Overfull \hbox (5.34903pt too wide) in paragraph at lines 228--245
+\OT1/cmr/m/n/10 re-motely sensed im-ages (Clarke, Ew-ing, & Loren-zen, 1970; Ho
+lyer, 1978; Kle-mas, Bor- 
+ []
+
+
+Overfull \hbox (3.86292pt too wide) in paragraph at lines 228--245
+\OT1/cmr/m/n/10 chardt, & Trea-sure, 1973; Maul & Gor-don, 1975; Ritchie, Schie
+be, & McHenry, 1976). 
+ []
+
+
+Overfull \hbox (17.71013pt too wide) in paragraph at lines 228--245
+\OT1/cmr/m/n/10 From these early ef-forts, fifty years of work have used spec-t
+ral in-for-ma-tion to pre-dict wa- 
+ []
+
+
+Overfull \hbox (14.1824pt too wide) in paragraph at lines 228--245
+\OT1/cmr/m/n/10 ter qual-ity pa-ram-e-ters like to-tal sus-pended solids (TSS),
+ chloro-phyll a (here ab-bre-vi-ated 
+ []
+
+
+Overfull \hbox (19.7268pt too wide) in paragraph at lines 228--245
+\OT1/cmr/m/n/10 as Chl[]a), col-ored dis-solved or-ganic mat-ter (CDOM), and Se
+c-chi disk depth (SDD). How- 
+ []
+
+
+Overfull \hbox (33.96016pt too wide) in paragraph at lines 228--245
+\OT1/cmr/m/n/10 ever, progress to-wards uni-ver-sal al-go-rithms and uni-fied a
+p-proaches has been slow (Blondeau- 
+ []
+
+
+Overfull \hbox (2.96016pt too wide) in paragraph at lines 228--245
+\OT1/cmr/m/n/10 Patissier, Gower, Dekker, Phinn, & Brando, 2014; Bukata, 2013; 
+Gholizadeh, Me-lesse, 
+ []
+
+
+Overfull \hbox (10.84904pt too wide) in paragraph at lines 228--245
+\OT1/cmr/m/n/10 & Reddi, 2016; Palmer, Kutser, & Hunter, 2015) es-pe-cially at 
+the global scale. Fur-ther, 
+ []
+
+
+Overfull \hbox (18.62686pt too wide) in paragraph at lines 228--245
+\OT1/cmr/m/n/10 most pa-pers pub-lished to date have fo-cused on de-vel-op-ing 
+pre-dic-tive meth-ods as op-posed 
+ []
+
+
+Overfull \hbox (9.51569pt too wide) in paragraph at lines 228--245
+\OT1/cmr/m/n/10 to us-ing pre-dic-tions to in-ter-ro-gate pro-cesses that con-t
+rol wa-ter qual-ity dy-nam-ics (Topp 
+ []
+
+
+Overfull \hbox (19.84892pt too wide) in paragraph at lines 246--264
+[]\OT1/cmr/m/n/10 This slow progress con-trasts sharply with ocean re-mote sens
+-ing, which ben-e-fits from 
+ []
+
+
+Overfull \hbox (5.22708pt too wide) in paragraph at lines 246--264
+\OT1/cmr/m/n/10 ro-bust, open and big datasets geared to-wards pair-ing both \O
+T1/cmr/m/it/10 in-situ \OT1/cmr/m/n/10 and ra-dio-met-ric ob- 
+ []
+
+
+Overfull \hbox (4.90463pt too wide) in paragraph at lines 246--264
+\OT1/cmr/m/n/10 ser-va-tions with satel-lite data, en-abling rapid de-vel-op-me
+nt of more uni-ver-sally ef-fec-tive 
+ []
+
+
+Overfull \hbox (0.87688pt too wide) in paragraph at lines 246--264
+\OT1/cmr/m/n/10 al-go-rithms and ap-proaches (Blondeau-Patissier et al.[], 2014
+; Bukata, 2013). Ocean re- 
+ []
+
+
+Overfull \hbox (1.4601pt too wide) in paragraph at lines 246--264
+\OT1/cmr/m/n/10 mote sens-ing also ben-e-fits from ded-i-cated satel-lites de-s
+igned specif-i-cally for ocean ap- 
+ []
+
+
+Overfull \hbox (2.42119pt too wide) in paragraph at lines 246--264
+\OT1/cmr/m/n/10 pli-ca-tions such as re-mote re-trieval of Chl[]a, but the spa-
+tial res-o-lu-tion of these sen-sors 
+ []
+
+
+Overfull \hbox (9.96004pt too wide) in paragraph at lines 246--264
+\OT1/cmr/m/n/10 is too coarse to re-solve most in-land wa-ter-bod-ies. As a re-
+sult, in-land wa-ter re-mote sens- 
+ []
+
+
+Overfull \hbox (18.54347pt too wide) in paragraph at lines 246--264
+\OT1/cmr/m/n/10 ing has been lim-ited to satel-lites built for ter-res-trial re
+-mote sens-ing (Palmer et al.[], 2015). 
+ []
+
+
+Overfull \hbox (14.34901pt too wide) in paragraph at lines 246--264
+\OT1/cmr/m/n/10 Meth-ods de-vel-op-ment for in-land wa-ters is fur-ther chal-le
+nged by the greater op-ti-cal com- 
+ []
+
+
+Overfull \hbox (25.09904pt too wide) in paragraph at lines 246--264
+\OT1/cmr/m/n/10 plex-ity of in-land wa-ters, where spec-tral sig-na-tures re-fl
+ect a mix-ture of in-or-ganic sus-pended 
+ []
+
+
+Overfull \hbox (4.46013pt too wide) in paragraph at lines 246--264
+\OT1/cmr/m/n/10 sed-i-ment, or-ganic sus-pended sed-i-ment, al-gae, dis-solved 
+or-ganic mat-ter, and other con- 
+ []
+
+
+Overfull \hbox (21.15451pt too wide) in paragraph at lines 246--264
+\OT1/cmr/m/n/10 stituents. We think some of these in-her-ent chal-lenges in in-
+land wa-ter qual-ity re-mote sens- 
+ []
+
+
+Overfull \hbox (18.82118pt too wide) in paragraph at lines 246--264
+\OT1/cmr/m/n/10 ing can be met at a broad scale be-cause with a cen-tral-ized, 
+pub-lic re-mote sens-ing dataset 
+ []
+
+
+Overfull \hbox (1.06026pt too wide) in paragraph at lines 265--280
+[]\OT1/cmr/m/n/10 In this data pa-per, we present AquaSat, a merged dataset of 
+\OT1/cmr/m/it/10 in-situ \OT1/cmr/m/n/10 wa-ter qual- 
+ []
+
+
+Overfull \hbox (3.2378pt too wide) in paragraph at lines 265--280
+\OT1/cmr/m/n/10 ity mea-sure-ments paired with same-day or $\OMS/cmsy/m/n/10 $
+ \OT1/cmr/m/n/10 1-day satel-lite re-flectance (which we call 
+ []
+
+
+Overfull \hbox (15.46007pt too wide) in paragraph at lines 265--280
+\OT1/cmr/m/n/10 ``matchups''). This is the largest such matchup dataset ever as
+-sem-bled for in-land wa-ters. 
+ []
+
+
+Overfull \hbox (9.98788pt too wide) in paragraph at lines 265--280
+\OT1/cmr/m/n/10 To cre-ate AquaSat, we use the Land-sat archive from 1984-2018,
+ avail-able in its en-tirety 
+ []
+
+
+Overfull \hbox (6.73802pt too wide) in paragraph at lines 265--280
+\OT1/cmr/m/n/10 on the Google Earth En-gine plat-form (Gore-lick et al.[], 2017
+), in com-bi-na-tion with data 
+ []
+
+
+Overfull \hbox (37.55742pt too wide) in paragraph at lines 265--280
+\OT1/cmr/m/n/10 from the Wa-ter Qual-ity Por-tal (WQP, Read et al., 2017) and t
+he LAke multi-scaled GeOSpa- 
+ []
+
+
+Overfull \hbox (2.14072pt too wide) in paragraph at lines 265--280
+\OT1/cmr/m/n/10 tial and tem-po-ral database cov-er-ing the north-east-ern Unit
+ed States (LAGOS-NE, So- 
+ []
+
+
+Overfull \hbox (18.51566pt too wide) in paragraph at lines 265--280
+\OT1/cmr/m/n/10 ranno et al., 2017). The WQP data we used cov-ers all of the US
+A. Join-ing these datasets 
+ []
+
+
+Overfull \hbox (13.01567pt too wide) in paragraph at lines 265--280
+\OT1/cmr/m/n/10 pro-vides us with an un-prece-dented re-source to model, pre-di
+ct, and un-der-stand the long- 
+ []
+
+
+Overfull \hbox (2.6713pt too wide) in paragraph at lines 265--280
+\OT1/cmr/m/n/10 term and large-scale dy-nam-ics of vari-a-tion in TSS, SDD, Chl
+[]a, and dis-solved or-ganic 
+ []
+
+
+Overfull \hbox (14.15463pt too wide) in paragraph at lines 265--280
+\OT1/cmr/m/n/10 car-bon (DOC). We also out-line and share our ap-proach, code, 
+and in-ter-me-di-ate data for 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[3]
+Overfull \hbox (23.12674pt too wide) in paragraph at lines 285--290
+[]\OT1/cmr/m/n/10 We fo-cused on five com-mon wa-ter qual-ity pa-ram-e-ters of-
+ten tar-geted for re-mote sens- 
+ []
+
+
+Overfull \hbox (4.69905pt too wide) in paragraph at lines 285--290
+\OT1/cmr/m/n/10 ing of wa-ter qual-ity: TSS, DOC and CDOM, Chloro-phyll a and C
+hl[]a. These four pa- 
+ []
+
+
+Overfull \hbox (7.96011pt too wide) in paragraph at lines 285--290
+\OT1/cmr/m/n/10 ram-e-ters cap-ture key eco-log-i-cal and phys-i-cal fac-tors t
+hat con-trol wa-ter qual-ity, and ca- 
+ []
+
+
+Overfull \hbox (22.90834pt too wide) in paragraph at lines 285--290
+\OT1/cmr/m/n/10 pa-bil-i-ties to re-motely sense each of them have been demon-s
+trated (Topp et al., \OT1/cmr/m/it/10 in re-view\OT1/cmr/m/n/10 ).  
+ []
+
+
+Overfull \hbox (3.07123pt too wide) in paragraph at lines 291--299
+[]\OT1/cmr/m/n/10 TSS is a mea-sure of the con-cen-tra-tion of solids, both or-
+ganic and in-or-ganic, in a 
+ []
+
+
+Overfull \hbox (6.51564pt too wide) in paragraph at lines 291--299
+\OT1/cmr/m/n/10 wa-ter col-umn, mea-sured in mg/L. Wa-ters with higher TSS gen-
+er-ally scat-ter more sun- 
+ []
+
+
+Overfull \hbox (21.01572pt too wide) in paragraph at lines 291--299
+\OT1/cmr/m/n/10 light at all vis-i-ble and near-infrared wave-lengths (Ritchie 
+et al.[], 1976). Know-ing TSS con- 
+ []
+
+
+Overfull \hbox (5.43236pt too wide) in paragraph at lines 291--299
+\OT1/cmr/m/n/10 cen-tra-tions can pro-vide in-sight into sub-sur-face light con
+-di-tions (Ju-lian, Doyle, Pow-ers, 
+ []
+
+
+Overfull \hbox (5.82135pt too wide) in paragraph at lines 291--299
+\OT1/cmr/m/n/10 Stan-ley, & Rig-gs-bee, 2008), ero-sion con-di-tions (Syvit-ski
+ & Ket-tner, 2011), and the hy- 
+ []
+
+
+Overfull \hbox (1.68234pt too wide) in paragraph at lines 291--299
+\OT1/cmr/m/n/10 dro-logic sta-tus of wa-ter-bod-ies, where high TSS gen-er-ally
+ means sed-i-ment sup-ply cou- 
+ []
+
+
+Overfull \hbox (11.12679pt too wide) in paragraph at lines 300--312
+[]\OT1/cmr/m/n/10 DOC, mea-sured in mg/L, is the broad de-scrip-tion for the co
+n-cen-tra-tion of or-ganic 
+ []
+
+
+Overfull \hbox (11.8213pt too wide) in paragraph at lines 300--312
+\OT1/cmr/m/n/10 car-bon dis-solved in wa-ter, and can pro-vide in-sight into li
+ght con-di-tions (Vahatalo, Wet- 
+ []
+
+
+Overfull \hbox (7.62683pt too wide) in paragraph at lines 300--312
+\OT1/cmr/m/n/10 zel, & Paerl, 2005), het-erotrophic en-ergy avail-abil-ity (Rob
+-bins et al.[], 2017), and ter-res- 
+ []
+
+
+Overfull \hbox (19.82135pt too wide) in paragraph at lines 300--312
+\OT1/cmr/m/n/10 trial or-ganic mat-ter pro-cess-ing (Williamson, Dodds, Kratz, 
+& Palmer, 2008). While DOC 
+ []
+
+
+Overfull \hbox (19.84904pt too wide) in paragraph at lines 300--312
+\OT1/cmr/m/n/10 does not in-her-ently al-ter the op-ti-cal prop-er-ties of wa-t
+er, its col-ored por-tion, CDOM, does 
+ []
+
+
+Overfull \hbox (12.23792pt too wide) in paragraph at lines 300--312
+\OT1/cmr/m/n/10 af-fect op-tics and is of-ten cor-re-lated with DOC con-cen-tra
+-tion (Bricaud, Morel, & Prieur, 
+ []
+
+
+Overfull \hbox (5.01578pt too wide) in paragraph at lines 300--312
+\OT1/cmr/m/n/10 1981; Grif-fin, Frey, Ro-gan, & Holmes, 2011) (Bricaud et al., 
+1981; Grif-fin et al., 2011). 
+ []
+
+
+Overfull \hbox (17.12671pt too wide) in paragraph at lines 300--312
+\OT1/cmr/m/n/10 This cor-re-la-tion be-tween CDOM and DOC can break down in pla
+ces with low DOC con- 
+ []
+
+
+Overfull \hbox (19.1686pt too wide) in paragraph at lines 300--312
+\OT1/cmr/m/n/10 cen-tra-tions (Grif-fin, Fin-lay, Bre-zonik, Ol-man-son, & Hoza
+l-ski, 2018), or in ar-eas with high 
+ []
+
+
+Overfull \hbox (22.12688pt too wide) in paragraph at lines 300--312
+\OT1/cmr/m/n/10 pho-to-bleach-ing of DOC, which al-ters the DOC/CDOM frac-tion-
+a-tion (Cory, Har-rold, Neil- 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[4]
+Overfull \hbox (6.21022pt too wide) in paragraph at lines 313--317
+[]\OT1/cmr/m/n/10 Chlorophyll a is a pho-to-syn-thet-i-cally ac-tive pig-ment c
+on-tained in all phy-to-plank- 
+ []
+
+
+Overfull \hbox (12.12688pt too wide) in paragraph at lines 313--317
+\OT1/cmr/m/n/10 ton. Chloro-phyll a can be used to de-tect al-gae blooms (Kutse
+r, 2004), es-ti-mate pri-mary 
+ []
+
+
+Overfull \hbox (16.90471pt too wide) in paragraph at lines 313--317
+\OT1/cmr/m/n/10 pro-duc-tiv-ity (An-toine, Andre, & Morel, 1996), and un-der-s
+tand al-gae dy-nam-ics (Richard- 
+ []
+
+
+Overfull \hbox (3.40454pt too wide) in paragraph at lines 318--324
+[]\OT1/cmr/m/n/10 Finally, we gath-ered data on Sec-chi disk depth (typ-i-cally
+ mea-sured in me-ters), a 
+ []
+
+
+Overfull \hbox (9.90463pt too wide) in paragraph at lines 318--324
+\OT1/cmr/m/n/10 long-standing method for es-ti-mat-ing wa-ter clar-ity (Lee et 
+al.[], 2018; Sec-chi, 1864). SDD 
+ []
+
+
+Overfull \hbox (7.04341pt too wide) in paragraph at lines 318--324
+\OT1/cmr/m/n/10 is a sim-ple mea-sure-ment that in-te-grates the op-ti-cal prop
+-er-ties of all wa-ter con-stituents 
+ []
+
+
+Overfull \hbox (12.738pt too wide) in paragraph at lines 318--324
+\OT1/cmr/m/n/10 and can pro-vide in-for-ma-tion on the trophic sta-tus of wa-te
+r-bod-ies (Carl-son, 1977) or the 
+ []
+
+
+Overfull \hbox (7.1436pt too wide) in paragraph at lines 327--337
+[]\OT1/cmr/m/n/10 Combining \OT1/cmr/m/it/10 in-situ \OT1/cmr/m/n/10 data with 
+the Land-sat sur-face re-flectance archive first re-quires 
+ []
+
+
+Overfull \hbox (2.01567pt too wide) in paragraph at lines 327--337
+\OT1/cmr/m/n/10 a large repos-i-tory of wa-ter qual-ity sam-ples in or-der to i
+n-crease the prob-a-bil-ity of spa- 
+ []
+
+
+Overfull \hbox (2.29347pt too wide) in paragraph at lines 327--337
+\OT1/cmr/m/n/10 tiotem-po-rally co-located satel-lite and field sam-ples. For t
+his pa-per, we fo-cused on the 
+ []
+
+
+Overfull \hbox (11.44623pt too wide) in paragraph at lines 327--337
+\OT1/cmr/m/n/10 two largest databases of wa-ter qual-ity in the United States: 
+the WQP and LAGOS-NE. 
+ []
+
+
+Overfull \hbox (11.15459pt too wide) in paragraph at lines 327--337
+\OT1/cmr/m/n/10 These datasets con-trast in im-por-tant ways: one has more data
+, em-pha-siz-ing data quan- 
+ []
+
+
+Overfull \hbox (0.69624pt too wide) in paragraph at lines 327--337
+\OT1/cmr/m/n/10 tity (WQP) and the other has more qual-ity as-sur-ances (LAGOS-
+NE). Us-ing both en- 
+ []
+
+
+Overfull \hbox (17.07127pt too wide) in paragraph at lines 327--337
+\OT1/cmr/m/n/10 sures sam-pling the largest pos-si-ble num-ber of wa-ter-bod-ie
+s, while re-tain-ing a har-mo-nized, 
+ []
+
+
+Overfull \hbox (2.40456pt too wide) in paragraph at lines 340--359
+[]\OT1/cmr/m/n/10 The WQP, with mostly data from the USA, is the largest ob-ser
+-va-tion dataset of 
+ []
+
+
+Overfull \hbox (10.32127pt too wide) in paragraph at lines 340--359
+\OT1/cmr/m/n/10 wa-ter qual-ity in the world. The WQP houses more than 290 mil-
+lion ob-ser-va-tions at 2.7 
+ []
+
+
+Overfull \hbox (2.51569pt too wide) in paragraph at lines 340--359
+\OT1/cmr/m/n/10 mil-lion sites dat-ing back more than a cen-tury (Read et al.[]
+, 2017). The WQP con-tin-u- 
+ []
+
+
+Overfull \hbox (15.46028pt too wide) in paragraph at lines 340--359
+\OT1/cmr/m/n/10 ously gath-ers wa-ter qual-ity in-for-ma-tion from more than 45
+0 or-gan-i-za-tions in-clud-ing aca- 
+ []
+
+
+Overfull \hbox (31.30737pt too wide) in paragraph at lines 340--359
+\OT1/cmr/m/n/10 demic, gov-ern-ment, NGO, tribal, and state datasets (Read et a
+l.[], 2017). These data streams 
+ []
+
+
+Overfull \hbox (18.93243pt too wide) in paragraph at lines 340--359
+\OT1/cmr/m/n/10 are then dis-tributed in a stan-dard-ized for-mat, fa-cil-i-tat
+-ing anal-y-sis across col-lec-tion meth- 
+ []
+
+
+Overfull \hbox (27.40459pt too wide) in paragraph at lines 340--359
+\OT1/cmr/m/n/10 ods. While there is no en-tity that har-mo-nizes the data acros
+s providers (Read et al.[], 2017), 
+ []
+
+
+Overfull \hbox (12.65462pt too wide) in paragraph at lines 340--359
+\OT1/cmr/m/n/10 sub-sets of the data have been used in many pub-li-ca-tions an-
+a-lyz-ing wa-ter qual-ity change 
+ []
+
+
+Overfull \hbox (29.76585pt too wide) in paragraph at lines 340--359
+\OT1/cmr/m/n/10 in the USA (Booth, Ev-er-man, Kuo, Sprague, & Mur-phy, 2011; Oe
+l-sner et al.[], 2017; Sprague 
+ []
+
+
+Overfull \hbox (1.29346pt too wide) in paragraph at lines 340--359
+\OT1/cmr/m/n/10 & Lorenz, 2009). As with many large datasets, the di-ver-sity o
+f data sources and vari- 
+ []
+
+
+Overfull \hbox (5.01572pt too wide) in paragraph at lines 340--359
+\OT1/cmr/m/n/10 a-tion in meta-data qual-ity pose sig-nif-i-cant chal-lenges to
+ di-rectly us-ing the WQP as an 
+ []
+
+
+Overfull \hbox (13.51567pt too wide) in paragraph at lines 340--359
+\OT1/cmr/m/n/10 analysis-ready dataset (Sprague, Oel-sner, & Ar-gue, 2017). In-
+stead, end-users must care- 
+ []
+
+
+Overfull \hbox (4.738pt too wide) in paragraph at lines 340--359
+\OT1/cmr/m/n/10 fully har-mo-nize data across sam-pling meth-ods, an-a-lytic ap
+-proaches, and mea-sure-ment 
+ []
+
+
+Overfull \hbox (22.8768pt too wide) in paragraph at lines 340--359
+\OT1/cmr/m/n/10 units. The na-ture of har-mo-niz-ing such large, dis-tributed d
+ata gen-er-ates a nec-es-sary trade- 
+ []
+
+
+Overfull \hbox (13.9602pt too wide) in paragraph at lines 340--359
+\OT1/cmr/m/n/10 off be-tween a deep, time-consuming ex-plo-ration of data in-te
+r-op-er-abil-ity and a shal-lower, 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[5]
+Overfull \hbox (4.59888pt too wide) in paragraph at lines 362--383
+[]\OT1/cmr/m/n/10 The LA-GOS project (which gen-er-ated the dataset LAGOS-NE) w
+as, in part, de- 
+ []
+
+
+Overfull \hbox (10.73788pt too wide) in paragraph at lines 362--383
+\OT1/cmr/m/n/10 signed to ad-dress some of the data har-mo-niza-tion is-sues in
+-her-ent to the WQP, with the 
+ []
+
+
+Overfull \hbox (19.71028pt too wide) in paragraph at lines 362--383
+\OT1/cmr/m/n/10 ex-plicit goal of build-ing a pub-licly avail-able high-quality
+ dataset for continental-scale lake 
+ []
+
+
+Overfull \hbox (13.94939pt too wide) in paragraph at lines 362--383
+\OT1/cmr/m/n/10 anal-y-ses (So-ranno et al.[], 2017, 2015). In ad-di-tion to pa
+ir-ing \OT1/cmr/m/it/10 in-situ \OT1/cmr/m/n/10 lake data with phys- 
+ []
+
+
+Overfull \hbox (4.94617pt too wide) in paragraph at lines 362--383
+\OT1/cmr/m/n/10 i-cal lake char-ac-ter-is-tics and lo-cal ge-o-logic set-ting, 
+LA-GOS re-searchers har-mo-nized key 
+ []
+
+
+Overfull \hbox (15.87677pt too wide) in paragraph at lines 362--383
+\OT1/cmr/m/n/10 wa-ter qual-ity mea-sure-ments across the 87 wa-ter qual-ity da
+tasets that they gath-ered (So- 
+ []
+
+
+Overfull \hbox (0.77959pt too wide) in paragraph at lines 362--383
+\OT1/cmr/m/n/10 ranno et al.[], 2017, 2015). Be-cause LA-GOS re-searchers com-b
+ined data from many dif- 
+ []
+
+
+Overfull \hbox (8.23785pt too wide) in paragraph at lines 362--383
+\OT1/cmr/m/n/10 fer-ent sources, they chose to iden-tify all data for a sin-gle
+ lake with the lake cen-troid. If 
+ []
+
+
+Overfull \hbox (15.4879pt too wide) in paragraph at lines 362--383
+\OT1/cmr/m/n/10 two dif-fer-ent or-gan-i-za-tions were mea-sur-ing Sec-chi disk
+ depth at the north and south end 
+ []
+
+
+Overfull \hbox (19.80733pt too wide) in paragraph at lines 362--383
+\OT1/cmr/m/n/10 of a lake, the LA-GOS dataset would com-bine all of these mea-s
+ure-ments into a sin-gle time 
+ []
+
+
+Overfull \hbox (8.01566pt too wide) in paragraph at lines 362--383
+\OT1/cmr/m/n/10 se-ries, lo-cated at the lake cen-troid. For same day ob-ser-va
+-tions, the deep-est ob-ser-va-tion 
+ []
+
+
+Overfull \hbox (7.07127pt too wide) in paragraph at lines 362--383
+\OT1/cmr/m/n/10 would have been kept (So-ranno et al.[], 2015). This ap-proach 
+is dif-fer-ent from that used 
+ []
+
+
+Overfull \hbox (9.21011pt too wide) in paragraph at lines 362--383
+\OT1/cmr/m/n/10 by the WQP, which of-ten in-cludes mul-ti-ple sites and depths 
+per wa-ter body and si-mul- 
+ []
+
+
+Overfull \hbox (4.3351pt too wide) in paragraph at lines 362--383
+\OT1/cmr/m/n/10 ta-ne-ous ob-ser-va-tions. In its cur-rent form, the LAGOS-NE d
+ataset cov-ers only lakes in 
+ []
+
+
+Overfull \hbox (0.16844pt too wide) in paragraph at lines 362--383
+\OT1/cmr/m/n/10 the North-east and Mid-west, two lake-rich re-gions of the USA.
+ LAGOS-NE (v1.087.1) 
+ []
+
+
+Overfull \hbox (18.50487pt too wide) in paragraph at lines 362--383
+\OT1/cmr/m/n/10 pro-vides a dataset of the high-est qual-ity for match-ing \OT1
+/cmr/m/it/10 in-situ \OT1/cmr/m/n/10 data to Land-sat over-passes.  
+ []
+
+
+Overfull \hbox (7.96307pt too wide) in paragraph at lines 386--407
+[]\OT1/cmr/m/n/10 For this project, we joined the \OT1/cmr/m/it/10 in-situ \OT1
+/cmr/m/n/10 database (WQP and LAGOS-NE) with the 
+ []
+
+
+Overfull \hbox (6.54347pt too wide) in paragraph at lines 386--407
+\OT1/cmr/m/n/10 Land-sat Tier 1 prod-ucts. The Land-sat pro-gram started in Jul
+y 1972, as the Earth Re- 
+ []
+
+
+Overfull \hbox (1.51572pt too wide) in paragraph at lines 386--407
+\OT1/cmr/m/n/10 sources Ob-ser-va-tion Satel-lite with an ex-plicit mis-sion to
+ pro-vide so-lu-tions for some of 
+ []
+
+
+Overfull \hbox (8.09903pt too wide) in paragraph at lines 386--407
+\OT1/cmr/m/n/10 earth's press-ing is-sues as-so-ci-ated with in-dus-try and en-
+vi-ron-men-tal change (Love-land & 
+ []
+
+
+Overfull \hbox (11.0434pt too wide) in paragraph at lines 386--407
+\OT1/cmr/m/n/10 Dwyer, 2012). For this project we are only us-ing the three mos
+t re-cent Land-sat mis-sion 
+ []
+
+
+Overfull \hbox (3.76582pt too wide) in paragraph at lines 386--407
+\OT1/cmr/m/n/10 datasets: Land-sat 5 (The-matic Map-per, 1984-2012, 192745 avai
+l-able im-ages), Land-sat 
+ []
+
+
+Overfull \hbox (1.73798pt too wide) in paragraph at lines 386--407
+\OT1/cmr/m/n/10 7 (En-hanced The-matic Map-per +, 1999-present, 191366 im-ages)
+, and Land-sat 8 (Op- 
+ []
+
+
+Overfull \hbox (12.54353pt too wide) in paragraph at lines 386--407
+\OT1/cmr/m/n/10 er-a-tional Land Im-ager, 2013-present, 61790 im-ages). The to-
+tal num-ber of us-able im-ages 
+ []
+
+
+Overfull \hbox (6.4323pt too wide) in paragraph at lines 386--407
+\OT1/cmr/m/n/10 is sig-nif-i-cantly lower be-cause of cloud cover, which varies
+ greatly by re-gion and sea-son. 
+ []
+
+
+Overfull \hbox (21.71017pt too wide) in paragraph at lines 386--407
+\OT1/cmr/m/n/10 Fur-ther-more, on May 31, 2003, the Land-sat 7 scan line cor-re
+c-tor failed, caus-ing the Land- 
+ []
+
+
+Overfull \hbox (8.29349pt too wide) in paragraph at lines 386--407
+\OT1/cmr/m/n/10 sat 7 im-ages af-ter this date to have striped data gaps (Store
+y, Scara-muzza, Schmidt, & 
+ []
+
+
+Overfull \hbox (9.26578pt too wide) in paragraph at lines 386--407
+\OT1/cmr/m/n/10 Barsi, 2005). We in-cluded all Land-sat 7 data be-fore and af-t
+er this date, but did not fill 
+ []
+
+
+Overfull \hbox (2.32117pt too wide) in paragraph at lines 386--407
+\OT1/cmr/m/n/10 gaps as-so-ci-ated with the scan line er-ror. The or-bit re-pea
+t pe-riod of all three satel-lites 
+ []
+
+
+Overfull \hbox (19.09906pt too wide) in paragraph at lines 386--407
+\OT1/cmr/m/n/10 is six-teen days, though at high lat-i-tudes over-lap-ping im-a
+ges re-sult in shorter re-visit times 
+ []
+
+
+Overfull \hbox (0.51573pt too wide) in paragraph at lines 386--407
+\OT1/cmr/m/n/10 (Love-land & Dwyer, 2012; Wul-der et al.[], 2016). In most of t
+he USA, a given lo-ca-tion 
+ []
+
+
+Overfull \hbox (5.0157pt too wide) in paragraph at lines 386--407
+\OT1/cmr/m/n/10 will be im-aged at least once ev-ery six-teen days, and dur-ing
+ pe-ri-ods of mis-sion over-lap, 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[6]
+Overfull \hbox (18.21011pt too wide) in paragraph at lines 408--419
+[]\OT1/cmr/m/n/10 Landsat 5 and 7 have on-board im-agers that col-lect seven ba
+nds of im-agery cen-tered 
+ []
+
+
+Overfull \hbox (7.15456pt too wide) in paragraph at lines 408--419
+\OT1/cmr/m/n/10 on three vis-i-ble wave-lengths (blue, green, and red) and four
+ in-frared wave-lengths (near 
+ []
+
+
+Overfull \hbox (1.2657pt too wide) in paragraph at lines 408--419
+\OT1/cmr/m/n/10 in-frared, short-wave in-frared 1, short-wave in-frared 2, and 
+ther-mal band). De-signed for 
+ []
+
+
+Overfull \hbox (8.43234pt too wide) in paragraph at lines 408--419
+\OT1/cmr/m/n/10 con-ti-nu-ity with pre-vi-ous sen-sors, Land-sat 8 has bands in
+ the same spec-tral re-gions and 
+ []
+
+
+Overfull \hbox (6.43246pt too wide) in paragraph at lines 408--419
+\OT1/cmr/m/n/10 im-proved signal-to-noise ra-tios, with an ad-di-tional ultra-b
+lue band (Barsi et al.[], 2014). 
+ []
+
+
+Overfull \hbox (11.29355pt too wide) in paragraph at lines 408--419
+\OT1/cmr/m/n/10 Land-sat 7 and 8 have panchro-matic bands at 15m res-o-lu-tion,
+ while Land-sat 5 does not. 
+ []
+
+
+Overfull \hbox (18.34894pt too wide) in paragraph at lines 408--419
+\OT1/cmr/m/n/10 To keep matchup data in a stan-dard for-mat across time, we cho
+se to use bands that were 
+ []
+
+
+Overfull \hbox (13.23795pt too wide) in paragraph at lines 408--419
+\OT1/cmr/m/n/10 avail-able and had the same spa-tial res-o-lu-tion in at least 
+two of the Land-sat mis-sions (SI 
+ []
+
+
+Overfull \hbox (19.43231pt too wide) in paragraph at lines 420--443
+[]\OT1/cmr/m/n/10 Satellite im-age data needs to be at-mo-spher-i-cally cor-rec
+ted to ac-count for dif-fer-ences 
+ []
+
+
+Overfull \hbox (8.98781pt too wide) in paragraph at lines 420--443
+\OT1/cmr/m/n/10 be-tween what the satel-lite can im-age from space, and the ac-
+tual re-flectance on the sur- 
+ []
+
+
+Overfull \hbox (10.18231pt too wide) in paragraph at lines 420--443
+\OT1/cmr/m/n/10 face of the earth. When prop-erly ap-plied, at-mo-spheric cor-r
+ec-tions can re-duce the in-ter- 
+ []
+
+
+Overfull \hbox (22.43236pt too wide) in paragraph at lines 420--443
+\OT1/cmr/m/n/10 fer-ence of ab-sorb-ing and scat-ter-ing aerosols, sun glint, a
+nd other pro-cesses that con-tribute 
+ []
+
+
+Overfull \hbox (6.32118pt too wide) in paragraph at lines 420--443
+\OT1/cmr/m/n/10 to the sig-nal ob-served at the satel-lite over wa-ter-bod-ies,
+ which can mask the op-ti-cal in- 
+ []
+
+
+Overfull \hbox (2.16858pt too wide) in paragraph at lines 420--443
+\OT1/cmr/m/n/10 for-ma-tion from the wa-ter-body it-self (Gor-don, 1997). There
+ are many op-tions tai-lored 
+ []
+
+
+Overfull \hbox (12.07114pt too wide) in paragraph at lines 420--443
+\OT1/cmr/m/n/10 for at-mo-spheric cor-rec-tion over in-land wa-ters avail-able 
+for users on a scene-by-scene ba- 
+ []
+
+
+Overfull \hbox (10.25175pt too wide) in paragraph at lines 420--443
+\OT1/cmr/m/n/10 sis, For large-scale anal-y-sis, the USGS de-vel-oped a sur-fac
+e re-flectance prod-uct avail-able 
+ []
+
+
+Overfull \hbox (9.44624pt too wide) in paragraph at lines 420--443
+\OT1/cmr/m/n/10 in Google Earth En-gine which uses a ver-sion of the 6SV ra-dia
+-tive trans-fer model called 
+ []
+
+
+Overfull \hbox (8.01575pt too wide) in paragraph at lines 420--443
+\OT1/cmr/m/n/10 Land-sat Ecosys-tem Dis-tur-bance Adap-tive Pro-cess-ing Sys-te
+m (LEDAPS) for Land-sat 5 
+ []
+
+
+Overfull \hbox (31.18243pt too wide) in paragraph at lines 420--443
+\OT1/cmr/m/n/10 and 7 (Ju, Roy, Ver-mote, Masek, & Ko-val-skyy, 2012) and the L
+and-sat 8 Sur-face Re-flectance 
+ []
+
+
+Overfull \hbox (13.68236pt too wide) in paragraph at lines 420--443
+\OT1/cmr/m/n/10 Code (LaSRC) for Land-sat 8 (Dox-ani et al.[], 2018; Ver-mote, 
+Jus-tice, Claverie, & Franch, 
+ []
+
+
+Overfull \hbox (22.65446pt too wide) in paragraph at lines 420--443
+\OT1/cmr/m/n/10 2016). While these sur-face re-flectance prod-ucts were de-vel-
+oped for ter-res-trial re-mote sens- 
+ []
+
+
+Overfull \hbox (8.82129pt too wide) in paragraph at lines 420--443
+\OT1/cmr/m/n/10 ing and not inland-water ob-ser-va-tions, re-cent work by Kuhn 
+et al.[] (2019) demon-strates 
+ []
+
+
+Overfull \hbox (13.82124pt too wide) in paragraph at lines 420--443
+\OT1/cmr/m/n/10 LaSRC per-forms well (within 4% dif-fer-ence of field ra-diom-e
+-try) in es-ti-mat-ing sur-face re- 
+ []
+
+
+Overfull \hbox (2.47395pt too wide) in paragraph at lines 420--443
+\OT1/cmr/m/n/10 flectance over the Ama-zon river. Also, the USGS prod-uct is th
+e only stan-dard-ized re- 
+ []
+
+
+Overfull \hbox (1.5157pt too wide) in paragraph at lines 420--443
+\OT1/cmr/m/n/10 flectance prod-uct that is glob-ally avail-able at the spa-tial
+ scale re-quired for in-land wa- 
+ []
+
+
+Overfull \hbox (19.54344pt too wide) in paragraph at lines 420--443
+\OT1/cmr/m/n/10 ter ob-ser-va-tion. Users may want to ap-ply other at-mo-spheri
+c cor-rec-tions, so while we only 
+ []
+
+
+Overfull \hbox (43.57124pt too wide) in paragraph at lines 420--443
+\OT1/cmr/m/n/10 pub-lish here the sur-face re-flectance data, our code can be u
+sed to work with top-of-atmosphere 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[7]
+Overfull \hbox (3.18228pt too wide) in paragraph at lines 446--467
+[]\OT1/cmr/m/n/10 Building this dataset re-quired a flex-i-ble code ar-chi-tec-
+ture with a sin-gle work-flow 
+ []
+
+
+Overfull \hbox (10.40462pt too wide) in paragraph at lines 446--467
+\OT1/cmr/m/n/10 to down-load data from all three por-tals. Steps in the work-fl
+ow in-cluded seg-ment-ing the 
+ []
+
+
+Overfull \hbox (7.09904pt too wide) in paragraph at lines 446--467
+\OT1/cmr/m/n/10 data down-loads into man-age-able pieces, con-duct-ing qual-ity
+ as-sur-ance checks, and join- 
+ []
+
+
+Overfull \hbox (13.59909pt too wide) in paragraph at lines 446--467
+\OT1/cmr/m/n/10 ing data into the fi-nal data files (Fig-ure 1[]). To avoid re-
+dun-dant data trans-fers and com- 
+ []
+
+
+Overfull \hbox (7.84901pt too wide) in paragraph at lines 446--467
+\OT1/cmr/m/n/10 pu-ta-tions, we con-structed a data pipeline that al-lowed us t
+o only up-date each in-ter-me- 
+ []
+
+
+Overfull \hbox (21.21004pt too wide) in paragraph at lines 446--467
+\OT1/cmr/m/n/10 di-ate data prod-uct when needed -- i.e., when re-lated sec-tio
+ns of code were al-tered or when 
+ []
+
+
+Overfull \hbox (12.09892pt too wide) in paragraph at lines 446--467
+\OT1/cmr/m/n/10 we wanted to bring in new source data. We im-ple-mented the pip
+eline us-ing the R pack- 
+ []
+
+
+Overfull \hbox (21.87683pt too wide) in paragraph at lines 446--467
+\OT1/cmr/m/n/10 age re-make (FitzJohn, 2018), which uses text files to de-clare
+ the re-la-tion-ships among data 
+ []
+
+
+Overfull \hbox (17.62679pt too wide) in paragraph at lines 446--467
+\OT1/cmr/m/n/10 and code files, then re-runs only the code that must be re-run 
+to keep the data up to date. 
+ []
+
+
+Overfull \hbox (9.62683pt too wide) in paragraph at lines 446--467
+\OT1/cmr/m/n/10 The re-make R pack-age fol-lows in the tra-di-tion of the make 
+pro-gram for com-pil-ing com- 
+ []
+
+
+Overfull \hbox (31.51576pt too wide) in paragraph at lines 446--467
+\OT1/cmr/m/n/10 puter soft-ware (Feld-man, 1979). Al-though this project uses t
+hree dif-fer-ent tools (R, Python, 
+ []
+
+
+Overfull \hbox (1.1129pt too wide) in paragraph at lines 446--467
+\OT1/cmr/m/n/10 and Google Earth En-gine), each tool is called di-rectly from R
+ -version 3.5.1 (R Foun- 
+ []
+
+
+Overfull \hbox (16.34914pt too wide) in paragraph at lines 446--467
+\OT1/cmr/m/n/10 da-tion for Sta-tis-ti-cal Com-put-ing, 2018)- and RMark-down f
+iles (Al-laire et al.[], 2018), such 
+ []
+
+
+Overfull \hbox (4.93227pt too wide) in paragraph at lines 446--467
+\OT1/cmr/m/n/10 that re-make could be used to keep track of re-cent changes to 
+code and data re-gard-less 
+ []
+
+
+Overfull \hbox (18.2102pt too wide) in paragraph at lines 446--467
+\OT1/cmr/m/n/10 of the tool. This data pipeline ap-proach made our own anal-y-s
+is more ef-fi-cient and should 
+ []
+
+
+Overfull \hbox (18.68222pt too wide) in paragraph at lines 446--467
+\OT1/cmr/m/n/10 also in-crease ef-fi-ciency for fu-ture re-searchers who may wa
+nt to recre-ate the dataset them- 
+ []
+
+<C:/Users/mrvr/Dropbox/UNC-PostDocAll/aquasat/4_report/src/AquaSat_WRR_Submissi
+on/Watersat_Drop_flow.png, id=39, 779.91376pt x 724.7075pt>
+File: C:/Users/mrvr/Dropbox/UNC-PostDocAll/aquasat/4_report/src/AquaSat_WRR_Sub
+mission/Watersat_Drop_flow.png Graphic file (type png)
+<use C:/Users/mrvr/Dropbox/UNC-PostDocAll/aquasat/4_report/src/AquaSat_WRR_Subm
+ission/Watersat_Drop_flow.png>
+Package pdftex.def Info: C:/Users/mrvr/Dropbox/UNC-PostDocAll/aquasat/4_report/
+src/AquaSat_WRR_Submission/Watersat_Drop_flow.png  used on input line 469.
+(pdftex.def)             Requested size: 397.48499pt x 369.3416pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Overfull \hbox (8.51566pt too wide) in paragraph at lines 474--488
+[]\OT1/cmr/m/n/10 We de-vel-oped an au-to-mated method to re-trieve our five wa
+-ter qual-ity pa-ram-e-ters 
+ []
+
+
+Overfull \hbox (3.50172pt too wide) in paragraph at lines 474--488
+\OT1/cmr/m/n/10 from the WQP and LA-GOS sites. For the WQP we used the dataRe-t
+rieval R pack-age 
+ []
+
+
+Overfull \hbox (4.82123pt too wide) in paragraph at lines 474--488
+\OT1/cmr/m/n/10 (Hirsch & De Ci-cco, 2015), which al-lows sys-tem-at-i-cal down
+-load-ing of WQP data. The 
+ []
+
+
+Overfull \hbox (15.93236pt too wide) in paragraph at lines 474--488
+\OT1/cmr/m/n/10 WQP con-tains hun-dreds of pa-ram-e-ter types (un-der the field
+ ``char-ac-ter-is-tic-Name'' in the 
+ []
+
+
+Overfull \hbox (19.12672pt too wide) in paragraph at lines 474--488
+\OT1/cmr/m/n/10 WQP), and we care-fully se-lected those that best rep-re-sented
+ our tar-get pa-ram-e-ters based 
+ []
+
+
+Overfull \hbox (13.84895pt too wide) in paragraph at lines 474--488
+\OT1/cmr/m/n/10 on our own ex-per-tise and pre-vi-ously pub-lished re-search us
+-ing the same data sources, see 
+ []
+
+
+Overfull \hbox (9.26578pt too wide) in paragraph at lines 474--488
+\OT1/cmr/m/n/10 SI ta-ble 2 for more in-for-ma-tion (But-man et al.[], 2016; St
+ets & Striegl, 2012). For all se- 
+ []
+
+
+Overfull \hbox (1.01561pt too wide) in paragraph at lines 474--488
+\OT1/cmr/m/n/10 lected pa-ram-e-ters, we down-loaded data for all US states ex-
+cept Hawaii for four wa-ter 
+ []
+
+
+Overfull \hbox (15.76576pt too wide) in paragraph at lines 474--488
+\OT1/cmr/m/n/10 body cat-e-gories: Lake, Reser-voir, or Im-pound-ment; Stream; 
+Es-tu-ary; and Fa-cil-ity, where 
+ []
+
+
+Overfull \hbox (8.87686pt too wide) in paragraph at lines 474--488
+\OT1/cmr/m/n/10 fa-cil-ity can in-di-cate wastew-a-ter treat-ment fa-cil-i-ties
+, in-clud-ing lakes and ponds. Fi-nally, 
+ []
+
+
+Overfull \hbox (15.5434pt too wide) in paragraph at lines 474--488
+\OT1/cmr/m/n/10 we re-stricted our queries to data sam-pled in wa-ter, ex-clud-
+ing sed-i-ment and ben-thic sam- 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[8]
+Overfull \hbox (8.86284pt too wide) in paragraph at lines 489--496
+[]\OT1/cmr/m/n/10 Working with the LAGOS-NE data re-quired many fewer de-ci-sio
+ns to com-bine pa- 
+ []
+
+
+Overfull \hbox (8.9184pt too wide) in paragraph at lines 489--496
+\OT1/cmr/m/n/10 ram-e-ters, since LA-GOS re-searchers have al-ready har-mo-nize
+d and com-bined pa-ram-e-ters 
+ []
+
+
+Overfull \hbox (26.87685pt too wide) in paragraph at lines 489--496
+\OT1/cmr/m/n/10 into sim-ple cat-e-gories that re-flect our gen-eral pa-ram-e-t
+er codes (So-ranno et al.[], 2017, 2015). 
+ []
+
+
+Overfull \hbox (5.54625pt too wide) in paragraph at lines 489--496
+\OT1/cmr/m/n/10 LAGOS-NE in-cludes mea-sure-ments of: DOC, Chl[]a, and SDD, but
+ no data on TSS or 
+ []
+
+
+Overfull \hbox (9.93233pt too wide) in paragraph at lines 489--496
+\OT1/cmr/m/n/10 CDOM. As with the WQP, the dataset can be sim-ply loaded us-ing
+ an R pack-age called 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[9 <C:/Users/mrvr/Dropbox/UNC-PostDocAll/aquasat/4_report/src/AquaSat_WRR_Submi
+ssion/Watersat_Drop_flow.png>]
+Overfull \hbox (11.89072pt too wide) in paragraph at lines 497--505
+[]\OT1/cmr/m/n/10 Turning data from the WQP into an analysis-ready dataset sim-
+i-lar to LAGOS-NE 
+ []
+
+
+Overfull \hbox (8.2379pt too wide) in paragraph at lines 497--505
+\OT1/cmr/m/n/10 re-quires a chain of de-ci-sions doc-u-mented and jus-ti-fied i
+n the sup-ple-men-tal html file (SI 
+ []
+
+
+Overfull \hbox (8.15456pt too wide) in paragraph at lines 497--505
+\OT1/cmr/m/n/10 3). We have at-tempted to make these de-ci-sions both clear and
+ jus-ti-fi-able, with the end 
+ []
+
+
+Overfull \hbox (11.54352pt too wide) in paragraph at lines 497--505
+\OT1/cmr/m/n/10 goal of pro-duc-ing a high-quality dataset. Fig-ure 1[] present
+s these data qual-ity as-sur-ance 
+ []
+
+
+Overfull \hbox (16.71005pt too wide) in paragraph at lines 497--505
+\OT1/cmr/m/n/10 pro-ce-dures and shows how they re-duce the num-ber of ob-ser-v
+a-tions at each step. The fol- 
+ []
+
+
+Overfull \hbox (27.07124pt too wide) in paragraph at lines 509--520
+[]\OT1/cmr/m/n/10 All ob-ser-va-tions were ver-i-fied to have an-a-lyt-i-cal me
+th-ods re-lated to pa-ram-e-ter name; 
+ []
+
+
+Overfull \hbox (0.65443pt too wide) in paragraph at lines 509--520
+\OT1/cmr/m/n/10 when this was not the case, sam-ples were dropped. For ex-am-pl
+e, if an ob-ser-va- 
+ []
+
+
+Overfull \hbox (11.87677pt too wide) in paragraph at lines 509--520
+\OT1/cmr/m/n/10 tion was sup-posed to re-port TSS, but the an-a-lyt-i-cal metho
+d was listed as ``Ni-tro- 
+ []
+
+
+Overfull \hbox (13.23785pt too wide) in paragraph at lines 509--520
+\OT1/cmr/m/n/10 gen in Wa-ter,'' then that sam-ple would be dropped. For TSS in
+ par-tic-u-lar, we as- 
+ []
+
+
+Overfull \hbox (16.73787pt too wide) in paragraph at lines 509--520
+\OT1/cmr/m/n/10 sumed that the char-ac-ter-is-tic-Name ``Sus-pended Sed-i-ment 
+Con-cen-tra-tion'' re-flected 
+ []
+
+
+Overfull \hbox (7.59895pt too wide) in paragraph at lines 509--520
+\OT1/cmr/m/n/10 the same data as ``TSS'' de-spite some method-olog-i-cal dif-fe
+r-ences in the data col- 
+ []
+
+
+Overfull \hbox (9.25171pt too wide) in paragraph at lines 509--520
+\OT1/cmr/m/n/10 lec-tion as doc-u-mented by Gray and oth-ers (2000). How-ever, 
+we keep the orig-i-nal 
+ []
+
+
+Overfull \hbox (11.59897pt too wide) in paragraph at lines 520--525
+[]\OT1/cmr/m/n/10 We har-mo-nized the data across ex-change-able units such tha
+t TSS and DOC data 
+ []
+
+
+Overfull \hbox (8.20358pt too wide) in paragraph at lines 520--525
+\OT1/cmr/m/n/10 are in mg/L, Chl[]a data is in $\OML/cmm/m/it/10 mu$\OT1/cmr/m/
+n/10 g/L, and Sec-chi disk depth is in me-ters. We re- 
+ []
+
+
+Overfull \hbox (13.71017pt too wide) in paragraph at lines 525--535
+[]\OT1/cmr/m/n/10 Ideally all ob-ser-va-tions would in-clude sam-ple depth in-f
+or-ma-tion for ac-cu-rate pair- 
+ []
+
+
+Overfull \hbox (8.59895pt too wide) in paragraph at lines 525--535
+\OT1/cmr/m/n/10 ing of sur-face wa-ter data with re-flectance. How-ever, only 4
+0% of the har-mo-nized 
+ []
+
+
+Overfull \hbox (6.62682pt too wide) in paragraph at lines 525--535
+\OT1/cmr/m/n/10 wa-ter qual-ity data has depth data. For ob-ser-va-tions that d
+id have sam-ple depth 
+ []
+
+
+Overfull \hbox (17.29346pt too wide) in paragraph at lines 525--535
+\OT1/cmr/m/n/10 data, we re-moved all ob-ser-va-tions deeper than 100 me-ters (
+\OML/cmm/m/it/10 < \OT1/cmr/m/n/10 1% of data), a depth 
+ []
+
+
+Overfull \hbox (15.54341pt too wide) in paragraph at lines 525--535
+\OT1/cmr/m/n/10 where con-stituent con-cen-tra-tion likely has lit-tle ef-fect 
+on ra-di-a-tion leav-ing the wa- 
+ []
+
+
+Overfull \hbox (9.98785pt too wide) in paragraph at lines 525--535
+\OT1/cmr/m/n/10 ter-body. For the sam-ples with recorded depth, more than 97% o
+f data were sam- 
+ []
+
+
+Overfull \hbox (17.18233pt too wide) in paragraph at lines 525--535
+\OT1/cmr/m/n/10 pled within 20m of the sur-face of the wa-ter-body, sug-gest-in
+g most sam-ples are near 
+ []
+
+
+Overfull \hbox (8.47403pt too wide) in paragraph at lines 535--548
+[]\OT1/cmr/m/n/10 We ver-i-fied that both LAGOS-NE and WQP data have only one o
+b-ser-va-tion per 
+ []
+
+
+Overfull \hbox (26.23793pt too wide) in paragraph at lines 535--548
+\OT1/cmr/m/n/10 site at a par-tic-u-lar date and/or time. Some ob-ser-va-tions 
+in-clude date with-out times- 
+ []
+
+
+Overfull \hbox (7.62679pt too wide) in paragraph at lines 535--548
+\OT1/cmr/m/n/10 tamp; for our pur-poses we needed one ob-ser-va-tion per date i
+f only date in-for-ma- 
+ []
+
+
+Overfull \hbox (8.43225pt too wide) in paragraph at lines 535--548
+\OT1/cmr/m/n/10 tion was avail-able and one per date-time if times-tamps were r
+ecorded. Where the 
+ []
+
+
+Overfull \hbox (16.23785pt too wide) in paragraph at lines 535--548
+\OT1/cmr/m/n/10 date, time, and ob-ser-va-tion value were the same for mul-ti-p
+le ob-ser-va-tions, we con- 
+ []
+
+
+Overfull \hbox (7.82112pt too wide) in paragraph at lines 535--548
+\OT1/cmr/m/n/10 verted du-pli-cates to a sin-gle value. When the site and date 
+or date-time were the 
+ []
+
+
+Overfull \hbox (9.90448pt too wide) in paragraph at lines 535--548
+\OT1/cmr/m/n/10 same, but the pa-ram-e-ter val-ues were dif-fer-ent, we av-er-a
+ged mul-ti-ple ob-ser-va-tions 
+ []
+
+
+Overfull \hbox (0.59909pt too wide) in paragraph at lines 535--548
+\OT1/cmr/m/n/10 to a sin-gle ob-ser-va-tion if the co-ef-fi-cient of vari-a-tio
+n (stan-dard de-vi-a-tion/mean) 
+ []
+
+
+Overfull \hbox (6.98787pt too wide) in paragraph at lines 535--548
+\OT1/cmr/m/n/10 was less than 10% and re-moved ob-ser-va-tions with too many si
+-mul-ta-ne-ous ob-ser- 
+ []
+
+
+Overfull \hbox (0.48798pt too wide) in paragraph at lines 535--548
+\OT1/cmr/m/n/10 va-tions (5 per date time com-bi-na-tion) or too much vari-a-ti
+on with no meta-data 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[10]
+Overfull \hbox (11.34889pt too wide) in paragraph at lines 548--556
+[]\OT1/cmr/m/n/10 TSS can be sep-a-rated into sub-cat-e-gories by par-ti-cle si
+ze (like sand, clay, silt frac- 
+ []
+
+
+Overfull \hbox (8.5157pt too wide) in paragraph at lines 548--556
+\OT1/cmr/m/n/10 tions) or by par-ti-cle type (or-ganic or in-or-ganic), be-caus
+e many TSS ob-ser-va-tions 
+ []
+
+
+Overfull \hbox (12.82126pt too wide) in paragraph at lines 548--556
+\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 > \OT1/cmr/m/n/10 400,000) in-cluded these fr
+ac-tion-ing datasets, we split them into two ad-di-tional 
+ []
+
+
+Overfull \hbox (8.03236pt too wide) in paragraph at lines 548--556
+\OT1/cmr/m/n/10 pa-ram-e-ters of in-ter-est: frac-tion sand (p[]sand) and to-ta
+l in-or-ganic sed-i-ment (tis). 
+ []
+
+
+Overfull \hbox (8.76563pt too wide) in paragraph at lines 548--556
+\OT1/cmr/m/n/10 We kept frac-tion sand in-stead of clay and/or silt, be-cause t
+here was lim-ited data 
+ []
+
+
+Overfull \hbox (8.07117pt too wide) in paragraph at lines 556--560
+[]\OT1/cmr/m/n/10 Finally, we elected to keep all non-negative val-ues not ex-c
+luded by the pre-ced-ing 
+ []
+
+
+Overfull \hbox (14.54327pt too wide) in paragraph at lines 556--560
+\OT1/cmr/m/n/10 steps, re-quir-ing users to con-duct their own as-sess-ment of 
+how well the data re-flect 
+ []
+
+
+Overfull \hbox (0.23784pt too wide) in paragraph at lines 562--577
+[]\OT1/cmr/m/n/10 While other se-lec-tion cri-te-ria could have been in-cluded 
+to make all ob-ser-va-tions 
+ []
+
+
+Overfull \hbox (0.65456pt too wide) in paragraph at lines 562--577
+\OT1/cmr/m/n/10 fully con-sis-tent, we avoided choices that re-moved the ma-jor
+-ity of the WQP data. For 
+ []
+
+
+Overfull \hbox (3.82124pt too wide) in paragraph at lines 562--577
+\OT1/cmr/m/n/10 ex-am-ple, some an-a-lyt-i-cal meth-ods do not mea-sure the ex-
+act same thing, such as mea- 
+ []
+
+
+Overfull \hbox (13.07123pt too wide) in paragraph at lines 562--577
+\OT1/cmr/m/n/10 sur-ing chloro-phyll a with a flu-o-res-cence probe ver-sus wit
+h high per-for-mance liq-uid chro- 
+ []
+
+
+Overfull \hbox (2.48795pt too wide) in paragraph at lines 562--577
+\OT1/cmr/m/n/10 matog-ra-phy. If we elected to only keep per-fectly ex-change-a
+ble meth-ods, a ma-jor-ity of 
+ []
+
+
+Overfull \hbox (0.15446pt too wide) in paragraph at lines 562--577
+\OT1/cmr/m/n/10 the data would be lost. To al-low user-defined se-lec-tions, we
+ in-cluded the meth-ods at- 
+ []
+
+
+Overfull \hbox (15.71024pt too wide) in paragraph at lines 562--577
+\OT1/cmr/m/n/10 tribute in an ad-di-tional dataset. Some de-ci-sions that re-su
+lted in re-tain-ing data in-cluded: 
+ []
+
+
+Overfull \hbox (0.65468pt too wide) in paragraph at lines 562--577
+\OT1/cmr/m/n/10 not fil-ter-ing data based on sam-pling method, not in-clud-ing
+ tem-per-a-ture data as a fil- 
+ []
+
+
+Overfull \hbox (9.39357pt too wide) in paragraph at lines 562--577
+\OT1/cmr/m/n/10 ter for DOC and Chl[]a sam-ples, and in-clud-ing data that had 
+un-la-beled sam-ple frac-tion 
+ []
+
+
+Overfull \hbox (13.65459pt too wide) in paragraph at lines 562--577
+\OT1/cmr/m/n/10 meta-data. While these de-ci-sions may pre-clude some types of 
+anal-y-sis, our free and open 
+ []
+
+
+Overfull \hbox (2.8489pt too wide) in paragraph at lines 562--577
+\OT1/cmr/m/n/10 source code al-lows fu-ture re-searchers to choose dif-fer-ent 
+data qual-ity cri-te-ria and gen- 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[11]
+Overfull \hbox (12.8659pt too wide) in paragraph at lines 580--599
+[]\OT1/cmr/m/n/10 The qual-ity as-sur-ance steps yielded al-most 600,000 \OT1/c
+mr/m/it/10 in-situ \OT1/cmr/m/n/10 sam-ples that fell within 
+ []
+
+
+Overfull \hbox (7.00482pt too wide) in paragraph at lines 580--599
+\OMS/cmsy/m/n/10 $ \OT1/cmr/m/n/10 1 day of a Land-sat over-pass. Match-ing \O
+T1/cmr/m/it/10 in-situ \OT1/cmr/m/n/10 data to Land-sat over-passes lim-its the
+ 
+ []
+
+
+Overfull \hbox (3.61595pt too wide) in paragraph at lines 580--599
+\OT1/cmr/m/n/10 dataset to only 4-15% of the to-tal \OT1/cmr/m/it/10 in-situ \O
+T1/cmr/m/n/10 ob-ser-va-tions (Fig-ure 1[]), with the biggest re- 
+ []
+
+
+Overfull \hbox (10.32126pt too wide) in paragraph at lines 580--599
+\OT1/cmr/m/n/10 duc-tion in TSS ob-ser-va-tions and the small-est in SDD. This 
+pat-tern stems from the fact 
+ []
+
+
+Overfull \hbox (5.26575pt too wide) in paragraph at lines 580--599
+\OT1/cmr/m/n/10 that most TSS ob-ser-va-tions are made in streams too small to 
+be vis-i-ble from Land-sat, 
+ []
+
+
+Overfull \hbox (9.25174pt too wide) in paragraph at lines 580--599
+\OT1/cmr/m/n/10 while SDD ob-ser-va-tions are mostly in lakes, which are vis-i-
+ble. Given this re-duc-tion, we 
+ []
+
+
+Overfull \hbox (1.11584pt too wide) in paragraph at lines 580--599
+\OT1/cmr/m/n/10 elected to re-move CDOM from AquaSat be-cause there were only 2
+761 \OT1/cmr/m/it/10 in-situ \OT1/cmr/m/n/10 CDOM 
+ []
+
+
+Overfull \hbox (4.0156pt too wide) in paragraph at lines 580--599
+\OT1/cmr/m/n/10 re-sults in the en-tire WQP, which would have re-sulted in less
+ than 100 to-tal matchups. 
+ []
+
+
+Overfull \hbox (0.8212pt too wide) in paragraph at lines 580--599
+\OT1/cmr/m/n/10 The re-main-ing data are well dis-tributed across the parts of 
+the USA with many lakes 
+ []
+
+
+Overfull \hbox (15.84909pt too wide) in paragraph at lines 580--599
+\OT1/cmr/m/n/10 and rivers, in-clud-ing the Up-per Mid-west, North-east, and Fl
+orida, with no-table data con- 
+ []
+
+
+Overfull \hbox (9.1268pt too wide) in paragraph at lines 580--599
+\OT1/cmr/m/n/10 cen-tra-tions near the Chesa-peake Bay and along the U.S. East 
+Coast in ma-jor es-tu-ar-ine 
+ []
+
+
+Overfull \hbox (24.29349pt too wide) in paragraph at lines 580--599
+\OT1/cmr/m/n/10 en-vi-ron-ments (Fig-ure 2[]). The west-ern United States has n
+o-tably less data avail-able, which 
+ []
+
+
+Overfull \hbox (17.80724pt too wide) in paragraph at lines 580--599
+\OT1/cmr/m/n/10 likely re-flects lower con-cen-tra-tions of lakes and rivers in
+ these states, the lack of LAGOS- 
+ []
+
+
+Overfull \hbox (0.2101pt too wide) in paragraph at lines 580--599
+\OT1/cmr/m/n/10 NE data for these states, and, po-ten-tially, a bias in the com
+-plete-ness of the WQP to- 
+ []
+
+<AquaSat_WRR_Submission_files/figure-latex/map-1.pdf, id=55, 425.59pt x 332.241
+26pt>
+File: AquaSat_WRR_Submission_files/figure-latex/map-1.pdf Graphic file (type pd
+f)
+<use AquaSat_WRR_Submission_files/figure-latex/map-1.pdf>
+Package pdftex.def Info: AquaSat_WRR_Submission_files/figure-latex/map-1.pdf  u
+sed on input line 601.
+(pdftex.def)             Requested size: 425.58894pt x 332.24043pt.
+
+Overfull \hbox (28.10396pt too wide) in paragraph at lines 601--601
+[][] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 601--601
+[]\OT1/cmr/bx/n/9 Figure  2. \OT1/cmr/m/n/9 Dis-tri-bu-tion of ob-ser-va-tions 
+across the con-ter-mi-nous USA, binned by lo-cal re-gion.
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 601--601
+\OT1/cmr/m/n/9 The data is split by ob-ser-va-tion type, where to-tal rep-re-se
+nts an over-pass for any of the four
+ []
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Overfull \hbox (7.23795pt too wide) in paragraph at lines 604--616
+[]\OT1/cmr/m/n/10 Lake-heavy re-gions like Florida, Wis-con-sin, and Min-nesota
+ dom-i-nate the dataset. 
+ []
+
+
+Overfull \hbox (23.15466pt too wide) in paragraph at lines 604--616
+\OT1/cmr/m/n/10 They con-tribute 71% of the data, mostly in the form of SDD ob-
+ser-va-tions. Fig-ure 2[] shows 
+ []
+
+
+Overfull \hbox (0.47702pt too wide) in paragraph at lines 604--616
+\OT1/cmr/m/n/10 that DOC is the rarest ob-ser-va-tion in AquaSat, as it is in t
+he \OT1/cmr/m/it/10 in-situ \OT1/cmr/m/n/10 data (SI Fig 1). 
+ []
+
+
+Overfull \hbox (1.90457pt too wide) in paragraph at lines 604--616
+\OT1/cmr/m/n/10 Half of all data comes from sites with only one or two matchups
+ and less than 10% of 
+ []
+
+
+Overfull \hbox (7.61285pt too wide) in paragraph at lines 604--616
+\OT1/cmr/m/n/10 sites have 25 or more ob-ser-va-tions. Given this lim-i-ta-tion
+, reflectance-based wa-ter qual- 
+ []
+
+
+Overfull \hbox (16.18237pt too wide) in paragraph at lines 604--616
+\OT1/cmr/m/n/10 ity mod-els bor-row-ing in-for-ma-tion across many sites may be
+ the most ef-fi-cient way to use 
+ []
+
+
+Overfull \hbox (8.34897pt too wide) in paragraph at lines 604--616
+\OT1/cmr/m/n/10 the database. Still, there are hun-dreds of sites for each pa-r
+am-e-ter that have at least 50 
+ []
+
+
+Overfull \hbox (12.46004pt too wide) in paragraph at lines 604--616
+\OT1/cmr/m/n/10 matchups, which presents ex-cit-ing op-por-tu-ni-ties for site-
+specific re-mote sens-ing re-search 
+ []
+
+
+Overfull \hbox (3.26572pt too wide) in paragraph at lines 617--626
+[]\OT1/cmr/m/n/10 The tem-po-ral dis-tri-bu-tion of avail-able data in our matc
+hup dataset gen-er-ally re- 
+ []
+
+
+Overfull \hbox (6.86295pt too wide) in paragraph at lines 617--626
+\OT1/cmr/m/n/10 flects the avail-abil-ity of data in WQP and LAGOS-NE and the l
+aunch or re-tire-ment of 
+ []
+
+
+Overfull \hbox (8.29349pt too wide) in paragraph at lines 617--626
+\OT1/cmr/m/n/10 Land-sat mis-sions (SI Fig 1). It also re-flects the orig-i-nal
+ WQP data (Read et al.[], 2017), 
+ []
+
+
+Overfull \hbox (13.83815pt too wide) in paragraph at lines 617--626
+\OT1/cmr/m/n/10 as there is in-creas-ing data avail-able in the \OT1/cmr/m/it/1
+0 in-situ \OT1/cmr/m/n/10 datasets from 1984 to 2012. The more 
+ []
+
+
+Overfull \hbox (12.18233pt too wide) in paragraph at lines 617--626
+\OT1/cmr/m/n/10 re-cent de-cline in data avail-abil-ity may re-flect a lag be-t
+ween agen-cies col-lect-ing data and 
+ []
+
+
+Overfull \hbox (24.866pt too wide) in paragraph at lines 617--626
+\OT1/cmr/m/n/10 sub-mit-ting fi-nal datasets to the \OT1/cmr/m/it/10 in-situ \O
+T1/cmr/m/n/10 databases and de-creased fund-ing (My-ers & Ludtke, 
+ []
+
+<AquaSat_WRR_Submission_files/figure-latex/captured-1.pdf, id=56, 397.485pt x 3
+61.35pt>
+File: AquaSat_WRR_Submission_files/figure-latex/captured-1.pdf Graphic file (ty
+pe pdf)
+<use AquaSat_WRR_Submission_files/figure-latex/captured-1.pdf>
+Package pdftex.def Info: AquaSat_WRR_Submission_files/figure-latex/captured-1.p
+df  used on input line 628.
+(pdftex.def)             Requested size: 397.48402pt x 361.34912pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 628--628
+[]\OT1/cmr/bx/n/9 Figure  3. \OT1/cmr/m/n/9 Data dis-tri-bu-tions for the *in-s
+itu* data (gray) and the matchup data (red). Data
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 628--628
+\OT1/cmr/m/n/9 quan-tiles are shown in the back-ground as a color ramp from sag
+e to blue, cor-re-spond-ing to the
+ []
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Overfull \hbox (0.54314pt too wide) in paragraph at lines 631--643
+[]\OT1/cmr/m/n/10 The data we cap-tured in the matchup dataset re-flects the di
+s-tri-bu-tion of \OT1/cmr/m/it/10 in-situ 
+ []
+
+
+Overfull \hbox (2.39342pt too wide) in paragraph at lines 631--643
+\OT1/cmr/m/n/10 data (Fig. 3[]). This is es-pe-cially true for Chl[]a and SDD, 
+where the over-pass dis-tri-bu- 
+ []
+
+
+Overfull \hbox (14.53261pt too wide) in paragraph at lines 631--643
+\OT1/cmr/m/n/10 tion shapes are nearly iden-ti-cal to the \OT1/cmr/m/it/10 in-s
+itu \OT1/cmr/m/n/10 dis-tri-bu-tions, just with fewer ob-ser-va-tions. 
+ []
+
+
+Overfull \hbox (14.29346pt too wide) in paragraph at lines 631--643
+\OT1/cmr/m/n/10 The matchup data misses the largest val-ues for both DOC and TS
+S, which oc-cur al-most 
+ []
+
+
+Overfull \hbox (17.04346pt too wide) in paragraph at lines 631--643
+\OT1/cmr/m/n/10 en-tirely in small streams not vis-i-ble to Land-sat. Across pa
+-ram-e-ter val-ues (depths or con- 
+ []
+
+
+Overfull \hbox (12.0157pt too wide) in paragraph at lines 631--643
+\OT1/cmr/m/n/10 cen-tra-tions), the matchup data spans sev-eral or-ders of mag-
+ni-tude and cap-tures en-vi-ron- 
+ []
+
+
+Overfull \hbox (11.32133pt too wide) in paragraph at lines 631--643
+\OT1/cmr/m/n/10 men-tally mean-ing-ful vari-a-tion in wa-ter qual-ity. For each
+ pa-ram-e-ter, the data is ap-prox- 
+ []
+
+
+Overfull \hbox (2.23805pt too wide) in paragraph at lines 631--643
+\OT1/cmr/m/n/10 i-mately log-normally dis-tributed, with the ma-jor-ity of the 
+data oc-cu-py-ing a rel-a-tively 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[12]
+Overfull \hbox (7.37666pt too wide) in paragraph at lines 644--658
+[]\OT1/cmr/m/n/10 Based on decades of pre-vi-ous re-search (Topp et al, in re-v
+iew WRR), op-ti-cally ac- 
+ []
+
+
+Overfull \hbox (7.57124pt too wide) in paragraph at lines 644--658
+\OT1/cmr/m/n/10 tive con-stituents con-trol ab-sorp-tion and scat-ter-ing prop-
+er-ties of wa-ter bod-ies, which in 
+ []
+
+
+Overfull \hbox (10.62682pt too wide) in paragraph at lines 644--658
+\OT1/cmr/m/n/10 turn im-pacts their re-flectance. While ex-plor-ing these re-la
+-tion-ships at in-di-vid-ual sites or 
+ []
+
+
+Overfull \hbox (21.099pt too wide) in paragraph at lines 644--658
+\OT1/cmr/m/n/10 re-gions is be-yond the scope of this pa-per, we in-ter-ro-gate
+ the dataset to ex-am-ine how vari- 
+ []
+
+
+Overfull \hbox (9.29344pt too wide) in paragraph at lines 644--658
+\OT1/cmr/m/n/10 a-tion in each wa-ter qual-ity con-stituent maps to vari-a-tion
+ in re-flectance in each spec-tral 
+ []
+
+
+Overfull \hbox (9.54344pt too wide) in paragraph at lines 644--658
+\OT1/cmr/m/n/10 band. We di-vided AquaSat into the six quan-tiles shown in fig-
+ure 4[] for each wa-ter qual- 
+ []
+
+
+Overfull \hbox (20.31013pt too wide) in paragraph at lines 644--658
+\OT1/cmr/m/n/10 ity pa-ram-e-ter. In-creas-ing con-cen-tra-tions of Chl[]a, DOC
+, and TSS or in-creas-ing SDD con- 
+ []
+
+
+Overfull \hbox (7.18236pt too wide) in paragraph at lines 644--658
+\OT1/cmr/m/n/10 trol spec-tral vari-a-tion, even when av-er-aged across our thr
+ee wa-ter-body types (Es-tu-ary, 
+ []
+
+
+Overfull \hbox (13.54343pt too wide) in paragraph at lines 644--658
+\OT1/cmr/m/n/10 Stream, and Lake) and av-er-aged for the en-tire USA. De-spite 
+us-ing such a het-ero-ge-neous 
+ []
+
+
+Overfull \hbox (2.98785pt too wide) in paragraph at lines 644--658
+\OT1/cmr/m/n/10 dataset, fig-ure 4[] shows clear sys-tem-atic vari-a-tion in sp
+ec-tral re-sponse for each pa-ram- 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[13 <./AquaSat_WRR_Submission_files/figure-latex/map-1.pdf>]
+<AquaSat_WRR_Submission_files/figure-latex/variation-1.pdf, id=70, 411.5375pt x
+ 382.42876pt>
+File: AquaSat_WRR_Submission_files/figure-latex/variation-1.pdf Graphic file (t
+ype pdf)
+<use AquaSat_WRR_Submission_files/figure-latex/variation-1.pdf>
+Package pdftex.def Info: AquaSat_WRR_Submission_files/figure-latex/variation-1.
+pdf  used on input line 660.
+(pdftex.def)             Requested size: 411.5365pt x 382.42781pt.
+
+Overfull \hbox (14.05151pt too wide) in paragraph at lines 660--660
+[][] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 660--660
+[]\OT1/cmr/bx/n/9 Figure  4. \OT1/cmr/m/n/9 Shows spec-tral re-sponse, scaled a
+nd di-men-sion-less, for each data quan-tile for each
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 660--660
+\OT1/cmr/m/n/9 Land-sat band. For Chl[]a, DOC, and TSS, con-cen-tra-tion in-cre
+ases mov-ing from left to right for
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 660--660
+\OT1/cmr/m/n/9 higher quan-tiles. For SDD, higher quan-tiles in-di-cate in-crea
+s-ing clar-ity or deeper SDD. The value
+ []
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[14 <./AquaSat_WRR_Submission_files/figure-latex/captured-1.pdf>]
+Overfull \hbox (13.43225pt too wide) in paragraph at lines 665--679
+[]\OT1/cmr/m/n/10 To our knowl-edge, the AquaSat dataset is the largest matchup
+ dataset ever as-sem- 
+ []
+
+
+Overfull \hbox (3.59901pt too wide) in paragraph at lines 665--679
+\OT1/cmr/m/n/10 bled for in-land wa-ters. Com-bin-ing his-tor-i-cal datasets of
+ wa-ter qual-ity and satel-lite re- 
+ []
+
+
+Overfull \hbox (17.34908pt too wide) in paragraph at lines 665--679
+\OT1/cmr/m/n/10 flectance max-i-mizes the in-for-ma-tion we can gain from past 
+data col-lec-tions. Aquasat can 
+ []
+
+
+Overfull \hbox (3.44933pt too wide) in paragraph at lines 665--679
+\OT1/cmr/m/n/10 in-form our fu-ture ap-proaches to \OT1/cmr/m/it/10 in-situ \OT
+1/cmr/m/n/10 wa-ter qual-ity mon-i-tor-ing by, for ex-am-ple, tar- 
+ []
+
+
+Overfull \hbox (10.98795pt too wide) in paragraph at lines 665--679
+\OT1/cmr/m/n/10 get-ing sam-pling ef-forts near satel-lite over-pass days. Aqua
+Sat, a dataset es-sen-tially built 
+ []
+
+
+Overfull \hbox (6.06046pt too wide) in paragraph at lines 665--679
+\OT1/cmr/m/n/10 on the over-lap-ping of \OT1/cmr/m/it/10 in-situ \OT1/cmr/m/n/1
+0 wa-ter qual-ity mon-i-tor-ing and Land-sat imag-ing sched-ules, 
+ []
+
+
+Overfull \hbox (10.76576pt too wide) in paragraph at lines 665--679
+\OT1/cmr/m/n/10 cap-tures a broad range of vari-a-tion in four ma-jor re-motely
+ ob-serv-able wa-ter qual-ity pa- 
+ []
+
+
+Overfull \hbox (16.18234pt too wide) in paragraph at lines 665--679
+\OT1/cmr/m/n/10 ram-e-ters across thou-sands of wa-ter-bod-ies, and we an-tic-i
+-pate it will un-lock many av-enues 
+ []
+
+
+Overfull \hbox (25.50462pt too wide) in paragraph at lines 665--679
+\OT1/cmr/m/n/10 for re-mote wa-ter qual-ity work. The four pa-ram-e-ters in Aqu
+aSat (DOC, Chl[]a, SDD, TSS), 
+ []
+
+
+Overfull \hbox (14.65456pt too wide) in paragraph at lines 665--679
+\OT1/cmr/m/n/10 within most of their range, have a sig-nif-i-cant im-pact on th
+e ob-served sur-face re-flectance, 
+ []
+
+[15 <./AquaSat_WRR_Submission_files/figure-latex/variation-1.pdf>]
+Overfull \hbox (18.37686pt too wide) in paragraph at lines 680--698
+[]\OT1/cmr/m/n/10 By pub-lish-ing this data, we hope to con-tribute to the on-g
+o-ing tran-si-tion in the field 
+ []
+
+
+Overfull \hbox (8.87683pt too wide) in paragraph at lines 680--698
+\OT1/cmr/m/n/10 from pri-mar-ily de-vel-op-ing meth-ods to one where those meth
+-ods are used to in-ter-ro-gate 
+ []
+
+
+Overfull \hbox (26.79344pt too wide) in paragraph at lines 680--698
+\OT1/cmr/m/n/10 pat-terns in wa-ter qual-ity and drivers of wa-ter qual-ity cha
+nge (Topp et al, in re-view WRR). 
+ []
+
+
+Overfull \hbox (7.82132pt too wide) in paragraph at lines 680--698
+\OT1/cmr/m/n/10 For ex-am-ple, with an open, big dataset, method com-par-isons 
+for pre-dic-tive mod-els can 
+ []
+
+
+Overfull \hbox (6.93237pt too wide) in paragraph at lines 680--698
+\OT1/cmr/m/n/10 be con-ducted, ac-cel-er-at-ing sci-en-tific dis-cov-ery (Bukat
+a, 2013). We built this dataset to 
+ []
+
+
+Overfull \hbox (25.37679pt too wide) in paragraph at lines 680--698
+\OT1/cmr/m/n/10 pro-vide an easy way for non-experts in re-mote sens-ing to be-
+gin us-ing it into their re-search. 
+ []
+
+
+Overfull \hbox (7.65451pt too wide) in paragraph at lines 680--698
+\OT1/cmr/m/n/10 Be-cause the matchup data cov-ers the United States, this work 
+could range from clas-sic 
+ []
+
+
+Overfull \hbox (4.57132pt too wide) in paragraph at lines 680--698
+\OT1/cmr/m/n/10 ap-proaches like build-ing lo-cal wa-ter qual-ity al-go-rithms 
+for de-tect-ing al-gae blooms in a 
+ []
+
+
+Overfull \hbox (9.0435pt too wide) in paragraph at lines 680--698
+\OT1/cmr/m/n/10 sin-gle lake to more re-gional and na-tional work pre-dict-ing 
+TSS in all the ma-jor rivers of 
+ []
+
+
+Overfull \hbox (22.84901pt too wide) in paragraph at lines 680--698
+\OT1/cmr/m/n/10 the USA. We ex-pect that as re-mote pre-dic-tions of in-land wa
+-ter qual-ity be-come more com- 
+ []
+
+
+Overfull \hbox (0.69928pt too wide) in paragraph at lines 680--698
+\OT1/cmr/m/n/10 mon, they can be used as a com-ple-ment to \OT1/cmr/m/it/10 in-
+situ \OT1/cmr/m/n/10 datasets, vastly ex-pand-ing our un- 
+ []
+
+
+Overfull \hbox (3.4323pt too wide) in paragraph at lines 680--698
+\OT1/cmr/m/n/10 der-stand-ing of wa-ter qual-ity trends and cur-rent sta-tus ac
+ross the USA and world. We 
+ []
+
+
+Overfull \hbox (4.01566pt too wide) in paragraph at lines 680--698
+\OT1/cmr/m/n/10 also an-tic-i-pate that by en-abling more work on re-mote sens-
+ing of wa-ter qual-ity, we can 
+ []
+
+
+Overfull \hbox (14.18236pt too wide) in paragraph at lines 680--698
+\OT1/cmr/m/n/10 fill in some of the spa-tial bi-ases in wa-ter qual-ity data th
+at are in-her-ent to the WQP and 
+ []
+
+
+Overfull \hbox (8.5712pt too wide) in paragraph at lines 699--718
+[]\OT1/cmr/m/n/10 We built AquaSat to move to-wards continental-and global-scal
+e re-mote sens-ing of 
+ []
+
+
+Overfull \hbox (4.84904pt too wide) in paragraph at lines 699--718
+\OT1/cmr/m/n/10 wa-ter qual-ity, but the dataset comes with caveats and lim-i-t
+a-tions. First and fore-most, 
+ []
+
+
+Overfull \hbox (12.97392pt too wide) in paragraph at lines 699--718
+\OT1/cmr/m/n/10 the WQP and LAGOS-NE have spa-tial bi-ases in terms of which wa
+-ter bod-ies were sam- 
+ []
+
+
+Overfull \hbox (3.87672pt too wide) in paragraph at lines 699--718
+\OT1/cmr/m/n/10 pled, which agen-cies fully re-port their data, and the com-ple
+te-ness of records; these bi- 
+ []
+
+
+Overfull \hbox (11.04349pt too wide) in paragraph at lines 699--718
+\OT1/cmr/m/n/10 ases are car-ried over into AquaSat. Sec-ond, our ef-forts to h
+ar-mo-nize and unify the data 
+ []
+
+
+Overfull \hbox (4.18233pt too wide) in paragraph at lines 699--718
+\OT1/cmr/m/n/10 in the WQP were per-formed with the ex-plicit goal of in-clud-i
+ng as much data as pos-si- 
+ []
+
+
+Overfull \hbox (15.07123pt too wide) in paragraph at lines 699--718
+\OT1/cmr/m/n/10 ble. Such in-clu-siv-ity en-sured a dataset that al-lows fu-tur
+e users the flex-i-bil-ity to set their 
+ []
+
+
+Overfull \hbox (12.7379pt too wide) in paragraph at lines 699--718
+\OT1/cmr/m/n/10 own stan-dards in line with the re-quire-ments of their in-di-v
+id-ual needs, but it comes with 
+ []
+
+
+Overfull \hbox (5.44623pt too wide) in paragraph at lines 699--718
+\OT1/cmr/m/n/10 in-ten-tion-ally lim-ited qual-ity. The LAGOS-NE dataset, which
+ was more ex-ten-sively as- 
+ []
+
+
+Overfull \hbox (15.9047pt too wide) in paragraph at lines 699--718
+\OT1/cmr/m/n/10 sured for qual-ity, ex-em-pli-fies a con-trast-ing ap-proach (S
+o-ranno et al.[], 2017, 2015). Lastly, 
+ []
+
+
+Overfull \hbox (5.34892pt too wide) in paragraph at lines 699--718
+\OT1/cmr/m/n/10 for the re-mote sens-ing data, we used pub-lished sur-face re-f
+lectance es-ti-mates de-vel-oped 
+ []
+
+
+Overfull \hbox (13.79343pt too wide) in paragraph at lines 699--718
+\OT1/cmr/m/n/10 pri-mar-ily with ter-res-trial re-mote sens-ing in mind, though
+ re-cent work sug-gests these ap- 
+ []
+
+
+Overfull \hbox (8.59894pt too wide) in paragraph at lines 699--718
+\OT1/cmr/m/n/10 proaches may be as ef-fec-tive as cus-tom ap-proaches (Kuhn et 
+al.[], 2019). For re-searchers 
+ []
+
+
+Overfull \hbox (1.90453pt too wide) in paragraph at lines 699--718
+\OT1/cmr/m/n/10 who pre-fer their own at-mo-spheric cor-rec-tions, we also pro-
+vide code for pulling top-of- 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[16]
+Overfull \hbox (5.64374pt too wide) in paragraph at lines 719--732
+[]\OT1/cmr/m/n/10 Our ap-proach of pair-ing pub-lic \OT1/cmr/m/it/10 in-situ \O
+T1/cmr/m/n/10 and satel-lite data can be ex-panded to any 
+ []
+
+
+Overfull \hbox (9.76566pt too wide) in paragraph at lines 719--732
+\OT1/cmr/m/n/10 place with mea-sure-ments of wa-ter qual-ity. By pub-lish-ing o
+ur code, we en-cour-age use of 
+ []
+
+
+Overfull \hbox (8.34904pt too wide) in paragraph at lines 719--732
+\OT1/cmr/m/n/10 our ap-proach or code in other coun-tries, mov-ing to-wards tru
+ly global re-mote sens-ing of 
+ []
+
+
+Overfull \hbox (0.15462pt too wide) in paragraph at lines 719--732
+\OT1/cmr/m/n/10 in-land wa-ter qual-ity. Ad-di-tion-ally, there is am-ple pre-v
+i-ous work show-ing that re-mote 
+ []
+
+
+Overfull \hbox (6.51572pt too wide) in paragraph at lines 719--732
+\OT1/cmr/m/n/10 sens-ing of wa-ter qual-ity can be ex-panded to in-clude con-st
+ituents that are not op-ti-cally 
+ []
+
+
+Overfull \hbox (2.82118pt too wide) in paragraph at lines 719--732
+\OT1/cmr/m/n/10 ac-tive but are cor-re-lated with TSS or DOC, like mer-cury (Fi
+-chot et al.[], 2016; Telmer, 
+ []
+
+
+Overfull \hbox (9.26573pt too wide) in paragraph at lines 719--732
+\OT1/cmr/m/n/10 Costa, Sim~oes Angelica, Araujo, & Mau-rice, 2006) or phos-pho
+-rus (Kutser, Arst, Miller, 
+ []
+
+
+Overfull \hbox (2.51576pt too wide) in paragraph at lines 719--732
+\OT1/cmr/m/n/10 Kaarmann, & Mil-ius, 1995). Fi-nally, this work can be ad-jus
+ted to in-clude other satel- 
+ []
+
+
+Overfull \hbox (22.3213pt too wide) in paragraph at lines 719--732
+\OT1/cmr/m/n/10 lites with pub-licly avail-able op-ti-cal im-agery (like Sen-ti
+nel 2) or even pri-vate satel-lites with 
+ []
+
+
+Overfull \hbox (16.33525pt too wide) in paragraph at lines 719--732
+\OT1/cmr/m/n/10 higher tem-po-ral and spa-tial res-o-lu-tion (like Dig-i-tal-Gl
+obe or PLANET). Our hope is that 
+ []
+
+
+Overfull \hbox (8.01566pt too wide) in paragraph at lines 719--732
+\OT1/cmr/m/n/10 the con-tent and phi-los-o-phy of AquaSat help to ac-cel-er-ate
+ progress in all of these ar-eas.  
+ []
+
+
+Overfull \hbox (120.52988pt too wide) in paragraph at lines 737--749
+[]\OT1/cmr/m/n/10 All code used to gen-er-ate this dataset can be found at: htt
+ps://github.com/GlobalHydrologyLab/watersat. 
+ []
+
+
+Overfull \hbox (20.86295pt too wide) in paragraph at lines 737--749
+\OT1/cmr/m/n/10 The data for this pa-per come from the Land-sat archive, LAGOSN
+E, and the Wa-ter Qual- 
+ []
+
+
+Overfull \hbox (11.96013pt too wide) in paragraph at lines 737--749
+\OT1/cmr/m/n/10 ity Por-tal. All of this data is free to down-load and the pa-p
+er de-tails ex-ten-sively how we 
+ []
+
+
+Overfull \hbox (9.9046pt too wide) in paragraph at lines 737--749
+\OT1/cmr/m/n/10 com-bined the datasets. Data gen-er-ated by our work can be fou
+nd at CUAHSI, Zen-odo, 
+ []
+
+
+Overfull \hbox (16.34904pt too wide) in paragraph at lines 737--749
+\OT1/cmr/m/n/10 and NASA archives. Part of this work was con-ducted at the Jzet
+ Propul-sion Lab-o-ra-tory, 
+ []
+
+
+Overfull \hbox (7.84908pt too wide) in paragraph at lines 737--749
+\OT1/cmr/m/n/10 Cal-i-for-nia In-sti-tute of Tech-nol-ogy, un-der a con-tract w
+ith the Na-tional Aero-nau-tics and 
+ []
+
+
+Overfull \hbox (9.46028pt too wide) in paragraph at lines 737--749
+\OT1/cmr/m/n/10 Space Ad-min-is-tra-tion. SNT was funded by a NASA NESSF grant 
+(#80NSSC18K1398) 
+ []
+
+
+Overfull \hbox (6.12683pt too wide) in paragraph at lines 737--749
+\OT1/cmr/m/n/10 for work on this grant. APA was sup-ported by the In-te-gra-tio
+n In-for-ma-tion Dis-sem-i-na- 
+ []
+
+
+Overfull \hbox (9.00179pt too wide) in paragraph at lines 737--749
+\OT1/cmr/m/n/10 tion Di-vi-sion of the U.S. Ge-o-log-i-cal Sur-vey. There are n
+o con-flicts of in-ter-est to re-port.  
+ []
+
+(AquaSat_WRR_Submission.bbl
+Underfull \hbox (badness 10000) in paragraph at lines 14--31
+[]\OT1/cmr/m/n/10 Allaire, J., Xie, Y., Mcphere-son, J., Luraschi, J., Ushey, K
+., Atkins, A., ... Ian-none, 
+ []
+
+
+Underfull \hbox (badness 1048) in paragraph at lines 14--31
+\OT1/cmr/m/n/10 R.  (2018).  \OT1/cmr/m/it/10 rmark-down: Dy-namic Doc-u-ments 
+for R. R pack-age ver-sion 1.11. 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 45--65
+[]\OT1/cmr/m/n/10 Antoine, D., Andre, J.-M., & Morel, A.  (1996, mar).  Oceani
+c pri-mary pro-duc- 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 45--65
+\OT1/cmr/m/n/10 tion: 2. Es-ti-ma-tion at global scale from satel-lite (Coastal
+ Zone Color Scan-ner) 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 45--65
+\OT1/cmr/m/n/10 chloro-phyll.  \OT1/cmr/m/it/10 Global Bio-geo-chem-i-cal Cy-cl
+es\OT1/cmr/m/n/10 , \OT1/cmr/m/it/10 10\OT1/cmr/m/n/10 (1), 57--69.  Re-trieved
+ from 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[17]
+Underfull \hbox (badness 10000) in paragraph at lines 79--98
+[]\OT1/cmr/m/n/10 Ballantine, D. J., & Davies-Colley, R. J.  (2014, mar).  Wa-t
+er qual-ity trends in 
+ []
+
+
+Underfull \hbox (badness 4505) in paragraph at lines 79--98
+\OT1/cmr/m/n/10 New Zealand rivers: 1989{2009.  \OT1/cmr/m/it/10 En-vi-ron-men-
+tal Mon-i-tor-ing and As-sess-ment\OT1/cmr/m/n/10 , 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 79--98
+\OT1/cmr/m/it/10 186\OT1/cmr/m/n/10 (3), 1939--1950.  Re-trieved from $\OT1/cmt
+t/m/n/10 http :// link [] .springer [] .com / 10 [] .1007 / 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 110--133
+[]\OT1/cmr/m/n/10 Barsi, J., Lee, K., Kvaran, G., Markham, B., Pedelty, J., Bar
+si, J. A., ... Pedelty, 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 110--133
+\OT1/cmr/m/n/10 J. A.  (2014, oct).  The Spec-tral Re-sponse of the Landsat-8 O
+p-er-a-tional 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 110--133
+\OT1/cmr/m/n/10 Land Im-ager.  \OT1/cmr/m/it/10 Re-mote Sens-ing\OT1/cmr/m/n/10
+ , \OT1/cmr/m/it/10 6\OT1/cmr/m/n/10 (10), 10232--10251.  Re-trieved from 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 149--172
+[]\OT1/cmr/m/n/10 Blondeau-Patissier, D., Gower, J. F., Dekker, A. G., Phinn, S
+. R., & Brando, V. E. 
+ []
+
+
+Underfull \hbox (badness 5533) in paragraph at lines 149--172
+\OT1/cmr/m/n/10 (2014).  A re-view of ocean color re-mote sens-ing meth-ods and
+ sta-tis-ti-cal tech- 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 149--172
+\OT1/cmr/m/n/10 niques for the de-tec-tion, map-ping and anal-y-sis of phy-to-p
+lank-ton blooms in 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 149--172
+\OT1/cmr/m/n/10 coastal and open oceans.  \OT1/cmr/m/it/10 Progress in Oceanog-
+ra-phy\OT1/cmr/m/n/10 , \OT1/cmr/m/it/10 123\OT1/cmr/m/n/10 , 23--144.  Re- 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 149--172
+\OT1/cmr/m/n/10 trieved from $\OT1/cmtt/m/n/10 http :// dx [] .doi [] .org / 10
+ [] .1016 / j [] .pocean [] .2013 [] .12 [] .008$   \OT1/cmr/m/n/10 doi: 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 188--211
+[]\OT1/cmr/m/n/10 Booth, N. L., Ev-er-man, E. J., Kuo, I.-L., Sprague, L., & Mu
+r-phy, L.  (2011, oct). 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 188--211
+\OT1/cmr/m/n/10 A Web-Based De-ci-sion Sup-port Sys-tem for As-sess-ing Re-gion
+al Water- 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 188--211
+\OT1/cmr/m/n/10 Quality Con-di-tions and Man-age-ment Ac-tions1.  \OT1/cmr/m/it
+/10 JAWRA Jour-nal of the 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 188--211
+\OT1/cmr/m/it/10 Amer-i-can Wa-ter Re-sources As-so-ci-a-tion\OT1/cmr/m/n/10 , 
+\OT1/cmr/m/it/10 47\OT1/cmr/m/n/10 (5), 1136--1150.  Re-trieved 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 188--211
+\OT1/cmr/m/n/10 from $\OT1/cmtt/m/n/10 http :// doi [] .wiley [] .com / 10 [] .
+1111 / j [] .1752 [] -1688 [] .2011 [] .00573 [] .x$   \OT1/cmr/m/n/10 doi: 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 225--245
+\OT1/cmr/m/n/10 ter of the sea (yel-low sub-stance) in the UV and vis-i-ble do-
+mains.  \OT1/cmr/m/it/10 Lim-nol-ogy 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 225--245
+\OT1/cmr/m/it/10 and Oceanog-ra-phy\OT1/cmr/m/n/10 , \OT1/cmr/m/it/10 26\OT1/cm
+r/m/n/10 (1), 43--53.  Re-trieved from $\OT1/cmtt/m/n/10 http :// doi [] .wiley
+ [] .com / 
+ []
+
+
+Underfull \hbox (badness 2698) in paragraph at lines 257--275
+\OT1/cmr/m/n/10 wa-ter qual-ity : \ Like Deja Vu All Over Again ".  \OT1/cmr/
+m/it/10 Jour-nal of Great Lakes Re- 
+ []
+
+
+Underfull \hbox (badness 4739) in paragraph at lines 257--275
+\OT1/cmr/m/it/10 search\OT1/cmr/m/n/10 , \OT1/cmr/m/it/10 39\OT1/cmr/m/n/10 , 2
+--5.  Re-trieved from $\OT1/cmtt/m/n/10 http :// dx [] .doi [] .org / 10 [] .10
+16 / j [] .jglr [] .2013 [] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 287--312
+[]\OT1/cmr/m/n/10 Butman, D., Stack-poole, S., Stets, E., Mc-Don-ald, C. P., Cl
+ow, D. W., & Striegl, 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 287--312
+\OT1/cmr/m/n/10 im-pli-ca-tions for ter-res-trial car-bon ac-count-ing.  \OT1/c
+mr/m/it/10 Pro-ceed-ings of the Na-tional 
+ []
+
+
+Underfull \hbox (badness 2359) in paragraph at lines 287--312
+\OT1/cmr/m/it/10 Academy of Sci-ences\OT1/cmr/m/n/10 , \OT1/cmr/m/it/10 113\OT1
+/cmr/m/n/10 (1), 58--63.  Re-trieved from $\OT1/cmtt/m/n/10 http :// www [] .pn
+as [] .org / 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 287--312
+\OT1/cmtt/m/n/10 lookup / doi / 10 [] .1073 / pnas [] .1512651112http :// www [
+] .pnas [] .org / content / 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 287--312
+\OT1/cmtt/m/n/10 113 / 1 / 58{\ % }5Cnhttp :// www [] .ncbi [] .nlm [] .nih [] 
+.gov / pubmed / 26699473{\ % 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 287--312
+\OT1/cmtt/m/n/10 }5Cnhttp :// www [] .pnas [] .org / content / 113 / 1 / 58 [] 
+.full [] .pdf{\ % }5Cnhttp :// 
+ []
+
+
+Underfull \hbox (badness 2460) in paragraph at lines 287--312
+\OT1/cmtt/m/n/10 www [] .pnas [] .org / content / 113 / 1 / 58 [] .short{\ % }5
+Cnhttp :// www [] .pnas [] .or$   \OT1/cmr/m/n/10 doi: 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[18]
+Underfull \hbox (badness 5832) in paragraph at lines 324--340
+[]\OT1/cmr/m/n/10 Carlson, R. E.  (1977, mar).  A trophic state in-dex for lake
+s1.  \OT1/cmr/m/it/10 Lim-nol-ogy and 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 324--340
+\OT1/cmr/m/it/10 Oceanog-ra-phy\OT1/cmr/m/n/10 , \OT1/cmr/m/it/10 22\OT1/cmr/m/
+n/10 (2), 361--369.  Re-trieved from $\OT1/cmtt/m/n/10 http :// doi [] .wiley [
+] .com / 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 354--375
+[]\OT1/cmr/m/n/10 Clarke, G. L., Ew-ing, G. C., & Loren-zen, C. J.  (1970).  Sp
+ec-tra of Backscat- 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 354--375
+\OT1/cmr/m/n/10 tered Light from the Sea Ob-tained from Air-craft as a Mea-sure
+ of Chloro- 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 354--375
+\OT1/cmr/m/n/10 phyll Con-cen-tra-tion.  \OT1/cmr/m/it/10 Sci-ence\OT1/cmr/m/n/
+10 , \OT1/cmr/m/it/10 167\OT1/cmr/m/n/10 (3921), 1119--1121.  Re-trieved from 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 354--375
+\OT1/cmtt/m/n/10 http :// www [] .sciencemag [] .org / cgi / doi / 10 [] .1126 
+/ science [] .167 [] .3921 [] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 354--375
+\OT1/cmtt/m/n/10 .1119{\ % }5Cnhttp :// www [] .ncbi [] .nlm [] .nih [] .gov / 
+pubmed / 17829405$   \OT1/cmr/m/n/10 doi: 
+ []
+
+
+Underfull \hbox (badness 2503) in paragraph at lines 390--411
+[]\OT1/cmr/m/n/10 Cory, R. M., Har-rold, K. H., Neil-son, B. T., & Kling, G. W.
+  (2015).  Con-trols on 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 390--411
+\OT1/cmr/m/n/10 dis-solved or-ganic mat-ter (DOM) degra-da-tion in a head-wa-te
+r stream: The 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 390--411
+\OT1/cmr/m/n/10 in-flu-ence of pho-to-chem-i-cal and hy-dro-log-i-cal con-di-ti
+ons in de-ter-min-ing light- 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 423--445
+[]\OT1/cmr/m/n/10 Doxani, G., Ver-mote, E., Roger, J.-C., Gas-con, F., Adri-aen
+sen, S., Frantz, D., ... 
+ []
+
+
+Underfull \hbox (badness 1043) in paragraph at lines 423--445
+\OT1/cmr/m/n/10 er-cise.  \OT1/cmr/m/it/10 Re-mote Sens-ing\OT1/cmr/m/n/10 , \O
+T1/cmr/m/it/10 10\OT1/cmr/m/n/10 (3), 352.  Re-trieved from $\OT1/cmtt/m/n/10 h
+ttp :// www [] .mdpi [] .com / 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 485--505
+[]\OT1/cmr/m/n/10 Fichot, C. G., Down-ing, B. D., Berga-m-aschi, B. A., Windham
+-Myers, L., Marvin- 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 485--505
+\OT1/cmr/m/n/10 Dipasquale, M., Thomp-son, D. R., & Gier-ach, M. M.  (2016).  H
+igh- 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 485--505
+\OT1/cmr/m/n/10 Resolution Re-mote Sens-ing of Wa-ter Qual-ity in the San Fran-
+cisco Bay- 
+ []
+
+
+Underfull \hbox (badness 1087) in paragraph at lines 485--505
+\OT1/cmr/m/n/10 Delta Es-tu-ary.  \OT1/cmr/m/it/10 En-vi-ron-men-tal Sci-ence a
+nd Tech-nol-ogy\OT1/cmr/m/n/10 , \OT1/cmr/m/it/10 50\OT1/cmr/m/n/10 (2), 573--5
+83.  doi: 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[19]
+Underfull \hbox (badness 7256) in paragraph at lines 542--561
+[]\OT1/cmr/m/n/10 Gholizadeh, M., Me-lesse, A., & Reddi, L.  (2016).  A Com-pre
+-hen-sive Re-view on 
+ []
+
+
+Underfull \hbox (badness 7326) in paragraph at lines 542--561
+\OT1/cmr/m/it/10 sors\OT1/cmr/m/n/10 , \OT1/cmr/m/it/10 16\OT1/cmr/m/n/10 (8), 
+1298.  Re-trieved from $\OT1/cmtt/m/n/10 http :// www [] .mdpi [] .com / 1424 [
+] -8220 / 16 / 8 / 
+ []
+
+
+Underfull \hbox (badness 3271) in paragraph at lines 573--591
+[]\OT1/cmr/m/n/10 Gordon, H. R.  (1997, jul).  At-mo-spheric cor-rec-tion of oc
+ean color im-agery in the 
+ []
+
+
+Underfull \hbox (badness 2409) in paragraph at lines 573--591
+\OT1/cmr/m/n/10 Earth Ob-serv-ing Sys-tem era.  \OT1/cmr/m/it/10 Jour-nal of Ge
+o-phys-i-cal Re-search: At-mo-spheres\OT1/cmr/m/n/10 , 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 573--591
+\OT1/cmr/m/it/10 102\OT1/cmr/m/n/10 (D14), 17081--17106.  Re-trieved from $\OT1
+/cmtt/m/n/10 http :// doi [] .wiley [] .com / 10 [] .1029 / 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 603--626
+[]\OT1/cmr/m/n/10 Gorelick, N., Hancher, M., Dixon, M., Ilyushchenko, S., Thau,
+ D., & Moore, R. 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 603--626
+\OT1/cmr/m/n/10 (2017, dec).  Google Earth En-gine: Planetary-scale geospa-tial
+ anal-y-sis for 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 603--626
+\OT1/cmr/m/n/10 ev-ery-one.  \OT1/cmr/m/it/10 Re-mote Sens-ing of En-vi-ron-men
+t\OT1/cmr/m/n/10 , \OT1/cmr/m/it/10 202\OT1/cmr/m/n/10 , 18--27.  Re-trieved fr
+om 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 603--626
+\OT1/cmtt/m/n/10 https :// linkinghub [] .elsevier [] .com / retrieve / pii / S
+0034425717302900$ 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 642--664
+[]\OT1/cmr/m/n/10 Griffin, C. G., Fin-lay, J. C., Bre-zonik, P. L., Ol-man-son,
+ L., & Hozal-ski, R. M. 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 642--664
+\OT1/cmr/m/n/10 (2018, nov).  Lim-i-ta-tions on us-ing CDOM as a proxy for DOC 
+in tem- 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 642--664
+\OT1/cmr/m/n/10 per-ate lakes.  \OT1/cmr/m/it/10 Wa-ter Re-search\OT1/cmr/m/n/1
+0 , \OT1/cmr/m/it/10 144\OT1/cmr/m/n/10 , 719--727.  Re-trieved from $\OT1/cmtt
+/m/n/10 https :// 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 642--664
+\OT1/cmtt/m/n/10 www [] .sciencedirect [] .com / science / article / pii / S004
+3135418306286$   \OT1/cmr/m/n/10 doi: 
+ []
+
+
+Underfull \hbox (badness 7273) in paragraph at lines 679--698
+[]\OT1/cmr/m/n/10 Griffin, C. G., Frey, K. E., Ro-gan, J., & Holmes, R. M.  (20
+11).  Spa-tial and in- 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 679--698
+\OT1/cmr/m/n/10 ter-an-nual vari-abil-ity of dis-solved or-ganic mat-ter in the
+ Kolyma River, East 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 679--698
+\OT1/cmr/m/n/10 Siberia, ob-served us-ing satel-lite im-agery.  \OT1/cmr/m/it/1
+0 Jour-nal of Geo-phys-i-cal Re-search: 
+ []
+
+
+Underfull \hbox (badness 7308) in paragraph at lines 712--730
+[]\OT1/cmr/m/n/10 Hirsch, R. M., & De Ci-cco, L.  (2015).  User guide to Ex-plo
+-ration and Graph-ics 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 712--730
+\OT1/cmr/m/n/10 for RivEr Trends (EGRET) and dataRe-trieval: R pack-ages for hy
+-dro-logic 
+ []
+
+
+Underfull \hbox (badness 6758) in paragraph at lines 742--756
+\OT1/cmr/m/it/10 Re-mote Sens-ing of En-vi-ron-ment\OT1/cmr/m/n/10 , \OT1/cmr/m
+/it/10 7\OT1/cmr/m/n/10 (4), 323--338.  doi: $10 [] .1016 / 0034 [] -4257(78 ) 
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 772--795
+\OT1/cmr/m/n/10 scale val-i-da-tion of MODIS-based and LEDAPS Land-sat ETM+ at-
+mo-spheric 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 772--795
+\OT1/cmr/m/n/10 cor-rec-tion meth-ods.  \OT1/cmr/m/it/10 Re-mote Sens-ing of En
+-vi-ron-ment\OT1/cmr/m/n/10 , \OT1/cmr/m/it/10 122\OT1/cmr/m/n/10 , 175--184.  
+Re- 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 772--795
+\OT1/cmr/m/n/10 trieved from $\OT1/cmtt/m/n/10 https :// www [] .sciencedirect 
+[] .com / science / article / pii / 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[20]
+Underfull \hbox (badness 10000) in paragraph at lines 869--889
+[]\OT1/cmr/m/n/10 Kuhn, C., Va-le-rio, A. d. M., Ward, N., Lo-ken, L., Sawakuch
+i, H., Kam-pel, M., 
+ []
+
+
+Underfull \hbox (badness 7649) in paragraph at lines 869--889
+\OT1/cmr/m/n/10 ... But-man, D.  (2019).  Per-for-mance of Landsat-8 and Sentin
+el-2 sur-face 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 869--889
+\OT1/cmr/m/n/10 re-flectance prod-ucts for river re-mote sens-ing re-trievals o
+f chlorophyll-a and 
+ []
+
+
+Underfull \hbox (badness 7256) in paragraph at lines 901--918
+[]\OT1/cmr/m/n/10 Kutser, T.  (2004, nov).  Quan-ti-ta-tive de-tec-tion of chlo
+ro-phyll in cyanobac-te-rial 
+ []
+
+
+Underfull \hbox (badness 3668) in paragraph at lines 901--918
+\OT1/cmr/m/n/10 2189.  Re-trieved from $\OT1/cmtt/m/n/10 http :// doi [] .wiley
+ [] .com / 10 [] .4319 / lo [] .2004 [] .49 [] .6 [] .2179$ 
+ []
+
+
+Underfull \hbox (badness 7256) in paragraph at lines 934--957
+[]\OT1/cmr/m/n/10 Kutser, T., Arst, H., Miller, T., Kaarmann, L., & Mil-ius, 
+A.  (1995, nov).  Tele- 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 934--957
+\OT1/cmr/m/n/10 spec-tro-met-ri-cal es-ti-ma-tion of wa-ter trans-parency, chlo
+rophyll-a and to-tal 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 934--957
+\OT1/cmr/m/n/10 phos-pho-rus con-cen-tra-tion of Lake Peipsi.  \OT1/cmr/m/it/10
+ In-ter-na-tional Jour-nal of Re-mote 
+ []
+
+
+Underfull \hbox (badness 7273) in paragraph at lines 934--957
+\OT1/cmr/m/it/10 Sens-ing\OT1/cmr/m/n/10 , \OT1/cmr/m/it/10 16\OT1/cmr/m/n/10 (
+16), 1--2.  Re-trieved from $\OT1/cmtt/m/n/10 https :// www [] .tandfonline [] 
+.com / doi / 
+ []
+
+
+Underfull \hbox (badness 1092) in paragraph at lines 969--990
+[]\OT1/cmr/m/n/10 Lack, T.  (2000).  Eurowaternet- A Fresh-wa-ter Mon-i-tor-ing
+ and Re-port-ing Net-work 
+ []
+
+
+Underfull \hbox (badness 3872) in paragraph at lines 969--990
+\OT1/cmr/m/n/10 for All Eu-ro-pean Coun-tries.  In \OT1/cmr/m/it/10 Trans-bound
+-ary wa-ter re-sources in the balkans 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1002--1022
+[]\OT1/cmr/m/n/10 Lee, B. Z., Arnone, R., Boyce, D., Franz, B., Greb, S., Hu, C
+., ... Wer-nand, M. 
+ []
+
+
+Underfull \hbox (badness 2875) in paragraph at lines 1002--1022
+\OT1/cmr/m/n/10 (2018, may).  Global Wa-ter Clar-ity : Con-tin-u-ing a Century-
+Long Mon-i-tor-ing. 
+ []
+
+
+Underfull \hbox (badness 2495) in paragraph at lines 1064--1082
+\OT1/cmr/m/it/10 Sens-ing of En-vi-ron-ment\OT1/cmr/m/n/10 , \OT1/cmr/m/it/10 1
+22\OT1/cmr/m/n/10 (October 2000), 22--29.  Re-trieved from $\OT1/cmtt/m/n/10 ht
+tp :// 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[21]
+Underfull \hbox (badness 10000) in paragraph at lines 1125--1147
+[]\OT1/cmr/m/n/10 Myers, D., & Ludtke, A.  (2017).  Progress and Lessons Learne
+d from Water- 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1125--1147
+\OT1/cmr/m/n/10 Quality Mon-i-tor-ing Net-works.  In \OT1/cmr/m/it/10 Chem-istr
+y and wa-ter \OT1/cmr/m/n/10 (Vol.[] 33, pp.[] 23-- 
+ []
+
+
+Underfull \hbox (badness 7814) in paragraph at lines 1125--1147
+\OT1/cmr/m/n/10 120).  El-se-vier.  Re-trieved from $\OT1/cmtt/m/n/10 http :// 
+dx [] .doi [] .org / 10 [] .1016 / B978 [] -0 [] -12 [] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1125--1147
+\OT1/cmtt/m/n/10 -809330 [] -6 [] .00002 [] -7https :// linkinghub [] .elsevier
+ [] .com / retrieve / pii / 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1159--1180
+[]\OT1/cmr/m/n/10 Oelsner, G. P., Sprague, L. A., Mur-phy, J. C., Zuel-lig, R. 
+E., John-son, H. M., Ry- 
+ []
+
+
+Underfull \hbox (badness 1221) in paragraph at lines 1159--1180
+\OT1/cmr/m/n/10 berg, K. R., ... Farmer, W. H.  (2017).  Water-quality trends i
+n the na-tion's 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1159--1180
+\OT1/cmr/m/n/10 rivers and streams , 1972 { 2012.  \OT1/cmr/m/it/10 USGS Sci-en
+-tific In-ves-ti-ga-tions Re-port\OT1/cmr/m/n/10 , 
+ []
+
+
+Underfull \hbox (badness 1748) in paragraph at lines 1194--1214
+[]\OT1/cmr/m/n/10 Palmer, S. C., Kutser, T., & Hunter, P. D.  (2015, feb).  Re-
+mote sens-ing of in-land 
+ []
+
+
+Underfull \hbox (badness 4886) in paragraph at lines 1228--1244
+[]\OT1/cmr/m/n/10 Pavelsky, T. M., & Smith, L. C.  (2009).  Re-mote sens-ing of
+ sus-pended sed-i-ment 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1228--1244
+\OT1/cmr/m/n/10 con-cen-tra-tion, flow ve-loc-ity, and lake recharge in the Pea
+ce-Athabasca Delta, 
+ []
+
+
+Underfull \hbox (badness 1596) in paragraph at lines 1256--1269
+[]\OT1/cmr/m/n/10 R Foun-da-tion for Sta-tis-ti-cal Com-put-ing.  (2018).  \OT1
+/cmr/m/it/10 R: A lan-guage and en-vi-ron-ment 
+ []
+
+
+Underfull \hbox (badness 3713) in paragraph at lines 1256--1269
+\OT1/cmr/m/it/10 for sta-tis-ti-cal com-put-ing.  \OT1/cmr/m/n/10 Vi-enna, Aus-
+tria.  Re-trieved from $\OT1/cmtt/m/n/10 https :// www [] .r [] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1281--1304
+[]\OT1/cmr/m/n/10 Read, E. K., Carr, L., De Ci-cco, L., Dugan, H. A., Han-son, 
+P. C., Hart, J. A., ... 
+ []
+
+
+Underfull \hbox (badness 7116) in paragraph at lines 1281--1304
+\OT1/cmr/m/n/10 Winslow, L. A.  (2017, feb).  Wa-ter qual-ity data for national
+-scale aquatic 
+ []
+
+
+Underfull \hbox (badness 1215) in paragraph at lines 1281--1304
+\OT1/cmr/m/n/10 re-search: The Wa-ter Qual-ity Por-tal.  \OT1/cmr/m/it/10 Wa-te
+r Re-sources Re-search\OT1/cmr/m/n/10 , \OT1/cmr/m/it/10 53\OT1/cmr/m/n/10 (2),
+ 1735-- 
+ []
+
+
+Underfull \hbox (badness 1515) in paragraph at lines 1316--1333
+[]\OT1/cmr/m/n/10 Richardson, L. L.  (1996, aug).  Re-mote Sens-ing of Al-gal B
+loom Dy-nam-ics.  \OT1/cmr/m/it/10 Bio- 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1316--1333
+\OT1/cmr/m/it/10 Science\OT1/cmr/m/n/10 , \OT1/cmr/m/it/10 46\OT1/cmr/m/n/10 (7
+), 492--501.  Re-trieved from $\OT1/cmtt/m/n/10 http :// academic [] .oup [] .c
+om / 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1316--1333
+\OT1/cmtt/m/n/10 bioscience / article / 46 / 7 / 492 / 322759 / Remote [] -Sens
+ing [] -of [] -Algal [] -Bloom [] 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[22]
+Underfull \hbox (badness 10000) in paragraph at lines 1375--1399
+[]\OT1/cmr/m/n/10 Robbins, C. J., King, R. S., Yea-ger, A. D., Walker, C. M., B
+ack, J. A., Doyle, R. D., 
+ []
+
+
+Underfull \hbox (badness 6094) in paragraph at lines 1375--1399
+\OT1/cmr/m/n/10 in-creases basal ecosys-tem func-tion in a bo-real head-wa-ter 
+stream.  \OT1/cmr/m/it/10 Eco-sphere\OT1/cmr/m/n/10 , 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1375--1399
+\OT1/cmr/m/it/10 8\OT1/cmr/m/n/10 (4), e01739.  Re-trieved from $\OT1/cmtt/m/n/
+10 http :// doi [] .wiley [] .com / 10 [] .1002 / ecs2 [] .1739$ 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1411--1430
+[]\OT1/cmr/m/n/10 Secchi, P.  (1864, dec).  Re-lazione delle es-pe-rienze fatte
+ a bordo della pon-ti-f-i- 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1411--1430
+\OT1/cmr/m/n/10 cia piro-corvetta l'Immacolata con-cezione per de-ter-minare la
+ trasparenza 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1411--1430
+\OT1/cmr/m/n/10 del mare; Memo-ria del P. A. Sec-chi.  \OT1/cmr/m/it/10 Il Nuov
+o Ci-mento\OT1/cmr/m/n/10 , \OT1/cmr/m/it/10 20\OT1/cmr/m/n/10 (1), 205--238. 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1411--1430
+\OT1/cmr/m/n/10 Re-trieved from $\OT1/cmtt/m/n/10 http :// link [] .springer []
+ .com / 10 [] .1007 / BF02726911$   \OT1/cmr/m/n/10 doi: 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1442--1467
+[]\OT1/cmr/m/n/10 Sheffield, J., Wood, E. F., Pan, M., Beck, H., Coc-cia, G., S
+errat-Capdevila, A., & 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1442--1467
+\OT1/cmr/m/n/10 ment: Po-ten-tial for sup-port-ing sus-tain-able de-vel-op-ment
+ in data-poor re-gions. 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1442--1467
+\OT1/cmr/m/it/10 Wa-ter Re-sources Re-search\OT1/cmr/m/n/10 , \OT1/cmr/m/it/10 
+54\OT1/cmr/m/n/10 .  Re-trieved from $\OT1/cmtt/m/n/10 http :// doi [] .wiley [
+] .com / 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1479--1500
+[]\OT1/cmr/m/n/10 Soranno, P. A., Ba-con, L. C., Beauch-ene, M., Bed-nar, K. E.
+, Bis-sell, E. G., 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1479--1500
+\OT1/cmr/m/n/10 and tem-po-ral database of lake eco-log-i-cal con-text and wa-t
+er qual-ity for thou- 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1512--1537
+[]\OT1/cmr/m/n/10 Soranno, P. A., Bis-sell, E. G., Cheru-velil, K. S., Chris-te
+l, S. T., Collins, S. M., 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1512--1537
+\OT1/cmr/m/n/10 Fer-gus, C. E., ... Web-ster, K. E.  (2015, dec).  Build-ing a 
+multi-scaled 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1512--1537
+\OT1/cmr/m/n/10 geospa-tial tem-po-ral ecol-ogy database from dis-parate data s
+ources: fos-ter- 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1512--1537
+\OT1/cmr/m/n/10 ing open sci-ence and data reuse.  \OT1/cmr/m/it/10 Gi-ga-Scien
+ce\OT1/cmr/m/n/10 , \OT1/cmr/m/it/10 4\OT1/cmr/m/n/10 (1), 28.  Re-trieved from
+ 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1512--1537
+\OT1/cmtt/m/n/10 https :// academic [] .oup [] .com / gigascience / article [] 
+-lookup / doi / 10 [] .1186 / 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1549--1571
+[]\OT1/cmr/m/n/10 Spencer, R. G. M., Stub-bins, A., Hernes, P. J., Baker, A., M
+op-per, K., Auf- 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1549--1571
+\OT1/cmr/m/n/10 denkampe, A. K., ... Six, J.  (2009).  Pho-to-chem-i-cal degra-
+da-tion of dis- 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1549--1571
+\OT1/cmr/m/n/10 solved or-ganic mat-ter and dis-solved lignin phe-nols from the
+ Congo River. 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1549--1571
+\OT1/cmr/m/it/10 Jour-nal of Geo-phys-i-cal Re-search: Bio-geo-sciences\OT1/cmr
+/m/n/10 , \OT1/cmr/m/it/10 114\OT1/cmr/m/n/10 (3), 1--12.  doi: 
+ []
+
+
+Underfull \hbox (badness 1107) in paragraph at lines 1585--1604
+[]\OT1/cmr/m/n/10 Sprague, L. A., & Lorenz, D. L.  (2009, may).  Re-gional nu-t
+ri-ent trends in streams 
+ []
+
+
+Underfull \hbox (badness 2961) in paragraph at lines 1585--1604
+\OT1/cmr/m/n/10 and rivers of the United States, 1993-2003.  \OT1/cmr/m/it/10 E
+n-vi-ron-men-tal Sci-ence and Tech- 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[23]
+Underfull \hbox (badness 3260) in paragraph at lines 1618--1637
+\OT1/cmr/m/n/10 use of multi-source water-quality data in the United States.  \
+OT1/cmr/m/it/10 Wa-ter Re-search\OT1/cmr/m/n/10 , 
+ []
+
+
+Underfull \hbox (badness 2707) in paragraph at lines 1618--1637
+\OT1/cmr/m/it/10 110\OT1/cmr/m/n/10 , 252--261.  Re-trieved from $\OT1/cmtt/m/n
+/10 http :// dx [] .doi [] .org / 10 [] .1016 / j [] .watres [] .2016 [] 
+ []
+
+
+Underfull \hbox (badness 1642) in paragraph at lines 1652--1673
+[]\OT1/cmr/m/n/10 Srebotnjak, T., Carr, G., de Sherbinin, A., & Rick-wood, C.  
+(2012, jun).  A global 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1652--1673
+\OT1/cmr/m/n/10 Wa-ter Qual-ity In-dex and hot-deck im-pu-ta-tion of miss-ing d
+ata.  \OT1/cmr/m/it/10 Eco-log-i-cal 
+ []
+
+
+Underfull \hbox (badness 4505) in paragraph at lines 1652--1673
+\OT1/cmr/m/it/10 In-di-ca-tors\OT1/cmr/m/n/10 , \OT1/cmr/m/it/10 17\OT1/cmr/m/n
+/10 , 108--119.  Re-trieved from $\OT1/cmtt/m/n/10 https :// www [] .sciencedir
+ect [] .com / 
+ []
+
+
+Underfull \hbox (badness 3343) in paragraph at lines 1652--1673
+\OT1/cmtt/m/n/10 science / article / pii / S1470160X1100104X$   \OT1/cmr/m/n/10
+ doi: $10 [] .1016 / J [] .ECOLIND [] .2011 [] 
+ []
+
+
+Underfull \hbox (badness 1237) in paragraph at lines 1687--1705
+\OT1/cmr/m/n/10 nous United States.  \OT1/cmr/m/it/10 In-land Wa-ters\OT1/cmr/m
+/n/10 , \OT1/cmr/m/it/10 2\OT1/cmr/m/n/10 (4), 177--184.  Re-trieved from $\OT1
+/cmtt/m/n/10 http :// 
+ []
+
+
+Underfull \hbox (badness 4254) in paragraph at lines 1720--1740
+[]\OT1/cmr/m/n/10 Storey, J., Scara-muzza, P., Schmidt, G., & Barsi, J.  (2005)
+.  Land-sat 7 scan line 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1720--1740
+\OT1/cmr/m/n/10 corrector-off gap filled prod-uct de-vel-op-ment.  \OT1/cmr/m/i
+t/10 PEC-ORA 16 Con-fer-ence 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1720--1740
+\OT1/cmr/m/it/10 Pro-ceed-ings, Sioux Falls, South Dakota\OT1/cmr/m/n/10 , 23--
+27.  Re-trieved from $\OT1/cmtt/m/n/10 http :// 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1754--1772
+\OT1/cmr/m/it/10 Philo-soph-i-cal trans-ac-tions. Se-ries A, Math-e-mat-i-cal, 
+phys-i-cal, and en-gi-neer-ing 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1788--1812
+[]\OT1/cmr/m/n/10 Telmer, K., Costa, M., Sim~oes Angelica, R., Araujo, E. S., 
+& Mau-rice, Y.  (2006, 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1788--1812
+\OT1/cmr/m/n/10 oct).  The source and fate of sed-i-ment and mer-cury in the Ta
+pajos River, 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1788--1812
+\OT1/cmr/m/n/10 Para, Brazil-ian Ama-zon: Ground- and space-based ev-i-dence. 
+ \OT1/cmr/m/it/10 Jour-nal of 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1788--1812
+\OT1/cmr/m/it/10 En-vi-ron-men-tal Man-age-ment\OT1/cmr/m/n/10 , \OT1/cmr/m/it/
+10 81\OT1/cmr/m/n/10 (2), 101--113.  Re-trieved from $\OT1/cmtt/m/n/10 http ://
+ 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1788--1812
+\OT1/cmtt/m/n/10 linkinghub [] .elsevier [] .com / retrieve / pii / S0301479706
+001009$   \OT1/cmr/m/n/10 doi: 
+ []
+
+
+Underfull \hbox (badness 1406) in paragraph at lines 1826--1847
+[]\OT1/cmr/m/n/10 Vahatalo, A. V., Wet-zel, R. G., & Paerl, H. W.  (2005, mar
+).  Light ab-sorp-tion by 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1826--1847
+\OT1/cmr/m/n/10 phy-to-plank-ton and chro-mophoric dis-solved or-ganic mat-ter 
+in the drainage 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1826--1847
+\OT1/cmr/m/n/10 basin and es-tu-ary of the Neuse River, North Car-olina (U.S.A.
+).  \OT1/cmr/m/it/10 Fresh-wa-ter 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1826--1847
+\OT1/cmr/m/it/10 Bi-ol-ogy\OT1/cmr/m/n/10 , \OT1/cmr/m/it/10 50\OT1/cmr/m/n/10 
+(3), 477--493.  Re-trieved from $\OT1/cmtt/m/n/10 http :// doi [] .wiley [] .co
+m / 10 [] .1111 / 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[24]
+Underfull \hbox (badness 10000) in paragraph at lines 1862--1883
+\OT1/cmr/m/n/10 y-sis of the per-for-mance of the Land-sat 8/OLI land sur-face 
+re-flectance prod- 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1862--1883
+\OT1/cmtt/m/n/10 www [] .sciencedirect [] .com / science / article / pii / S003
+4425716301572$   \OT1/cmr/m/n/10 doi: 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1895--1913
+\OT1/cmr/m/n/10 sin-gle hy-dro-logic events in rivers.  \OT1/cmr/m/it/10 Jour-n
+al of Hy-drol-ogy\OT1/cmr/m/n/10 , \OT1/cmr/m/it/10 111\OT1/cmr/m/n/10 (1-4), 8
+9--106. 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1895--1913
+\OT1/cmr/m/n/10 Re-trieved from $\OT1/cmtt/m/n/10 https :// www [] .sciencedire
+ct [] .com / science / article / pii / 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1928--1948
+[]\OT1/cmr/m/n/10 Williamson, C. E., Dodds, W., Kratz, T. K., & Palmer, M. A.  
+(2008, jun). 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1928--1948
+\OT1/cmr/m/n/10 Lakes and streams as sen-tinels of en-vi-ron-men-tal change in 
+ter-res-trial and 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1928--1948
+\OT1/cmr/m/n/10 at-mo-spheric pro-cesses.  \OT1/cmr/m/it/10 Fron-tiers in Ecol-
+ogy and the En-vi-ron-ment\OT1/cmr/m/n/10 , \OT1/cmr/m/it/10 6\OT1/cmr/m/n/10 (
+5), 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1928--1948
+\OT1/cmr/m/n/10 247--254.  Re-trieved from $\OT1/cmtt/m/n/10 http :// doi [] .w
+iley [] .com / 10 [] .1890 / 070140$   \OT1/cmr/m/n/10 doi: 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1960--1983
+[]\OT1/cmr/m/n/10 Wulder, M. A., White, J. C., Love-land, T. R., Wood-cock, C. 
+E., Bel-ward, A. S., 
+ []
+
+
+Underfull \hbox (badness 4673) in paragraph at lines 1960--1983
+\OT1/cmr/m/n/10 Co-hen, W. B., ... Roy, D. P.  (2016).  The global Land-sat arc
+hive: Sta-tus, 
+ []
+
+
+Underfull \hbox (badness 4205) in paragraph at lines 1960--1983
+\OT1/cmr/m/n/10 con-sol-i-da-tion, and di-rec-tion.  \OT1/cmr/m/it/10 Re-mote S
+ens-ing of En-vi-ron-ment\OT1/cmr/m/n/10 , \OT1/cmr/m/it/10 185\OT1/cmr/m/n/10 
+, 271--283. 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1960--1983
+\OT1/cmr/m/n/10 Re-trieved from $\OT1/cmtt/m/n/10 http :// dx [] .doi [] .org /
+ 10 [] .1016 / j [] .rse [] .2015 [] .11 [] .032$   \OT1/cmr/m/n/10 doi: 
+ []
+
+) [25] (AquaSat_WRR_Submission.aux)
+
+LaTeX Font Warning: Size substitutions with differences
+(Font)              up to 0.45pt have occurred.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 3947 strings out of 492968
+ 55790 string characters out of 3135755
+ 133216 words of memory out of 3000000
+ 7743 multiletter control sequences out of 15000+200000
+ 9695 words of font info for 35 fonts, out of 3000000 for 9000
+ 1147 hyphenation exceptions out of 8191
+ 50i,8n,37p,538b,447s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Pr
+ogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Program Fi
+les/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx9.pfb><C:/Program Files/MiKTe
+X 2.9/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><C:/Program Files/MiKTeX 2.9/
+fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Files/MiKTeX 2.9/fonts/ty
+pe1/public/amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/publi
+c/amsfonts/cm/cmr6.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts
+/cm/cmr7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.p
+fb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Pro
+gram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmss8.pfb><C:/Program File
+s/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX
+ 2.9/fonts/type1/public/amsfonts/cm/cmsy5.pfb><C:/Program Files/MiKTeX 2.9/font
+s/type1/public/amsfonts/cm/cmti10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/
+public/amsfonts/cm/cmti9.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/am
+sfonts/cm/cmtt10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/c
+m/cmtt9.pfb>
+Output written on AquaSat_WRR_Submission.pdf (25 pages, 739966 bytes).
+PDF statistics:
+ 173 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 21 words of extra memory for PDF output out of 10000 (max. 10000000)
+

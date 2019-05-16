@@ -1,13 +1,13 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/North_Dakota_doc_001.feather.ind
 type: file
-hash: fb1062cce29989316fce0b5211119ffe
-time: 2018-08-04 02:28:00 UTC
+hash: fa4c64b2e4feebd5e287370ef337ed85
+time: 2019-05-06 09:49:37 UTC
 depends:
-  partition_North_Dakota_doc_001: 9f551e83cb5afa2c7e8336a5a03a633d
-  wq_dates: f4bcde398b53baed65cd74cd4be6f226
+  partition_North_Dakota_doc_001: da7aa2b2da07b6e15e0737f596af4185
+  wq_dates: 15780afca857867605ab32d0b8a9c0f3
 fixed: 17ca17d76fac2645b5f762a8c5fcb8d2
 code:
   functions:
-    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+    get_wqp_data: 446f3aa5fcf3d10d2b2512c284f000c6
 

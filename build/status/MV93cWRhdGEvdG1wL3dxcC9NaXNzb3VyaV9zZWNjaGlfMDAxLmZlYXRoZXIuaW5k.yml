@@ -1,13 +1,13 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Missouri_secchi_001.feather.ind
 type: file
-hash: ab0a4f85562f2a7465353c680605ddea
-time: 2018-08-04 06:22:23 UTC
+hash: 5729c553ccf39b067adf4b840f90ccfd
+time: 2019-05-04 21:05:34 UTC
 depends:
-  partition_Missouri_secchi_001: cf39cf311ae618b5b2a5dbda54b628eb
-  wq_dates: f4bcde398b53baed65cd74cd4be6f226
+  partition_Missouri_secchi_001: 83d17339500e707db0009a6341ccec11
+  wq_dates: 15780afca857867605ab32d0b8a9c0f3
 fixed: 152af6445ef8c954b9188761ded013b4
 code:
   functions:
-    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+    get_wqp_data: 446f3aa5fcf3d10d2b2512c284f000c6
 

@@ -1,13 +1,13 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Tennessee_doc_001.feather.ind
 type: file
-hash: d7c257bd1ef413e4f4cf2462d4f1573b
-time: 2018-08-04 03:32:12 UTC
+hash: 8719f53cded9f3b00791f4608d78c473
+time: 2019-05-05 18:22:36 UTC
 depends:
-  partition_Tennessee_doc_001: b2397d213994763c5f1acf8a61297f8c
-  wq_dates: f4bcde398b53baed65cd74cd4be6f226
+  partition_Tennessee_doc_001: e78e9847fa39f5466090313f28210d93
+  wq_dates: 15780afca857867605ab32d0b8a9c0f3
 fixed: 779cf04534a09c29926a5f593403bea1
 code:
   functions:
-    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+    get_wqp_data: 446f3aa5fcf3d10d2b2512c284f000c6
 

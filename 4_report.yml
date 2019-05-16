@@ -1,4 +1,4 @@
-target_default: 3_rswqjoin
+target_default: 3_wq_rs_join
 
 include: 2_rsdata.yml
 
@@ -34,7 +34,7 @@ targets:
     command: check_gee_config()
 
   # main effect of 2_rsdata/src/0_cloud_scenes.Rmd
-  3_wq_rs_join/doc/1_sr_wq_rs_join.html
+  4_report/doc/aquasat_outline.pdf
     depends:
       - 2_rsdata/doc/5_surface_reflectance_pull.html
     command: render_rmd(

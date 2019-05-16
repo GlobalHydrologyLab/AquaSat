@@ -21,9 +21,11 @@
 *.zip
 tasks_*.yml
 .RDataTmp
+*.pdf
 lib/cfg/gd_config.yml
 lib/cfg/gee_config.yml
 .html
+**/AquaSat_WRR_Submission/
 
 # Allow
 !*/out/placeholder.txt

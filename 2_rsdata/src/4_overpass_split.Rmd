@@ -29,7 +29,7 @@ opts_knit$set(root.dir='../..')
 #I like foreach here for theupdated output. This could easily be a simple for loop. No parellel. While loops are scary with parellel. 
 
 #Read in data
-wqp.pull <- read_feather(sc_retrieve('2_rsdata/out/wide_pull.feather.ind')) %>%
+wqp.pull <- read_feather('2_rsdata/out/wide_pull.feather') %>%
   arrange(lat,long)
 
 #Nest data per site
@@ -71,4 +71,3 @@ data.splitter <- function(wqp.nest,dir='2_rsdata/tmp/split_wide/'){
 data.splitter(wqp.nest,dir='2_rsdata/tmp/split_wide/')
 ```
 
-You should expect `r length(dir('2_rsdata/tmp/split_wide/'))` files in split_wide. These will be needed on GEE for the next step.

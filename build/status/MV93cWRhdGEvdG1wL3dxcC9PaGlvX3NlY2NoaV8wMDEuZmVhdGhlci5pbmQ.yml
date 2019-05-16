@@ -1,13 +1,13 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Ohio_secchi_001.feather.ind
 type: file
-hash: e0ff060c0bd87ec996ca3b4bbabc5af9
-time: 2018-08-04 02:36:12 UTC
+hash: 2a7a530f8958e3d26a9db44f6fc0b756
+time: 2019-05-06 10:24:38 UTC
 depends:
-  partition_Ohio_secchi_001: 87891f01b9d24d79996f970d154d341e
-  wq_dates: f4bcde398b53baed65cd74cd4be6f226
+  partition_Ohio_secchi_001: 72f2b2e124e9165147d44d505154902f
+  wq_dates: 15780afca857867605ab32d0b8a9c0f3
 fixed: 7a8a0f953d4eac22a3863849a28def2b
 code:
   functions:
-    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+    get_wqp_data: 446f3aa5fcf3d10d2b2512c284f000c6
 

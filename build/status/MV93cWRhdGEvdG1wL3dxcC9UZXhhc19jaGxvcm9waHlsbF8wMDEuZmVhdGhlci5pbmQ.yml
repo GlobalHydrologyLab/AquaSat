@@ -1,13 +1,13 @@
 version: 0.3.0
 name: 1_wqdata/tmp/wqp/Texas_chlorophyll_001.feather.ind
 type: file
-hash: 4d53d79389ebd60da8997a3c3daa59c4
-time: 2018-08-04 03:38:03 UTC
+hash: 06a91aa27f040a755d762c032a5e083c
+time: 2019-05-05 18:55:17 UTC
 depends:
-  partition_Texas_chlorophyll_001: 3c684750bfeee09fac00030ed33d828c
-  wq_dates: f4bcde398b53baed65cd74cd4be6f226
+  partition_Texas_chlorophyll_001: 86dc36ce544fcd527c7bb5c63001150e
+  wq_dates: 15780afca857867605ab32d0b8a9c0f3
 fixed: e6aaccecdf65f75e19ff105c0f93f662
 code:
   functions:
-    get_wqp_data: 9830b4cd9f07ab20fae1269583c1031e
+    get_wqp_data: 446f3aa5fcf3d10d2b2512c284f000c6
 
