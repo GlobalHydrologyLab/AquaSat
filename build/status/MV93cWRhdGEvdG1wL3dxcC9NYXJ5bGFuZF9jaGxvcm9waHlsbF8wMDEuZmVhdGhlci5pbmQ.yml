@@ -1,0 +1,13 @@
+version: 0.3.0
+name: 1_wqdata/tmp/wqp/Maryland_chlorophyll_001.feather.ind
+type: file
+hash: 4446c7aa64897726f137dfd38548be46
+time: 2019-05-04 11:38:29 UTC
+depends:
+  partition_Maryland_chlorophyll_001: 55a0c0b3297ec7c94a2b9aa9c19847a1
+  wq_dates: 15780afca857867605ab32d0b8a9c0f3
+fixed: db5c38256971ffef2477e97634a943e9
+code:
+  functions:
+    get_wqp_data: 446f3aa5fcf3d10d2b2512c284f000c6
+
