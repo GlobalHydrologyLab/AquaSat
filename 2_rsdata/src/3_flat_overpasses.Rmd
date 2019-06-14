@@ -22,7 +22,6 @@ library(data.table)
 opts_knit$set(root.dir='../..')
 
 
-
 ```
 
 
@@ -59,7 +58,7 @@ site.candidates <- wqp.lagos %>%
   #add a date column
   mutate(date=as.Date(date_unity)) 
 
-rm(unq.inv,wqp.lagos,wrs.inv,wrs.source.inv)
+rm(unq.inv,wqp.lagos,wrs.source.inv)
 
 ```
 

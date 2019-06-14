@@ -11,8 +11,6 @@ output:
     toc_depth: '3'
 editor_options:
   chunk_output_type: console
-bibliography: library.bib
-csl:  american-geophysical-union.csl
 ---
 
 
@@ -138,7 +136,7 @@ params <- yaml::yaml.load_file('1_wqdata/cfg/wqp_codes.yml')$characteristicName
 
 #Convert listed parameters into a data frame
 param.df <- do.call('cbind',params)  %>%
-  as_data_frame() %>% 
+  as_tibble() %>% 
   gather() %>%
   distinct(key,value) %>%
   group_by(key) %>%

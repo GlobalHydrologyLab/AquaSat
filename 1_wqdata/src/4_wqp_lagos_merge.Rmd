@@ -136,9 +136,28 @@ lagos.unity <- rbind(secchi.unity,chl.doc.unity) %>%
 ```{r}
 wqp.lagos <- rbind(wqp.wide,lagos.unity) 
 
-write_feather(wqp.lagos,path='1_wqdata/out/wqp_lagos_unity.feather')
 
-scipiper::gd_put('1_wqdata/out/wqp_lagos_unity.feather.ind', local_source = '1_wqdata/out/wqp_lagos_unity.feather')
+#Setting data thresholds to eliminated non-sensical data. 
+# 0.01 > Chl_a < 10^5
+# 0.01 > TSS < 10^4
+# 0.01 | 0 > secchi < 100
+# 0.01 > DOC < 500
+wqp.lagos.thresholds <- wqp.lagos %>%
+  mutate(chl_a = ifelse(chl_a < 10^5 & chl_a > 0.01,chl_a,NA)) %>%
+  mutate(tss = ifelse(tss < 10^6 & tss > 0.01,tss,NA)) %>%
+  mutate(secchi = ifelse(secchi < 100 & secchi > 0.01 | secchi == 0,secchi,NA)) %>%
+  mutate(doc = ifelse(doc > 0.01 & doc < 500,doc,NA)) %>%
+  mutate(p_sand = ifelse(p_sand > 0 & p_sand < 100,p_sand,NA)) %>%
+  mutate(tis = ifelse(tis > 0 & tis < 10^5,tis,NA))
+
+write_feather(wqp.lagos.thresholds,path='1_wqdata/out/wqp_lagos_unity.feather')
+write_csv(wqp.lagos.thresholds,path='1_wqdata/out/wqp_lagos_unity.csv')
+
+
+# scipiper::gd_put('1_wqdata/out/wqp_lagos_unity.feather.ind', local_source = '1_wqdata/out/wqp_lagos_unity.feather')
 gc()
+
+
+
 ```
 
