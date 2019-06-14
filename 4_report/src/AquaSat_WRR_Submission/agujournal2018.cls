@@ -86,7 +86,7 @@
 \RequirePackage{url}
 
 %% for better track changes
-%\RequirePackage{trackchanges}
+\RequirePackage{trackchanges}
 
 %% used for running head which is in light gray
 
