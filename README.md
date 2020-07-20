@@ -1,5 +1,7 @@
-# watersat
-Monitoring water quality from space!
+# AquaSat
+A data set to enable remote sensing of water quality for inland waters. 
+
+Code linked here can reproduce data found: All of the raw WQP data can be found here (https://figshare.com/articles/dataset/wqp_raw_zip/8139290). The harmonized and LAGOS unified in situ data here (https://figshare.com/articles/dataset/Full_harmonized_in-situ_datasets/8139362), and the final matchup data set here (https://figshare.com/articles/dataset/AquaSat/8139383). All data for the project can be found here (https://figshare.com/account/collections/4506140).
 
 # Python Instructions
 
